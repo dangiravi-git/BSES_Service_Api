@@ -1,0 +1,12 @@
+14/01/2022 15:32:32System.IO.IOException: The user name or password is incorrect.
+
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.Directory.InternalCreateDirectory(String fullPath, String path, Object dirSecurityObj, Boolean checkHost)
+   at System.IO.DirectoryInfo.Create()
+   at TF_WEBBAPI_26112019.Controllers.TFController.byteArrayToImage(Byte[] byteArrayIn, String filename) in C:\Users\Cas Support\Desktop\TF_WEBBAPI_28122021\TF_WEBBAPI_26112019\Controllers\TFController.cs:line 1654
+14/01/2022 15:36:55System.IO.IOException: The user name or password is incorrect.
+
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.Directory.InternalCreateDirectory(String fullPath, String path, Object dirSecurityObj, Boolean checkHost)
+   at System.IO.DirectoryInfo.Create()
+   at TF_WEBBAPI_26112019.Controllers.TFController.byteArrayToImage(Byte[] byteArrayIn, String filename) in C:\Users\Cas Support\Desktop\TF_WEBBAPI_28122021\TF_WEBBAPI_26112019\Controllers\TFController.cs:line 1654

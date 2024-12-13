@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TF_WEBBAPI_26112019.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="TF_WEBBAPI_26112019_D92_WebService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://10.125.64.219:9880/delhiwsd92/ISUService.asmx</Value>
+    </Setting>
+    <Setting Name="TF_WEBBAPI_26112019_V2_WebService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://10.8.61.235/delhiwsv2/ISUService.asmx</Value>
+    </Setting>
+    <Setting Name="TF_WEBBAPI_26112019_D921_WebService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://10.125.64.219:9880/delhiwsd92/ISUService.asmx</Value>
+    </Setting>
+    <Setting Name="TF_WEBBAPI_26112019_V21_WebService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://10.8.61.235/delhiwsv2/ISUService.asmx</Value>
+    </Setting>
+    <Setting Name="TF_WEBBAPI_26112019_DelhiWS_ISUService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://10.8.61.235/DELHIWS/ISUSERVICE.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
