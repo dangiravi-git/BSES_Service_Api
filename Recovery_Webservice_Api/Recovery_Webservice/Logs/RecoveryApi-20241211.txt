@@ -1,0 +1,6 @@
+2024-12-11 16:36:55.537 +05:30 [INF] Received GET request to "http://localhost:28565/" from ::1. Headers: ["Connection","Accept","Accept-Encoding","Accept-Language","Host","User-Agent","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","Upgrade-Insecure-Requests","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-User","Sec-Fetch-Dest"]
+2024-12-11 16:36:55.776 +05:30 [INF] Received GET request to "http://localhost:28565/" from ::1. Headers: ["Connection","Content-Length","Accept","Accept-Encoding","Accept-Language","Host","User-Agent","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","Upgrade-Insecure-Requests","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-User","Sec-Fetch-Dest"]
+2024-12-11 16:36:55.808 +05:30 [INF] Sent response with status code 200.
+2024-12-11 16:36:55.832 +05:30 [INF] Sent response with status code 200.
+2024-12-11 16:37:23.339 +05:30 [INF] Received POST request to "http://localhost:28565/API/Recovery/loginFE" from ::1. Headers: ["Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Host","User-Agent","Postman-Token"]
+2024-12-11 16:38:20.315 +05:30 [INF] Sent response with status code 200.

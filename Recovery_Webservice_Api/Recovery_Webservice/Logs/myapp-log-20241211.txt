@@ -1,0 +1,10 @@
+2024-12-11 12:14:13.199 +05:30 [INF] Received GET request to "http://localhost:28565/" from ::1. Headers: ["Connection","Accept","Accept-Encoding","Accept-Language","Host","User-Agent","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","Upgrade-Insecure-Requests","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-User","Sec-Fetch-Dest"]
+2024-12-11 12:14:57.870 +05:30 [INF] Received GET request to "http://localhost:28565/" from ::1. Headers: ["Connection","Content-Length","Accept","Accept-Encoding","Accept-Language","Host","User-Agent","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","Upgrade-Insecure-Requests","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-User","Sec-Fetch-Dest"]
+2024-12-11 12:14:58.940 +05:30 [INF] Received POST request to "http://localhost:28565/api/Recovery/auth/login" from ::1. Headers: ["Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Host","User-Agent","Postman-Token"]
+2024-12-11 12:14:59.828 +05:30 [INF] Sent response with status code 200.
+2024-12-11 12:15:00.782 +05:30 [INF] Sent response with status code 200.
+2024-12-11 12:15:03.571 +05:30 [INF] Sent response with status code 200.
+2024-12-11 12:16:25.779 +05:30 [INF] Received POST request to "http://localhost:28565/API/Recovery/RecServices_ATR_Status" from ::1. Headers: ["Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Authorization","Host","User-Agent","Postman-Token"]
+2024-12-11 12:16:27.822 +05:30 [INF] Sent response with status code 401.
+2024-12-11 12:17:50.887 +05:30 [INF] Received POST request to "http://localhost:28565/API/Recovery/RecServices_ATR_Status" from ::1. Headers: ["Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Authorization","Host","User-Agent","Postman-Token"]
+2024-12-11 12:17:52.368 +05:30 [INF] Sent response with status code 200.

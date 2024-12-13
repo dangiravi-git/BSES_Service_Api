@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Recovery_Webservice.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Recovery_Webservice_ISU_LIVE_ISUService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://10.8.61.235/DELHIWS/ISUSERVICE.asmx</Value>
+    </Setting>
+    <Setting Name="Recovery_Webservice_LIVE_WebService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://10.8.61.235/delhiwsv2/ISUService.asmx</Value>
+    </Setting>
+    <Setting Name="Recovery_Webservice_V2_NEW_Service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://bsesbrpl.co.in:7850/MobileServices/MobileServices.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
