@@ -32,7 +32,7 @@ namespace Power_Metering.Controllers
         private readonly PowerMeteringBL powerMeteringBL;
         public PowerMeteringController()
         {
-            Log.Information($"Init {nameof(PowerMeteringController)}");
+            Log.Information($"Init constroctor {nameof(PowerMeteringController)}");
             try
             {
                 jwtTokenGenerator = new JwtTokenGenerator();
