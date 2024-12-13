@@ -1,0 +1,189 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using SAP.Middleware.Connector;
+using System.Data;
+using System.Xml.Serialization;
+
+/// <summary>
+/// Summary description for ZBAPIDOCLIST
+/// </summary>
+public class ZBAPIDOCLIST
+{
+	public ZBAPIDOCLIST()
+	{
+		//
+		// TODO: Add constructor logic here
+		//
+	}
+       
+   
+    public DataTable formDataTableError()
+    {
+        DataTable dt = new DataTable("SAPDATA_ErrorDataTable");
+        DataColumn dcol;
+
+        dcol = new DataColumn();
+        dcol.DataType = System.Type.GetType("System.String");
+        dcol.ColumnName = "Type";
+        dt.Columns.Add(dcol);
+
+        dcol = new DataColumn();
+        dcol.DataType = System.Type.GetType("System.String");
+        dcol.ColumnName = "Id";
+        dt.Columns.Add(dcol);
+
+        dcol = new DataColumn();
+        dcol.DataType = System.Type.GetType("System.String");
+        dcol.ColumnName = "Number";
+        dt.Columns.Add(dcol);
+
+        dcol = new DataColumn();
+        dcol.DataType = System.Type.GetType("System.String");
+        dcol.ColumnName = "Message";
+        dt.Columns.Add(dcol);
+
+        dcol = new DataColumn();
+        dcol.DataType = System.Type.GetType("System.String");
+        dcol.ColumnName = "Log_No";
+        dt.Columns.Add(dcol);
+
+        dcol = new DataColumn();
+        dcol.DataType = System.Type.GetType("System.String");
+        dcol.ColumnName = "Log_Msg_No";
+        dt.Columns.Add(dcol);
+
+        dcol = new DataColumn();
+        dcol.DataType = System.Type.GetType("System.String");
+        dcol.ColumnName = "Message_V1";
+        dt.Columns.Add(dcol);
+
+        dcol = new DataColumn();
+        dcol.DataType = System.Type.GetType("System.String");
+        dcol.ColumnName = "Message_V2";
+        dt.Columns.Add(dcol);
+
+        dcol = new DataColumn();
+        dcol.DataType = System.Type.GetType("System.String");
+        dcol.ColumnName = "Message_V3";
+        dt.Columns.Add(dcol);
+
+        dcol = new DataColumn();
+        dcol.DataType = System.Type.GetType("System.String");
+        dcol.ColumnName = "Message_V4";
+        dt.Columns.Add(dcol);
+
+        dcol = new DataColumn();
+        dcol.DataType = System.Type.GetType("System.String");
+        dcol.ColumnName = "Parameter";
+        dt.Columns.Add(dcol);
+
+        dcol = new DataColumn();
+        dcol.DataType = System.Type.GetType("System.String");
+        dcol.ColumnName = "Row";
+        dt.Columns.Add(dcol);
+
+        dcol = new DataColumn();
+        dcol.DataType = System.Type.GetType("System.String");
+        dcol.ColumnName = "Field";
+        dt.Columns.Add(dcol);
+
+        dcol = new DataColumn();
+        dcol.DataType = System.Type.GetType("System.String");
+        dcol.ColumnName = "System";
+        dt.Columns.Add(dcol);
+
+        return dt;
+    }
+
+    public DataTable makeMessageTextTable()
+    {
+        DataTable dtMessage = new DataTable("messageTable");
+        DataRow dr = dtMessage.NewRow();
+        DataColumn dtCol1 = new DataColumn("messageCode", System.Type.GetType("System.String"));
+        dtMessage.Columns.Add(dtCol1);
+        DataColumn dtCol2 = new DataColumn("messageText", System.Type.GetType("System.String"));
+        dtMessage.Columns.Add(dtCol2);
+        return dtMessage;
+    }
+
+    public DataTable pushDataInErrorTable(DataTable originalTable)
+    {
+
+        DataTable dtOutPut = makeErrorTable();
+
+        int rowCnt = 0, colCnt = 0;
+        rowCnt = originalTable.Rows.Count;
+        colCnt = originalTable.Columns.Count;
+
+        if (rowCnt > 0)
+        {
+            for (int mRow = 0; mRow < rowCnt; mRow++)
+            {
+                DataRow dr = dtOutPut.NewRow();
+
+                for (int mCol = 0; mCol < colCnt; mCol++)
+                {
+                    dr[mCol] = originalTable.Rows[mRow][mCol].ToString();
+                }
+                dtOutPut.Rows.Add(dr);
+            }
+        }
+        return dtOutPut;
+
+    }
+
+    public DataTable makeErrorTable()
+    {
+        DataTable dtErrorTable = new DataTable("ErrorTable");
+        DataRow dr = dtErrorTable.NewRow();
+
+        DataColumn dtCol1 = new DataColumn("Data", System.Type.GetType("System.String"));
+        dtErrorTable.Columns.Add(dtCol1);
+
+        return dtErrorTable;
+    }
+    public void pushMessageTextInDataTable(DataTable dt, string messageCode, string messageToPush)
+    {
+        DataRow dr = dt.NewRow();
+        dr["messageCode"] = messageCode;
+        dr["messageText"] = messageToPush;
+        dt.Rows.Add(dr);
+
+    }
+
+    public void addRowToDTError(DataTable dt, string DATA1, string DATA2, string DATA3, string DATA4, string DATA5, string DATA6, string DATA7, string DATA8, string DATA9, string DATA10, string DATA11, string DATA12, string DATA13, string DATA14)
+    {
+        DataRow dr = dt.NewRow();
+        dr["Type"] = DATA1;
+        dr["Id"] = DATA2;
+        dr["Number"] = DATA3;
+        dr["Message"] = DATA4;
+        dr["Log_No"] = DATA5;
+        dr["Log_Msg_No"] = DATA6;
+        dr["Message_V1"] = DATA7;
+        dr["Message_V2"] = DATA8;
+        dr["Message_V3"] = DATA9;
+        dr["Message_V4"] = DATA10;
+        dr["Parameter"] = DATA11;
+        dr["Row"] = DATA12;
+        dr["Field"] = DATA13;
+        dr["System"] = DATA14;
+        dt.Rows.Add(dr);
+
+    }
+
+    public string GetDateFormate_YYYYMMDD(string _sDate)
+    {
+        string _sDateformate = string.Empty;
+        string[] DateFormate = _sDate.ToString().Split('-');
+
+        for (int i = 0; i < DateFormate.Length; i++)
+        {
+            _sDateformate += DateFormate[i];
+        }
+
+        return _sDateformate;
+    }
+}

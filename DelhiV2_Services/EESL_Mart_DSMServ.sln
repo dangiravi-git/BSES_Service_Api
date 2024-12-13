@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.8
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "EESL_Mart_DSMServ(1)", ".", "{A1671C01-C695-419A-89A8-AEE1381FA394}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_49961"
+		Debug.AspNetCompiler.PhysicalPath = "..\DelhiV2_07032023_EBSDBSTD_216\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_49961\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_49961"
+		Release.AspNetCompiler.PhysicalPath = "..\DelhiV2_07032023_EBSDBSTD_216\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_49961\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "49961"
+		SlnRelativePath = "..\DelhiV2_07032023_EBSDBSTD_216\"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A1671C01-C695-419A-89A8-AEE1381FA394}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1671C01-C695-419A-89A8-AEE1381FA394}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8E3B654D-5D0E-49F6-B50A-10EA70E5B7C3}
+	EndGlobalSection
+EndGlobal
