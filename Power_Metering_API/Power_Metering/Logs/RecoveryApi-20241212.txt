@@ -1,0 +1,2 @@
+2024-12-12 14:28:47.557 +05:30 [INF] Received GET request to "http://localhost:51075/" from ::1. Headers: ["Connection","Accept","Accept-Encoding","Accept-Language","Host","User-Agent","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","Upgrade-Insecure-Requests","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-User","Sec-Fetch-Dest"]
+2024-12-12 14:28:52.343 +05:30 [INF] Sent response with status code 200.

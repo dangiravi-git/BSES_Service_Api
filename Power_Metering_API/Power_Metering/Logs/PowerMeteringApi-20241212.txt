@@ -1,0 +1,61 @@
+2024-12-12 15:59:26.638 +05:30 [INF] Received GET request to "http://localhost:51075/" from ::1. Headers: ["Connection","Accept","Accept-Encoding","Accept-Language","Host","User-Agent","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","Upgrade-Insecure-Requests","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-User","Sec-Fetch-Dest"]
+2024-12-12 15:59:30.900 +05:30 [INF] Sent response with status code 200.
+2024-12-12 16:00:28.736 +05:30 [INF] Received GET request to "http://localhost:51075/API/PowerMetering/Login" from ::1. Headers: ["Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Host","User-Agent","Postman-Token"]
+2024-12-12 16:00:28.784 +05:30 [INF] Init PowerMeteringController
+2024-12-12 16:00:29.078 +05:30 [INF] Sent response with status code 405.
+2024-12-12 16:00:34.345 +05:30 [INF] Received POST request to "http://localhost:51075/API/PowerMetering/Login" from ::1. Headers: ["Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Host","User-Agent","Postman-Token"]
+2024-12-12 16:00:34.351 +05:30 [INF] Init PowerMeteringController
+2024-12-12 16:01:04.548 +05:30 [INF] Sent response with status code 200.
+2024-12-12 16:02:17.935 +05:30 [INF] Received GET request to "http://localhost:51075/" from ::1. Headers: ["Connection","Accept","Accept-Encoding","Accept-Language","Host","User-Agent","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","Upgrade-Insecure-Requests","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-User","Sec-Fetch-Dest"]
+2024-12-12 16:02:18.031 +05:30 [INF] Received POST request to "http://localhost:51075/API/PowerMetering/Login" from ::1. Headers: ["Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Host","User-Agent","Postman-Token"]
+2024-12-12 16:02:18.358 +05:30 [INF] Init PowerMeteringController
+2024-12-12 16:02:31.519 +05:30 [INF] Sent response with status code 200.
+2024-12-12 16:02:34.709 +05:30 [INF] Sent response with status code 200.
+2024-12-12 16:05:10.251 +05:30 [INF] Received GET request to "http://localhost:51075/" from ::1. Headers: ["Connection","Accept","Accept-Encoding","Accept-Language","Host","User-Agent","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","Upgrade-Insecure-Requests","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-User","Sec-Fetch-Dest"]
+2024-12-12 16:05:14.315 +05:30 [INF] Sent response with status code 200.
+2024-12-12 16:05:23.438 +05:30 [INF] Received POST request to "http://localhost:51075/API/PowerMetering/Login" from ::1. Headers: ["Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Host","User-Agent","Postman-Token"]
+2024-12-12 16:05:25.178 +05:30 [INF] Init PowerMeteringController
+2024-12-12 16:05:42.442 +05:30 [INF] Sent response with status code 200.
+2024-12-12 16:08:38.506 +05:30 [INF] Received GET request to "http://localhost:51075/" from ::1. Headers: ["Connection","Accept","Accept-Encoding","Accept-Language","Host","User-Agent","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","Upgrade-Insecure-Requests","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-User","Sec-Fetch-Dest"]
+2024-12-12 16:08:42.550 +05:30 [INF] Sent response with status code 200.
+2024-12-12 16:08:49.737 +05:30 [INF] Received POST request to "http://localhost:51075/API/PowerMetering/Login" from ::1. Headers: ["Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Host","User-Agent","Postman-Token"]
+2024-12-12 16:08:49.785 +05:30 [INF] Init PowerMeteringController
+2024-12-12 16:09:02.935 +05:30 [INF] Sent response with status code 200.
+2024-12-12 16:09:13.203 +05:30 [INF] Received POST request to "http://localhost:51075/api/PowerMetering/auth/login" from ::1. Headers: ["Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Host","User-Agent","Postman-Token"]
+2024-12-12 16:09:13.212 +05:30 [INF] Init PowerMeteringController
+2024-12-12 16:09:40.202 +05:30 [INF] Sent response with status code 401.
+2024-12-12 16:09:42.815 +05:30 [INF] Received POST request to "http://localhost:51075/api/PowerMetering/auth/login" from ::1. Headers: ["Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Host","User-Agent","Postman-Token"]
+2024-12-12 16:09:42.822 +05:30 [INF] Init PowerMeteringController
+2024-12-12 16:10:51.988 +05:30 [INF] Sent response with status code 200.
+2024-12-12 16:13:15.756 +05:30 [INF] Received GET request to "http://localhost:51075/" from ::1. Headers: ["Connection","Accept","Accept-Encoding","Accept-Language","Host","User-Agent","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","Upgrade-Insecure-Requests","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-User","Sec-Fetch-Dest"]
+2024-12-12 16:13:19.645 +05:30 [INF] Sent response with status code 200.
+2024-12-12 16:13:49.959 +05:30 [INF] Received POST request to "http://localhost:51075/API/PowerMetering/CaseList" from ::1. Headers: ["Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Host","User-Agent","Postman-Token"]
+2024-12-12 16:13:50.009 +05:30 [INF] Init PowerMeteringController
+2024-12-12 16:14:02.766 +05:30 [INF] Sent response with status code 401.
+2024-12-12 16:14:47.668 +05:30 [INF] Received POST request to "http://localhost:51075/API/PowerMetering/CaseList" from ::1. Headers: ["Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Host","User-Agent","Postman-Token"]
+2024-12-12 16:14:47.674 +05:30 [INF] Init PowerMeteringController
+2024-12-12 16:15:27.665 +05:30 [INF] Sent response with status code 401.
+2024-12-12 16:20:49.121 +05:30 [INF] Received POST request to "http://localhost:51075/API/PowerMetering/CaseList" from ::1. Headers: ["Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Host","User-Agent","Postman-Token"]
+2024-12-12 16:20:49.219 +05:30 [INF] Received GET request to "http://localhost:51075/" from ::1. Headers: ["Connection","Accept","Accept-Encoding","Accept-Language","Host","User-Agent","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","Upgrade-Insecure-Requests","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-User","Sec-Fetch-Dest"]
+2024-12-12 16:20:49.555 +05:30 [INF] Init PowerMeteringController
+2024-12-12 16:21:10.792 +05:30 [INF] Sent response with status code 401.
+2024-12-12 16:21:13.921 +05:30 [INF] Sent response with status code 200.
+2024-12-12 16:23:31.629 +05:30 [INF] Received POST request to "http://localhost:51075/api/PowerMetering/auth/login" from ::1. Headers: ["Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Host","User-Agent","Postman-Token"]
+2024-12-12 16:23:31.629 +05:30 [INF] Received GET request to "http://localhost:51075/" from ::1. Headers: ["Connection","Accept","Accept-Encoding","Accept-Language","Host","User-Agent","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","Upgrade-Insecure-Requests","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-User","Sec-Fetch-Dest"]
+2024-12-12 16:23:32.055 +05:30 [INF] Init PowerMeteringController
+2024-12-12 16:23:35.442 +05:30 [INF] Sent response with status code 200.
+2024-12-12 16:23:38.546 +05:30 [INF] Sent response with status code 200.
+2024-12-12 16:24:01.444 +05:30 [INF] Received POST request to "http://localhost:51075/API/PowerMetering/CaseList" from ::1. Headers: ["Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Authorization","Host","User-Agent","Postman-Token"]
+2024-12-12 16:24:01.453 +05:30 [INF] Init PowerMeteringController
+2024-12-12 16:25:06.198 +05:30 [INF] Sent response with status code 200.
+2024-12-12 16:25:14.813 +05:30 [INF] Received POST request to "http://localhost:51075/API/PowerMetering/CaseList" from ::1. Headers: ["Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Authorization","Host","User-Agent","Postman-Token"]
+2024-12-12 16:25:14.820 +05:30 [INF] Init PowerMeteringController
+2024-12-12 16:25:39.852 +05:30 [INF] Sent response with status code 401.
+2024-12-12 16:26:03.930 +05:30 [INF] Received POST request to "http://localhost:51075/API/PowerMetering/CaseList" from ::1. Headers: ["Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Authorization","Host","User-Agent","Postman-Token"]
+2024-12-12 16:26:03.936 +05:30 [INF] Init PowerMeteringController
+2024-12-12 16:26:22.702 +05:30 [INF] Sent response with status code 401.
+2024-12-12 16:28:48.058 +05:30 [INF] Received GET request to "http://localhost:51075/" from ::1. Headers: ["Connection","Accept","Accept-Encoding","Accept-Language","Host","User-Agent","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","Upgrade-Insecure-Requests","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-User","Sec-Fetch-Dest"]
+2024-12-12 16:28:51.977 +05:30 [INF] Sent response with status code 200.
+2024-12-12 16:29:06.177 +05:30 [INF] Received POST request to "http://localhost:51075/API/PowerMetering/CaseList" from ::1. Headers: ["Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Authorization","Host","User-Agent","Postman-Token"]
+2024-12-12 16:29:06.224 +05:30 [INF] Init PowerMeteringController
+2024-12-12 16:29:18.869 +05:30 [INF] Sent response with status code 200.

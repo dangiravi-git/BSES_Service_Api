@@ -1,0 +1,1497 @@
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\ApplicationInsights.config
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\csc.exe
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\csc.exe.config
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\csc.rsp
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\csi.exe
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\csi.exe.config
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\csi.rsp
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\Microsoft.Win32.Primitives.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\System.AppContext.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\System.Console.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\System.Diagnostics.Process.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\System.Diagnostics.StackTrace.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\System.IO.Compression.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\System.IO.FileSystem.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\System.IO.FileSystem.Primitives.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\System.IO.Pipes.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\System.Security.AccessControl.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\System.Security.Claims.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\System.Security.Cryptography.Encoding.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\System.Security.Cryptography.Primitives.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\System.Security.Principal.Windows.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\System.Text.Encoding.CodePages.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\System.Threading.Thread.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\System.ValueTuple.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\System.Xml.ReaderWriter.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\System.Xml.XmlDocument.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\System.Xml.XPath.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\System.Xml.XPath.XDocument.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\vbc.exe
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\vbc.exe.config
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\vbc.rsp
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\VBCSCompiler.exe
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\Power_Metering.dll.config
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\Power_Metering.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\Power_Metering.pdb
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\Antlr3.Runtime.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\Microsoft.AI.Web.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\Microsoft.ApplicationInsights.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\Newtonsoft.Json.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\System.Net.Http.Formatting.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\System.Web.Helpers.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\System.Web.Http.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\System.Web.Http.WebHost.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\System.Web.Mvc.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\System.Web.Optimization.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\System.Web.Razor.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\System.Web.WebPages.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\System.Web.WebPages.Razor.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\WebGrease.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\Newtonsoft.Json.xml
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\System.Net.Http.Formatting.xml
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\System.Web.Helpers.xml
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\System.Web.Http.xml
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\System.Web.Http.WebHost.xml
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\System.Web.Mvc.xml
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\System.Web.Optimization.xml
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\System.Web.Razor.xml
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\System.Web.WebPages.xml
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\System.Web.WebPages.Razor.xml
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\Antlr3.Runtime.pdb
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\Microsoft.ApplicationInsights.xml
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\bin\Microsoft.AI.Web.xml
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\obj\Release\Power_Metering.csprojAssemblyReference.cache
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\obj\Release\Power_Metering.csproj.CoreCompileInputs.cache
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\obj\Release\Power_Metering.csproj.CopyComplete
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\obj\Release\Power_Metering.dll
+C:\Users\Babalu Kumar\Desktop\Prashant Api Folder\Power_Metering\Power_Metering\obj\Release\Power_Metering.pdb
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\ApplicationInsights.config
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\csc.exe
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\csc.exe.config
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\csc.rsp
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\csi.exe
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\csi.exe.config
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\csi.rsp
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\Microsoft.Win32.Primitives.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\System.AppContext.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\System.Collections.Immutable.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\System.Console.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\System.Diagnostics.Process.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\System.IO.Compression.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\System.IO.FileSystem.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\System.IO.Pipes.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\System.Reflection.Metadata.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\System.Security.AccessControl.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\System.Security.Claims.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\System.Security.Cryptography.Encoding.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\System.Security.Cryptography.Primitives.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\System.Security.Principal.Windows.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\System.Text.Encoding.CodePages.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\System.Threading.Thread.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\System.ValueTuple.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\System.Xml.ReaderWriter.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\System.Xml.XmlDocument.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\System.Xml.XPath.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\System.Xml.XPath.XDocument.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\vbc.exe
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\vbc.exe.config
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\vbc.rsp
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\VBCSCompiler.exe
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\roslyn\VBCSCompiler.exe.config
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\Power_Metering.dll.config
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\Power_Metering.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\Power_Metering.pdb
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\Antlr3.Runtime.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\Microsoft.AI.Agent.Intercept.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\Microsoft.AI.DependencyCollector.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\Microsoft.AI.PerfCounterCollector.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\Microsoft.AI.Web.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\Microsoft.AI.WindowsServer.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\Microsoft.ApplicationInsights.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\Microsoft.Web.Infrastructure.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\Newtonsoft.Json.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\System.Net.Http.Formatting.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\System.Web.Helpers.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\System.Web.Http.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\System.Web.Http.WebHost.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\System.Web.Mvc.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\System.Web.Optimization.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\System.Web.Razor.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\System.Web.WebPages.Deployment.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\System.Web.WebPages.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\System.Web.WebPages.Razor.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\WebGrease.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\Newtonsoft.Json.xml
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\System.Net.Http.Formatting.xml
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\System.Web.Helpers.xml
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\System.Web.Http.xml
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\System.Web.Http.WebHost.xml
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\System.Web.Mvc.xml
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\System.Web.Optimization.xml
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\System.Web.Razor.xml
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\System.Web.WebPages.xml
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\System.Web.WebPages.Deployment.xml
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\System.Web.WebPages.Razor.xml
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\Antlr3.Runtime.pdb
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\Microsoft.ApplicationInsights.xml
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\Microsoft.AI.DependencyCollector.xml
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.xml
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\Microsoft.AI.WindowsServer.xml
+D:\Project_02092019\Again\Power_Metering\Power_Metering\bin\Microsoft.AI.Web.xml
+D:\Project_02092019\Again\Power_Metering\Power_Metering\obj\Release\Power_Metering.csprojAssemblyReference.cache
+D:\Project_02092019\Again\Power_Metering\Power_Metering\obj\Release\Power_Metering.csproj.CoreCompileInputs.cache
+D:\Project_02092019\Again\Power_Metering\Power_Metering\obj\Release\Power_Metering.csproj.CopyComplete
+D:\Project_02092019\Again\Power_Metering\Power_Metering\obj\Release\Power_Metering.dll
+D:\Project_02092019\Again\Power_Metering\Power_Metering\obj\Release\Power_Metering.pdb
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\ApplicationInsights.config
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\csc.exe
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\csc.exe.config
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\csc.rsp
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\csi.exe
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\csi.exe.config
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\csi.rsp
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\Microsoft.Win32.Primitives.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\System.AppContext.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\System.Collections.Immutable.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\System.Console.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\System.Diagnostics.Process.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\System.IO.Compression.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\System.IO.FileSystem.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\System.IO.Pipes.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\System.Reflection.Metadata.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\System.Security.AccessControl.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\System.Security.Claims.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\System.Security.Cryptography.Encoding.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\System.Security.Cryptography.Primitives.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\System.Security.Principal.Windows.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\System.Text.Encoding.CodePages.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\System.Threading.Thread.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\System.ValueTuple.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\System.Xml.ReaderWriter.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\System.Xml.XmlDocument.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\System.Xml.XPath.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\System.Xml.XPath.XDocument.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\vbc.exe
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\vbc.exe.config
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\vbc.rsp
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\VBCSCompiler.exe
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\roslyn\VBCSCompiler.exe.config
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\Power_Metering.dll.config
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\Power_Metering.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\Power_Metering.pdb
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\Antlr3.Runtime.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\Microsoft.AI.Agent.Intercept.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\Microsoft.AI.DependencyCollector.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\Microsoft.AI.PerfCounterCollector.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\Microsoft.AI.Web.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\Microsoft.AI.WindowsServer.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\Microsoft.ApplicationInsights.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\Microsoft.Web.Infrastructure.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\Newtonsoft.Json.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\System.Net.Http.Formatting.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\System.Web.Helpers.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\System.Web.Http.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\System.Web.Http.WebHost.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\System.Web.Mvc.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\System.Web.Optimization.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\System.Web.Razor.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\System.Web.WebPages.Deployment.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\System.Web.WebPages.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\System.Web.WebPages.Razor.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\WebGrease.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\Newtonsoft.Json.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\System.Net.Http.Formatting.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\System.Web.Helpers.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\System.Web.Http.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\System.Web.Http.WebHost.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\System.Web.Mvc.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\System.Web.Optimization.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\System.Web.Razor.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\System.Web.WebPages.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\System.Web.WebPages.Deployment.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\System.Web.WebPages.Razor.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\Antlr3.Runtime.pdb
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\Microsoft.ApplicationInsights.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\Microsoft.AI.DependencyCollector.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\Microsoft.AI.WindowsServer.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\bin\Microsoft.AI.Web.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\obj\Release\Power_Metering.csprojAssemblyReference.cache
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\obj\Release\Power_Metering.csproj.CoreCompileInputs.cache
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\obj\Release\Power_Metering.csproj.CopyComplete
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\obj\Release\Power_Metering.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_API_Final\Power_Metering\Power_Metering\obj\Release\Power_Metering.pdb
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\ApplicationInsights.config
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\csc.exe
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\csc.exe.config
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\csc.rsp
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\csi.exe
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\csi.exe.config
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\csi.rsp
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\Microsoft.Win32.Primitives.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\System.AppContext.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\System.Collections.Immutable.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\System.Console.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\System.Diagnostics.Process.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\System.IO.Compression.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\System.IO.FileSystem.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\System.IO.Pipes.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\System.Reflection.Metadata.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\System.Security.AccessControl.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\System.Security.Claims.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\System.Security.Cryptography.Encoding.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\System.Security.Cryptography.Primitives.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\System.Security.Principal.Windows.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\System.Text.Encoding.CodePages.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\System.Threading.Thread.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\System.ValueTuple.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\System.Xml.ReaderWriter.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\System.Xml.XmlDocument.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\System.Xml.XPath.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\System.Xml.XPath.XDocument.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\vbc.exe
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\vbc.exe.config
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\vbc.rsp
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\VBCSCompiler.exe
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\roslyn\VBCSCompiler.exe.config
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\Power_Metering.dll.config
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\Power_Metering.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\Power_Metering.pdb
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\Antlr3.Runtime.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\Microsoft.AI.Agent.Intercept.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\Microsoft.AI.DependencyCollector.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\Microsoft.AI.PerfCounterCollector.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\Microsoft.AI.Web.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\Microsoft.AI.WindowsServer.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\Microsoft.ApplicationInsights.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\Microsoft.Web.Infrastructure.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\Newtonsoft.Json.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\System.Net.Http.Formatting.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\System.Web.Helpers.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\System.Web.Http.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\System.Web.Http.WebHost.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\System.Web.Mvc.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\System.Web.Optimization.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\System.Web.Razor.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\System.Web.WebPages.Deployment.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\System.Web.WebPages.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\System.Web.WebPages.Razor.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\WebGrease.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\Newtonsoft.Json.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\System.Net.Http.Formatting.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\System.Web.Helpers.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\System.Web.Http.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\System.Web.Http.WebHost.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\System.Web.Mvc.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\System.Web.Optimization.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\System.Web.Razor.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\System.Web.WebPages.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\System.Web.WebPages.Deployment.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\System.Web.WebPages.Razor.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\Antlr3.Runtime.pdb
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\Microsoft.ApplicationInsights.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\Microsoft.AI.DependencyCollector.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\Microsoft.AI.WindowsServer.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\bin\Microsoft.AI.Web.xml
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\obj\Release\Power_Metering.csprojAssemblyReference.cache
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\obj\Release\Power_Metering.csproj.CoreCompileInputs.cache
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\obj\Release\Power_Metering.csproj.CopyComplete
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\obj\Release\Power_Metering.dll
+D:\Project_02092019\REST_API_FINAL\Power_Metering_17092019\Power_Metering\obj\Release\Power_Metering.pdb
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\ApplicationInsights.config
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\csc.exe
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\csc.exe.config
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\csc.rsp
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\csi.exe
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\csi.exe.config
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\csi.rsp
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\Microsoft.Win32.Primitives.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\System.AppContext.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\System.Console.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\System.Diagnostics.Process.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\System.Diagnostics.StackTrace.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\System.IO.Compression.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\System.IO.FileSystem.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\System.IO.FileSystem.Primitives.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\System.IO.Pipes.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\System.Security.AccessControl.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\System.Security.Claims.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\System.Security.Cryptography.Encoding.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\System.Security.Cryptography.Primitives.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\System.Security.Principal.Windows.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\System.Text.Encoding.CodePages.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\System.Threading.Thread.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\System.ValueTuple.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\System.Xml.ReaderWriter.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\System.Xml.XmlDocument.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\System.Xml.XPath.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\System.Xml.XPath.XDocument.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\vbc.exe
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\vbc.exe.config
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\vbc.rsp
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\VBCSCompiler.exe
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\Power_Metering.dll.config
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\Power_Metering.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\Power_Metering.pdb
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\Antlr3.Runtime.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\Microsoft.AI.Web.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\Microsoft.ApplicationInsights.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\Newtonsoft.Json.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\System.Net.Http.Formatting.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\System.Web.Helpers.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\System.Web.Http.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\System.Web.Http.WebHost.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\System.Web.Mvc.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\System.Web.Optimization.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\System.Web.Razor.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\System.Web.WebPages.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\System.Web.WebPages.Razor.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\WebGrease.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\Newtonsoft.Json.xml
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\System.Net.Http.Formatting.xml
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\System.Web.Helpers.xml
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\System.Web.Http.xml
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\System.Web.Http.WebHost.xml
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\System.Web.Mvc.xml
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\System.Web.Optimization.xml
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\System.Web.Razor.xml
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\System.Web.WebPages.xml
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\System.Web.WebPages.Razor.xml
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\Antlr3.Runtime.pdb
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\Microsoft.ApplicationInsights.xml
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\bin\Microsoft.AI.Web.xml
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\obj\Release\Power_Metering.csprojResolveAssemblyReference.cache
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\obj\Release\Power_Metering.csproj.CoreCompileInputs.cache
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\obj\Release\Power_Metering.dll
+C:\Users\Cas Support\Desktop\Power_Metering_18092019\Power_Metering\obj\Release\Power_Metering.pdb
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\ApplicationInsights.config
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\csc.exe
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\csc.exe.config
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\csc.rsp
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\csi.exe
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\csi.exe.config
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\csi.rsp
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\Microsoft.Win32.Primitives.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\System.AppContext.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\System.Console.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\System.Diagnostics.Process.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\System.Diagnostics.StackTrace.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\System.IO.Compression.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\System.IO.FileSystem.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\System.IO.FileSystem.Primitives.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\System.IO.Pipes.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\System.Security.AccessControl.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\System.Security.Claims.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\System.Security.Cryptography.Encoding.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\System.Security.Cryptography.Primitives.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\System.Security.Principal.Windows.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\System.Text.Encoding.CodePages.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\System.Threading.Thread.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\System.ValueTuple.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\System.Xml.ReaderWriter.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\System.Xml.XmlDocument.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\System.Xml.XPath.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\System.Xml.XPath.XDocument.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\vbc.exe
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\vbc.exe.config
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\vbc.rsp
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\VBCSCompiler.exe
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\Power_Metering.dll.config
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\Power_Metering.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\Power_Metering.pdb
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\Antlr3.Runtime.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\Microsoft.AI.Web.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\Microsoft.ApplicationInsights.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\Newtonsoft.Json.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\System.Net.Http.Formatting.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\System.Web.Helpers.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\System.Web.Http.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\System.Web.Http.WebHost.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\System.Web.Mvc.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\System.Web.Optimization.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\System.Web.Razor.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\System.Web.WebPages.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\System.Web.WebPages.Razor.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\WebGrease.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\Newtonsoft.Json.xml
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\System.Net.Http.Formatting.xml
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\System.Web.Helpers.xml
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\System.Web.Http.xml
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\System.Web.Http.WebHost.xml
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\System.Web.Mvc.xml
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\System.Web.Optimization.xml
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\System.Web.Razor.xml
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\System.Web.WebPages.xml
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\System.Web.WebPages.Razor.xml
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\Antlr3.Runtime.pdb
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\Microsoft.ApplicationInsights.xml
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\bin\Microsoft.AI.Web.xml
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\obj\Release\Power_Metering.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\obj\Release\Power_Metering.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\obj\Release\Power_Metering.dll
+C:\Users\Administrator\Desktop\Power_Metering_19032020_Test\Power_Metering\obj\Release\Power_Metering.pdb
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\ApplicationInsights.config
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\csc.exe
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\csc.exe.config
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\csc.rsp
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\csi.exe
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\csi.exe.config
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\csi.rsp
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\Microsoft.Win32.Primitives.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\System.AppContext.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\System.Console.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\System.Diagnostics.Process.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\System.Diagnostics.StackTrace.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\System.IO.Compression.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\System.IO.FileSystem.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\System.IO.FileSystem.Primitives.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\System.IO.Pipes.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\System.Security.AccessControl.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\System.Security.Claims.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\System.Security.Cryptography.Encoding.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\System.Security.Cryptography.Primitives.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\System.Security.Principal.Windows.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\System.Text.Encoding.CodePages.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\System.Threading.Thread.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\System.ValueTuple.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\System.Xml.ReaderWriter.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\System.Xml.XmlDocument.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\System.Xml.XPath.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\System.Xml.XPath.XDocument.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\vbc.exe
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\vbc.exe.config
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\vbc.rsp
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\VBCSCompiler.exe
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\Power_Metering.dll.config
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\Power_Metering.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\Power_Metering.pdb
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\Antlr3.Runtime.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\Microsoft.AI.Web.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\Microsoft.ApplicationInsights.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\Newtonsoft.Json.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\System.Net.Http.Formatting.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\System.Web.Helpers.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\System.Web.Http.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\System.Web.Http.WebHost.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\System.Web.Mvc.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\System.Web.Optimization.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\System.Web.Razor.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\System.Web.WebPages.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\System.Web.WebPages.Razor.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\WebGrease.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\Newtonsoft.Json.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\System.Net.Http.Formatting.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\System.Web.Helpers.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\System.Web.Http.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\System.Web.Http.WebHost.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\System.Web.Mvc.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\System.Web.Optimization.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\System.Web.Razor.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\System.Web.WebPages.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\System.Web.WebPages.Razor.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\Antlr3.Runtime.pdb
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\Microsoft.ApplicationInsights.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\bin\Microsoft.AI.Web.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\obj\Release\Power_Metering.csprojResolveAssemblyReference.cache
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\obj\Release\Power_Metering.csproj.CoreCompileInputs.cache
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\obj\Release\Power_Metering.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020\Power_Metering\obj\Release\Power_Metering.pdb
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\ApplicationInsights.config
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\csc.exe
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\csc.exe.config
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\csc.rsp
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\csi.exe
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\csi.exe.config
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\csi.rsp
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\Microsoft.Win32.Primitives.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.AppContext.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Console.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Diagnostics.Process.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Diagnostics.StackTrace.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.IO.Compression.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.IO.FileSystem.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.IO.FileSystem.Primitives.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.IO.Pipes.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Security.AccessControl.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Security.Claims.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Security.Cryptography.Encoding.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Security.Cryptography.Primitives.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Security.Principal.Windows.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Text.Encoding.CodePages.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Threading.Thread.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.ValueTuple.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Xml.ReaderWriter.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Xml.XmlDocument.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Xml.XPath.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Xml.XPath.XDocument.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\vbc.exe
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\vbc.exe.config
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\vbc.rsp
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\VBCSCompiler.exe
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\Power_Metering.dll.config
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\Power_Metering.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\Power_Metering.pdb
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\Antlr3.Runtime.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.AI.Web.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.ApplicationInsights.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\Newtonsoft.Json.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\System.Net.Http.Formatting.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.Helpers.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.Http.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.Http.WebHost.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.Mvc.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.Optimization.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.Razor.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.WebPages.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.WebPages.Razor.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\WebGrease.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\Newtonsoft.Json.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\System.Net.Http.Formatting.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.Helpers.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.Http.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.Http.WebHost.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.Mvc.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.Optimization.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.Razor.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.WebPages.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.WebPages.Razor.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\Antlr3.Runtime.pdb
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.ApplicationInsights.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.AI.Web.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\obj\Release\Power_Metering.csprojResolveAssemblyReference.cache
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\obj\Release\Power_Metering.csproj.CoreCompileInputs.cache
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\obj\Release\Power_Metering.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_24052020_test\Power_Metering\obj\Release\Power_Metering.pdb
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\ApplicationInsights.config
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\csc.exe
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\csc.exe.config
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\csc.rsp
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\csi.exe
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\csi.exe.config
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\csi.rsp
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\Microsoft.Win32.Primitives.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.AppContext.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Console.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Diagnostics.Process.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Diagnostics.StackTrace.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.IO.Compression.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.IO.FileSystem.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.IO.FileSystem.Primitives.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.IO.Pipes.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Security.AccessControl.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Security.Claims.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Security.Cryptography.Encoding.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Security.Cryptography.Primitives.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Security.Principal.Windows.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Text.Encoding.CodePages.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Threading.Thread.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.ValueTuple.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Xml.ReaderWriter.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Xml.XmlDocument.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Xml.XPath.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\System.Xml.XPath.XDocument.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\vbc.exe
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\vbc.exe.config
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\vbc.rsp
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\VBCSCompiler.exe
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\Power_Metering.dll.config
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\Power_Metering.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\Power_Metering.XmlSerializers.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\Power_Metering.pdb
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\Antlr3.Runtime.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.AI.Web.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.ApplicationInsights.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\Newtonsoft.Json.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\System.Net.Http.Formatting.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.Helpers.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.Http.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.Http.WebHost.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.Mvc.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.Optimization.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.Razor.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.WebPages.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.WebPages.Razor.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\WebGrease.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\Newtonsoft.Json.xml
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\System.Net.Http.Formatting.xml
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.Helpers.xml
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.Http.xml
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.Http.WebHost.xml
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.Mvc.xml
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.Optimization.xml
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.Razor.xml
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.WebPages.xml
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\System.Web.WebPages.Razor.xml
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\Antlr3.Runtime.pdb
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.ApplicationInsights.xml
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\bin\Microsoft.AI.Web.xml
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\obj\Release\Power_Metering.csprojAssemblyReference.cache
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\obj\Release\Power_Metering.csproj.CoreCompileInputs.cache
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\obj\Release\Power_Metering.csproj.CopyComplete
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\obj\Release\Power_Metering.dll
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\obj\Release\Power_Metering.pdb
+C:\Users\Babalu Kumar\Desktop\Latest Backup_08042021\Power_Metering_API_24052020_test\Power_Metering\obj\Release\Power_Metering.XmlSerializers.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\ApplicationInsights.config
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\csc.exe
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\csc.exe.config
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\csc.rsp
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\csi.exe
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\csi.exe.config
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\csi.rsp
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\Microsoft.CSharp.Core.targets
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\Microsoft.VisualBasic.Core.targets
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\Microsoft.Win32.Primitives.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\System.AppContext.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\System.Collections.Immutable.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\System.Console.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\System.Diagnostics.Process.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\System.Diagnostics.StackTrace.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\System.IO.Compression.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\System.IO.FileSystem.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\System.IO.FileSystem.Primitives.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\System.IO.Pipes.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\System.Reflection.Metadata.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\System.Security.AccessControl.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\System.Security.Claims.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\System.Security.Cryptography.Encoding.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\System.Security.Cryptography.Primitives.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\System.Security.Principal.Windows.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\System.Text.Encoding.CodePages.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\System.Threading.Thread.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\System.ValueTuple.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\System.Xml.ReaderWriter.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\System.Xml.XmlDocument.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\System.Xml.XPath.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\System.Xml.XPath.XDocument.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\vbc.exe
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\vbc.exe.config
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\vbc.rsp
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\VBCSCompiler.exe
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\roslyn\VBCSCompiler.exe.config
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\Power_Metering.dll.config
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\Power_Metering.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\Power_Metering.XmlSerializers.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\Power_Metering.pdb
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\Antlr3.Runtime.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\Microsoft.AI.Agent.Intercept.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\Microsoft.AI.DependencyCollector.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\Microsoft.AI.PerfCounterCollector.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\Microsoft.AI.Web.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\Microsoft.AI.WindowsServer.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\Microsoft.ApplicationInsights.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\Microsoft.Web.Infrastructure.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\Newtonsoft.Json.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\System.Net.Http.Formatting.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\System.Web.Helpers.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\System.Web.Http.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\System.Web.Http.WebHost.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\System.Web.Mvc.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\System.Web.Optimization.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\System.Web.Razor.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\System.Web.WebPages.Deployment.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\System.Web.WebPages.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\System.Web.WebPages.Razor.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\WebGrease.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\Newtonsoft.Json.xml
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\System.Net.Http.Formatting.xml
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\System.Web.Helpers.xml
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\System.Web.Http.xml
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\System.Web.Http.WebHost.xml
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\System.Web.Mvc.xml
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\System.Web.Optimization.xml
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\System.Web.Razor.xml
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\System.Web.WebPages.xml
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\System.Web.WebPages.Deployment.xml
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\System.Web.WebPages.Razor.xml
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\Antlr3.Runtime.pdb
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\Microsoft.ApplicationInsights.xml
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\Microsoft.AI.DependencyCollector.xml
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.xml
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\Microsoft.AI.WindowsServer.xml
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\bin\Microsoft.AI.Web.xml
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\obj\Release\Power_Metering.csprojResolveAssemblyReference.cache
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\obj\Release\Power_Metering.csproj.CoreCompileInputs.cache
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\obj\Release\Power_Metering.dll
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\obj\Release\Power_Metering.pdb
+E:\Data\Power_Metering_API_24052020_test_New\Power_Metering\obj\Release\Power_Metering.XmlSerializers.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\ApplicationInsights.config
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\csc.exe
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\csc.exe.config
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\csc.rsp
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\csi.exe
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\csi.exe.config
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\csi.rsp
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\Microsoft.Win32.Primitives.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\System.AppContext.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\System.Console.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\System.Diagnostics.Process.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\System.Diagnostics.StackTrace.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\System.IO.Compression.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\System.IO.FileSystem.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\System.IO.FileSystem.Primitives.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\System.IO.Pipes.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\System.Security.AccessControl.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\System.Security.Claims.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\System.Security.Cryptography.Encoding.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\System.Security.Cryptography.Primitives.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\System.Security.Principal.Windows.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\System.Text.Encoding.CodePages.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\System.Threading.Thread.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\System.ValueTuple.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\System.Xml.ReaderWriter.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\System.Xml.XmlDocument.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\System.Xml.XPath.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\System.Xml.XPath.XDocument.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\vbc.exe
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\vbc.exe.config
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\vbc.rsp
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\VBCSCompiler.exe
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\Power_Metering.dll.config
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\Power_Metering.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\Power_Metering.XmlSerializers.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\Power_Metering.pdb
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\Antlr3.Runtime.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\Microsoft.AI.Web.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\Microsoft.ApplicationInsights.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\Newtonsoft.Json.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\System.Net.Http.Formatting.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\System.Web.Helpers.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\System.Web.Http.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\System.Web.Http.WebHost.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\System.Web.Mvc.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\System.Web.Optimization.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\System.Web.Razor.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\System.Web.WebPages.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\System.Web.WebPages.Razor.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\WebGrease.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\Newtonsoft.Json.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\System.Net.Http.Formatting.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\System.Web.Helpers.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\System.Web.Http.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\System.Web.Http.WebHost.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\System.Web.Mvc.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\System.Web.Optimization.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\System.Web.Razor.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\System.Web.WebPages.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\System.Web.WebPages.Razor.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\Antlr3.Runtime.pdb
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\Microsoft.ApplicationInsights.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\bin\Microsoft.AI.Web.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\obj\Release\Power_Metering.csprojResolveAssemblyReference.cache
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\obj\Release\Power_Metering.csproj.CoreCompileInputs.cache
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\obj\Release\Power_Metering.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\obj\Release\Power_Metering.pdb
+C:\Users\Cas Support\Desktop\Power_Metering_API\Power_Metering\obj\Release\Power_Metering.XmlSerializers.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\ApplicationInsights.config
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\csc.exe
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\csc.exe.config
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\csc.rsp
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\csi.exe
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\csi.exe.config
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\csi.rsp
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\Microsoft.Win32.Primitives.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.AppContext.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Console.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Diagnostics.Process.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Diagnostics.StackTrace.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.IO.Compression.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.IO.FileSystem.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.IO.FileSystem.Primitives.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.IO.Pipes.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Security.AccessControl.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Security.Claims.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Security.Cryptography.Encoding.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Security.Cryptography.Primitives.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Security.Principal.Windows.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Text.Encoding.CodePages.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Threading.Thread.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.ValueTuple.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Xml.ReaderWriter.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Xml.XmlDocument.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Xml.XPath.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Xml.XPath.XDocument.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\vbc.exe
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\vbc.exe.config
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\vbc.rsp
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\VBCSCompiler.exe
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\Power_Metering.dll.config
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\Power_Metering.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\Power_Metering.XmlSerializers.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\Power_Metering.pdb
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\Antlr3.Runtime.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.AI.Web.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.ApplicationInsights.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\Newtonsoft.Json.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\System.Net.Http.Formatting.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\System.Web.Helpers.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\System.Web.Http.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\System.Web.Http.WebHost.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\System.Web.Mvc.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\System.Web.Optimization.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\System.Web.Razor.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\System.Web.WebPages.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\System.Web.WebPages.Razor.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\WebGrease.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\Newtonsoft.Json.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\System.Net.Http.Formatting.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\System.Web.Helpers.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\System.Web.Http.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\System.Web.Http.WebHost.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\System.Web.Mvc.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\System.Web.Optimization.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\System.Web.Razor.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\System.Web.WebPages.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\System.Web.WebPages.Razor.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\Antlr3.Runtime.pdb
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.ApplicationInsights.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.AI.Web.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\obj\Release\Power_Metering.csprojResolveAssemblyReference.cache
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\obj\Release\Power_Metering.csproj.CoreCompileInputs.cache
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\obj\Release\Power_Metering.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\obj\Release\Power_Metering.pdb
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021\Power_Metering\obj\Release\Power_Metering.XmlSerializers.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\ApplicationInsights.config
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\csc.exe
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\csc.exe.config
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\csc.rsp
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\csi.exe
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\csi.exe.config
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\csi.rsp
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\Microsoft.Win32.Primitives.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\System.AppContext.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\System.Console.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\System.Diagnostics.Process.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\System.Diagnostics.StackTrace.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\System.IO.Compression.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\System.IO.FileSystem.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\System.IO.FileSystem.Primitives.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\System.IO.Pipes.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\System.Security.AccessControl.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\System.Security.Claims.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\System.Security.Cryptography.Encoding.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\System.Security.Cryptography.Primitives.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\System.Security.Principal.Windows.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\System.Text.Encoding.CodePages.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\System.Threading.Thread.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\System.ValueTuple.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\System.Xml.ReaderWriter.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\System.Xml.XmlDocument.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\System.Xml.XPath.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\System.Xml.XPath.XDocument.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\vbc.exe
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\vbc.exe.config
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\vbc.rsp
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\VBCSCompiler.exe
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\Power_Metering.dll.config
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\Power_Metering.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\Power_Metering.XmlSerializers.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\Power_Metering.pdb
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\Antlr3.Runtime.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\Microsoft.AI.Web.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\Microsoft.ApplicationInsights.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\Newtonsoft.Json.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\System.Net.Http.Formatting.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\System.Web.Helpers.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\System.Web.Http.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\System.Web.Http.WebHost.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\System.Web.Mvc.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\System.Web.Optimization.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\System.Web.Razor.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\System.Web.WebPages.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\System.Web.WebPages.Razor.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\WebGrease.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\Newtonsoft.Json.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\System.Net.Http.Formatting.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\System.Web.Helpers.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\System.Web.Http.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\System.Web.Http.WebHost.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\System.Web.Mvc.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\System.Web.Optimization.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\System.Web.Razor.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\System.Web.WebPages.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\System.Web.WebPages.Razor.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\Antlr3.Runtime.pdb
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\Microsoft.ApplicationInsights.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\bin\Microsoft.AI.Web.xml
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\obj\Release\Power_Metering.csprojResolveAssemblyReference.cache
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\obj\Release\Power_Metering.csproj.CoreCompileInputs.cache
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\obj\Release\Power_Metering.dll
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\obj\Release\Power_Metering.pdb
+C:\Users\Cas Support\Desktop\Power_Metering_API_26112021_1\Power_Metering\obj\Release\Power_Metering.XmlSerializers.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\ApplicationInsights.config
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\csc.exe
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\csc.exe.config
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\csc.rsp
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\csi.exe
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\csi.exe.config
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\csi.rsp
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\Microsoft.CSharp.Core.targets
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\Microsoft.VisualBasic.Core.targets
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\Microsoft.Win32.Primitives.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.AppContext.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Collections.Immutable.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Console.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Diagnostics.Process.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Diagnostics.StackTrace.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.IO.Compression.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.IO.FileSystem.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.IO.FileSystem.Primitives.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.IO.Pipes.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Reflection.Metadata.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Security.AccessControl.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Security.Claims.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Security.Cryptography.Encoding.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Security.Cryptography.Primitives.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Security.Principal.Windows.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Text.Encoding.CodePages.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Threading.Thread.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.ValueTuple.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Xml.ReaderWriter.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Xml.XmlDocument.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Xml.XPath.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\System.Xml.XPath.XDocument.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\vbc.exe
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\vbc.exe.config
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\vbc.rsp
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\VBCSCompiler.exe
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\roslyn\VBCSCompiler.exe.config
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Power_Metering.dll.config
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Power_Metering.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Power_Metering.XmlSerializers.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Power_Metering.pdb
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.Win32.Primitives.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\netstandard.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.AppContext.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Collections.Concurrent.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Collections.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Collections.NonGeneric.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Collections.Specialized.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.ComponentModel.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.ComponentModel.EventBasedAsync.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.ComponentModel.Primitives.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.ComponentModel.TypeConverter.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Console.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Data.Common.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Diagnostics.Contracts.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Diagnostics.Debug.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Diagnostics.FileVersionInfo.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Diagnostics.Process.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Diagnostics.StackTrace.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Diagnostics.TextWriterTraceListener.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Diagnostics.Tools.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Diagnostics.TraceSource.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Diagnostics.Tracing.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Drawing.Primitives.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Dynamic.Runtime.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Globalization.Calendars.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Globalization.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Globalization.Extensions.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.IO.Compression.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.IO.Compression.ZipFile.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.IO.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.IO.FileSystem.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.IO.FileSystem.DriveInfo.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.IO.FileSystem.Primitives.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.IO.FileSystem.Watcher.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.IO.IsolatedStorage.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.IO.MemoryMappedFiles.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.IO.Pipes.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.IO.UnmanagedMemoryStream.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Linq.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Linq.Expressions.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Linq.Parallel.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Linq.Queryable.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Net.Http.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Net.NameResolution.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Net.NetworkInformation.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Net.Ping.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Net.Primitives.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Net.Requests.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Net.Security.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Net.Sockets.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Net.WebHeaderCollection.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Net.WebSockets.Client.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Net.WebSockets.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.ObjectModel.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Reflection.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Reflection.Extensions.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Reflection.Primitives.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Resources.Reader.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Resources.ResourceManager.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Resources.Writer.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Runtime.CompilerServices.VisualC.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Runtime.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Runtime.Extensions.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Runtime.Handles.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Runtime.InteropServices.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Runtime.InteropServices.RuntimeInformation.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Runtime.Numerics.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Runtime.Serialization.Formatters.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Runtime.Serialization.Json.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Runtime.Serialization.Primitives.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Runtime.Serialization.Xml.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Security.Claims.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Security.Cryptography.Algorithms.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Security.Cryptography.Csp.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Security.Cryptography.Encoding.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Security.Cryptography.Primitives.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Security.Cryptography.X509Certificates.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Security.Principal.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Security.SecureString.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Text.Encoding.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Text.Encoding.Extensions.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Text.RegularExpressions.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Threading.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Threading.Overlapped.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Threading.Tasks.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Threading.Tasks.Parallel.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Threading.Thread.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Threading.ThreadPool.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Threading.Timer.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.ValueTuple.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Xml.ReaderWriter.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Xml.XDocument.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Xml.XmlDocument.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Xml.XmlSerializer.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Xml.XPath.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Xml.XPath.XDocument.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Antlr3.Runtime.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.AI.Agent.Intercept.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.AI.DependencyCollector.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.AI.PerfCounterCollector.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.AI.Web.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.AI.WindowsServer.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.ApplicationInsights.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.Bcl.AsyncInterfaces.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.Bcl.TimeProvider.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.IdentityModel.Abstractions.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.IdentityModel.JsonWebTokens.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.IdentityModel.Logging.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.IdentityModel.Tokens.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.Web.Infrastructure.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Newtonsoft.Json.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Serilog.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Serilog.Sinks.Console.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Serilog.Sinks.File.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Buffers.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Diagnostics.DiagnosticSource.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.IdentityModel.Tokens.Jwt.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Memory.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Net.Http.Formatting.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Numerics.Vectors.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Runtime.CompilerServices.Unsafe.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Security.Cryptography.Cng.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Text.Encodings.Web.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Text.Json.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Threading.Channels.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Threading.Tasks.Extensions.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Web.Helpers.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Web.Http.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Web.Http.WebHost.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Web.Mvc.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Web.Optimization.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Web.Razor.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Web.WebPages.Deployment.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Web.WebPages.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Web.WebPages.Razor.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\WebGrease.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.Bcl.AsyncInterfaces.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.Bcl.TimeProvider.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.IdentityModel.Abstractions.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.IdentityModel.JsonWebTokens.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.IdentityModel.Logging.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.IdentityModel.Tokens.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Serilog.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Serilog.Sinks.Console.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Serilog.Sinks.File.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Buffers.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Diagnostics.DiagnosticSource.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.IdentityModel.Tokens.Jwt.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Memory.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Numerics.Vectors.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Runtime.CompilerServices.Unsafe.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Text.Encodings.Web.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Text.Json.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Threading.Channels.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Threading.Tasks.Extensions.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Newtonsoft.Json.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Net.Http.Formatting.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Web.Helpers.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Web.Http.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Web.Http.WebHost.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Web.Mvc.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Web.Optimization.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Web.Razor.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Web.WebPages.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Web.WebPages.Deployment.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\System.Web.WebPages.Razor.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Antlr3.Runtime.pdb
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.ApplicationInsights.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.AI.DependencyCollector.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.AI.ServerTelemetryChannel.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.AI.WindowsServer.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\bin\Microsoft.AI.Web.xml
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\obj\Release\Power_Metering.csproj.AssemblyReference.cache
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\obj\Release\Power_Metering.csproj.CoreCompileInputs.cache
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\obj\Release\Power_Me.F52EA6AB.Up2Date
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\obj\Release\Power_Metering.dll
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\obj\Release\Power_Metering.pdb
+E:\Ravi Dangi\Applicaitons\APIs\Live_Apis Updated Codes_11Dec2024\Power_Metering_API_26112021\Power_Metering\obj\Release\Power_Metering.XmlSerializers.dll
