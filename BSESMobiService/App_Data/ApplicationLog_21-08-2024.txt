@@ -1,0 +1,39 @@
+21-08-2024 12:36:13System.Data.OleDb.OleDbException: ORA-00904: "A"."DIVISION": invalid identifier
+ORA-00904: "A"."DIVISION": invalid identifier
+   at System.Data.OleDb.OleDbCommand.ExecuteCommandTextErrorHandling(OleDbHResult hr)
+   at System.Data.OleDb.OleDbCommand.ExecuteCommandTextForSingleResult(tagDBPARAMS dbParams, Object& executeResult)
+   at System.Data.OleDb.OleDbCommand.ExecuteCommandText(Object& executeResult)
+   at System.Data.OleDb.OleDbCommand.ExecuteCommand(CommandBehavior behavior, Object& executeResult)
+   at System.Data.OleDb.OleDbCommand.ExecuteReaderInternal(CommandBehavior behavior, String method)
+   at System.Data.OleDb.OleDbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.OleDb.OleDbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   at DbFunction.dmlgetquery_mobint(String sql) in e:\ALL APPLICATIONS CODE\LATEST CODE LR_APP_20082024\BSES Mobi Service - 03122021_215_New_NAS Change\App_Code\DbFunction.cs:line 1020 SELECT A.SUB_DIVISION SCHEME,nvl(SUM(CASE WHEN SUB_AREA_TYP IS NOT NULL THEN 1 ELSE 0 END),0) AS Total,   nvl(SUM(CASE WHEN QC_PD_REL ='N' THEN 1 ELSE 0 END),0) AS NC_Reported,   nvl(SUM(CASE WHEN QC_PD_REL ='X' THEN 1 ELSE 0 END),0) AS NC_Cleared  FROM mobint.DIV_SCHEME_QC_TRANS A, mobint.DIV_SCHEME_QC_TYP B  WHERE TRUNC(A.ENTRY_DATE) BETWEEN TRUNC(TO_DATE('01/4/2024','dd/mm/yyyy')) AND TRUNC(TO_DATE('21/8/2024','dd/mm/yyyy'))  OR (UPPER(A.DIVISION) IN ('SARITA VIHAR URBAN', 'NEW FRIENDS COLONY')) AND A.SUB_AREA_TYP_SLCTD IS NOT NULL AND OBSER_ID=SEQ_NO GROUP BY A.SUB_DIVISION  
+21-08-2024 12:37:30System.Data.OleDb.OleDbException: ORA-00904: "A"."DIVISION": invalid identifier
+ORA-00904: "A"."DIVISION": invalid identifier
+   at System.Data.OleDb.OleDbCommand.ExecuteCommandTextErrorHandling(OleDbHResult hr)
+   at System.Data.OleDb.OleDbCommand.ExecuteCommandTextForSingleResult(tagDBPARAMS dbParams, Object& executeResult)
+   at System.Data.OleDb.OleDbCommand.ExecuteCommandText(Object& executeResult)
+   at System.Data.OleDb.OleDbCommand.ExecuteCommand(CommandBehavior behavior, Object& executeResult)
+   at System.Data.OleDb.OleDbCommand.ExecuteReaderInternal(CommandBehavior behavior, String method)
+   at System.Data.OleDb.OleDbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.OleDb.OleDbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   at DbFunction.dmlgetquery_mobint(String sql) in e:\ALL APPLICATIONS CODE\LATEST CODE LR_APP_20082024\BSES Mobi Service - 03122021_215_New_NAS Change\App_Code\DbFunction.cs:line 1020 SELECT A.SUB_DIVISION SCHEME,nvl(SUM(CASE WHEN SUB_AREA_TYP IS NOT NULL THEN 1 ELSE 0 END),0) AS Total,   nvl(SUM(CASE WHEN QC_PD_REL ='N' THEN 1 ELSE 0 END),0) AS NC_Reported,   nvl(SUM(CASE WHEN QC_PD_REL ='X' THEN 1 ELSE 0 END),0) AS NC_Cleared  FROM mobint.DIV_SCHEME_QC_TRANS A, mobint.DIV_SCHEME_QC_TYP B  WHERE TRUNC(A.ENTRY_DATE) BETWEEN TRUNC(TO_DATE('01/4/2024','dd/mm/yyyy')) AND TRUNC(TO_DATE('21/8/2024','dd/mm/yyyy'))  OR (UPPER(A.DIVISION) IN ('SARITA VIHAR URBAN', 'NEW FRIENDS COLONY')) AND A.SUB_AREA_TYP_SLCTD IS NOT NULL AND OBSER_ID=SEQ_NO GROUP BY A.SUB_DIVISION  
+21-08-2024 15:01:24System.Data.OleDb.OleDbException: ORA-00904: "DIVISION": invalid identifier
+ORA-00904: "DIVISION": invalid identifier
+   at System.Data.OleDb.OleDbCommand.ExecuteCommandTextErrorHandling(OleDbHResult hr)
+   at System.Data.OleDb.OleDbCommand.ExecuteCommandTextForSingleResult(tagDBPARAMS dbParams, Object& executeResult)
+   at System.Data.OleDb.OleDbCommand.ExecuteCommandText(Object& executeResult)
+   at System.Data.OleDb.OleDbCommand.ExecuteCommand(CommandBehavior behavior, Object& executeResult)
+   at System.Data.OleDb.OleDbCommand.ExecuteReaderInternal(CommandBehavior behavior, String method)
+   at System.Data.OleDb.OleDbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.OleDb.OleDbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   at DbFunction.dmlgetquery_mobint(String sql) in e:\ALL APPLICATIONS CODE\LATEST CODE LR_APP_20082024\BSES Mobi Service - 03122021_215_New_NAS Change\App_Code\DbFunction.cs:line 1020 SELECT A.DIVISION_NAME SCHEME,nvl(SUM(CASE WHEN SUB_AREA_TYP IS NOT NULL THEN 1 ELSE 0 END),0) AS Total,   nvl(SUM(CASE WHEN QC_PD_REL ='N' THEN 1 ELSE 0 END),0) AS NC_Reported,   nvl(SUM(CASE WHEN QC_PD_REL ='X' THEN 1 ELSE 0 END),0) AS NC_Cleared  FROM mobint.DIV_SCHEME_QC_TRANS A, mobint.DIV_SCHEME_QC_TYP B  WHERE TRUNC(A.ENTRY_DATE) BETWEEN TRUNC(TO_DATE('01-APR-2024','dd/mm/yyyy')) AND TRUNC(TO_DATE('21/8/2024','dd/mm/yyyy'))  AND UPPER(CIRCLE_NAME) =UPPER('West 4')  AND UPPER(A.DIVISION_NAME) NOT IN('SARITA VIHAR RURAL', 'SARITA VIHAR', 'SARITA VIHAR URBAN', 'NEW FRIENDS COLONY', 'JAFFARPUR', 'MITRAON' )   AND A.SUB_AREA_TYP_SLCTD IS NOT NULL AND OBSER_ID=SEQ_NO GROUP BY A.DIVISION_NAME   UNION   SELECT 'MITRAON' AS SCHEME,nvl(SUM(CASE WHEN SUB_AREA_TYP IS NOT NULL THEN 1 ELSE 0 END),0) AS Total,   nvl(SUM(CASE WHEN QC_PD_REL ='N' THEN 1 ELSE 0 END),0) AS NC_Reported,   nvl(SUM(CASE WHEN QC_PD_REL ='X' THEN 1 ELSE 0 END),0) AS NC_Cleared  FROM mobint.DIV_SCHEME_QC_TRANS A, mobint.DIV_SCHEME_QC_TYP B  WHERE TRUNC(A.ENTRY_DATE) BETWEEN TRUNC(TO_DATE('01-APR-2024','dd/mm/yyyy')) AND TRUNC(TO_DATE('21/8/2024','dd/mm/yyyy'))  AND UPPER(CIRCLE_NAME) =UPPER('West 4')  AND (UPPER(A.DIVISION_NAME) IN('MITRAON') AND UPPER(SUB_DIVISION) IN('MUNDELLA', 'CRPF', 'MITRAON') OR UPPER(DIVISION) IN('JAFFARPUR') AND UPPER(SUB_DIVISION) IN('MUNDELLA', 'CRPF', 'MITRAON'))   AND A.SUB_AREA_TYP_SLCTD IS NOT NULL AND OBSER_ID=SEQ_NO    UNION   SELECT 'JAFFARPUR' AS SCHEME,nvl(SUM(CASE WHEN SUB_AREA_TYP IS NOT NULL THEN 1 ELSE 0 END),0) AS Total,   nvl(SUM(CASE WHEN QC_PD_REL ='N' THEN 1 ELSE 0 END),0) AS NC_Reported,   nvl(SUM(CASE WHEN QC_PD_REL ='X' THEN 1 ELSE 0 END),0) AS NC_Cleared  FROM mobint.DIV_SCHEME_QC_TRANS A, mobint.DIV_SCHEME_QC_TYP B  WHERE TRUNC(A.ENTRY_DATE) BETWEEN TRUNC(TO_DATE('01-APR-2024','dd/mm/yyyy')) AND TRUNC(TO_DATE('21/8/2024','dd/mm/yyyy'))  AND UPPER(CIRCLE_NAME) =UPPER('West 4')  AND UPPER(A.DIVISION_NAME) IN('JAFFARPUR') AND UPPER(SUB_DIVISION) IN('UJAWA', 'DHANSA', 'GHUMENHERA')    AND A.SUB_AREA_TYP_SLCTD IS NOT NULL AND OBSER_ID=SEQ_NO    ORDER BY SCHEME  

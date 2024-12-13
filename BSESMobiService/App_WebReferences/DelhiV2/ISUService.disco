@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
+  <contractRef ref="https://bsesbrpl.co.in:7850/DelhiV2/ISUService.asmx?wsdl" docRef="https://bsesbrpl.co.in:7850/DelhiV2/ISUService.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="https://bsesbrpl.co.in:7850/DelhiV2/ISUService.asmx" xmlns:q1="http://tempuri.org/" binding="q1:WebServiceSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="https://bsesbrpl.co.in:7850/DelhiV2/ISUService.asmx" xmlns:q2="http://tempuri.org/" binding="q2:WebServiceSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+</discovery>

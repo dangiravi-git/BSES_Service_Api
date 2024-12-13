@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:tns="http://ws/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" name="ISUSERVICE" targetNamespace="http://ws/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://10.125.64.30:88/DELHIWS/ISUSERVICE?xsd=1" namespace="http://ws/" />
+    </xsd:schema>
+  </types>
+  <message name="ZBAPI_CALERT">
+    <part name="parameters" element="tns:ZBAPI_CALERT" />
+  </message>
+  <message name="ZBAPI_CALERTResponse">
+    <part name="parameters" element="tns:ZBAPI_CALERTResponse" />
+  </message>
+  <message name="ZBAPI_SMS">
+    <part name="parameters" element="tns:ZBAPI_SMS" />
+  </message>
+  <message name="ZBAPI_SMSResponse">
+    <part name="parameters" element="tns:ZBAPI_SMSResponse" />
+  </message>
+  <message name="BAPI_ISUSMORDER_USERSTATUSSET">
+    <part name="parameters" element="tns:BAPI_ISUSMORDER_USERSTATUSSET" />
+  </message>
+  <message name="BAPI_ISUSMORDER_USERSTATUSSETResponse">
+    <part name="parameters" element="tns:BAPI_ISUSMORDER_USERSTATUSSETResponse" />
+  </message>
+  <message name="zcs_get_sevak_status">
+    <part name="parameters" element="tns:zcs_get_sevak_status" />
+  </message>
+  <message name="zcs_get_sevak_statusResponse">
+    <part name="parameters" element="tns:zcs_get_sevak_statusResponse" />
+  </message>
+  <message name="ZBAPI_REAPPOINT_SCHEDULE">
+    <part name="parameters" element="tns:ZBAPI_REAPPOINT_SCHEDULE" />
+  </message>
+  <message name="ZBAPI_REAPPOINT_SCHEDULEResponse">
+    <part name="parameters" element="tns:ZBAPI_REAPPOINT_SCHEDULEResponse" />
+  </message>
+  <message name="ZBAPI_CNCLSERORD">
+    <part name="parameters" element="tns:ZBAPI_CNCLSERORD" />
+  </message>
+  <message name="ZBAPI_CNCLSERORDResponse">
+    <part name="parameters" element="tns:ZBAPI_CNCLSERORDResponse" />
+  </message>
+  <message name="ZBAPI_ORDERS_CREATE">
+    <part name="parameters" element="tns:ZBAPI_ORDERS_CREATE" />
+  </message>
+  <message name="ZBAPI_ORDERS_CREATEResponse">
+    <part name="parameters" element="tns:ZBAPI_ORDERS_CREATEResponse" />
+  </message>
+  <message name="ZBAPI_PRINT_NOC_ONLINE">
+    <part name="parameters" element="tns:ZBAPI_PRINT_NOC_ONLINE" />
+  </message>
+  <message name="ZBAPI_PRINT_NOC_ONLINEResponse">
+    <part name="parameters" element="tns:ZBAPI_PRINT_NOC_ONLINEResponse" />
+  </message>
+  <message name="ZBAPI_CNT_APP_DETAIL">
+    <part name="parameters" element="tns:ZBAPI_CNT_APP_DETAIL" />
+  </message>
+  <message name="ZBAPI_CNT_APP_DETAILResponse">
+    <part name="parameters" element="tns:ZBAPI_CNT_APP_DETAILResponse" />
+  </message>
+  <message name="ZCS_APPMOBL_CNT">
+    <part name="parameters" element="tns:ZCS_APPMOBL_CNT" />
+  </message>
+  <message name="ZCS_APPMOBL_CNTResponse">
+    <part name="parameters" element="tns:ZCS_APPMOBL_CNTResponse" />
+  </message>
+  <message name="ZBAPI_CS_BP_DETAIL">
+    <part name="parameters" element="tns:ZBAPI_CS_BP_DETAIL" />
+  </message>
+  <message name="ZBAPI_CS_BP_DETAILResponse">
+    <part name="parameters" element="tns:ZBAPI_CS_BP_DETAILResponse" />
+  </message>
+  <message name="ZBAPI_USTATUS">
+    <part name="parameters" element="tns:ZBAPI_USTATUS" />
+  </message>
+  <message name="ZBAPI_USTATUSResponse">
+    <part name="parameters" element="tns:ZBAPI_USTATUSResponse" />
+  </message>
+  <message name="updatePersonaldetail">
+    <part name="parameters" element="tns:updatePersonaldetail" />
+  </message>
+  <message name="updatePersonaldetailResponse">
+    <part name="parameters" element="tns:updatePersonaldetailResponse" />
+  </message>
+  <portType name="ISUSERVICE">
+    <operation name="ZBAPI_CALERT">
+      <input wsam:Action="http://ws/ISUSERVICE/ZBAPI_CALERTRequest" message="tns:ZBAPI_CALERT" />
+      <output wsam:Action="http://ws/ISUSERVICE/ZBAPI_CALERTResponse" message="tns:ZBAPI_CALERTResponse" />
+    </operation>
+    <operation name="ZBAPI_SMS">
+      <input wsam:Action="http://ws/ISUSERVICE/ZBAPI_SMSRequest" message="tns:ZBAPI_SMS" />
+      <output wsam:Action="http://ws/ISUSERVICE/ZBAPI_SMSResponse" message="tns:ZBAPI_SMSResponse" />
+    </operation>
+    <operation name="BAPI_ISUSMORDER_USERSTATUSSET">
+      <input wsam:Action="http://ws/ISUSERVICE/BAPI_ISUSMORDER_USERSTATUSSETRequest" message="tns:BAPI_ISUSMORDER_USERSTATUSSET" />
+      <output wsam:Action="http://ws/ISUSERVICE/BAPI_ISUSMORDER_USERSTATUSSETResponse" message="tns:BAPI_ISUSMORDER_USERSTATUSSETResponse" />
+    </operation>
+    <operation name="zcs_get_sevak_status">
+      <input wsam:Action="http://ws/ISUSERVICE/zcs_get_sevak_statusRequest" message="tns:zcs_get_sevak_status" />
+      <output wsam:Action="http://ws/ISUSERVICE/zcs_get_sevak_statusResponse" message="tns:zcs_get_sevak_statusResponse" />
+    </operation>
+    <operation name="ZBAPI_REAPPOINT_SCHEDULE">
+      <input wsam:Action="http://ws/ISUSERVICE/ZBAPI_REAPPOINT_SCHEDULERequest" message="tns:ZBAPI_REAPPOINT_SCHEDULE" />
+      <output wsam:Action="http://ws/ISUSERVICE/ZBAPI_REAPPOINT_SCHEDULEResponse" message="tns:ZBAPI_REAPPOINT_SCHEDULEResponse" />
+    </operation>
+    <operation name="ZBAPI_CNCLSERORD">
+      <input wsam:Action="http://ws/ISUSERVICE/ZBAPI_CNCLSERORDRequest" message="tns:ZBAPI_CNCLSERORD" />
+      <output wsam:Action="http://ws/ISUSERVICE/ZBAPI_CNCLSERORDResponse" message="tns:ZBAPI_CNCLSERORDResponse" />
+    </operation>
+    <operation name="ZBAPI_ORDERS_CREATE">
+      <input wsam:Action="http://ws/ISUSERVICE/ZBAPI_ORDERS_CREATERequest" message="tns:ZBAPI_ORDERS_CREATE" />
+      <output wsam:Action="http://ws/ISUSERVICE/ZBAPI_ORDERS_CREATEResponse" message="tns:ZBAPI_ORDERS_CREATEResponse" />
+    </operation>
+    <operation name="ZBAPI_PRINT_NOC_ONLINE">
+      <input wsam:Action="http://ws/ISUSERVICE/ZBAPI_PRINT_NOC_ONLINERequest" message="tns:ZBAPI_PRINT_NOC_ONLINE" />
+      <output wsam:Action="http://ws/ISUSERVICE/ZBAPI_PRINT_NOC_ONLINEResponse" message="tns:ZBAPI_PRINT_NOC_ONLINEResponse" />
+    </operation>
+    <operation name="ZBAPI_CNT_APP_DETAIL">
+      <input wsam:Action="http://ws/ISUSERVICE/ZBAPI_CNT_APP_DETAILRequest" message="tns:ZBAPI_CNT_APP_DETAIL" />
+      <output wsam:Action="http://ws/ISUSERVICE/ZBAPI_CNT_APP_DETAILResponse" message="tns:ZBAPI_CNT_APP_DETAILResponse" />
+    </operation>
+    <operation name="ZCS_APPMOBL_CNT">
+      <input wsam:Action="http://ws/ISUSERVICE/ZCS_APPMOBL_CNTRequest" message="tns:ZCS_APPMOBL_CNT" />
+      <output wsam:Action="http://ws/ISUSERVICE/ZCS_APPMOBL_CNTResponse" message="tns:ZCS_APPMOBL_CNTResponse" />
+    </operation>
+    <operation name="ZBAPI_CS_BP_DETAIL">
+      <input wsam:Action="http://ws/ISUSERVICE/ZBAPI_CS_BP_DETAILRequest" message="tns:ZBAPI_CS_BP_DETAIL" />
+      <output wsam:Action="http://ws/ISUSERVICE/ZBAPI_CS_BP_DETAILResponse" message="tns:ZBAPI_CS_BP_DETAILResponse" />
+    </operation>
+    <operation name="ZBAPI_USTATUS">
+      <input wsam:Action="http://ws/ISUSERVICE/ZBAPI_USTATUSRequest" message="tns:ZBAPI_USTATUS" />
+      <output wsam:Action="http://ws/ISUSERVICE/ZBAPI_USTATUSResponse" message="tns:ZBAPI_USTATUSResponse" />
+    </operation>
+    <operation name="updatePersonaldetail">
+      <input wsam:Action="http://ws/ISUSERVICE/updatePersonaldetailRequest" message="tns:updatePersonaldetail" />
+      <output wsam:Action="http://ws/ISUSERVICE/updatePersonaldetailResponse" message="tns:updatePersonaldetailResponse" />
+    </operation>
+  </portType>
+  <binding name="ISUSERVICEPortBinding" type="tns:ISUSERVICE">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="ZBAPI_CALERT">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ZBAPI_SMS">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="BAPI_ISUSMORDER_USERSTATUSSET">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="zcs_get_sevak_status">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ZBAPI_REAPPOINT_SCHEDULE">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ZBAPI_CNCLSERORD">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ZBAPI_ORDERS_CREATE">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ZBAPI_PRINT_NOC_ONLINE">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ZBAPI_CNT_APP_DETAIL">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ZCS_APPMOBL_CNT">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ZBAPI_CS_BP_DETAIL">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ZBAPI_USTATUS">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="updatePersonaldetail">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="ISUSERVICE">
+    <port name="ISUSERVICEPort" binding="tns:ISUSERVICEPortBinding">
+      <soap:address location="http://10.125.64.30:88/DELHIWS/ISUSERVICE" />
+    </port>
+  </service>
+</definitions>

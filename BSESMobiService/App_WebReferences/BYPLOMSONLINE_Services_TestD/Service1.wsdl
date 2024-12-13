@@ -1,0 +1,3067 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s1="http://tempuri.org/AbstractTypes" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="RegisterIVRSComplaint">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CA" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Phone" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Code" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RegisterIVRSComplaintResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RegisterIVRSComplaintResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RegisterSMSComplaint">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CA" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Phone" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Code" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RegisterSMSComplaintResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RegisterSMSComplaintResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RegisterWebComplaint">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CallerName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Phone" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CA" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Area" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FaultCategory" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SubFaultType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Remarks" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PoleNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RegisterWebComplaintResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RegisterWebComplaintResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RegisterSmartAppComplaint">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CA" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Phone" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FaultCategory" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SubFaultType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CallerName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Remarks" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RegisterSmartAppComplaintResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RegisterSmartAppComplaintResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetComplaintStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ComplaintNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ImeiNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetComplaintStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetComplaintStatusResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetComplaintDetailsCA">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CANo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetComplaintDetailsCAResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetComplaintDetailsCAResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDivisionsFromCompany">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Company" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDivisionsFromCompanyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDivisionsFromCompanyResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCompCentersFromDivision">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Division" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCompCentersFromDivisionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCompCentersFromDivisionResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAreasFromDivision">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Division" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAreasFromDivisionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAreasFromDivisionResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFaultCategories">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFaultCategoriesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFaultCategoriesResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFaultCategoriesWeb">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFaultCategoriesWebResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFaultCategoriesWebResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFaultTypesFromCat">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CategoryCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFaultTypesFromCatResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFaultTypesFromCatResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAssignedComplaintsToTeam">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IMEINO" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAssignedComplaintsToTeamResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAssignedComplaintsToTeamResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetClosingRemarksFromCategory">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Category" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetClosingRemarksFromCategoryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetClosingRemarksFromCategoryResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CloseComplaint">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ComplaintNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CA" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FaultCategory" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FaultType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ClosingRemark" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="OtherRemarks" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IMEI" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Latitude" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Longitude" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SignatureData" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CloseComplaintResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CloseComplaintResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateComplaintResolutiontime">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ComplaintNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Imeino" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FaultType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Latitude" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Longitude" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Remarks" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ResolutionStatus" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Resolution_Time" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Area_Power_Restored" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Restoration_Time" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateComplaintResolutiontimeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UpdateComplaintResolutiontimeResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MarkComplaintRead">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ComplaintNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MarkComplaintReadResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MarkComplaintReadResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BackGroundTest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Switch" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Passage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BackGroundTestResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BackGroundTestResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateIMEILocation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IMEINO" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Latitude" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Longitude" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Remarks" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateIMEILocationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UpdateIMEILocationResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TestMethod">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Switch" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ComplaintNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CA" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FaultCategory" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FaultType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ClosingRemark" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="OtherRemarks" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IMEI" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Latitude" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Longitude" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TestMethodResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TestMethodResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getbreakdowndetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IMEINO" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getbreakdowndetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getbreakdowndetailsResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="updatebreakdownreadstatsu">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BD_ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="updatebreakdownreadstatsuResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="updatebreakdownreadstatsuResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getbreakdownstatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BD_ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getbreakdownstatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getbreakdownstatusResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="updatebreakdown">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BD_ID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="newhour" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="newminutes" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="updatebreakdownResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="updatebreakdownResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getbreakdownbackfeedlist">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BD_ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getbreakdownbackfeedlistResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getbreakdownbackfeedlistResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="updatebreakdownbackfeed">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BD_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="restoreddate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="restoredload" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="restoresource" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="restoretype" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="remarks" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="selectedsource" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="updatebreakdownbackfeedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="updatebreakdownbackfeedResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="updateBD_Android">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="bd_id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="android_time" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="latitude" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="longitude" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="remarks" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="updateBD_AndroidResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="updateBD_AndroidResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNearByComplaintCenters">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Lat" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Long" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNearByComplaintCentersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetNearByComplaintCentersResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertAndroidData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LATITUDE" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LONGITUDE" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IMAGE" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NAME" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CA_NO" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EQUIPMENT_NO" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CONTACT_NO" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SUB_DIVISION" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DIVISION" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ELEMENT" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TYPE_RISK" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ADDRESS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MCD_ZONE" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertAndroidDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="InsertAndroidDataResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GisLatLong">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Longitude" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Latitude" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GisLatLongResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GisLatLongResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateSMSStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="REQUESTID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SENDER_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="A2W_ACCEPT_DATE" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="A2W_STATUS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CARRIER_ACCEPT_DATE" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="A2W_REASON" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CARRIER_DELIVERED_DATE" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CARRIER_STATUS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CARRIER_STATUS_DESC" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateSMSStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UpdateSMSStatusResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DataSet" nillable="true">
+        <s:complexType>
+          <s:sequence>
+            <s:element ref="s:schema" />
+            <s:any />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="string" nillable="true" type="s:string" />
+    </s:schema>
+    <s:schema targetNamespace="http://tempuri.org/AbstractTypes">
+      <s:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <s:complexType name="StringArray">
+        <s:complexContent mixed="false">
+          <s:restriction base="soapenc:Array">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="String" type="s:string" />
+            </s:sequence>
+          </s:restriction>
+        </s:complexContent>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="RegisterIVRSComplaintSoapIn">
+    <wsdl:part name="parameters" element="tns:RegisterIVRSComplaint" />
+  </wsdl:message>
+  <wsdl:message name="RegisterIVRSComplaintSoapOut">
+    <wsdl:part name="parameters" element="tns:RegisterIVRSComplaintResponse" />
+  </wsdl:message>
+  <wsdl:message name="RegisterSMSComplaintSoapIn">
+    <wsdl:part name="parameters" element="tns:RegisterSMSComplaint" />
+  </wsdl:message>
+  <wsdl:message name="RegisterSMSComplaintSoapOut">
+    <wsdl:part name="parameters" element="tns:RegisterSMSComplaintResponse" />
+  </wsdl:message>
+  <wsdl:message name="RegisterWebComplaintSoapIn">
+    <wsdl:part name="parameters" element="tns:RegisterWebComplaint" />
+  </wsdl:message>
+  <wsdl:message name="RegisterWebComplaintSoapOut">
+    <wsdl:part name="parameters" element="tns:RegisterWebComplaintResponse" />
+  </wsdl:message>
+  <wsdl:message name="RegisterSmartAppComplaintSoapIn">
+    <wsdl:part name="parameters" element="tns:RegisterSmartAppComplaint" />
+  </wsdl:message>
+  <wsdl:message name="RegisterSmartAppComplaintSoapOut">
+    <wsdl:part name="parameters" element="tns:RegisterSmartAppComplaintResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetComplaintStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:GetComplaintStatus" />
+  </wsdl:message>
+  <wsdl:message name="GetComplaintStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:GetComplaintStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetComplaintDetailsCASoapIn">
+    <wsdl:part name="parameters" element="tns:GetComplaintDetailsCA" />
+  </wsdl:message>
+  <wsdl:message name="GetComplaintDetailsCASoapOut">
+    <wsdl:part name="parameters" element="tns:GetComplaintDetailsCAResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDivisionsFromCompanySoapIn">
+    <wsdl:part name="parameters" element="tns:GetDivisionsFromCompany" />
+  </wsdl:message>
+  <wsdl:message name="GetDivisionsFromCompanySoapOut">
+    <wsdl:part name="parameters" element="tns:GetDivisionsFromCompanyResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCompCentersFromDivisionSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCompCentersFromDivision" />
+  </wsdl:message>
+  <wsdl:message name="GetCompCentersFromDivisionSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCompCentersFromDivisionResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAreasFromDivisionSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAreasFromDivision" />
+  </wsdl:message>
+  <wsdl:message name="GetAreasFromDivisionSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAreasFromDivisionResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFaultCategoriesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFaultCategories" />
+  </wsdl:message>
+  <wsdl:message name="GetFaultCategoriesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFaultCategoriesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFaultCategoriesWebSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFaultCategoriesWeb" />
+  </wsdl:message>
+  <wsdl:message name="GetFaultCategoriesWebSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFaultCategoriesWebResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFaultTypesFromCatSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFaultTypesFromCat" />
+  </wsdl:message>
+  <wsdl:message name="GetFaultTypesFromCatSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFaultTypesFromCatResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAssignedComplaintsToTeamSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAssignedComplaintsToTeam" />
+  </wsdl:message>
+  <wsdl:message name="GetAssignedComplaintsToTeamSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAssignedComplaintsToTeamResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetClosingRemarksFromCategorySoapIn">
+    <wsdl:part name="parameters" element="tns:GetClosingRemarksFromCategory" />
+  </wsdl:message>
+  <wsdl:message name="GetClosingRemarksFromCategorySoapOut">
+    <wsdl:part name="parameters" element="tns:GetClosingRemarksFromCategoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="CloseComplaintSoapIn">
+    <wsdl:part name="parameters" element="tns:CloseComplaint" />
+  </wsdl:message>
+  <wsdl:message name="CloseComplaintSoapOut">
+    <wsdl:part name="parameters" element="tns:CloseComplaintResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateComplaintResolutiontimeSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateComplaintResolutiontime" />
+  </wsdl:message>
+  <wsdl:message name="UpdateComplaintResolutiontimeSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateComplaintResolutiontimeResponse" />
+  </wsdl:message>
+  <wsdl:message name="MarkComplaintReadSoapIn">
+    <wsdl:part name="parameters" element="tns:MarkComplaintRead" />
+  </wsdl:message>
+  <wsdl:message name="MarkComplaintReadSoapOut">
+    <wsdl:part name="parameters" element="tns:MarkComplaintReadResponse" />
+  </wsdl:message>
+  <wsdl:message name="BackGroundTestSoapIn">
+    <wsdl:part name="parameters" element="tns:BackGroundTest" />
+  </wsdl:message>
+  <wsdl:message name="BackGroundTestSoapOut">
+    <wsdl:part name="parameters" element="tns:BackGroundTestResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateIMEILocationSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateIMEILocation" />
+  </wsdl:message>
+  <wsdl:message name="UpdateIMEILocationSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateIMEILocationResponse" />
+  </wsdl:message>
+  <wsdl:message name="TestMethodSoapIn">
+    <wsdl:part name="parameters" element="tns:TestMethod" />
+  </wsdl:message>
+  <wsdl:message name="TestMethodSoapOut">
+    <wsdl:part name="parameters" element="tns:TestMethodResponse" />
+  </wsdl:message>
+  <wsdl:message name="getbreakdowndetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:getbreakdowndetails" />
+  </wsdl:message>
+  <wsdl:message name="getbreakdowndetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:getbreakdowndetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="updatebreakdownreadstatsuSoapIn">
+    <wsdl:part name="parameters" element="tns:updatebreakdownreadstatsu" />
+  </wsdl:message>
+  <wsdl:message name="updatebreakdownreadstatsuSoapOut">
+    <wsdl:part name="parameters" element="tns:updatebreakdownreadstatsuResponse" />
+  </wsdl:message>
+  <wsdl:message name="getbreakdownstatusSoapIn">
+    <wsdl:part name="parameters" element="tns:getbreakdownstatus" />
+  </wsdl:message>
+  <wsdl:message name="getbreakdownstatusSoapOut">
+    <wsdl:part name="parameters" element="tns:getbreakdownstatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="updatebreakdownSoapIn">
+    <wsdl:part name="parameters" element="tns:updatebreakdown" />
+  </wsdl:message>
+  <wsdl:message name="updatebreakdownSoapOut">
+    <wsdl:part name="parameters" element="tns:updatebreakdownResponse" />
+  </wsdl:message>
+  <wsdl:message name="getbreakdownbackfeedlistSoapIn">
+    <wsdl:part name="parameters" element="tns:getbreakdownbackfeedlist" />
+  </wsdl:message>
+  <wsdl:message name="getbreakdownbackfeedlistSoapOut">
+    <wsdl:part name="parameters" element="tns:getbreakdownbackfeedlistResponse" />
+  </wsdl:message>
+  <wsdl:message name="updatebreakdownbackfeedSoapIn">
+    <wsdl:part name="parameters" element="tns:updatebreakdownbackfeed" />
+  </wsdl:message>
+  <wsdl:message name="updatebreakdownbackfeedSoapOut">
+    <wsdl:part name="parameters" element="tns:updatebreakdownbackfeedResponse" />
+  </wsdl:message>
+  <wsdl:message name="updateBD_AndroidSoapIn">
+    <wsdl:part name="parameters" element="tns:updateBD_Android" />
+  </wsdl:message>
+  <wsdl:message name="updateBD_AndroidSoapOut">
+    <wsdl:part name="parameters" element="tns:updateBD_AndroidResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetNearByComplaintCentersSoapIn">
+    <wsdl:part name="parameters" element="tns:GetNearByComplaintCenters" />
+  </wsdl:message>
+  <wsdl:message name="GetNearByComplaintCentersSoapOut">
+    <wsdl:part name="parameters" element="tns:GetNearByComplaintCentersResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertAndroidDataSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertAndroidData" />
+  </wsdl:message>
+  <wsdl:message name="InsertAndroidDataSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertAndroidDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="GisLatLongSoapIn">
+    <wsdl:part name="parameters" element="tns:GisLatLong" />
+  </wsdl:message>
+  <wsdl:message name="GisLatLongSoapOut">
+    <wsdl:part name="parameters" element="tns:GisLatLongResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSMSStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateSMSStatus" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSMSStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateSMSStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="RegisterIVRSComplaintHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="CA" type="s:string" />
+    <wsdl:part name="Phone" type="s:string" />
+    <wsdl:part name="Code" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RegisterIVRSComplaintHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="RegisterSMSComplaintHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="CA" type="s:string" />
+    <wsdl:part name="Phone" type="s:string" />
+    <wsdl:part name="Code" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RegisterSMSComplaintHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="RegisterWebComplaintHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="CallerName" type="s:string" />
+    <wsdl:part name="Phone" type="s:string" />
+    <wsdl:part name="Address" type="s:string" />
+    <wsdl:part name="Email" type="s:string" />
+    <wsdl:part name="CA" type="s:string" />
+    <wsdl:part name="Area" type="s:string" />
+    <wsdl:part name="FaultCategory" type="s:string" />
+    <wsdl:part name="SubFaultType" type="s:string" />
+    <wsdl:part name="Remarks" type="s:string" />
+    <wsdl:part name="PoleNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RegisterWebComplaintHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="RegisterSmartAppComplaintHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="CA" type="s:string" />
+    <wsdl:part name="Phone" type="s:string" />
+    <wsdl:part name="FaultCategory" type="s:string" />
+    <wsdl:part name="SubFaultType" type="s:string" />
+    <wsdl:part name="CallerName" type="s:string" />
+    <wsdl:part name="Address" type="s:string" />
+    <wsdl:part name="Email" type="s:string" />
+    <wsdl:part name="Remarks" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RegisterSmartAppComplaintHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetComplaintStatusHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="ComplaintNo" type="s:string" />
+    <wsdl:part name="ImeiNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetComplaintStatusHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetComplaintDetailsCAHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="CANo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetComplaintDetailsCAHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetDivisionsFromCompanyHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="Company" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetDivisionsFromCompanyHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetCompCentersFromDivisionHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="Division" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetCompCentersFromDivisionHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetAreasFromDivisionHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="Division" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetAreasFromDivisionHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetFaultCategoriesHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetFaultCategoriesHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetFaultCategoriesWebHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetFaultCategoriesWebHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetFaultTypesFromCatHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="CategoryCode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetFaultTypesFromCatHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetAssignedComplaintsToTeamHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="IMEINO" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetAssignedComplaintsToTeamHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetClosingRemarksFromCategoryHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="Category" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetClosingRemarksFromCategoryHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="CloseComplaintHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="ComplaintNo" type="s:string" />
+    <wsdl:part name="CA" type="s:string" />
+    <wsdl:part name="FaultCategory" type="s:string" />
+    <wsdl:part name="FaultType" type="s:string" />
+    <wsdl:part name="ClosingRemark" type="s:string" />
+    <wsdl:part name="OtherRemarks" type="s:string" />
+    <wsdl:part name="IMEI" type="s:string" />
+    <wsdl:part name="Latitude" type="s:string" />
+    <wsdl:part name="Longitude" type="s:string" />
+    <wsdl:part name="SignatureData" type="s1:StringArray" />
+  </wsdl:message>
+  <wsdl:message name="CloseComplaintHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="UpdateComplaintResolutiontimeHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="ComplaintNo" type="s:string" />
+    <wsdl:part name="Imeino" type="s:string" />
+    <wsdl:part name="FaultType" type="s:string" />
+    <wsdl:part name="Latitude" type="s:string" />
+    <wsdl:part name="Longitude" type="s:string" />
+    <wsdl:part name="Remarks" type="s:string" />
+    <wsdl:part name="ResolutionStatus" type="s:string" />
+    <wsdl:part name="Resolution_Time" type="s:string" />
+    <wsdl:part name="Area_Power_Restored" type="s:string" />
+    <wsdl:part name="Restoration_Time" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UpdateComplaintResolutiontimeHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="MarkComplaintReadHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="ComplaintNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="MarkComplaintReadHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="BackGroundTestHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="Switch" type="s:string" />
+    <wsdl:part name="Passage" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="BackGroundTestHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="UpdateIMEILocationHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="IMEINO" type="s:string" />
+    <wsdl:part name="Latitude" type="s:string" />
+    <wsdl:part name="Longitude" type="s:string" />
+    <wsdl:part name="Remarks" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UpdateIMEILocationHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="TestMethodHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="Switch" type="s:string" />
+    <wsdl:part name="ComplaintNo" type="s:string" />
+    <wsdl:part name="CA" type="s:string" />
+    <wsdl:part name="FaultCategory" type="s:string" />
+    <wsdl:part name="FaultType" type="s:string" />
+    <wsdl:part name="ClosingRemark" type="s:string" />
+    <wsdl:part name="OtherRemarks" type="s:string" />
+    <wsdl:part name="IMEI" type="s:string" />
+    <wsdl:part name="Latitude" type="s:string" />
+    <wsdl:part name="Longitude" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="TestMethodHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="getbreakdowndetailsHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="IMEINO" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getbreakdowndetailsHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="updatebreakdownreadstatsuHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="BD_ID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="updatebreakdownreadstatsuHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="getbreakdownstatusHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="BD_ID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getbreakdownstatusHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="updatebreakdownHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="BD_ID" type="s:string" />
+    <wsdl:part name="newhour" type="s:string" />
+    <wsdl:part name="newminutes" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="updatebreakdownHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="getbreakdownbackfeedlistHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="BD_ID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getbreakdownbackfeedlistHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="updatebreakdownbackfeedHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="BD_ID" type="s:string" />
+    <wsdl:part name="restoreddate" type="s:string" />
+    <wsdl:part name="restoredload" type="s:string" />
+    <wsdl:part name="restoresource" type="s:string" />
+    <wsdl:part name="restoretype" type="s:string" />
+    <wsdl:part name="remarks" type="s:string" />
+    <wsdl:part name="selectedsource" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="updatebreakdownbackfeedHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="updateBD_AndroidHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="bd_id" type="s:string" />
+    <wsdl:part name="android_time" type="s:string" />
+    <wsdl:part name="latitude" type="s:string" />
+    <wsdl:part name="longitude" type="s:string" />
+    <wsdl:part name="remarks" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="updateBD_AndroidHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetNearByComplaintCentersHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="Lat" type="s:string" />
+    <wsdl:part name="Long" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetNearByComplaintCentersHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="InsertAndroidDataHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="LATITUDE" type="s:string" />
+    <wsdl:part name="LONGITUDE" type="s:string" />
+    <wsdl:part name="IMAGE" type="s:string" />
+    <wsdl:part name="NAME" type="s:string" />
+    <wsdl:part name="CA_NO" type="s:string" />
+    <wsdl:part name="EQUIPMENT_NO" type="s:string" />
+    <wsdl:part name="CONTACT_NO" type="s:string" />
+    <wsdl:part name="SUB_DIVISION" type="s:string" />
+    <wsdl:part name="DIVISION" type="s:string" />
+    <wsdl:part name="ELEMENT" type="s:string" />
+    <wsdl:part name="TYPE_RISK" type="s:string" />
+    <wsdl:part name="ADDRESS" type="s:string" />
+    <wsdl:part name="MCD_ZONE" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="InsertAndroidDataHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="GisLatLongHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="Longitude" type="s:string" />
+    <wsdl:part name="Latitude" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GisLatLongHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSMSStatusHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="REQUESTID" type="s:string" />
+    <wsdl:part name="SENDER_ID" type="s:string" />
+    <wsdl:part name="A2W_ACCEPT_DATE" type="s:string" />
+    <wsdl:part name="A2W_STATUS" type="s:string" />
+    <wsdl:part name="CARRIER_ACCEPT_DATE" type="s:string" />
+    <wsdl:part name="A2W_REASON" type="s:string" />
+    <wsdl:part name="CARRIER_DELIVERED_DATE" type="s:string" />
+    <wsdl:part name="CARRIER_STATUS" type="s:string" />
+    <wsdl:part name="CARRIER_STATUS_DESC" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSMSStatusHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="RegisterIVRSComplaintHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="CA" type="s:string" />
+    <wsdl:part name="Phone" type="s:string" />
+    <wsdl:part name="Code" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RegisterIVRSComplaintHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="RegisterSMSComplaintHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="CA" type="s:string" />
+    <wsdl:part name="Phone" type="s:string" />
+    <wsdl:part name="Code" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RegisterSMSComplaintHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="RegisterWebComplaintHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="CallerName" type="s:string" />
+    <wsdl:part name="Phone" type="s:string" />
+    <wsdl:part name="Address" type="s:string" />
+    <wsdl:part name="Email" type="s:string" />
+    <wsdl:part name="CA" type="s:string" />
+    <wsdl:part name="Area" type="s:string" />
+    <wsdl:part name="FaultCategory" type="s:string" />
+    <wsdl:part name="SubFaultType" type="s:string" />
+    <wsdl:part name="Remarks" type="s:string" />
+    <wsdl:part name="PoleNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RegisterWebComplaintHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="RegisterSmartAppComplaintHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="CA" type="s:string" />
+    <wsdl:part name="Phone" type="s:string" />
+    <wsdl:part name="FaultCategory" type="s:string" />
+    <wsdl:part name="SubFaultType" type="s:string" />
+    <wsdl:part name="CallerName" type="s:string" />
+    <wsdl:part name="Address" type="s:string" />
+    <wsdl:part name="Email" type="s:string" />
+    <wsdl:part name="Remarks" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RegisterSmartAppComplaintHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetComplaintStatusHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="ComplaintNo" type="s:string" />
+    <wsdl:part name="ImeiNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetComplaintStatusHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetComplaintDetailsCAHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="CANo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetComplaintDetailsCAHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetDivisionsFromCompanyHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="Company" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetDivisionsFromCompanyHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetCompCentersFromDivisionHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="Division" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetCompCentersFromDivisionHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetAreasFromDivisionHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="Division" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetAreasFromDivisionHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetFaultCategoriesHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetFaultCategoriesHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetFaultCategoriesWebHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetFaultCategoriesWebHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetFaultTypesFromCatHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="CategoryCode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetFaultTypesFromCatHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetAssignedComplaintsToTeamHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="IMEINO" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetAssignedComplaintsToTeamHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetClosingRemarksFromCategoryHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="Category" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetClosingRemarksFromCategoryHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="CloseComplaintHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="ComplaintNo" type="s:string" />
+    <wsdl:part name="CA" type="s:string" />
+    <wsdl:part name="FaultCategory" type="s:string" />
+    <wsdl:part name="FaultType" type="s:string" />
+    <wsdl:part name="ClosingRemark" type="s:string" />
+    <wsdl:part name="OtherRemarks" type="s:string" />
+    <wsdl:part name="IMEI" type="s:string" />
+    <wsdl:part name="Latitude" type="s:string" />
+    <wsdl:part name="Longitude" type="s:string" />
+    <wsdl:part name="SignatureData" type="s1:StringArray" />
+  </wsdl:message>
+  <wsdl:message name="CloseComplaintHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="UpdateComplaintResolutiontimeHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="ComplaintNo" type="s:string" />
+    <wsdl:part name="Imeino" type="s:string" />
+    <wsdl:part name="FaultType" type="s:string" />
+    <wsdl:part name="Latitude" type="s:string" />
+    <wsdl:part name="Longitude" type="s:string" />
+    <wsdl:part name="Remarks" type="s:string" />
+    <wsdl:part name="ResolutionStatus" type="s:string" />
+    <wsdl:part name="Resolution_Time" type="s:string" />
+    <wsdl:part name="Area_Power_Restored" type="s:string" />
+    <wsdl:part name="Restoration_Time" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UpdateComplaintResolutiontimeHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="MarkComplaintReadHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="ComplaintNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="MarkComplaintReadHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="BackGroundTestHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="Switch" type="s:string" />
+    <wsdl:part name="Passage" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="BackGroundTestHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="UpdateIMEILocationHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="IMEINO" type="s:string" />
+    <wsdl:part name="Latitude" type="s:string" />
+    <wsdl:part name="Longitude" type="s:string" />
+    <wsdl:part name="Remarks" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UpdateIMEILocationHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="TestMethodHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="Switch" type="s:string" />
+    <wsdl:part name="ComplaintNo" type="s:string" />
+    <wsdl:part name="CA" type="s:string" />
+    <wsdl:part name="FaultCategory" type="s:string" />
+    <wsdl:part name="FaultType" type="s:string" />
+    <wsdl:part name="ClosingRemark" type="s:string" />
+    <wsdl:part name="OtherRemarks" type="s:string" />
+    <wsdl:part name="IMEI" type="s:string" />
+    <wsdl:part name="Latitude" type="s:string" />
+    <wsdl:part name="Longitude" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="TestMethodHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="getbreakdowndetailsHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="IMEINO" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getbreakdowndetailsHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="updatebreakdownreadstatsuHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="BD_ID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="updatebreakdownreadstatsuHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="getbreakdownstatusHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="BD_ID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getbreakdownstatusHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="updatebreakdownHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="BD_ID" type="s:string" />
+    <wsdl:part name="newhour" type="s:string" />
+    <wsdl:part name="newminutes" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="updatebreakdownHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="getbreakdownbackfeedlistHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="BD_ID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getbreakdownbackfeedlistHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="updatebreakdownbackfeedHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="BD_ID" type="s:string" />
+    <wsdl:part name="restoreddate" type="s:string" />
+    <wsdl:part name="restoredload" type="s:string" />
+    <wsdl:part name="restoresource" type="s:string" />
+    <wsdl:part name="restoretype" type="s:string" />
+    <wsdl:part name="remarks" type="s:string" />
+    <wsdl:part name="selectedsource" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="updatebreakdownbackfeedHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="updateBD_AndroidHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="bd_id" type="s:string" />
+    <wsdl:part name="android_time" type="s:string" />
+    <wsdl:part name="latitude" type="s:string" />
+    <wsdl:part name="longitude" type="s:string" />
+    <wsdl:part name="remarks" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="updateBD_AndroidHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetNearByComplaintCentersHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="Lat" type="s:string" />
+    <wsdl:part name="Long" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetNearByComplaintCentersHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="InsertAndroidDataHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="LATITUDE" type="s:string" />
+    <wsdl:part name="LONGITUDE" type="s:string" />
+    <wsdl:part name="IMAGE" type="s:string" />
+    <wsdl:part name="NAME" type="s:string" />
+    <wsdl:part name="CA_NO" type="s:string" />
+    <wsdl:part name="EQUIPMENT_NO" type="s:string" />
+    <wsdl:part name="CONTACT_NO" type="s:string" />
+    <wsdl:part name="SUB_DIVISION" type="s:string" />
+    <wsdl:part name="DIVISION" type="s:string" />
+    <wsdl:part name="ELEMENT" type="s:string" />
+    <wsdl:part name="TYPE_RISK" type="s:string" />
+    <wsdl:part name="ADDRESS" type="s:string" />
+    <wsdl:part name="MCD_ZONE" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="InsertAndroidDataHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="GisLatLongHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="Longitude" type="s:string" />
+    <wsdl:part name="Latitude" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GisLatLongHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSMSStatusHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+    <wsdl:part name="REQUESTID" type="s:string" />
+    <wsdl:part name="SENDER_ID" type="s:string" />
+    <wsdl:part name="A2W_ACCEPT_DATE" type="s:string" />
+    <wsdl:part name="A2W_STATUS" type="s:string" />
+    <wsdl:part name="CARRIER_ACCEPT_DATE" type="s:string" />
+    <wsdl:part name="A2W_REASON" type="s:string" />
+    <wsdl:part name="CARRIER_DELIVERED_DATE" type="s:string" />
+    <wsdl:part name="CARRIER_STATUS" type="s:string" />
+    <wsdl:part name="CARRIER_STATUS_DESC" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSMSStatusHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:portType name="Service1Soap">
+    <wsdl:operation name="RegisterIVRSComplaint">
+      <wsdl:input message="tns:RegisterIVRSComplaintSoapIn" />
+      <wsdl:output message="tns:RegisterIVRSComplaintSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RegisterSMSComplaint">
+      <wsdl:input message="tns:RegisterSMSComplaintSoapIn" />
+      <wsdl:output message="tns:RegisterSMSComplaintSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RegisterWebComplaint">
+      <wsdl:input message="tns:RegisterWebComplaintSoapIn" />
+      <wsdl:output message="tns:RegisterWebComplaintSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RegisterSmartAppComplaint">
+      <wsdl:input message="tns:RegisterSmartAppComplaintSoapIn" />
+      <wsdl:output message="tns:RegisterSmartAppComplaintSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetComplaintStatus">
+      <wsdl:input message="tns:GetComplaintStatusSoapIn" />
+      <wsdl:output message="tns:GetComplaintStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetComplaintDetailsCA">
+      <wsdl:input message="tns:GetComplaintDetailsCASoapIn" />
+      <wsdl:output message="tns:GetComplaintDetailsCASoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDivisionsFromCompany">
+      <wsdl:input message="tns:GetDivisionsFromCompanySoapIn" />
+      <wsdl:output message="tns:GetDivisionsFromCompanySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCompCentersFromDivision">
+      <wsdl:input message="tns:GetCompCentersFromDivisionSoapIn" />
+      <wsdl:output message="tns:GetCompCentersFromDivisionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAreasFromDivision">
+      <wsdl:input message="tns:GetAreasFromDivisionSoapIn" />
+      <wsdl:output message="tns:GetAreasFromDivisionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFaultCategories">
+      <wsdl:input message="tns:GetFaultCategoriesSoapIn" />
+      <wsdl:output message="tns:GetFaultCategoriesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFaultCategoriesWeb">
+      <wsdl:input message="tns:GetFaultCategoriesWebSoapIn" />
+      <wsdl:output message="tns:GetFaultCategoriesWebSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFaultTypesFromCat">
+      <wsdl:input message="tns:GetFaultTypesFromCatSoapIn" />
+      <wsdl:output message="tns:GetFaultTypesFromCatSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAssignedComplaintsToTeam">
+      <wsdl:input message="tns:GetAssignedComplaintsToTeamSoapIn" />
+      <wsdl:output message="tns:GetAssignedComplaintsToTeamSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetClosingRemarksFromCategory">
+      <wsdl:input message="tns:GetClosingRemarksFromCategorySoapIn" />
+      <wsdl:output message="tns:GetClosingRemarksFromCategorySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CloseComplaint">
+      <wsdl:input message="tns:CloseComplaintSoapIn" />
+      <wsdl:output message="tns:CloseComplaintSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateComplaintResolutiontime">
+      <wsdl:input message="tns:UpdateComplaintResolutiontimeSoapIn" />
+      <wsdl:output message="tns:UpdateComplaintResolutiontimeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MarkComplaintRead">
+      <wsdl:input message="tns:MarkComplaintReadSoapIn" />
+      <wsdl:output message="tns:MarkComplaintReadSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BackGroundTest">
+      <wsdl:input message="tns:BackGroundTestSoapIn" />
+      <wsdl:output message="tns:BackGroundTestSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateIMEILocation">
+      <wsdl:input message="tns:UpdateIMEILocationSoapIn" />
+      <wsdl:output message="tns:UpdateIMEILocationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TestMethod">
+      <wsdl:input message="tns:TestMethodSoapIn" />
+      <wsdl:output message="tns:TestMethodSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getbreakdowndetails">
+      <wsdl:input message="tns:getbreakdowndetailsSoapIn" />
+      <wsdl:output message="tns:getbreakdowndetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="updatebreakdownreadstatsu">
+      <wsdl:input message="tns:updatebreakdownreadstatsuSoapIn" />
+      <wsdl:output message="tns:updatebreakdownreadstatsuSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getbreakdownstatus">
+      <wsdl:input message="tns:getbreakdownstatusSoapIn" />
+      <wsdl:output message="tns:getbreakdownstatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="updatebreakdown">
+      <wsdl:input message="tns:updatebreakdownSoapIn" />
+      <wsdl:output message="tns:updatebreakdownSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getbreakdownbackfeedlist">
+      <wsdl:input message="tns:getbreakdownbackfeedlistSoapIn" />
+      <wsdl:output message="tns:getbreakdownbackfeedlistSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="updatebreakdownbackfeed">
+      <wsdl:input message="tns:updatebreakdownbackfeedSoapIn" />
+      <wsdl:output message="tns:updatebreakdownbackfeedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="updateBD_Android">
+      <wsdl:input message="tns:updateBD_AndroidSoapIn" />
+      <wsdl:output message="tns:updateBD_AndroidSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNearByComplaintCenters">
+      <wsdl:input message="tns:GetNearByComplaintCentersSoapIn" />
+      <wsdl:output message="tns:GetNearByComplaintCentersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertAndroidData">
+      <wsdl:input message="tns:InsertAndroidDataSoapIn" />
+      <wsdl:output message="tns:InsertAndroidDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GisLatLong">
+      <wsdl:input message="tns:GisLatLongSoapIn" />
+      <wsdl:output message="tns:GisLatLongSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSMSStatus">
+      <wsdl:input message="tns:UpdateSMSStatusSoapIn" />
+      <wsdl:output message="tns:UpdateSMSStatusSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="Service1HttpGet">
+    <wsdl:operation name="RegisterIVRSComplaint">
+      <wsdl:input message="tns:RegisterIVRSComplaintHttpGetIn" />
+      <wsdl:output message="tns:RegisterIVRSComplaintHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RegisterSMSComplaint">
+      <wsdl:input message="tns:RegisterSMSComplaintHttpGetIn" />
+      <wsdl:output message="tns:RegisterSMSComplaintHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RegisterWebComplaint">
+      <wsdl:input message="tns:RegisterWebComplaintHttpGetIn" />
+      <wsdl:output message="tns:RegisterWebComplaintHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RegisterSmartAppComplaint">
+      <wsdl:input message="tns:RegisterSmartAppComplaintHttpGetIn" />
+      <wsdl:output message="tns:RegisterSmartAppComplaintHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetComplaintStatus">
+      <wsdl:input message="tns:GetComplaintStatusHttpGetIn" />
+      <wsdl:output message="tns:GetComplaintStatusHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetComplaintDetailsCA">
+      <wsdl:input message="tns:GetComplaintDetailsCAHttpGetIn" />
+      <wsdl:output message="tns:GetComplaintDetailsCAHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDivisionsFromCompany">
+      <wsdl:input message="tns:GetDivisionsFromCompanyHttpGetIn" />
+      <wsdl:output message="tns:GetDivisionsFromCompanyHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCompCentersFromDivision">
+      <wsdl:input message="tns:GetCompCentersFromDivisionHttpGetIn" />
+      <wsdl:output message="tns:GetCompCentersFromDivisionHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAreasFromDivision">
+      <wsdl:input message="tns:GetAreasFromDivisionHttpGetIn" />
+      <wsdl:output message="tns:GetAreasFromDivisionHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFaultCategories">
+      <wsdl:input message="tns:GetFaultCategoriesHttpGetIn" />
+      <wsdl:output message="tns:GetFaultCategoriesHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFaultCategoriesWeb">
+      <wsdl:input message="tns:GetFaultCategoriesWebHttpGetIn" />
+      <wsdl:output message="tns:GetFaultCategoriesWebHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFaultTypesFromCat">
+      <wsdl:input message="tns:GetFaultTypesFromCatHttpGetIn" />
+      <wsdl:output message="tns:GetFaultTypesFromCatHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAssignedComplaintsToTeam">
+      <wsdl:input message="tns:GetAssignedComplaintsToTeamHttpGetIn" />
+      <wsdl:output message="tns:GetAssignedComplaintsToTeamHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetClosingRemarksFromCategory">
+      <wsdl:input message="tns:GetClosingRemarksFromCategoryHttpGetIn" />
+      <wsdl:output message="tns:GetClosingRemarksFromCategoryHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CloseComplaint">
+      <wsdl:input message="tns:CloseComplaintHttpGetIn" />
+      <wsdl:output message="tns:CloseComplaintHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateComplaintResolutiontime">
+      <wsdl:input message="tns:UpdateComplaintResolutiontimeHttpGetIn" />
+      <wsdl:output message="tns:UpdateComplaintResolutiontimeHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MarkComplaintRead">
+      <wsdl:input message="tns:MarkComplaintReadHttpGetIn" />
+      <wsdl:output message="tns:MarkComplaintReadHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BackGroundTest">
+      <wsdl:input message="tns:BackGroundTestHttpGetIn" />
+      <wsdl:output message="tns:BackGroundTestHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateIMEILocation">
+      <wsdl:input message="tns:UpdateIMEILocationHttpGetIn" />
+      <wsdl:output message="tns:UpdateIMEILocationHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TestMethod">
+      <wsdl:input message="tns:TestMethodHttpGetIn" />
+      <wsdl:output message="tns:TestMethodHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getbreakdowndetails">
+      <wsdl:input message="tns:getbreakdowndetailsHttpGetIn" />
+      <wsdl:output message="tns:getbreakdowndetailsHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="updatebreakdownreadstatsu">
+      <wsdl:input message="tns:updatebreakdownreadstatsuHttpGetIn" />
+      <wsdl:output message="tns:updatebreakdownreadstatsuHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getbreakdownstatus">
+      <wsdl:input message="tns:getbreakdownstatusHttpGetIn" />
+      <wsdl:output message="tns:getbreakdownstatusHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="updatebreakdown">
+      <wsdl:input message="tns:updatebreakdownHttpGetIn" />
+      <wsdl:output message="tns:updatebreakdownHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getbreakdownbackfeedlist">
+      <wsdl:input message="tns:getbreakdownbackfeedlistHttpGetIn" />
+      <wsdl:output message="tns:getbreakdownbackfeedlistHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="updatebreakdownbackfeed">
+      <wsdl:input message="tns:updatebreakdownbackfeedHttpGetIn" />
+      <wsdl:output message="tns:updatebreakdownbackfeedHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="updateBD_Android">
+      <wsdl:input message="tns:updateBD_AndroidHttpGetIn" />
+      <wsdl:output message="tns:updateBD_AndroidHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNearByComplaintCenters">
+      <wsdl:input message="tns:GetNearByComplaintCentersHttpGetIn" />
+      <wsdl:output message="tns:GetNearByComplaintCentersHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertAndroidData">
+      <wsdl:input message="tns:InsertAndroidDataHttpGetIn" />
+      <wsdl:output message="tns:InsertAndroidDataHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GisLatLong">
+      <wsdl:input message="tns:GisLatLongHttpGetIn" />
+      <wsdl:output message="tns:GisLatLongHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSMSStatus">
+      <wsdl:input message="tns:UpdateSMSStatusHttpGetIn" />
+      <wsdl:output message="tns:UpdateSMSStatusHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="Service1HttpPost">
+    <wsdl:operation name="RegisterIVRSComplaint">
+      <wsdl:input message="tns:RegisterIVRSComplaintHttpPostIn" />
+      <wsdl:output message="tns:RegisterIVRSComplaintHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RegisterSMSComplaint">
+      <wsdl:input message="tns:RegisterSMSComplaintHttpPostIn" />
+      <wsdl:output message="tns:RegisterSMSComplaintHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RegisterWebComplaint">
+      <wsdl:input message="tns:RegisterWebComplaintHttpPostIn" />
+      <wsdl:output message="tns:RegisterWebComplaintHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RegisterSmartAppComplaint">
+      <wsdl:input message="tns:RegisterSmartAppComplaintHttpPostIn" />
+      <wsdl:output message="tns:RegisterSmartAppComplaintHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetComplaintStatus">
+      <wsdl:input message="tns:GetComplaintStatusHttpPostIn" />
+      <wsdl:output message="tns:GetComplaintStatusHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetComplaintDetailsCA">
+      <wsdl:input message="tns:GetComplaintDetailsCAHttpPostIn" />
+      <wsdl:output message="tns:GetComplaintDetailsCAHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDivisionsFromCompany">
+      <wsdl:input message="tns:GetDivisionsFromCompanyHttpPostIn" />
+      <wsdl:output message="tns:GetDivisionsFromCompanyHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCompCentersFromDivision">
+      <wsdl:input message="tns:GetCompCentersFromDivisionHttpPostIn" />
+      <wsdl:output message="tns:GetCompCentersFromDivisionHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAreasFromDivision">
+      <wsdl:input message="tns:GetAreasFromDivisionHttpPostIn" />
+      <wsdl:output message="tns:GetAreasFromDivisionHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFaultCategories">
+      <wsdl:input message="tns:GetFaultCategoriesHttpPostIn" />
+      <wsdl:output message="tns:GetFaultCategoriesHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFaultCategoriesWeb">
+      <wsdl:input message="tns:GetFaultCategoriesWebHttpPostIn" />
+      <wsdl:output message="tns:GetFaultCategoriesWebHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFaultTypesFromCat">
+      <wsdl:input message="tns:GetFaultTypesFromCatHttpPostIn" />
+      <wsdl:output message="tns:GetFaultTypesFromCatHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAssignedComplaintsToTeam">
+      <wsdl:input message="tns:GetAssignedComplaintsToTeamHttpPostIn" />
+      <wsdl:output message="tns:GetAssignedComplaintsToTeamHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetClosingRemarksFromCategory">
+      <wsdl:input message="tns:GetClosingRemarksFromCategoryHttpPostIn" />
+      <wsdl:output message="tns:GetClosingRemarksFromCategoryHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CloseComplaint">
+      <wsdl:input message="tns:CloseComplaintHttpPostIn" />
+      <wsdl:output message="tns:CloseComplaintHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateComplaintResolutiontime">
+      <wsdl:input message="tns:UpdateComplaintResolutiontimeHttpPostIn" />
+      <wsdl:output message="tns:UpdateComplaintResolutiontimeHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MarkComplaintRead">
+      <wsdl:input message="tns:MarkComplaintReadHttpPostIn" />
+      <wsdl:output message="tns:MarkComplaintReadHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BackGroundTest">
+      <wsdl:input message="tns:BackGroundTestHttpPostIn" />
+      <wsdl:output message="tns:BackGroundTestHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateIMEILocation">
+      <wsdl:input message="tns:UpdateIMEILocationHttpPostIn" />
+      <wsdl:output message="tns:UpdateIMEILocationHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TestMethod">
+      <wsdl:input message="tns:TestMethodHttpPostIn" />
+      <wsdl:output message="tns:TestMethodHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getbreakdowndetails">
+      <wsdl:input message="tns:getbreakdowndetailsHttpPostIn" />
+      <wsdl:output message="tns:getbreakdowndetailsHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="updatebreakdownreadstatsu">
+      <wsdl:input message="tns:updatebreakdownreadstatsuHttpPostIn" />
+      <wsdl:output message="tns:updatebreakdownreadstatsuHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getbreakdownstatus">
+      <wsdl:input message="tns:getbreakdownstatusHttpPostIn" />
+      <wsdl:output message="tns:getbreakdownstatusHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="updatebreakdown">
+      <wsdl:input message="tns:updatebreakdownHttpPostIn" />
+      <wsdl:output message="tns:updatebreakdownHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getbreakdownbackfeedlist">
+      <wsdl:input message="tns:getbreakdownbackfeedlistHttpPostIn" />
+      <wsdl:output message="tns:getbreakdownbackfeedlistHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="updatebreakdownbackfeed">
+      <wsdl:input message="tns:updatebreakdownbackfeedHttpPostIn" />
+      <wsdl:output message="tns:updatebreakdownbackfeedHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="updateBD_Android">
+      <wsdl:input message="tns:updateBD_AndroidHttpPostIn" />
+      <wsdl:output message="tns:updateBD_AndroidHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNearByComplaintCenters">
+      <wsdl:input message="tns:GetNearByComplaintCentersHttpPostIn" />
+      <wsdl:output message="tns:GetNearByComplaintCentersHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertAndroidData">
+      <wsdl:input message="tns:InsertAndroidDataHttpPostIn" />
+      <wsdl:output message="tns:InsertAndroidDataHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GisLatLong">
+      <wsdl:input message="tns:GisLatLongHttpPostIn" />
+      <wsdl:output message="tns:GisLatLongHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSMSStatus">
+      <wsdl:input message="tns:UpdateSMSStatusHttpPostIn" />
+      <wsdl:output message="tns:UpdateSMSStatusHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Service1Soap" type="tns:Service1Soap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="RegisterIVRSComplaint">
+      <soap:operation soapAction="http://tempuri.org/RegisterIVRSComplaint" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RegisterSMSComplaint">
+      <soap:operation soapAction="http://tempuri.org/RegisterSMSComplaint" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RegisterWebComplaint">
+      <soap:operation soapAction="http://tempuri.org/RegisterWebComplaint" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RegisterSmartAppComplaint">
+      <soap:operation soapAction="http://tempuri.org/RegisterSmartAppComplaint" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetComplaintStatus">
+      <soap:operation soapAction="http://tempuri.org/GetComplaintStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetComplaintDetailsCA">
+      <soap:operation soapAction="http://tempuri.org/GetComplaintDetailsCA" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDivisionsFromCompany">
+      <soap:operation soapAction="http://tempuri.org/GetDivisionsFromCompany" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCompCentersFromDivision">
+      <soap:operation soapAction="http://tempuri.org/GetCompCentersFromDivision" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAreasFromDivision">
+      <soap:operation soapAction="http://tempuri.org/GetAreasFromDivision" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFaultCategories">
+      <soap:operation soapAction="http://tempuri.org/GetFaultCategories" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFaultCategoriesWeb">
+      <soap:operation soapAction="http://tempuri.org/GetFaultCategoriesWeb" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFaultTypesFromCat">
+      <soap:operation soapAction="http://tempuri.org/GetFaultTypesFromCat" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAssignedComplaintsToTeam">
+      <soap:operation soapAction="http://tempuri.org/GetAssignedComplaintsToTeam" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetClosingRemarksFromCategory">
+      <soap:operation soapAction="http://tempuri.org/GetClosingRemarksFromCategory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CloseComplaint">
+      <soap:operation soapAction="http://tempuri.org/CloseComplaint" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateComplaintResolutiontime">
+      <soap:operation soapAction="http://tempuri.org/UpdateComplaintResolutiontime" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MarkComplaintRead">
+      <soap:operation soapAction="http://tempuri.org/MarkComplaintRead" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BackGroundTest">
+      <soap:operation soapAction="http://tempuri.org/BackGroundTest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateIMEILocation">
+      <soap:operation soapAction="http://tempuri.org/UpdateIMEILocation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestMethod">
+      <soap:operation soapAction="http://tempuri.org/TestMethod" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getbreakdowndetails">
+      <soap:operation soapAction="http://tempuri.org/getbreakdowndetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatebreakdownreadstatsu">
+      <soap:operation soapAction="http://tempuri.org/updatebreakdownreadstatsu" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getbreakdownstatus">
+      <soap:operation soapAction="http://tempuri.org/getbreakdownstatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatebreakdown">
+      <soap:operation soapAction="http://tempuri.org/updatebreakdown" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getbreakdownbackfeedlist">
+      <soap:operation soapAction="http://tempuri.org/getbreakdownbackfeedlist" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatebreakdownbackfeed">
+      <soap:operation soapAction="http://tempuri.org/updatebreakdownbackfeed" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateBD_Android">
+      <soap:operation soapAction="http://tempuri.org/updateBD_Android" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNearByComplaintCenters">
+      <soap:operation soapAction="http://tempuri.org/GetNearByComplaintCenters" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertAndroidData">
+      <soap:operation soapAction="http://tempuri.org/InsertAndroidData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GisLatLong">
+      <soap:operation soapAction="http://tempuri.org/GisLatLong" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSMSStatus">
+      <soap:operation soapAction="http://tempuri.org/UpdateSMSStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Service1Soap12" type="tns:Service1Soap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="RegisterIVRSComplaint">
+      <soap12:operation soapAction="http://tempuri.org/RegisterIVRSComplaint" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RegisterSMSComplaint">
+      <soap12:operation soapAction="http://tempuri.org/RegisterSMSComplaint" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RegisterWebComplaint">
+      <soap12:operation soapAction="http://tempuri.org/RegisterWebComplaint" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RegisterSmartAppComplaint">
+      <soap12:operation soapAction="http://tempuri.org/RegisterSmartAppComplaint" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetComplaintStatus">
+      <soap12:operation soapAction="http://tempuri.org/GetComplaintStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetComplaintDetailsCA">
+      <soap12:operation soapAction="http://tempuri.org/GetComplaintDetailsCA" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDivisionsFromCompany">
+      <soap12:operation soapAction="http://tempuri.org/GetDivisionsFromCompany" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCompCentersFromDivision">
+      <soap12:operation soapAction="http://tempuri.org/GetCompCentersFromDivision" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAreasFromDivision">
+      <soap12:operation soapAction="http://tempuri.org/GetAreasFromDivision" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFaultCategories">
+      <soap12:operation soapAction="http://tempuri.org/GetFaultCategories" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFaultCategoriesWeb">
+      <soap12:operation soapAction="http://tempuri.org/GetFaultCategoriesWeb" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFaultTypesFromCat">
+      <soap12:operation soapAction="http://tempuri.org/GetFaultTypesFromCat" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAssignedComplaintsToTeam">
+      <soap12:operation soapAction="http://tempuri.org/GetAssignedComplaintsToTeam" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetClosingRemarksFromCategory">
+      <soap12:operation soapAction="http://tempuri.org/GetClosingRemarksFromCategory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CloseComplaint">
+      <soap12:operation soapAction="http://tempuri.org/CloseComplaint" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateComplaintResolutiontime">
+      <soap12:operation soapAction="http://tempuri.org/UpdateComplaintResolutiontime" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MarkComplaintRead">
+      <soap12:operation soapAction="http://tempuri.org/MarkComplaintRead" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BackGroundTest">
+      <soap12:operation soapAction="http://tempuri.org/BackGroundTest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateIMEILocation">
+      <soap12:operation soapAction="http://tempuri.org/UpdateIMEILocation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestMethod">
+      <soap12:operation soapAction="http://tempuri.org/TestMethod" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getbreakdowndetails">
+      <soap12:operation soapAction="http://tempuri.org/getbreakdowndetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatebreakdownreadstatsu">
+      <soap12:operation soapAction="http://tempuri.org/updatebreakdownreadstatsu" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getbreakdownstatus">
+      <soap12:operation soapAction="http://tempuri.org/getbreakdownstatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatebreakdown">
+      <soap12:operation soapAction="http://tempuri.org/updatebreakdown" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getbreakdownbackfeedlist">
+      <soap12:operation soapAction="http://tempuri.org/getbreakdownbackfeedlist" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatebreakdownbackfeed">
+      <soap12:operation soapAction="http://tempuri.org/updatebreakdownbackfeed" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateBD_Android">
+      <soap12:operation soapAction="http://tempuri.org/updateBD_Android" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNearByComplaintCenters">
+      <soap12:operation soapAction="http://tempuri.org/GetNearByComplaintCenters" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertAndroidData">
+      <soap12:operation soapAction="http://tempuri.org/InsertAndroidData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GisLatLong">
+      <soap12:operation soapAction="http://tempuri.org/GisLatLong" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSMSStatus">
+      <soap12:operation soapAction="http://tempuri.org/UpdateSMSStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Service1HttpGet" type="tns:Service1HttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="RegisterIVRSComplaint">
+      <http:operation location="/RegisterIVRSComplaint" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RegisterSMSComplaint">
+      <http:operation location="/RegisterSMSComplaint" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RegisterWebComplaint">
+      <http:operation location="/RegisterWebComplaint" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RegisterSmartAppComplaint">
+      <http:operation location="/RegisterSmartAppComplaint" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetComplaintStatus">
+      <http:operation location="/GetComplaintStatus" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetComplaintDetailsCA">
+      <http:operation location="/GetComplaintDetailsCA" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDivisionsFromCompany">
+      <http:operation location="/GetDivisionsFromCompany" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCompCentersFromDivision">
+      <http:operation location="/GetCompCentersFromDivision" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAreasFromDivision">
+      <http:operation location="/GetAreasFromDivision" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFaultCategories">
+      <http:operation location="/GetFaultCategories" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFaultCategoriesWeb">
+      <http:operation location="/GetFaultCategoriesWeb" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFaultTypesFromCat">
+      <http:operation location="/GetFaultTypesFromCat" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAssignedComplaintsToTeam">
+      <http:operation location="/GetAssignedComplaintsToTeam" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetClosingRemarksFromCategory">
+      <http:operation location="/GetClosingRemarksFromCategory" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CloseComplaint">
+      <http:operation location="/CloseComplaint" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateComplaintResolutiontime">
+      <http:operation location="/UpdateComplaintResolutiontime" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MarkComplaintRead">
+      <http:operation location="/MarkComplaintRead" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BackGroundTest">
+      <http:operation location="/BackGroundTest" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateIMEILocation">
+      <http:operation location="/UpdateIMEILocation" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestMethod">
+      <http:operation location="/TestMethod" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getbreakdowndetails">
+      <http:operation location="/getbreakdowndetails" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatebreakdownreadstatsu">
+      <http:operation location="/updatebreakdownreadstatsu" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getbreakdownstatus">
+      <http:operation location="/getbreakdownstatus" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatebreakdown">
+      <http:operation location="/updatebreakdown" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getbreakdownbackfeedlist">
+      <http:operation location="/getbreakdownbackfeedlist" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatebreakdownbackfeed">
+      <http:operation location="/updatebreakdownbackfeed" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateBD_Android">
+      <http:operation location="/updateBD_Android" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNearByComplaintCenters">
+      <http:operation location="/GetNearByComplaintCenters" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertAndroidData">
+      <http:operation location="/InsertAndroidData" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GisLatLong">
+      <http:operation location="/GisLatLong" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSMSStatus">
+      <http:operation location="/UpdateSMSStatus" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Service1HttpPost" type="tns:Service1HttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="RegisterIVRSComplaint">
+      <http:operation location="/RegisterIVRSComplaint" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RegisterSMSComplaint">
+      <http:operation location="/RegisterSMSComplaint" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RegisterWebComplaint">
+      <http:operation location="/RegisterWebComplaint" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RegisterSmartAppComplaint">
+      <http:operation location="/RegisterSmartAppComplaint" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetComplaintStatus">
+      <http:operation location="/GetComplaintStatus" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetComplaintDetailsCA">
+      <http:operation location="/GetComplaintDetailsCA" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDivisionsFromCompany">
+      <http:operation location="/GetDivisionsFromCompany" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCompCentersFromDivision">
+      <http:operation location="/GetCompCentersFromDivision" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAreasFromDivision">
+      <http:operation location="/GetAreasFromDivision" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFaultCategories">
+      <http:operation location="/GetFaultCategories" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFaultCategoriesWeb">
+      <http:operation location="/GetFaultCategoriesWeb" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFaultTypesFromCat">
+      <http:operation location="/GetFaultTypesFromCat" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAssignedComplaintsToTeam">
+      <http:operation location="/GetAssignedComplaintsToTeam" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetClosingRemarksFromCategory">
+      <http:operation location="/GetClosingRemarksFromCategory" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CloseComplaint">
+      <http:operation location="/CloseComplaint" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateComplaintResolutiontime">
+      <http:operation location="/UpdateComplaintResolutiontime" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MarkComplaintRead">
+      <http:operation location="/MarkComplaintRead" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BackGroundTest">
+      <http:operation location="/BackGroundTest" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateIMEILocation">
+      <http:operation location="/UpdateIMEILocation" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestMethod">
+      <http:operation location="/TestMethod" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getbreakdowndetails">
+      <http:operation location="/getbreakdowndetails" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatebreakdownreadstatsu">
+      <http:operation location="/updatebreakdownreadstatsu" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getbreakdownstatus">
+      <http:operation location="/getbreakdownstatus" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatebreakdown">
+      <http:operation location="/updatebreakdown" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getbreakdownbackfeedlist">
+      <http:operation location="/getbreakdownbackfeedlist" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatebreakdownbackfeed">
+      <http:operation location="/updatebreakdownbackfeed" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateBD_Android">
+      <http:operation location="/updateBD_Android" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNearByComplaintCenters">
+      <http:operation location="/GetNearByComplaintCenters" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertAndroidData">
+      <http:operation location="/InsertAndroidData" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GisLatLong">
+      <http:operation location="/GisLatLong" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSMSStatus">
+      <http:operation location="/UpdateSMSStatus" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Service1">
+    <wsdl:port name="Service1Soap" binding="tns:Service1Soap">
+      <soap:address location="http://10.125.64.216:7890/iomsonlinetest/Service1.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Service1Soap12" binding="tns:Service1Soap12">
+      <soap12:address location="http://10.125.64.216:7890/iomsonlinetest/Service1.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Service1HttpGet" binding="tns:Service1HttpGet">
+      <http:address location="http://10.125.64.216:7890/iomsonlinetest/Service1.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Service1HttpPost" binding="tns:Service1HttpPost">
+      <http:address location="http://10.125.64.216:7890/iomsonlinetest/Service1.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

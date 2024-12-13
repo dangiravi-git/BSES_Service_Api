@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://ws/" targetNamespace="http://ws/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="BAPI_ISUSMORDER_USERSTATUSSET" type="tns:BAPI_ISUSMORDER_USERSTATUSSET" />
+  <xs:element name="BAPI_ISUSMORDER_USERSTATUSSETResponse" type="tns:BAPI_ISUSMORDER_USERSTATUSSETResponse" />
+  <xs:element name="ZBAPI_CALERT" type="tns:ZBAPI_CALERT" />
+  <xs:element name="ZBAPI_CALERTResponse" type="tns:ZBAPI_CALERTResponse" />
+  <xs:element name="ZBAPI_CNCLSERORD" type="tns:ZBAPI_CNCLSERORD" />
+  <xs:element name="ZBAPI_CNCLSERORDResponse" type="tns:ZBAPI_CNCLSERORDResponse" />
+  <xs:element name="ZBAPI_CNT_APP_DETAIL" type="tns:ZBAPI_CNT_APP_DETAIL" />
+  <xs:element name="ZBAPI_CNT_APP_DETAILResponse" type="tns:ZBAPI_CNT_APP_DETAILResponse" />
+  <xs:element name="ZBAPI_CS_BP_DETAIL" type="tns:ZBAPI_CS_BP_DETAIL" />
+  <xs:element name="ZBAPI_CS_BP_DETAILResponse" type="tns:ZBAPI_CS_BP_DETAILResponse" />
+  <xs:element name="ZBAPI_ORDERS_CREATE" type="tns:ZBAPI_ORDERS_CREATE" />
+  <xs:element name="ZBAPI_ORDERS_CREATEResponse" type="tns:ZBAPI_ORDERS_CREATEResponse" />
+  <xs:element name="ZBAPI_PRINT_NOC_ONLINE" type="tns:ZBAPI_PRINT_NOC_ONLINE" />
+  <xs:element name="ZBAPI_PRINT_NOC_ONLINEResponse" type="tns:ZBAPI_PRINT_NOC_ONLINEResponse" />
+  <xs:element name="ZBAPI_REAPPOINT_SCHEDULE" type="tns:ZBAPI_REAPPOINT_SCHEDULE" />
+  <xs:element name="ZBAPI_REAPPOINT_SCHEDULEResponse" type="tns:ZBAPI_REAPPOINT_SCHEDULEResponse" />
+  <xs:element name="ZBAPI_SMS" type="tns:ZBAPI_SMS" />
+  <xs:element name="ZBAPI_SMSResponse" type="tns:ZBAPI_SMSResponse" />
+  <xs:element name="ZBAPI_USTATUS" type="tns:ZBAPI_USTATUS" />
+  <xs:element name="ZBAPI_USTATUSResponse" type="tns:ZBAPI_USTATUSResponse" />
+  <xs:element name="ZCS_APPMOBL_CNT" type="tns:ZCS_APPMOBL_CNT" />
+  <xs:element name="ZCS_APPMOBL_CNTResponse" type="tns:ZCS_APPMOBL_CNTResponse" />
+  <xs:element name="updatePersonaldetail" type="tns:updatePersonaldetail" />
+  <xs:element name="updatePersonaldetailResponse" type="tns:updatePersonaldetailResponse" />
+  <xs:element name="zcs_get_sevak_status" type="tns:zcs_get_sevak_status" />
+  <xs:element name="zcs_get_sevak_statusResponse" type="tns:zcs_get_sevak_statusResponse" />
+  <xs:complexType name="ZBAPI_SMS">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="SMS_DATE" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ZBAPI_SMSResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:sapFica" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="sapFica">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="COMPANY" type="xs:string" />
+      <xs:element minOccurs="0" name="IDENT" type="xs:string" />
+      <xs:element minOccurs="0" name="MOBILE" type="xs:string" />
+      <xs:element minOccurs="0" name="TEXT" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ZBAPI_REAPPOINT_SCHEDULE">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+      <xs:element minOccurs="0" name="arg1" type="xs:string" />
+      <xs:element minOccurs="0" name="arg2" type="xs:string" />
+      <xs:element minOccurs="0" name="arg3" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ZBAPI_REAPPOINT_SCHEDULEResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="BAPI_ISUSMORDER_USERSTATUSSET">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+      <xs:element minOccurs="0" name="arg1" type="xs:string" />
+      <xs:element minOccurs="0" name="arg2" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="BAPI_ISUSMORDER_USERSTATUSSETResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ZBAPI_CALERT">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="COMPANYCODE" type="xs:string" />
+      <xs:element minOccurs="0" name="iDATE" type="xs:string" />
+      <xs:element minOccurs="0" name="DIVISION" type="xs:string" />
+      <xs:element minOccurs="0" name="UNIT" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ZBAPI_CALERTResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:sapTable" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="sapTable">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AUART" type="xs:string" />
+      <xs:element minOccurs="0" name="CONTRACT_ACCOUNT" type="xs:string" />
+      <xs:element minOccurs="0" name="ILART" type="xs:string" />
+      <xs:element minOccurs="0" name="MOBILE" type="xs:string" />
+      <xs:element minOccurs="0" name="ORDER_NUMBER" type="xs:string" />
+      <xs:element minOccurs="0" name="TEXT1" type="xs:string" />
+      <xs:element minOccurs="0" name="TEXT2" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ZBAPI_PRINT_NOC_ONLINE">
+    <xs:sequence>
+      <xs:element name="CA" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ZBAPI_PRINT_NOC_ONLINEResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:printNoc" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="printNoc">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="detail" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="msg" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ZBAPI_ORDERS_CREATE">
+    <xs:sequence>
+      <xs:element name="CA" type="xs:string" />
+      <xs:element name="ORDER_TYPE" type="xs:string" />
+      <xs:element name="PM_ACTIVITY" type="xs:string" />
+      <xs:element minOccurs="0" name="REFERENCE_NO" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ZBAPI_ORDERS_CREATEResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ZBAPI_USTATUS">
+    <xs:sequence>
+      <xs:element name="I_AUFNR" type="xs:string" />
+      <xs:element minOccurs="0" name="I_TXT04" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ZBAPI_USTATUSResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:ustatusModel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ustatusModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="EVALUE" type="xs:string" />
+      <xs:element minOccurs="0" name="e_TXT04" type="xs:string" />
+      <xs:element minOccurs="0" name="e_TXT04N" type="xs:string" />
+      <xs:element minOccurs="0" name="e_TXT30" type="xs:string" />
+      <xs:element minOccurs="0" name="RETURN" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ZCS_APPMOBL_CNT">
+    <xs:sequence>
+      <xs:element name="ORDER_TYPE" type="xs:string" />
+      <xs:element name="TELEPHONENO" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ZCS_APPMOBL_CNTResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updatePersonaldetail">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="PARTNER" type="xs:string" />
+      <xs:element minOccurs="0" name="NAME_FIRST" type="xs:string" />
+      <xs:element minOccurs="0" name="NAMEMIDDLE" type="xs:string" />
+      <xs:element minOccurs="0" name="NAME_LAST" type="xs:string" />
+      <xs:element minOccurs="0" name="NAME_LST2" type="xs:string" />
+      <xs:element minOccurs="0" name="STR_SUPPL1" type="xs:string" />
+      <xs:element minOccurs="0" name="STR_SUPPL2" type="xs:string" />
+      <xs:element minOccurs="0" name="HOUSE_NUM1" type="xs:string" />
+      <xs:element minOccurs="0" name="STREET" type="xs:string" />
+      <xs:element minOccurs="0" name="STR_SUPPL3" type="xs:string" />
+      <xs:element minOccurs="0" name="TEL_NUMBER" type="xs:string" />
+      <xs:element minOccurs="0" name="SMTP_ADDR" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updatePersonaldetailResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:response" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="response">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="saperror" type="xs:string" />
+      <xs:element minOccurs="0" name="status" type="xs:string" />
+      <xs:element minOccurs="0" name="wsexerror" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ZBAPI_CS_BP_DETAIL">
+    <xs:sequence>
+      <xs:element name="compcode" type="xs:string" />
+      <xs:element name="order_no" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ZBAPI_CS_BP_DETAILResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="zcs_get_sevak_status">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="arg0" type="xs:string" />
+      <xs:element minOccurs="0" name="arg1" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="zcs_get_sevak_statusResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:orderDetail" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="orderDetail">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BILL_DATE" type="xs:string" />
+      <xs:element minOccurs="0" name="BILL_NO" type="xs:string" />
+      <xs:element minOccurs="0" name="BUKRS" type="xs:string" />
+      <xs:element minOccurs="0" name="MAIN_ORD_NO" type="xs:string" />
+      <xs:element minOccurs="0" name="MAIN_ORD_STATUS" type="xs:string" />
+      <xs:element minOccurs="0" name="METER_INSTALL_DATE" type="xs:string" />
+      <xs:element minOccurs="0" name="METER_NO" type="xs:string" />
+      <xs:element minOccurs="0" name="SUB_ORD_NO" type="xs:string" />
+      <xs:element minOccurs="0" name="SUB_ORD_STAT" type="xs:string" />
+      <xs:element minOccurs="0" name="SUB_ORD_TYPE" type="xs:string" />
+      <xs:element minOccurs="0" name="status" type="xs:string" />
+      <xs:element minOccurs="0" name="ZDIN_CRT_DATE" type="xs:string" />
+      <xs:element minOccurs="0" name="ZDIN_NO" type="xs:string" />
+      <xs:element minOccurs="0" name="ZDIN_STAT" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ZBAPI_CNCLSERORD">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ZBAPI_CNCLSERORDResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ZBAPI_CNT_APP_DETAIL">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ORDER_TYPE" type="xs:string" />
+      <xs:element name="DIVISION" type="xs:string" />
+      <xs:element name="APPOINTMENT_START_DATE" type="xs:string" />
+      <xs:element minOccurs="0" name="APPOINTMENT_TIME" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ZBAPI_CNT_APP_DETAILResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
