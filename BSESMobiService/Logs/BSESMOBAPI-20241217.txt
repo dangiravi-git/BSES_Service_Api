@@ -1,0 +1,40 @@
+2024-12-17 10:24:06.473 +05:30 [INF] Application has started.
+2024-12-17 10:24:06.559 +05:30 [INF] Received GET request to "http://localhost:57757/MobileServices.asmx" from ::1. Headers: ["Connection","Accept","Accept-Encoding","Accept-Language","Host","User-Agent","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","Upgrade-Insecure-Requests","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-User","Sec-Fetch-Dest"]
+2024-12-17 10:24:08.360 +05:30 [INF] Sent response with status code 200.
+2024-12-17 10:30:15.956 +05:30 [INF] Received GET request to "http://localhost:57757/MobileServices.asmx?op=Z_BAPI_DSS_ISU_CA_DISPLAY_1" from ::1. Headers: ["Connection","Accept","Accept-Encoding","Accept-Language","Host","Referer","User-Agent","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","Upgrade-Insecure-Requests","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-User","Sec-Fetch-Dest"]
+2024-12-17 10:30:15.981 +05:30 [INF] Sent response with status code 200.
+2024-12-17 10:30:17.148 +05:30 [INF] Received POST request to "http://localhost:57757/MobileServices.asmx/Z_BAPI_DSS_ISU_CA_DISPLAY_1" from ::1. Headers: ["Cache-Control","Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Accept-Language","Host","Referer","User-Agent","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","Upgrade-Insecure-Requests","Origin","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-User","Sec-Fetch-Dest"]
+2024-12-17 10:30:17.157 +05:30 [INF] Received POST request to "http://localhost:57757/MobileServices.asmx/Z_BAPI_DSS_ISU_CA_DISPLAY_1" from ::1. Headers: ["Cache-Control","Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Accept-Language","Host","Referer","User-Agent","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","Upgrade-Insecure-Requests","Origin","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-User","Sec-Fetch-Dest"]
+2024-12-17 10:33:08.687 +05:30 [INF] Sent response with status code 401.
+2024-12-17 10:33:08.688 +05:30 [INF] Sent response with status code 200.
+2024-12-17 10:33:18.687 +05:30 [INF] Received GET request to "http://localhost:57757/MobileServices.asmx?op=LR_Login_Details" from ::1. Headers: ["Connection","Accept","Accept-Encoding","Accept-Language","Host","Referer","User-Agent","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","Upgrade-Insecure-Requests","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-User","Sec-Fetch-Dest"]
+2024-12-17 10:33:18.723 +05:30 [INF] Sent response with status code 200.
+2024-12-17 10:33:39.916 +05:30 [INF] Application is shutting down.
+2024-12-17 10:33:51.651 +05:30 [INF] Application has started.
+2024-12-17 10:33:51.679 +05:30 [INF] Received POST request to "http://localhost:57757/MobileServices.asmx/LR_Login_Details" from ::1. Headers: ["Cache-Control","Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Accept-Language","Host","Referer","User-Agent","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","Upgrade-Insecure-Requests","Origin","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-User","Sec-Fetch-Dest"]
+2024-12-17 10:33:51.694 +05:30 [INF] Received POST request to "http://localhost:57757/MobileServices.asmx/LR_Login_Details" from ::1. Headers: ["Cache-Control","Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Accept-Language","Host","Referer","User-Agent","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","Upgrade-Insecure-Requests","Origin","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-User","Sec-Fetch-Dest"]
+2024-12-17 10:42:01.319 +05:30 [INF] Sent response with status code 200.
+2024-12-17 10:42:01.320 +05:30 [INF] Sent response with status code 200.
+2024-12-17 10:42:01.370 +05:30 [INF] Session ended.
+2024-12-17 10:42:01.370 +05:30 [INF] Application is shutting down.
+2024-12-17 10:42:15.158 +05:30 [INF] Application has started.
+2024-12-17 10:42:15.260 +05:30 [INF] Received POST request to "http://localhost:57757/MobileServices.asmx/LR_Login_Details" from ::1. Headers: ["Cache-Control","Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Accept-Language","Cookie","Host","Referer","User-Agent","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","Upgrade-Insecure-Requests","Origin","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-User","Sec-Fetch-Dest"]
+2024-12-17 10:42:15.300 +05:30 [INF] Received POST request to "http://localhost:57757/MobileServices.asmx/LR_Login_Details" from ::1. Headers: ["Cache-Control","Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Accept-Language","Cookie","Host","Referer","User-Agent","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","Upgrade-Insecure-Requests","Origin","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-User","Sec-Fetch-Dest"]
+2024-12-17 10:42:51.959 +05:30 [INF] Sent response with status code 200.
+2024-12-17 10:42:51.959 +05:30 [INF] Sent response with status code 200.
+2024-12-17 10:42:52.063 +05:30 [INF] Session ended.
+2024-12-17 10:42:52.064 +05:30 [INF] Application is shutting down.
+2024-12-17 10:43:01.983 +05:30 [INF] Application has started.
+2024-12-17 10:43:02.046 +05:30 [INF] Received POST request to "http://localhost:57757/MobileServices.asmx/LR_Login_Details" from ::1. Headers: ["Cache-Control","Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Accept-Language","Cookie","Host","Referer","User-Agent","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","Upgrade-Insecure-Requests","Origin","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-User","Sec-Fetch-Dest"]
+2024-12-17 10:43:02.079 +05:30 [INF] Received POST request to "http://localhost:57757/MobileServices.asmx/LR_Login_Details" from ::1. Headers: ["Cache-Control","Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Accept-Language","Cookie","Host","Referer","User-Agent","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","Upgrade-Insecure-Requests","Origin","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-User","Sec-Fetch-Dest"]
+2024-12-17 10:43:55.469 +05:30 [INF] Sent response with status code 200.
+2024-12-17 10:43:55.470 +05:30 [INF] Sent response with status code 200.
+2024-12-17 10:43:55.598 +05:30 [INF] Session ended.
+2024-12-17 10:43:55.599 +05:30 [INF] Application is shutting down.
+2024-12-17 10:44:04.519 +05:30 [INF] Application has started.
+2024-12-17 10:44:04.549 +05:30 [INF] Received POST request to "http://localhost:57757/MobileServices.asmx/LR_Login_Details" from ::1. Headers: ["Cache-Control","Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Accept-Language","Cookie","Host","Referer","User-Agent","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","Upgrade-Insecure-Requests","Origin","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-User","Sec-Fetch-Dest"]
+2024-12-17 10:44:04.563 +05:30 [INF] Received POST request to "http://localhost:57757/MobileServices.asmx/LR_Login_Details" from ::1. Headers: ["Cache-Control","Connection","Content-Length","Content-Type","Accept","Accept-Encoding","Accept-Language","Cookie","Host","Referer","User-Agent","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","Upgrade-Insecure-Requests","Origin","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-User","Sec-Fetch-Dest"]
+2024-12-17 10:44:49.510 +05:30 [INF] Sent response with status code 200.
+2024-12-17 10:44:49.512 +05:30 [INF] Sent response with status code 200.
+2024-12-17 10:44:49.620 +05:30 [INF] Session ended.
+2024-12-17 10:44:49.620 +05:30 [INF] Application is shutting down.

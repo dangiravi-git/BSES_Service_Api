@@ -1,45 +1,69 @@
 ﻿using System;
 using System.Web;
+using Serilog;
 
-public class Global : HttpApplication
+namespace USEPMS
 {
-    // This is where you can handle the Application start event
-    protected void Application_Start(object sender, EventArgs e)
+    public class Global : HttpApplication
     {
-        // Code to run on application start
-        // For example, setting up logging, initialization, etc.
-        System.Diagnostics.Debug.WriteLine("Application Started");
+        protected void Application_Start()
+        {
+            // Configure Serilog for logging
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console() // Optional: Logs to console during debugging
+                .WriteTo.File(AppDomain.CurrentDomain.BaseDirectory + "Logs/BSESMOBAPI-.txt", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
 
-        // Example: Initialize logging service, dependency injection, etc.
-    }
+            Log.Information("Application has started.");
+        }
 
-    // This is where you can handle errors globally
-    protected void Application_Error(object sender, EventArgs e)
-    {
-        Exception ex = Server.GetLastError();
-        // Handle the error (e.g., log it, or show a friendly message)
-        System.Diagnostics.Debug.WriteLine("An error occurred: " + ex.Message);
+        protected void Application_End()
+        {
+            Log.Information("Application is shutting down.");
+            Log.CloseAndFlush();
+        }
 
-        // You can also clear the error if handled
-        Server.ClearError();
-    }
+        protected void Application_BeginRequest()
+        {
+            try
+            {
+                var request = HttpContext.Current.Request;
+                Log.Information("Received {Method} request to {Url} from {RemoteIpAddress}. Headers: {Headers}",
+                    request.HttpMethod, request.Url, request.UserHostAddress, request.Headers);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error logging request information.");
+            }
+        }
 
-    // This event occurs when the session starts
-    protected void Session_Start(object sender, EventArgs e)
-    {
-        // Code to run on session start
-    }
+        protected void Application_EndRequest()
+        {
+            try
+            {
+                var response = HttpContext.Current.Response;
+                Log.Information("Sent response with status code {StatusCode}.", response.StatusCode);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error logging response information.");
+            }
+        }
 
-    // This event occurs when the session ends
-    protected void Session_End(object sender, EventArgs e)
-    {
-        // Code to run on session end
-    }
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            Exception ex = Server.GetLastError();
+            Log.Error(ex, "An unhandled exception occurred.");
+        }
 
-    // This event occurs when the application ends
-    protected void Application_End(object sender, EventArgs e)
-    {
-        // Code to run on application end
-        System.Diagnostics.Debug.WriteLine("Application Ended");
+        protected void Session_Start(object sender, EventArgs e)
+        {
+            Log.Information("Session started.");
+        }
+
+        protected void Session_End(object sender, EventArgs e)
+        {
+            Log.Information("Session ended.");
+        }
     }
 }

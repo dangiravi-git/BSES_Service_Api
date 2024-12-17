@@ -10,14 +10,14 @@ using System.Web.UI.HtmlControls;
 //using System.Data.OleDb;
 //using System.Data.SqlClient;
 using USEPMS;
-//using Oracle.DataAccess.Client;
+using Oracle.DataAccess.Client;
 using System.Data.OleDb;
 
 public class DbFunction
 {
-    //OracleTransaction dbtrans;
-    //OracleCommand dbcommand;
-    //OracleDataAdapter da;
+    OracleTransaction dbtrans;
+    OracleCommand dbcommand;
+    OracleDataAdapter da;
     DataSet ds;
     DataTable dt;
 

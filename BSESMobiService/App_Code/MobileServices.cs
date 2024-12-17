@@ -13,11 +13,8 @@ using System.Reflection;
 using System.Linq;
 using USEPMS;
 using Oracle.DataAccess.Client;
-using ESRI.ArcGIS.Client.ValueConverters;
-using System.Web.SessionState;
 using System.Text;
 using aejw.Network;
-using System.Net;
 using System.Data.OleDb;
 
 [WebService(Namespace = "http://10.125.88.80/")]
@@ -29,11 +26,12 @@ using System.Data.OleDb;
 
 public class Service : System.Web.Services.WebService
 {
+    public readonly string PublicAccessTokenKey;
+    DataTable dthr = null;
+
     public Service()
     {
-
-        //Uncomment the following line if using designed components 
-        //InitializeComponent(); 
+        PublicAccessTokenKey = ConfigurationManager.AppSettings["InternalAccessTokenKey"];
     }
 
     #region Locate Us Program
@@ -238,9 +236,9 @@ public class Service : System.Web.Services.WebService
             }
             sw.Close();
         }
-        catch (Exception ex)
+        catch (Exception ad)
         {
-            throw ex;
+            throw new Exception("An error occurred", ad);
         }
     }
     #endregion
@@ -289,8 +287,10 @@ public class Service : System.Web.Services.WebService
             }
             ds.Tables.Add(dt);
         }
-        catch (Exception ex)
-        { }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
         return ds;
     }
 
@@ -375,8 +375,10 @@ public class Service : System.Web.Services.WebService
             }
             ds.Tables.Add(dt);
         }
-        catch (Exception ex)
-        { }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
         return ds;
     }
 
@@ -588,9 +590,12 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataSet ZBAPI_EDISTRICT(string strCANumber, string strCRNNumber, string txnID)
     {
-        AllInsert allInsert = new AllInsert();
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            AllInsert allInsert = new AllInsert();
             DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();
             string CA_NUMBER = "";
             string CRN_NUMBER = "";
@@ -720,43 +725,25 @@ public class Service : System.Web.Services.WebService
             else
                 return new DataSet();
         }
-        else
+        catch (Exception ad)
         {
-            return (InvaildAuthonticationds());
+            throw new Exception("An error occurred", ad);
         }
-
     }
 
     [WebMethod]
     [SoapHeader("consumer", Required = true)]
     public DataTable Z_BAPI_DSS_ISU_CA_DISPLAY_1(string strCANumber)
     {
-        AllSelect allSelect = new AllSelect();
-
-        // if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            //DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            AllSelect allSelect = new AllSelect();
+
             DataTable dt = new DataTable();
             DataSet ds = new DataSet();
-            // if (strCANumber.Length < 12 && strCANumber.Length > 0)
-            //     strCANumber = strCANumber.PadLeft(12, '0');
-            //// dt = isu.Z_BAPI_DSS_ISU_CA_DISPLAY(strCANumber, "").Tables[0];            
-
-            // string sql = " select CONTRACT_ACCOUNT Ca_Number,BUSINESS_PARTNER Bp_Number , TEL_NUMBER Telephone_No,EMAIL E_Mail, RATE_CATEGORY rate_cat, MOVE_OUT Move_Out_Date, ";
-            // sql = sql + " ACCOUNT_CLASS Bill_Class ,'' Bp_Name,'' Bp_Type,'' Search_Term1,'' Search_Term2, ";
-            // sql = sql + " '' House_Number,'' House_Number_Sup,'' Floor,'' Premise_Type,ADDRESS Street,'' Street2,'' Street3,'' Street4,'' City,'' Post_Code, ";
-            // sql = sql + " '' Region,'' Country,'' Desc_Con_Object,'' Reg_Str_Group,'' Device_Sr_Number,'' Mru,'' Func_Descr,'' Outage_Fromtime,'' Outage_Totime,'' Legacy_Acct,  ";
-            // sql = sql + " '' Activity,'' Adr_Notes,MOBILE_NO Tel1_Number,'' Vertrag,'' Con_Obj_No,'' Clerk_Id,'' Text,CONSUMER_STATUS Status,'' Discreason,'' TARIFTYP,'' WERT1 from pcm.CONSUMER_SAP_MASTER ";
-            // sql = sql + " WHERE CONTRACT_ACCOUNT='"+strCANumber+"' ";
-
-            //dt= allSelect.GetShowPCMDetails(sql);
-
-            // if (dt.Rows.Count > 0)
-            // {
-            //     return dt;
-            // }
-            // else
-            // {
 
             NewClassFile newClassFile = new NewClassFile();
             ds = new DataSet("BAPI_RESULT");
@@ -766,13 +753,9 @@ public class Service : System.Web.Services.WebService
                 strCANumber = strCANumber.Substring(1, 10);
             }
             if (strCANumber.Length == 12)
-            {
                 strCANumber = strCANumber.Substring(2, 10);
-            }
             if (strCANumber.Length == 9)
-            {
                 strCANumber = strCANumber.PadLeft(10, '0');
-            }
 
             DataTable _dtSap = new DataTable("SAPDATA_ErrorDataTable");
             DataColumn dcol;
@@ -791,7 +774,6 @@ public class Service : System.Web.Services.WebService
             row["Message"] = "CA Number not found";
             row["Type"] = string.Empty;
 
-
             DataTable dtISUSTDTable = new DataTable("ISUSTDTable");
             dtISUSTDTable = newClassFile.GetRCMSAP_DataCAWise(strCANumber, "");
             if (dtISUSTDTable.Rows.Count > 0)
@@ -805,79 +787,22 @@ public class Service : System.Web.Services.WebService
                 ds.Merge(_dtSap);
                 return ds.Tables[0];
             }
-            //}
-
-            //return dt;
         }
-        //else
-        //{
-        //  return (InvaildAuthontication());
-        //}
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
+        return InvaildAuthontication();
     }
-
-
 
     [WebMethod]
     [SoapHeader("consumer", Required = true)]
     public DataTable Z_BAPI_DSS_ISU_CA_DISPLAY(string strCANumber)
     {
-        //NewClassFile newClassFile = new NewClassFile();
-        //DataSet ds = new DataSet("BAPI_RESULT");
-        //if (checkConsumer(MethodBase.GetCurrentMethod().Name))
-        //{
-        //    if (strCANumber.Length == 11)
-        //    {
-        //        strCANumber = strCANumber.Substring(1, 10);
-        //    }
-        //    if (strCANumber.Length == 12)
-        //    {
-        //        strCANumber = strCANumber.Substring(2, 10);
-        //    }
-        //    if (strCANumber.Length == 9)
-        //    {
-        //        strCANumber = strCANumber.PadLeft(10, '0');
-        //    }
-
-        //    DataTable _dtSap = new DataTable("SAPDATA_ErrorDataTable");
-        //    DataColumn dcol;
-
-        //    dcol = new DataColumn();
-        //    dcol.DataType = System.Type.GetType("System.String");
-        //    dcol.ColumnName = "Message";
-        //    _dtSap.Columns.Add(dcol);
-
-        //    dcol = new DataColumn();
-        //    dcol.DataType = System.Type.GetType("System.String");
-        //    dcol.ColumnName = "Type";
-        //    _dtSap.Columns.Add(dcol);
-
-        //    DataRow row = _dtSap.NewRow();
-        //    row["Message"] = "CA Number not found";
-        //    row["Type"] = string.Empty;
-
-
-        //    DataTable dtISUSTDTable = new DataTable("ISUSTDTable");
-        //    dtISUSTDTable = newClassFile.GetRCMSAP_DataCAWise(strCANumber);
-        //    if (dtISUSTDTable.Rows.Count > 0)
-        //    {
-        //        ds.Merge(dtISUSTDTable);
-
-        //        return ds.Tables[0];
-        //    }
-        //    else
-        //    {
-        //        ds.Merge(_dtSap);
-        //        return ds.Tables[0];
-        //    }
-        //}
-        //else
-        //{
-        //    return (InvaildAuthontication());
-        //}
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            //DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
             DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
             DataTable dt = new DataTable();
@@ -941,46 +866,45 @@ public class Service : System.Web.Services.WebService
                     return ds.Tables[0];
                 }
             }
-
-            //return dt;
         }
-        else
+        catch (Exception ad)
         {
-            return (InvaildAuthontication());
+            throw new Exception("An error occurred", ad);
         }
+        return InvaildAuthontication();
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable Z_BAPI_DSS_ISU_CA_DISPLAY_SAP(string strCANumber)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            //DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();
-
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
             DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
             DataTable dt = new DataTable();
             DataSet ds = new DataSet();
             if (strCANumber.Length < 12 && strCANumber.Length > 0)
                 strCANumber = strCANumber.PadLeft(12, '0');
             dt = isu.Z_BAPI_DSS_ISU_CA_DISPLAY(strCANumber, "").Tables[0];
-
             return dt;
         }
-        else
+        catch (Exception ad)
         {
-            return (InvaildAuthontication());
+            throw new Exception("An error occurred", ad);
         }
+        return (InvaildAuthontication());
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable Z_BAPI_DSS_ISU_CA_DISPLAY_RCM(string strCANumber)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            //DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();
-
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
             DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
             DataTable dt = new DataTable();
             DataSet ds = new DataSet();
@@ -1044,14 +968,13 @@ public class Service : System.Web.Services.WebService
                 }
             }
 
-            //return dt;
         }
-        else
+        catch (Exception ad)
         {
-            return (InvaildAuthontication());
+            throw new Exception("An error occurred", ad);
         }
+        return (InvaildAuthontication());
     }
-
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
@@ -1059,74 +982,95 @@ public class Service : System.Web.Services.WebService
         string strKNumber, string strContactNumber, string strByPassDt, string strPaperSealNo, string strTerminalSealNo, string strPlasticSealNo, string strMeterNo, string strMeterReading,
         string strPersonAttended, string strPoleNo, string strClosingDt, string strActualClosingDt)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
-        {
-            //AllInsert.InsertMeterRelatedDetails(-- Insert Here into table -- CC_MTR_BURNT_FROM_ONM
 
+        try
+        {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
             DataTable dt = new DataTable();
             dt = ONM_BurnMeterInsertSAP(strComplaintNo, strMeterNo, strKNumber, "TOTAB", strGroupMeter, strMeterStatus);
             dt.TableName = "onmDashboardReport";
             return dt;
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
+        return (InvaildAuthontication());
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataSet ZBAPI_ONLINE_BILL_PDF_V2(string strCANumber, string strEBSKNO) //rhn
     {
-        AllInsert allInsert = new AllInsert();
-        if (strCANumber == null)
-            strCANumber = "";
-        if (strEBSKNO == null)
-            strEBSKNO = "";
-
-        allInsert.Insert_ServicesLog("ZBAPI_ONLINE_BILL_PDF", strCANumber, "", strEBSKNO, "", "WHATSAPP", "N");
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            // DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();//Commented by Babalu Kumar on 18072021
-            //  DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();
-            DelhiV2.WebService isu = new DelhiV2.WebService();//Added by Babalu Kumar on 18072021
-            DataSet ds = new DataSet();
-            ds = isu.ZBAPI_ONLINE_BILL_PDF(strCANumber, strEBSKNO);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            allInsert.Insert_ServicesLog("ZBAPI_ONLINE_BILL_PDF", strCANumber, "", strEBSKNO, "", "WHATSAPP", "Y");
-            return ds;
+            AllInsert allInsert = new AllInsert();
+            if (strCANumber == null)
+                strCANumber = "";
+            if (strEBSKNO == null)
+                strEBSKNO = "";
+
+            allInsert.Insert_ServicesLog("ZBAPI_ONLINE_BILL_PDF", strCANumber, "", strEBSKNO, "", "WHATSAPP", "N");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                // DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();//Commented by Babalu Kumar on 18072021
+                //  DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();
+                DelhiV2.WebService isu = new DelhiV2.WebService();//Added by Babalu Kumar on 18072021
+                DataSet ds = new DataSet();
+                ds = isu.ZBAPI_ONLINE_BILL_PDF(strCANumber, strEBSKNO);
+
+                allInsert.Insert_ServicesLog("ZBAPI_ONLINE_BILL_PDF", strCANumber, "", strEBSKNO, "", "WHATSAPP", "Y");
+                return ds;
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return (InvaildAuthonticationds());
+            throw new Exception("An error occurred", ad);
         }
+        return InvaildAuthonticationds();
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataSet ZBAPI_ONLINE_BILL_PDF(string strCANumber, string strEBSKNO) //rhn
     {
-        AllInsert allInsert = new AllInsert();
-        if (strCANumber == null)
-            strCANumber = "";
-        if (strEBSKNO == null)
-            strEBSKNO = "";
-
-        allInsert.Insert_ServicesLog("ZBAPI_ONLINE_BILL_PDF", strCANumber, "", strEBSKNO, "", "WHATSAPP", "N");
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            //DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
-            //DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();//Commented by Babalu Kumar on 18072021
-            DelhiV2.WebService isu = new DelhiV2.WebService();//Added by Babalu Kumar on 18072021
-            DataSet ds = new DataSet();
-            ds = isu.ZBAPI_ONLINE_BILL_PDF(strCANumber, strEBSKNO);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            allInsert.Insert_ServicesLog("ZBAPI_ONLINE_BILL_PDF", strCANumber, "", strEBSKNO, "", "WHATSAPP", "Y");
-            return ds;
+            AllInsert allInsert = new AllInsert();
+            if (strCANumber == null)
+                strCANumber = "";
+            if (strEBSKNO == null)
+                strEBSKNO = "";
+
+            allInsert.Insert_ServicesLog("ZBAPI_ONLINE_BILL_PDF", strCANumber, "", strEBSKNO, "", "WHATSAPP", "N");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                //DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
+                //DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();//Commented by Babalu Kumar on 18072021
+                DelhiV2.WebService isu = new DelhiV2.WebService();//Added by Babalu Kumar on 18072021
+                DataSet ds = new DataSet();
+                ds = isu.ZBAPI_ONLINE_BILL_PDF(strCANumber, strEBSKNO);
+
+                allInsert.Insert_ServicesLog("ZBAPI_ONLINE_BILL_PDF", strCANumber, "", strEBSKNO, "", "WHATSAPP", "Y");
+                return ds;
+            }
+            else
+            {
+                return (InvaildAuthonticationds());
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return (InvaildAuthonticationds());
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -1134,122 +1078,80 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataSet ZBAPI_ONLINE_BILL_PDF_MS(string strCANumber, string strEBSKNO)
     {
-        AllInsert allInsert = new AllInsert();
-        if (strCANumber == null)
-            strCANumber = "";
-        if (strEBSKNO == null)
-            strEBSKNO = "";
-
-        allInsert.Insert_ServicesLog("ZBAPI_ONLINE_BILL_PDF", strCANumber, "", strEBSKNO, "", "MOBAPP", "N");
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            //DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
-            //DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();//Commented by Babalu Kumar on 18072021
-            DelhiV2.WebService isu = new DelhiV2.WebService();//Added by Babalu Kumar on 18072021
-            DataSet ds = new DataSet();
-            ds = isu.ZBAPI_ONLINE_BILL_PDF(strCANumber, strEBSKNO);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            allInsert.Insert_ServicesLog("ZBAPI_ONLINE_BILL_PDF", strCANumber, "", strEBSKNO, "", "MOBAPP", "Y");
-            return ds;
+            AllInsert allInsert = new AllInsert();
+            if (strCANumber == null)
+                strCANumber = "";
+            if (strEBSKNO == null)
+                strEBSKNO = "";
+
+            allInsert.Insert_ServicesLog("ZBAPI_ONLINE_BILL_PDF", strCANumber, "", strEBSKNO, "", "MOBAPP", "N");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                //DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
+                //DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();//Commented by Babalu Kumar on 18072021
+                DelhiV2.WebService isu = new DelhiV2.WebService();//Added by Babalu Kumar on 18072021
+                DataSet ds = new DataSet();
+                ds = isu.ZBAPI_ONLINE_BILL_PDF(strCANumber, strEBSKNO);
+
+                allInsert.Insert_ServicesLog("ZBAPI_ONLINE_BILL_PDF", strCANumber, "", strEBSKNO, "", "MOBAPP", "Y");
+                return ds;
+            }
+            else
+            {
+                return (InvaildAuthonticationds());
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return (InvaildAuthonticationds());
+            throw new Exception("An error occurred", ad);
         }
     }
-
-    //[WebMethod(EnableSession = true)]
-    //[SoapHeader("consumer", Required = true)]
-    //public DataSet ZBAPI_ONLINE_BILL_PDF_MS(string strCANumber, string strEBSKNO)
-    //{
-    //    AllInsert allInsert = new AllInsert();
-    //    if (strCANumber == null)
-    //        strCANumber = "";
-    //    if (strEBSKNO == null)
-    //        strEBSKNO = "";
-
-    //    allInsert.Insert_ServicesLog("ZBAPI_ONLINE_BILL_PDF", strCANumber, "", strEBSKNO, "", "MOBAPP", "N");
-
-    //    if (checkConsumer(MethodBase.GetCurrentMethod().Name))
-    //    {
-    //        DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
-    //        //DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();
-
-    //        DataSet ds = new DataSet();
-    //        ds = isu.ZBAPI_ONLINE_BILL_PDF(strCANumber, strEBSKNO);
-    //        //DataTable dt = ds.Tables[0];
-    //        //string str = "";
-
-    //        DataSet dsNew = new DataSet("BAPI_RESULT");
-
-    //        //outputFlagsTable
-    //        DataTable dtNew = new DataTable();
-    //        dtNew.TableName = "ZPDFTable";
-    //        dtNew.Columns.Add("Tdline");
-
-    //        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-    //        {
-    //            DataRow row = dtNew.NewRow();
-    //            row["Tdline"] = ds.Tables[0].Rows[i][0].ToString().Trim();
-    //            dtNew.Rows.Add(row);
-    //        }
-
-    //        //using (StreamWriter sw = new StreamWriter("D:\\PDF\\" + DateTime.Now.ToString("yyyyMMdd") + "_" + strCANumber + ".pdf"))
-    //        //{
-    //        //    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-    //        //    {
-    //        //        //str += ds.Tables[0].Rows[i][0].ToString().Trim() + Environment.NewLine;
-    //        //        sw.WriteLine(ds.Tables[0].Rows[i][0].ToString().Trim());
-    //        //        DataRow row = dtNew.NewRow();
-    //        //        row["Tdline"] = ds.Tables[0].Rows[i][0].ToString().Trim();
-    //        //        dtNew.Rows.Add(row);
-    //        //    }
-    //        //    sw.Close();
-    //        //}
-
-    //        allInsert.Insert_ServicesLog("ZBAPI_ONLINE_BILL_PDF", strCANumber, "", strEBSKNO, "", "MOBAPP", "Y");
-    //        dsNew.Tables.Add(dtNew);
-    //        return dsNew;
-    //    }
-    //    else
-    //    {
-    //        return (InvaildAuthonticationds());
-    //    }
-    //}
-
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataSet ZBAPI_ONLINE_BILL_PDF_WA(string strCANumber, string strEBSKNO, string _sSource)
     {
-        AllInsert allInsert = new AllInsert();
-        if (strCANumber == null)
-            strCANumber = "";
-        if (strEBSKNO == null)
-            strEBSKNO = "";
-
-        if (_sSource == null)
-            _sSource = "WHATSAPP";
-        else if (_sSource.ToString().Trim() == "")
-            _sSource = "WHATSAPP";
-
-        allInsert.Insert_ServicesLog("ZBAPI_ONLINE_BILL_PDF", strCANumber, "", strEBSKNO, "", _sSource, "N");
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            //DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
-            //DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();//Commented by Babalu Kumar on 18072021
-            DelhiV2.WebService isu = new DelhiV2.WebService();//Added by Babalu Kumar on 18072021
-            DataSet ds = new DataSet();
-            ds = isu.ZBAPI_ONLINE_BILL_PDF(strCANumber, strEBSKNO);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            allInsert.Insert_ServicesLog("ZBAPI_ONLINE_BILL_PDF", strCANumber, "", strEBSKNO, "", _sSource, "Y");
-            return ds;
+            AllInsert allInsert = new AllInsert();
+            if (strCANumber == null)
+                strCANumber = "";
+            if (strEBSKNO == null)
+                strEBSKNO = "";
+
+            if (_sSource == null)
+                _sSource = "WHATSAPP";
+            else if (_sSource.ToString().Trim() == "")
+                _sSource = "WHATSAPP";
+
+            allInsert.Insert_ServicesLog("ZBAPI_ONLINE_BILL_PDF", strCANumber, "", strEBSKNO, "", _sSource, "N");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                //DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
+                //DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();//Commented by Babalu Kumar on 18072021
+                DelhiV2.WebService isu = new DelhiV2.WebService();//Added by Babalu Kumar on 18072021
+                DataSet ds = new DataSet();
+                ds = isu.ZBAPI_ONLINE_BILL_PDF(strCANumber, strEBSKNO);
+
+                allInsert.Insert_ServicesLog("ZBAPI_ONLINE_BILL_PDF", strCANumber, "", strEBSKNO, "", _sSource, "Y");
+                return ds;
+            }
+            else
+                return (InvaildAuthonticationds());
         }
-        else
+        catch (Exception ad)
         {
-            return (InvaildAuthonticationds());
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -1257,18 +1159,28 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataSet ZBAPI_DEMAND_NOTE_ONLINE(string strOrdNumber)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            DataSet ds = new DataSet();
-            //ds = isu.ZBAPI_FICA_DEMAND_NOTE(strOrdNumber);
-            ds = isu.ZBAPI_DEMAND_NOTE_ONLINE(strOrdNumber);
-            return ds;
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
+
+                DataSet ds = new DataSet();
+                //ds = isu.ZBAPI_FICA_DEMAND_NOTE(strOrdNumber);
+                ds = isu.ZBAPI_DEMAND_NOTE_ONLINE(strOrdNumber);
+                return ds;
+            }
+            else
+            {
+                return (InvaildAuthonticationds());
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return (InvaildAuthonticationds());
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -1278,16 +1190,26 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataSet GetAssignedComplaintsToTeam(string imei)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            BYPLOMSONLINE_Services_TestD.Service1 isuy = new BYPLOMSONLINE_Services_TestD.Service1();
-            DataSet ds = new DataSet();
-            ds = isuy.GetAssignedComplaintsToTeam("@CPbsESyaMUna", imei);
-            return ds;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                BYPLOMSONLINE_Services_TestD.Service1 isuy = new BYPLOMSONLINE_Services_TestD.Service1();
+                DataSet ds = new DataSet();
+                ds = isuy.GetAssignedComplaintsToTeam("@CPbsESyaMUna", imei);
+                return ds;
+            }
+            else
+            {
+                return (InvaildAuthonticationds());
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return (InvaildAuthonticationds());
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -1296,16 +1218,26 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataSet GetClosingRemarksFromCategory(string category)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            BYPLOMSONLINE_Services_TestD.Service1 isuy = new BYPLOMSONLINE_Services_TestD.Service1();
-            DataSet ds = new DataSet();
-            ds = isuy.GetClosingRemarksFromCategory("@CPbsESyaMUna", category);
-            return ds;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                BYPLOMSONLINE_Services_TestD.Service1 isuy = new BYPLOMSONLINE_Services_TestD.Service1();
+                DataSet ds = new DataSet();
+                ds = isuy.GetClosingRemarksFromCategory("@CPbsESyaMUna", category);
+                return ds;
+            }
+            else
+            {
+                return (InvaildAuthonticationds());
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return (InvaildAuthonticationds());
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -1314,19 +1246,29 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataSet CloseComplaint(string ComplaintNo, string CA, string FaultCategory, string FaultType, string ClosingRemark, string OtherRemarks, string IMEI)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            BYPLOMSONLINE_Services_TestD.Service1 isuy = new BYPLOMSONLINE_Services_TestD.Service1();
-            DataSet ds = new DataSet();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            byte[] arr = { };
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                BYPLOMSONLINE_Services_TestD.Service1 isuy = new BYPLOMSONLINE_Services_TestD.Service1();
+                DataSet ds = new DataSet();
 
-            ds = isuy.CloseComplaint("@CPbsESyaMUna", ComplaintNo, CA, FaultCategory, FaultType, ClosingRemark, OtherRemarks, IMEI, "", "", arr);
-            return ds;
+                byte[] arr = { };
+
+                ds = isuy.CloseComplaint("@CPbsESyaMUna", ComplaintNo, CA, FaultCategory, FaultType, ClosingRemark, OtherRemarks, IMEI, "", "", arr);
+                return ds;
+            }
+            else
+            {
+                return (InvaildAuthonticationds());
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return (InvaildAuthonticationds());
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -1342,180 +1284,190 @@ public class Service : System.Web.Services.WebService
         string CONNECTIONTYPE, string STATEMENT_CA, string START_DATE, string START_TIME, string FINISH_DATE,
         string FINISH_TIME, string SORTFIELD, string ABKRS, string AppVersion)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            if (ABKRS.Contains("/"))
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
             {
-
-                //for BRPL
-                NewClassFile nfs = new NewClassFile();
-                //if (PLANNINGPLANT == "D021") {   //commented by Babalu kumar on date 15092021
-
-                //    nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for BRPL");
-                //    return StopDSSNewRequest();
-                //}
-
-                if (PLANNINGPLANT == "D031")
+                if (ABKRS.Contains("/"))
                 {
 
-                    nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for BYPL");
-                    return StopDSSNewRequest();
-                }
+                    //for BRPL
+                    NewClassFile nfs = new NewClassFile();
+                    //if (PLANNINGPLANT == "D021") {   //commented by Babalu kumar on date 15092021
 
-                //Stop for other also --- later
+                    //    nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for BRPL");
+                    //    return StopDSSNewRequest();
+                    //}
 
-                if (START_TIME == "08:00:00")
-                {
-                    nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for 08:00:00");
-                    return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
-                }
-
-                if (START_TIME == "10:00:00")
-                {
-                    nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for 10:00:00");
-                    return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
-                }
-
-                if (START_TIME == "17:00:00")
-                {
-                    nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for 17:00:00");
-                    return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
-                }
-
-                if (START_TIME == "13:00:00")
-                {
-                    nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for 13:00:00");
-                    return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
-                }
-
-                if (START_TIME == "15:00:00")
-                {
-                    nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for 15:00:00");
-                    return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
-                }
-
-                if (START_TIME == "12:00:00")
-                {
-                    nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for 12:00:00");
-                    return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
-                }
-
-
-
-                //Check for Holiday Date
-                if (START_DATE != "")
-                {
-                    if (new NewClassFile().validateHolidayDt(START_DATE))
+                    if (PLANNINGPLANT == "D031")
                     {
-                        nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for date : " + START_DATE);
+
+                        nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for BYPL");
+                        return StopDSSNewRequest();
+                    }
+
+                    //Stop for other also --- later
+
+                    if (START_TIME == "08:00:00")
+                    {
+                        nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for 08:00:00");
                         return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
                     }
-                }
 
-                #region Working code for generation of new connection and change particulars - changed by RV (26-May-20 )
-
-                string[] sABKRS = ABKRS.Split('/');
-                string strABKRS = string.Empty;
-                strABKRS = sABKRS[0];
-
-                DELHIWSTESTDV2.WebService WSisu = new DELHIWSTESTDV2.WebService();
-                DelhiV2.WebService isu = new DelhiV2.WebService();
-
-                DataTable dt = new DataTable();
-                DataSet ds = new DataSet();
-
-                //Exceed limit for a mobile number
-                ds = isu.ZBAPI_CS_MOBILE_APPCNT(MOBILE, "", "30", "");
-                dt = ds.Tables[0];
-                if (dt.Rows.Count > 0)
-                {
-                    int count = Convert.ToInt32(dt.Rows[0]["COUNT"].ToString());
-                    if (count < 5)
+                    if (START_TIME == "10:00:00")
                     {
-                        //ILART -- For verifying BRPL / BYPL - change particulars
-                        if (I_ILART != "U01")
+                        nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for 10:00:00");
+                        return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
+                    }
+
+                    if (START_TIME == "17:00:00")
+                    {
+                        nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for 17:00:00");
+                        return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
+                    }
+
+                    if (START_TIME == "13:00:00")
+                    {
+                        nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for 13:00:00");
+                        return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
+                    }
+
+                    if (START_TIME == "15:00:00")
+                    {
+                        nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for 15:00:00");
+                        return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
+                    }
+
+                    if (START_TIME == "12:00:00")
+                    {
+                        nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for 12:00:00");
+                        return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
+                    }
+
+
+
+                    //Check for Holiday Date
+                    if (START_DATE != "")
+                    {
+                        if (new NewClassFile().validateHolidayDt(START_DATE))
                         {
-                            string CaNumber = I_VKONT;
+                            nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for date : " + START_DATE);
+                            return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
+                        }
+                    }
 
-                            if (CaNumber.Length < 12)
-                                CaNumber = CaNumber.PadLeft(12, '0');
+                    #region Working code for generation of new connection and change particulars - changed by RV (26-May-20 )
 
-                            string Reg_Str_Group = "", _company = "";
+                    string[] sABKRS = ABKRS.Split('/');
+                    string strABKRS = string.Empty;
+                    strABKRS = sABKRS[0];
 
-                            ds = new DataSet();
-                            ds = WSisu.Z_BAPI_DSS_ISU_CA_DISPLAY(CaNumber, "");
+                    DELHIWSTESTDV2.WebService WSisu = new DELHIWSTESTDV2.WebService();
+                    DelhiV2.WebService isu = new DelhiV2.WebService();
 
-                            if (ds.Tables[0].Rows.Count > 0)
+                    DataTable dt = new DataTable();
+                    DataSet ds = new DataSet();
+
+                    //Exceed limit for a mobile number
+                    ds = isu.ZBAPI_CS_MOBILE_APPCNT(MOBILE, "", "30", "");
+                    dt = ds.Tables[0];
+                    if (dt.Rows.Count > 0)
+                    {
+                        int count = Convert.ToInt32(dt.Rows[0]["COUNT"].ToString());
+                        if (count < 5)
+                        {
+                            //ILART -- For verifying BRPL / BYPL - change particulars
+                            if (I_ILART != "U01")
                             {
-                                Reg_Str_Group = ds.Tables[0].Rows[0]["Reg_Str_Group"].ToString();
+                                string CaNumber = I_VKONT;
 
-                                _company = Reg_Str_Group.Substring(0, 2);
+                                if (CaNumber.Length < 12)
+                                    CaNumber = CaNumber.PadLeft(12, '0');
 
-                                if (_company == "W1" || _company == "W2" || _company == "S1" || _company == "S2")
+                                string Reg_Str_Group = "", _company = "";
+
+                                ds = new DataSet();
+                                ds = WSisu.Z_BAPI_DSS_ISU_CA_DISPLAY(CaNumber, "");
+
+                                if (ds.Tables[0].Rows.Count > 0)
                                 {
-                                    _company = "BRPL";
+                                    Reg_Str_Group = ds.Tables[0].Rows[0]["Reg_Str_Group"].ToString();
+
+                                    _company = Reg_Str_Group.Substring(0, 2);
+
+                                    if (_company == "W1" || _company == "W2" || _company == "S1" || _company == "S2")
+                                    {
+                                        _company = "BRPL";
+                                    }
+                                    else
+                                    {
+                                        _company = "BYPL";
+                                    }
+                                }
+
+                                if (_company == "BRPL")
+                                {
+                                    nfs.WriteIntoFile("BlockingAppointments - Change Particulars" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for BRPL -- " + CaNumber);
+                                    return StopDSSNewRequest();
                                 }
                                 else
                                 {
-                                    _company = "BYPL";
+                                    //ds = new DataSet();
+                                    //ds = isu.Z_BAPI_ZDSS_WEB_LINK(I_ILART, I_VKONT, I_VKONA, PARTNERCATEGORY, PARTNERTYPE, TITLE_KEY, FIRSTNAME, LASTNAME, MIDDLENAME, FATHERSNAME, HOUSE_NO, BUILDING, STR_SUPPL1, STR_SUPPL2, STR_SUPPL3, POSTL_COD1, CITY, E_MAIL, LANDLINE, MOBILE, FEMALE, MALE, JOBGR, IDTYPE, IDNUMBER, PLANNINGPLANT, WORKCENTRE, SYSTEMCOND, APPLIEDCAT, APPLIEDLOAD, APPLIEDLOADKVA, CONNECTIONTYPE, STATEMENT_CA, START_DATE, START_TIME, FINISH_DATE, FINISH_TIME, SORTFIELD, strABKRS);
+                                    //return ds;
+                                    nfs.WriteIntoFile("BlockingAppointments - Change Particulars" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for BYPL -- " + CaNumber);
+                                    return StopDSSNewRequest();
                                 }
                             }
-
-                            if (_company == "BRPL")
+                            else //--New Connection
                             {
-                                nfs.WriteIntoFile("BlockingAppointments - Change Particulars" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for BRPL -- " + CaNumber);
-                                return StopDSSNewRequest();
-                            }
-                            else
-                            {
-                                //ds = new DataSet();
-                                //ds = isu.Z_BAPI_ZDSS_WEB_LINK(I_ILART, I_VKONT, I_VKONA, PARTNERCATEGORY, PARTNERTYPE, TITLE_KEY, FIRSTNAME, LASTNAME, MIDDLENAME, FATHERSNAME, HOUSE_NO, BUILDING, STR_SUPPL1, STR_SUPPL2, STR_SUPPL3, POSTL_COD1, CITY, E_MAIL, LANDLINE, MOBILE, FEMALE, MALE, JOBGR, IDTYPE, IDNUMBER, PLANNINGPLANT, WORKCENTRE, SYSTEMCOND, APPLIEDCAT, APPLIEDLOAD, APPLIEDLOADKVA, CONNECTIONTYPE, STATEMENT_CA, START_DATE, START_TIME, FINISH_DATE, FINISH_TIME, SORTFIELD, strABKRS);
-                                //return ds;
-                                nfs.WriteIntoFile("BlockingAppointments - Change Particulars" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for BYPL -- " + CaNumber);
-                                return StopDSSNewRequest();
+                                ds = new DataSet();
+                                ds = isu.Z_BAPI_ZDSS_WEB_LINK(I_ILART, I_VKONT, I_VKONA, PARTNERCATEGORY, PARTNERTYPE, TITLE_KEY, FIRSTNAME, LASTNAME, MIDDLENAME, FATHERSNAME, HOUSE_NO, BUILDING,
+                                                                STR_SUPPL1, STR_SUPPL2, STR_SUPPL3, POSTL_COD1, CITY, E_MAIL, LANDLINE, MOBILE, FEMALE, MALE, JOBGR, IDTYPE, IDNUMBER, PLANNINGPLANT,
+                                                                WORKCENTRE, SYSTEMCOND, APPLIEDCAT, APPLIEDLOAD, APPLIEDLOADKVA, CONNECTIONTYPE, STATEMENT_CA, START_DATE, START_TIME, FINISH_DATE,
+                                                                FINISH_TIME, SORTFIELD, strABKRS, "", "", "", WORKCENTRE);
+                                return ds;
+                                //return StopDSSNewRequest();
                             }
                         }
-                        else //--New Connection
+                        else
                         {
-                            ds = new DataSet();
-                            ds = isu.Z_BAPI_ZDSS_WEB_LINK(I_ILART, I_VKONT, I_VKONA, PARTNERCATEGORY, PARTNERTYPE, TITLE_KEY, FIRSTNAME, LASTNAME, MIDDLENAME, FATHERSNAME, HOUSE_NO, BUILDING,
-                                                            STR_SUPPL1, STR_SUPPL2, STR_SUPPL3, POSTL_COD1, CITY, E_MAIL, LANDLINE, MOBILE, FEMALE, MALE, JOBGR, IDTYPE, IDNUMBER, PLANNINGPLANT,
-                                                            WORKCENTRE, SYSTEMCOND, APPLIEDCAT, APPLIEDLOAD, APPLIEDLOADKVA, CONNECTIONTYPE, STATEMENT_CA, START_DATE, START_TIME, FINISH_DATE,
-                                                            FINISH_TIME, SORTFIELD, strABKRS, "", "", "", WORKCENTRE);
-                            return ds;
-                            //return StopDSSNewRequest();
+                            //Appointment exceeds with Mobile Number
+                            nfs.WriteIntoFile("Appointment exceeds " + "Z_BAPI_ZDSS_WEB_LINK cancelled request for mobile number " + MOBILE);
+                            return StopDSSNewRequestBYPL("Dear customer, numbers of request registration against a mobile number have crossed, kindly contact our customer care no. 19122.");
                         }
                     }
                     else
                     {
-                        //Appointment exceeds with Mobile Number
-                        nfs.WriteIntoFile("Appointment exceeds " + "Z_BAPI_ZDSS_WEB_LINK cancelled request for mobile number " + MOBILE);
-                        return StopDSSNewRequestBYPL("Dear customer, numbers of request registration against a mobile number have crossed, kindly contact our customer care no. 19122.");
+                        //Error - Checking appointment exceeds with Mobile Number
+                        nfs.WriteIntoFile("Error for checking appointment " + "Z_BAPI_ZDSS_WEB_LINK");
+                        return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
                     }
+                    #endregion
+
+                    //05-Nov-2020
+                    //return StopDSSNewRequest();
                 }
                 else
                 {
-                    //Error - Checking appointment exceeds with Mobile Number
-                    nfs.WriteIntoFile("Error for checking appointment " + "Z_BAPI_ZDSS_WEB_LINK");
-                    return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
+                    if (I_ILART.ToString() == "U01")
+                    {
+                        return (InvaildAppCodeU01());
+                    }
+                    return (InvaildAppCode());
                 }
-                #endregion
-
-                //05-Nov-2020
-                //return StopDSSNewRequest();
             }
             else
             {
-                if (I_ILART.ToString() == "U01")
-                {
-                    return (InvaildAppCodeU01());
-                }
-                return (InvaildAppCode());
+                return (InvaildAuthonticationds());
             }
         }
-        else
+        catch (Exception ad)
         {
-            return (InvaildAuthonticationds());
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -1530,175 +1482,185 @@ public class Service : System.Web.Services.WebService
         string CONNECTIONTYPE, string STATEMENT_CA, string START_DATE, string START_TIME, string FINISH_DATE,
         string FINISH_TIME, string SORTFIELD, string ABKRS, string AppVersion)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            if (ABKRS.Contains("/"))
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
             {
-
-                //for BRPL
-                NewClassFile nfs = new NewClassFile();
-                //if (PLANNINGPLANT == "D021") {   //commented by Babalu kumar on date 15092021
-
-                //    nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for BRPL");
-                //    return StopDSSNewRequest();
-                //}
-
-                if (PLANNINGPLANT == "D031")
+                if (ABKRS.Contains("/"))
                 {
 
-                    nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for BYPL");
-                    return StopDSSNewRequest();
-                }
+                    //for BRPL
+                    NewClassFile nfs = new NewClassFile();
+                    //if (PLANNINGPLANT == "D021") {   //commented by Babalu kumar on date 15092021
 
-                //Stop for other also --- later
+                    //    nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for BRPL");
+                    //    return StopDSSNewRequest();
+                    //}
 
-                if (START_TIME == "08:00:00")
-                {
-                    nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for 08:00:00");
-                    return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
-                }
-
-                if (START_TIME == "10:00:00")
-                {
-                    nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for 10:00:00");
-                    return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
-                }
-
-                if (START_TIME == "17:00:00")
-                {
-                    nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for 17:00:00");
-                    return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
-                }
-
-                if (START_TIME == "13:00:00")
-                {
-                    nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for 13:00:00");
-                    return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
-                }
-
-                if (START_TIME == "15:00:00")
-                {
-                    nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for 15:00:00");
-                    return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
-                }
-
-                if (START_TIME == "12:00:00")
-                {
-                    nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for 12:00:00");
-                    return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
-                }
-
-
-
-                //Check for Holiday Date
-                if (START_DATE != "")
-                {
-                    if (new NewClassFile().validateHolidayDt(START_DATE))
+                    if (PLANNINGPLANT == "D031")
                     {
-                        nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for date : " + START_DATE);
+
+                        nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for BYPL");
+                        return StopDSSNewRequest();
+                    }
+
+                    //Stop for other also --- later
+
+                    if (START_TIME == "08:00:00")
+                    {
+                        nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for 08:00:00");
                         return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
                     }
-                }
 
-                #region Working code for generation of new connection and change particulars - changed by RV (26-May-20 )
-                string[] sABKRS = ABKRS.Split('/');
-                string strABKRS = string.Empty;
-                strABKRS = sABKRS[0];
-
-                DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
-
-                DataTable dt = new DataTable();
-                DataSet ds = new DataSet();
-
-                //Exceed limit for a mobile number
-                ds = isu.ZBAPI_CS_MOBILE_APPCNT(MOBILE, "", "30", "");
-                dt = ds.Tables[0];
-                if (dt.Rows.Count > 0)
-                {
-                    int count = Convert.ToInt32(dt.Rows[0]["COUNT"].ToString());
-                    if (count < 5)
+                    if (START_TIME == "10:00:00")
                     {
-                        //ILART -- For verifying BRPL / BYPL - change particulars
-                        if (I_ILART != "U01")
+                        nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for 10:00:00");
+                        return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
+                    }
+
+                    if (START_TIME == "17:00:00")
+                    {
+                        nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for 17:00:00");
+                        return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
+                    }
+
+                    if (START_TIME == "13:00:00")
+                    {
+                        nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for 13:00:00");
+                        return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
+                    }
+
+                    if (START_TIME == "15:00:00")
+                    {
+                        nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for 15:00:00");
+                        return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
+                    }
+
+                    if (START_TIME == "12:00:00")
+                    {
+                        nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for 12:00:00");
+                        return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
+                    }
+
+
+
+                    //Check for Holiday Date
+                    if (START_DATE != "")
+                    {
+                        if (new NewClassFile().validateHolidayDt(START_DATE))
                         {
-                            string CaNumber = I_VKONT;
+                            nfs.WriteIntoFile("BlockingAppointments" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for date : " + START_DATE);
+                            return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
+                        }
+                    }
 
-                            if (CaNumber.Length < 12)
-                                CaNumber = CaNumber.PadLeft(12, '0');
+                    #region Working code for generation of new connection and change particulars - changed by RV (26-May-20 )
+                    string[] sABKRS = ABKRS.Split('/');
+                    string strABKRS = string.Empty;
+                    strABKRS = sABKRS[0];
 
-                            string Reg_Str_Group = "", _company = "";
+                    DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
 
-                            ds = new DataSet();
-                            ds = isu.Z_BAPI_DSS_ISU_CA_DISPLAY(CaNumber, "");
+                    DataTable dt = new DataTable();
+                    DataSet ds = new DataSet();
 
-                            if (ds.Tables[0].Rows.Count > 0)
+                    //Exceed limit for a mobile number
+                    ds = isu.ZBAPI_CS_MOBILE_APPCNT(MOBILE, "", "30", "");
+                    dt = ds.Tables[0];
+                    if (dt.Rows.Count > 0)
+                    {
+                        int count = Convert.ToInt32(dt.Rows[0]["COUNT"].ToString());
+                        if (count < 5)
+                        {
+                            //ILART -- For verifying BRPL / BYPL - change particulars
+                            if (I_ILART != "U01")
                             {
-                                Reg_Str_Group = ds.Tables[0].Rows[0]["Reg_Str_Group"].ToString();
+                                string CaNumber = I_VKONT;
 
-                                _company = Reg_Str_Group.Substring(0, 2);
+                                if (CaNumber.Length < 12)
+                                    CaNumber = CaNumber.PadLeft(12, '0');
 
-                                if (_company == "W1" || _company == "W2" || _company == "S1" || _company == "S2")
+                                string Reg_Str_Group = "", _company = "";
+
+                                ds = new DataSet();
+                                ds = isu.Z_BAPI_DSS_ISU_CA_DISPLAY(CaNumber, "");
+
+                                if (ds.Tables[0].Rows.Count > 0)
                                 {
-                                    _company = "BRPL";
+                                    Reg_Str_Group = ds.Tables[0].Rows[0]["Reg_Str_Group"].ToString();
+
+                                    _company = Reg_Str_Group.Substring(0, 2);
+
+                                    if (_company == "W1" || _company == "W2" || _company == "S1" || _company == "S2")
+                                    {
+                                        _company = "BRPL";
+                                    }
+                                    else
+                                    {
+                                        _company = "BYPL";
+                                    }
+                                }
+
+                                if (_company == "BRPL")
+                                {
+                                    nfs.WriteIntoFile("BlockingAppointments - Change Particulars" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for BRPL -- " + CaNumber);
+                                    return StopDSSNewRequest();
                                 }
                                 else
                                 {
-                                    _company = "BYPL";
+                                    //ds = new DataSet();
+                                    //ds = isu.Z_BAPI_ZDSS_WEB_LINK(I_ILART, I_VKONT, I_VKONA, PARTNERCATEGORY, PARTNERTYPE, TITLE_KEY, FIRSTNAME, LASTNAME, MIDDLENAME, FATHERSNAME, HOUSE_NO, BUILDING, STR_SUPPL1, STR_SUPPL2, STR_SUPPL3, POSTL_COD1, CITY, E_MAIL, LANDLINE, MOBILE, FEMALE, MALE, JOBGR, IDTYPE, IDNUMBER, PLANNINGPLANT, WORKCENTRE, SYSTEMCOND, APPLIEDCAT, APPLIEDLOAD, APPLIEDLOADKVA, CONNECTIONTYPE, STATEMENT_CA, START_DATE, START_TIME, FINISH_DATE, FINISH_TIME, SORTFIELD, strABKRS);
+                                    //return ds;
+                                    nfs.WriteIntoFile("BlockingAppointments - Change Particulars" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for BYPL -- " + CaNumber);
+                                    return StopDSSNewRequest();
                                 }
                             }
-
-                            if (_company == "BRPL")
+                            else //--New Connection
                             {
-                                nfs.WriteIntoFile("BlockingAppointments - Change Particulars" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for BRPL -- " + CaNumber);
-                                return StopDSSNewRequest();
-                            }
-                            else
-                            {
-                                //ds = new DataSet();
-                                //ds = isu.Z_BAPI_ZDSS_WEB_LINK(I_ILART, I_VKONT, I_VKONA, PARTNERCATEGORY, PARTNERTYPE, TITLE_KEY, FIRSTNAME, LASTNAME, MIDDLENAME, FATHERSNAME, HOUSE_NO, BUILDING, STR_SUPPL1, STR_SUPPL2, STR_SUPPL3, POSTL_COD1, CITY, E_MAIL, LANDLINE, MOBILE, FEMALE, MALE, JOBGR, IDTYPE, IDNUMBER, PLANNINGPLANT, WORKCENTRE, SYSTEMCOND, APPLIEDCAT, APPLIEDLOAD, APPLIEDLOADKVA, CONNECTIONTYPE, STATEMENT_CA, START_DATE, START_TIME, FINISH_DATE, FINISH_TIME, SORTFIELD, strABKRS);
-                                //return ds;
-                                nfs.WriteIntoFile("BlockingAppointments - Change Particulars" + "Z_BAPI_ZDSS_WEB_LINK cancelled request for BYPL -- " + CaNumber);
-                                return StopDSSNewRequest();
+                                ds = new DataSet();
+                                ds = isu.Z_BAPI_ZDSS_WEB_LINK(I_ILART, I_VKONT, I_VKONA, PARTNERCATEGORY, PARTNERTYPE, TITLE_KEY, FIRSTNAME, LASTNAME, MIDDLENAME, FATHERSNAME, HOUSE_NO, BUILDING, STR_SUPPL1, STR_SUPPL2, STR_SUPPL3, POSTL_COD1, CITY, E_MAIL, LANDLINE, MOBILE, FEMALE, MALE, JOBGR, IDTYPE, IDNUMBER, PLANNINGPLANT, WORKCENTRE, SYSTEMCOND, APPLIEDCAT, APPLIEDLOAD, APPLIEDLOADKVA, CONNECTIONTYPE, STATEMENT_CA, START_DATE, START_TIME, FINISH_DATE, FINISH_TIME, SORTFIELD, strABKRS);
+                                return ds;
+                                //return StopDSSNewRequest();
                             }
                         }
-                        else //--New Connection
+                        else
                         {
-                            ds = new DataSet();
-                            ds = isu.Z_BAPI_ZDSS_WEB_LINK(I_ILART, I_VKONT, I_VKONA, PARTNERCATEGORY, PARTNERTYPE, TITLE_KEY, FIRSTNAME, LASTNAME, MIDDLENAME, FATHERSNAME, HOUSE_NO, BUILDING, STR_SUPPL1, STR_SUPPL2, STR_SUPPL3, POSTL_COD1, CITY, E_MAIL, LANDLINE, MOBILE, FEMALE, MALE, JOBGR, IDTYPE, IDNUMBER, PLANNINGPLANT, WORKCENTRE, SYSTEMCOND, APPLIEDCAT, APPLIEDLOAD, APPLIEDLOADKVA, CONNECTIONTYPE, STATEMENT_CA, START_DATE, START_TIME, FINISH_DATE, FINISH_TIME, SORTFIELD, strABKRS);
-                            return ds;
-                            //return StopDSSNewRequest();
+                            //Appointment exceeds with Mobile Number
+                            nfs.WriteIntoFile("Appointment exceeds " + "Z_BAPI_ZDSS_WEB_LINK cancelled request for mobile number " + MOBILE);
+                            return StopDSSNewRequestBYPL("Dear customer, numbers of request registration against a mobile number have crossed, kindly contact our customer care no. 19122.");
                         }
                     }
                     else
                     {
-                        //Appointment exceeds with Mobile Number
-                        nfs.WriteIntoFile("Appointment exceeds " + "Z_BAPI_ZDSS_WEB_LINK cancelled request for mobile number " + MOBILE);
-                        return StopDSSNewRequestBYPL("Dear customer, numbers of request registration against a mobile number have crossed, kindly contact our customer care no. 19122.");
+                        //Error - Checking appointment exceeds with Mobile Number
+                        nfs.WriteIntoFile("Error for checking appointment " + "Z_BAPI_ZDSS_WEB_LINK");
+                        return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
                     }
+                    #endregion
+
+                    //05-Nov-2020
+                    //return StopDSSNewRequest();
                 }
                 else
                 {
-                    //Error - Checking appointment exceeds with Mobile Number
-                    nfs.WriteIntoFile("Error for checking appointment " + "Z_BAPI_ZDSS_WEB_LINK");
-                    return StopDSSNewRequestBYPL("For appointment related queries, please contact our customer care no. 19122.");
+                    if (I_ILART.ToString() == "U01")
+                    {
+                        return (InvaildAppCodeU01());
+                    }
+                    return (InvaildAppCode());
                 }
-                #endregion
-
-                //05-Nov-2020
-                //return StopDSSNewRequest();
             }
             else
             {
-                if (I_ILART.ToString() == "U01")
-                {
-                    return (InvaildAppCodeU01());
-                }
-                return (InvaildAppCode());
+                return (InvaildAuthonticationds());
             }
         }
-        else
+        catch (Exception ad)
         {
-            return (InvaildAuthonticationds());
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -1832,60 +1794,110 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public string NewConnOTPRqstFrm(string strDiscom, string strFirstName, string strLastName, string strEmailId, string strMobileNo)
     {
-        NewClassFile newClassFile = new NewClassFile();
-        if (strDiscom == "BYPL")
+        try
         {
-            newClassFile.WriteIntoFile("BlockingAppointments OTP Request for New Connection " + "NewConnOTPRqstFrm cancelled request for BYPL");
-            return "";
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+            if (strDiscom == "BYPL")
+            {
+                newClassFile.WriteIntoFile("BlockingAppointments OTP Request for New Connection " + "NewConnOTPRqstFrm cancelled request for BYPL");
+                return "";
+            }
+            if (strDiscom == "D031")
+            {
+                newClassFile.WriteIntoFile("BlockingAppointments OTP Request for New Connection " + "NewConnOTPRqstFrm cancelled request for BYPL");
+                return "";
+            }
+            return (newClassFile.newConnOTPRqstFrmInsert(strDiscom, strFirstName, strLastName, strEmailId, strMobileNo));
         }
-        if (strDiscom == "D031")
+        catch (Exception ad)
         {
-            newClassFile.WriteIntoFile("BlockingAppointments OTP Request for New Connection " + "NewConnOTPRqstFrm cancelled request for BYPL");
-            return "";
+            throw new Exception("An error occurred", ad);
         }
-        return (newClassFile.newConnOTPRqstFrmInsert(strDiscom, strFirstName, strLastName, strEmailId, strMobileNo));
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public bool NewConnOTPVerifyFrm(string strOTP, string strLblId) // Update when sending wrong OTP no.
     {
-        NewClassFile newClassFile = new NewClassFile();
-        return (newClassFile.newConnOTPVerifyFrmRqst(strOTP, strLblId));
+        try
+        {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+            return (newClassFile.newConnOTPVerifyFrmRqst(strOTP, strLblId));
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public bool NewConnResendOTPVerifyFrm(string strLblId)
     {
-        NewClassFile newClassFile = new NewClassFile();
-        return (newClassFile.newConnResendOTPVerifyFrmRqst(strLblId));
+        try
+        {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+            return (newClassFile.newConnResendOTPVerifyFrmRqst(strLblId));
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod] //Updated New
     [SoapHeader("consumer", Required = true)]
     public bool App_log(string strIMEI, string strActionType, string strActionPerform) // App Log method is not included with security add new param key to verify method
     {
-        NewClassFile newClassFile = new NewClassFile();
-        return (newClassFile.App_log(strIMEI, strActionType, strActionPerform));
+        try
+        {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+            return (newClassFile.App_log(strIMEI, strActionType, strActionPerform));
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable getPendingOrderOracle(string imeiNo)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            NewClassFile newClassFile = new NewClassFile();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            dt = newClassFile.getPendingOrder(imeiNo);
-            dt.TableName = "orderTable";
-            return dt;
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                NewClassFile newClassFile = new NewClassFile();
+
+                dt = newClassFile.getPendingOrder(imeiNo);
+                dt.TableName = "orderTable";
+                return dt;
+            }
+            else
+            {
+                return (InvaildAuthontication());
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return (InvaildAuthontication());
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -1894,18 +1906,28 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable getCompleteOrderOracle(string imeiNo)//27032019 Babalu Kumar
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            NewClassFile newClassFile = new NewClassFile();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            dt = newClassFile.getCompleteOrder(imeiNo);
-            dt.TableName = "orderTable";
-            return dt;
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                NewClassFile newClassFile = new NewClassFile();
+
+                dt = newClassFile.getCompleteOrder(imeiNo);
+                dt.TableName = "orderTable";
+                return dt;
+            }
+            else
+            {
+                return (InvaildAuthontication());
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return (InvaildAuthontication());
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -1913,18 +1935,28 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable getPendingOrderOracleKCC(string imeiNo)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            NewClassFile newClassFile = new NewClassFile();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            dt = newClassFile.getPendingOrderKCC(imeiNo);
-            dt.TableName = "orderTable";
-            return dt;
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                NewClassFile newClassFile = new NewClassFile();
+
+                dt = newClassFile.getPendingOrderKCC(imeiNo);
+                dt.TableName = "orderTable";
+                return dt;
+            }
+            else
+            {
+                return (InvaildAuthontication());
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return (InvaildAuthontication());
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -1932,70 +1964,99 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable ChkUsrForClosingComplnt(string strEmpNo, string strPass) // Linemen Details
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            NewClassFile newClassFile = new NewClassFile();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            dt = newClassFile.onmChkValidUser(strEmpNo, strPass);
-            dt.TableName = "onmChkValidUser";
-            return dt;
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                NewClassFile newClassFile = new NewClassFile();
+
+                dt = newClassFile.onmChkValidUser(strEmpNo, strPass);
+                dt.TableName = "onmChkValidUser";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public bool updateOrderStatus(string orderNo, string status)
     {
-        NewClassFile newClassFile = new NewClassFile();
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            if (status.Contains("/"))
+            NewClassFile newClassFile = new NewClassFile();
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
             {
-                string[] strStatus = status.Split('/');
-                string strABKRS = string.Empty;
-                strABKRS = strStatus[0];
+                DataTable dt = new DataTable();
 
-                bool isTrue = newClassFile.updateOrderStatus(orderNo, strABKRS);
+                if (status.Contains("/"))
+                {
+                    string[] strStatus = status.Split('/');
+                    string strABKRS = string.Empty;
+                    strABKRS = strStatus[0];
 
-                JavaWebReference.ISUSERVICE javaRef = new JavaWebReference.ISUSERVICE();
-                string strOutput = javaRef.BAPI_ISUSMORDER_USERSTATUSSET(orderNo, "SOCR", "");
+                    bool isTrue = newClassFile.updateOrderStatus(orderNo, strABKRS);
 
-                //if (strOutput == "SUCCESS")
-                //{
-                return isTrue;
-                //}
+                    JavaWebReference.ISUSERVICE javaRef = new JavaWebReference.ISUSERVICE();
+                    string strOutput = javaRef.BAPI_ISUSMORDER_USERSTATUSSET(orderNo, "SOCR", "");
 
+                    //if (strOutput == "SUCCESS")
+                    //{
+                    return isTrue;
+                    //}
+
+                }
+
+                return newClassFile.updateOrderStatus(orderNo, status);
             }
-
-            return newClassFile.updateOrderStatus(orderNo, status);
+            else
+            {
+                return false;
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return false;
+            throw new Exception("An error occurred", ad);
         }
-
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable getIVRSCallID()                       //Added By AJay 23/12/15
     {
-        NewClassFile newClassFile = new NewClassFile();
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.getIVRSCallIDDL();
-            dt.TableName = "IVRSCallID";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.getIVRSCallIDDL();
+                dt.TableName = "IVRSCallID";
+                return dt;
+            }
+            else
+            {
+                return (InvaildAuthontication());
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return (InvaildAuthontication());
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -2004,107 +2065,144 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable getCFOracle(string orderNo)
     {
-        NewClassFile newClassFile = new NewClassFile();
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.getCF(orderNo);
-            dt.TableName = "cfTable";
-            return dt;
-        }
-        else
-            return (InvaildAuthontication());
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
+            NewClassFile newClassFile = new NewClassFile();
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.getCF(orderNo);
+                dt.TableName = "cfTable";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable ZBAPI_CS_ORD_STAT(string strOrder)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
-            DataTable dt = new DataTable();
-            DataSet ds = new DataSet();
-            if (strOrder.Length < 12)
-                strOrder = strOrder.PadLeft(12, '0');
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            dt = isu.ZBAPI_CS_ORD_STAT(strOrder).Tables[0];
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
+                DataTable dt = new DataTable();
+                DataSet ds = new DataSet();
+                if (strOrder.Length < 12)
+                    strOrder = strOrder.PadLeft(12, '0');
 
-            return dt;
+                dt = isu.ZBAPI_CS_ORD_STAT(strOrder).Tables[0];
+
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable ZBAPI_DISPLAY_BILL_WEB(string strCANumber, string strBillMonth)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            //DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
-            DataTable dt = new DataTable();
-            DataSet ds = new DataSet();
-            if (strCANumber.Length < 12)
-                strCANumber = strCANumber.PadLeft(12, '0');
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                //DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();
 
-            dt = isu.ZBAPI_DISPLAY_BILL_WEB(strCANumber, strBillMonth).Tables[0];
-            return dt;
+                DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
+                DataTable dt = new DataTable();
+                DataSet ds = new DataSet();
+                if (strCANumber.Length < 12)
+                    strCANumber = strCANumber.PadLeft(12, '0');
+
+                dt = isu.ZBAPI_DISPLAY_BILL_WEB(strCANumber, strBillMonth).Tables[0];
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
     //Commented dated 310032023
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable ZBAPI_DISPLAY_BILL_WEB_OPOWER(string strCANumber, string strBillMonth)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            //DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
-            DataTable dt = new DataTable();
-            DataSet ds = new DataSet();
-            if (strCANumber.Length < 12)
-                strCANumber = strCANumber.PadLeft(12, '0');
-
-            dt = isu.ZBAPI_DISPLAY_BILL_WEB(strCANumber, strBillMonth).Tables[0];
-
-            DataTable dtOPower = new DataTable();
-            dtOPower = NewClassFile.GetOPower_Data(strCANumber.Substring(3, 9));
-
-            DataColumn dcolColumn = new DataColumn("OP", typeof(string));
-            dt.Columns.Add(dcolColumn);
-            DataRow drowItem;
-
-            if (dtOPower.Rows.Count > 0)
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
             {
-                foreach (DataRow row in dt.Columns)
+                //DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();
+
+                DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
+                DataTable dt = new DataTable();
+                DataSet ds = new DataSet();
+                if (strCANumber.Length < 12)
+                    strCANumber = strCANumber.PadLeft(12, '0');
+
+                dt = isu.ZBAPI_DISPLAY_BILL_WEB(strCANumber, strBillMonth).Tables[0];
+
+                DataTable dtOPower = new DataTable();
+                dtOPower = NewClassFile.GetOPower_Data(strCANumber.Substring(3, 9));
+
+                DataColumn dcolColumn = new DataColumn("OP", typeof(string));
+                dt.Columns.Add(dcolColumn);
+                DataRow drowItem;
+
+                if (dtOPower.Rows.Count > 0)
                 {
-                    drowItem = dt.NewRow();
-                    drowItem["OP"] = "Y";
-                    dt.Rows.Add(drowItem);
+                    foreach (DataRow row in dt.Columns)
+                    {
+                        drowItem = dt.NewRow();
+                        drowItem["OP"] = "Y";
+                        dt.Rows.Add(drowItem);
+                    }
                 }
+                else
+                {
+                    foreach (DataRow row in dt.Columns)
+                    {
+                        drowItem = dt.NewRow();
+                        drowItem["OP"] = "N";
+                        dt.Rows.Add(drowItem);
+                    }
+                }
+                return dt;
             }
             else
-            {
-                foreach (DataRow row in dt.Columns)
-                {
-                    drowItem = dt.NewRow();
-                    drowItem["OP"] = "N";
-                    dt.Rows.Add(drowItem);
-                }
-            }
-
-
-            return dt;
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
     //Commented dated 310032023
 
@@ -2112,66 +2210,106 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable ZBAPI_DISPLAY_BILL_WEB_VALID(string strCANumber)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            //DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
-            DataTable dt = new DataTable();
-            DataSet ds = new DataSet();
-            if (strCANumber.Length < 12)
-                strCANumber = strCANumber.PadLeft(12, '0');
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                //DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();
 
-            dt = isu.Z_BAPI_CMS_ISU_CA_DISPLAY(strCANumber, "", "", "", "", "").Tables[0];
-            return dt;
+                DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
+                DataTable dt = new DataTable();
+                DataSet ds = new DataSet();
+                if (strCANumber.Length < 12)
+                    strCANumber = strCANumber.PadLeft(12, '0');
+
+                dt = isu.Z_BAPI_CMS_ISU_CA_DISPLAY(strCANumber, "", "", "", "", "").Tables[0];
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
     //31102014
     [WebMethod(EnableSession = true, Description = "All parameter are optional.<br>Parameter for Circle:- (CENTRAL/EAST/SOUTH/WEST) and for Company:- (BYPL/BRPL) ")]
     [SoapHeader("consumer", Required = true)]
     public DataTable GetTransformerSetupDetail_delhi(string Circle, string Company, string district)
     {
-        NewClassFile newClassFile = new NewClassFile();
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.GetTransformerSetupDetail(Circle.ToUpper().Trim(), Company.ToUpper().Trim(), district.ToUpper().Trim());
-            dt.TableName = "onm_transformer_setup_detail";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.GetTransformerSetupDetail(Circle.ToUpper().Trim(), Company.ToUpper().Trim(), district.ToUpper().Trim());
+                dt.TableName = "onm_transformer_setup_detail";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable FIVE_COMPL(string _CA_NO)
     {
-        NewClassFile newClassFile = new NewClassFile();
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.FIVE_COMPL(_CA_NO.ToString().Trim());
-            dt.TableName = "FIVE_COMPL";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.FIVE_COMPL(_CA_NO.ToString().Trim());
+                dt.TableName = "FIVE_COMPL";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public bool FEEDBACK(string name, string number, string ip_addr, string imei_no, string email, string feedback)
     {
-        NewClassFile newClassFile = new NewClassFile();
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            return newClassFile.FEEDBACK(name, number, ip_addr, imei_no, email, feedback);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                return newClassFile.FEEDBACK(name, number, ip_addr, imei_no, email, feedback);
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     #region feedback form 03-Aug-2016 @ Rajveer
@@ -2180,13 +2318,23 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public bool FEEDBACK_MOBAPP(string name, string number, string email, string answerOne, string answerTwo, string answerThree, string answerFour, string answerFive, string answerSix)
     {
-        NewClassFile newClassFile = new NewClassFile();
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            return newClassFile.FEEDBACK_MobApp(name, number, email, answerOne, answerTwo, answerThree, answerFour, answerFive, answerSix);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                return newClassFile.FEEDBACK_MobApp(name, number, email, answerOne, answerTwo, answerThree, answerFour, answerFive, answerSix);
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     #endregion
@@ -2195,33 +2343,52 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable Area_Code(string _strDiv)
     {
-        NewClassFile newClassFile = new NewClassFile();
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.Area_Code(_strDiv.ToString().Trim().Substring(2, 3));
-            dt.TableName = "Area_Code";
-            return dt;
-        }
-        else
-            return (InvaildAuthontication());
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
+            NewClassFile newClassFile = new NewClassFile();
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.Area_Code(_strDiv.ToString().Trim().Substring(2, 3));
+                dt.TableName = "Area_Code";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod] //Updated New
     [SoapHeader("consumer", Required = true)]
     public DataTable GetARDAppVersion(string _sAppID)
     {
-        NewClassFile newClassFile = new NewClassFile();
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.GetARDAppVersion(_sAppID);
-            dt.TableName = "Version";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.GetARDAppVersion(_sAppID);
+                dt.TableName = "Version";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
@@ -2229,388 +2396,183 @@ public class Service : System.Web.Services.WebService
     public bool NewRegistration(string _sIMEI_No, string _sUserName, string _sManager_EmpCode, string _sActive_Flag
         , string _sEmpCode, string _sDesignation, string _sMobileNo, string _sEmailID) //10072014 -new
     {
-        NewClassFile newClassFile = new NewClassFile();
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            return (newClassFile.NewRegistration(_sIMEI_No, _sUserName, _sManager_EmpCode, _sActive_Flag, _sEmpCode, _sDesignation
-            , _sMobileNo, _sEmailID));
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                return (newClassFile.NewRegistration(_sIMEI_No, _sUserName, _sManager_EmpCode, _sActive_Flag, _sEmpCode, _sDesignation
+                , _sMobileNo, _sEmailID));
+            }
+            else
+                return false;
         }
-        else
-            return false;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public string NCC_Registration(string _sCANo, string cboPriority, string lstFaultCatg, string txtCustRemarks, string cboMinutes, string cboDays, string AreaCode)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            string chkComplClear = string.Empty;
-            string dtpCompClearDate = string.Empty;
-            string cboFixtue = string.Empty;
-            string txtStreetNo = string.Empty;
-            string txtCustPhone = string.Empty;
-            string txtCustMob = string.Empty;
-            string txtCustKNo = string.Empty;
-            string lblAreaCode = string.Empty;
-            string txtCustArea = string.Empty;
-            string txtCustDistrict = string.Empty;
-            string cboCallCateg = string.Empty;
-            string txtCustName = string.Empty;
-            string txtCustAdd1 = string.Empty;
-            string txtCustAdd2 = string.Empty;
-            string lblFCode = string.Empty;
-            //string txtCustRemarks = string.Empty;
-            string txtClearedBy = string.Empty;
-            string lblTimeTaken = "0";
-            string txtConsumerReferenceNo = string.Empty;
-            string txtlandmark = string.Empty;
-            string txtContractNo = string.Empty;
-            // string cboMinutes = string.Empty;
-            string txtAddlNo = string.Empty;
-            // string cboDays = string.Empty;
-            string optSmsYes = string.Empty;
-            string optSmsNo = string.Empty;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            string _sConsumerRefNo = string.Empty;
-            string gAreadiv = string.Empty;
-            string txtEBSEMail = string.Empty;
-            string StrConsumerType = string.Empty;
-            string strDIST = string.Empty;
-            string strGridCode = string.Empty;
-            string strGridName = string.Empty;
-            string strGridPhone = string.Empty;
-            string strFeederCode = string.Empty;
-            string strFeederName = string.Empty;
-            string strTRCOde = string.Empty;
-            string strCompCenter = string.Empty;
-            string strCompCenterPhone = string.Empty;
-            string strCircle = string.Empty;
-            string strCompCenterForSapSerch = string.Empty;
-            string UserName = "ANDRIOD".Trim();
-            string strCLEAR_STATUS = "N";
-            /// string strCompClearDate = "NULL";
-            string VMODULENAME = "ANDRIOD".Trim();
-            //  Session["ISONM"] = "ONM";
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                string chkComplClear = string.Empty;
+                string dtpCompClearDate = string.Empty;
+                string cboFixtue = string.Empty;
+                string txtStreetNo = string.Empty;
+                string txtCustPhone = string.Empty;
+                string txtCustMob = string.Empty;
+                string txtCustKNo = string.Empty;
+                string lblAreaCode = string.Empty;
+                string txtCustArea = string.Empty;
+                string txtCustDistrict = string.Empty;
+                string cboCallCateg = string.Empty;
+                string txtCustName = string.Empty;
+                string txtCustAdd1 = string.Empty;
+                string txtCustAdd2 = string.Empty;
+                string lblFCode = string.Empty;
+                //string txtCustRemarks = string.Empty;
+                string txtClearedBy = string.Empty;
+                string lblTimeTaken = "0";
+                string txtConsumerReferenceNo = string.Empty;
+                string txtlandmark = string.Empty;
+                string txtContractNo = string.Empty;
+                // string cboMinutes = string.Empty;
+                string txtAddlNo = string.Empty;
+                // string cboDays = string.Empty;
+                string optSmsYes = string.Empty;
+                string optSmsNo = string.Empty;
 
-            //try
-            //{
-
-            //    DataTable _dtAlreadyReg = new DataTable();
-            //    _dtAlreadyReg = AllSelect.GetShowDetails("SELECT  cc.OPERATIONAL_COMP_NO,cc.kno  FROM ONM_FAULT_COLLECTIONS flt, CC_DVB_COMP cc WHERE flt.COMPLAINT_NO=cc.COMPNO	AND FLT.kno like '%" + _sCANo + "'	AND flt.FAULT_DUR_IN_SEC =-1 ");
-            //    if (_dtAlreadyReg.Rows.Count > 0)
-            //    {
-            //        return ("Your complaint is already registed with complaint No. " + _dtAlreadyReg.Rows[0]["OPERATIONAL_COMP_NO"].ToString());
-            //    }
-
-            //    DataTable _dtConDetails = new DataTable();
-            //    DataSet _ds = new DataSet();
-            //    _dtConDetails = CA_DISPLAY(_sCANo, "", "", "", "", "");
-
-            //    if (_dtConDetails.Rows.Count > 0)
-            //    {
-            //        txtConsumerReferenceNo = _dtConDetails.Rows[0]["LEGACY_ACCT"].ToString();
-            //        // _sCANo = _dtConDetails.Rows[0]["CA_NUMBER"].ToString();
-            //        txtCustName = _dtConDetails.Rows[0]["BP_NAME"].ToString();
-            //        txtCustAdd1 = _dtConDetails.Rows[0]["HOUSE_NUMBER"].ToString() + " " + _dtConDetails.Rows[0]["STREET2"].ToString();
-            //        txtCustAdd2 = _dtConDetails.Rows[0]["STREET3"].ToString();
-
-
-            //        DataTable _dt = new DataTable();
-            //        if (_dtConDetails.Rows[0]["REG_STR_GROUP"].ToString() != "")
-            //        {
-            //            _dt = AllSelect.GetShowDetails("SELECT DIV_CODE,DIV_NAME FROM DIVISION where upper(SAP_CIRCLE_DIV)='" + _dtConDetails.Rows[0]["REG_STR_GROUP"].ToString() + "'");
-            //            if (_dt.Rows.Count > 0)
-            //            {
-            //                gAreadiv = _dt.Rows[0]["DIV_CODE"].ToString();
-            //                txtCustDistrict = _dt.Rows[0]["DIV_NAME"].ToString();
-            //            }
-            //        }
-            //        if (_dtConDetails.Rows[0]["TELEPHONE_NO"] != null)
-            //        {
-            //            if (_dtConDetails.Rows[0]["TELEPHONE_NO"].ToString().Split(',').Length > 0)
-            //                txtCustPhone = _dtConDetails.Rows[0]["TELEPHONE_NO"].ToString().Split(',')[0].ToString();
-            //            else if (_dtConDetails.Rows[0]["TELEPHONE_NO"].ToString().Split(',').Length <= 0)
-            //            {
-            //                if (_dtConDetails.Rows[0]["TELEPHONE_NO"].ToString().Substring(0, 1) == "9")
-            //                    txtCustMob = "";
-            //                else
-            //                    txtCustMob = _dtConDetails.Rows[0]["TELEPHONE_NO"].ToString();
-            //            }
-            //        }
-            //        else
-            //            txtCustMob = _dtConDetails.Rows[0]["TELEPHONE_NO"].ToString();
-
-
-            //        txtEBSEMail = _dtConDetails.Rows[0]["E_MAIL"].ToString(); //strSplit(67)  ''objTable.Cell(1, "E_MAIL")
-            //        txtAddlNo = _dtConDetails.Rows[0]["TEL1_NUMBER"].ToString(); //strSplit(63)   ''objTable.Cell(1, "TEL1_NUMBR")
-            //        txtlandmark = _dtConDetails.Rows[0]["STREET4"].ToString(); //strSplit(27)   ''objTable.Cell(1, "STREET4")
-            //        if (_dtConDetails.Rows[0]["BP_TYPE"].ToString() == "Normal")
-            //            StrConsumerType = "";
-            //        else
-            //            StrConsumerType = "VIP";
-
-            //        if (_dtConDetails.Rows[0]["BP_TYPE"].ToString() == "KCC")
-            //        {
-            //            StrConsumerType = "KCC";
-            //        }
-            //        else
-            //        {
-            //            StrConsumerType = _dtConDetails.Rows[0]["BP_TYPE"].ToString();
-            //        }
-            //        txtCustMob = Convert.ToString(_dtConDetails.Rows[0]["TEL1_NUMBER"]);  //strSplit(63)  ''objTable.Cell(1, "TEL1_NUMBR")
-            //        txtlandmark = Convert.ToString(_dtConDetails.Rows[0]["STREET4"]);// strSplit(27)  ''objTable.Cell(1, "STREET4")
-
-            //    }
-            //    else
-            //    {
-            //        return "Invaild CA No.";
-            //    }
-
-
-            //    string fixture_typ = string.Empty;
-            //    int no_fixture = 0;
-            //    string strCallDate = DateTime.Now.ToString("dd-MMM-yyyy HH:mm");
-            //    string strOccuranceDate = DateTime.Now.ToString("dd-MMM-yyyy");
-            //    string strOccuranceTime = DateTime.Now.ToString("HH:mm");
-            //    strCallDate = "to_date('" + strCallDate + "','dd-Mon-yyyy hh24:mi')";
-            //    string strComplaintNo = "";
-
-            //    if (cboPriority == "STREET LIGHT")
-            //    {
-            //        fixture_typ = cboFixtue;
-            //        int.TryParse(txtStreetNo, out no_fixture);
-            //    }
-            //    else
-            //    {
-            //        fixture_typ = "";
-            //        no_fixture = 0;
-            //    }
-
-            //    string sql = "select Area_code from ONM_CONSUMER_MASTER_INFO where CA_NO like '%" + _sCANo + "'";
-            //    DataTable rs = new DataTable();
-            //    rs = AllSelect.GetShowDetails(sql);
-
-            //    string _sAreaCode = string.Empty;
-            //    if (rs.Rows.Count > 0)
-            //        _sAreaCode = rs.Rows[0]["Area_code"].ToString();
-            //    else
-            //        _sAreaCode = "";
-
-            //    if (_sAreaCode != "")
-            //    {
-            //        rs = new DataTable();
-            //        sql = "SELECT distinct DIST, DIST_NAME, PRIMARY_GRID_CODE, PRIMARY_GRID_NAME, GRID_PHONENO, FEEDER_CODE,FEEDER_NAME, AREA_CODE, AREA_NAME, TR_CODE,COMPLAINT_CENTRE, COMPLAINT_CENTRE_PH_NO,COMPLAINT_CENTRE_CODE, CIRCLE  FROM ONM_TRANSFORMER_SETUP_DETAIL WHERE AREA_CODE='" + (_sAreaCode) + "'";
-            //        rs = AllSelect.GetShowDetails(sql);
-            //        if (rs.Rows.Count > 0)
-            //        {
-            //            txtCustArea = rs.Rows[0]["AREA_NAME"].ToString();
-            //            txtCustDistrict = rs.Rows[0]["DIST_NAME"].ToString();
-            //            lblAreaCode = rs.Rows[0]["AREA_CODE"].ToString();
-            //            strDIST = rs.Rows[0]["DIST"].ToString();
-            //            strGridCode = rs.Rows[0]["PRIMARY_GRID_CODE"].ToString();
-            //            strGridName = rs.Rows[0]["PRIMARY_GRID_NAME"].ToString();
-            //            strGridPhone = rs.Rows[0]["GRID_PHONENO"].ToString();
-            //            strFeederCode = rs.Rows[0]["FEEDER_CODE"].ToString();
-            //            strFeederName = rs.Rows[0]["FEEDER_NAME"].ToString();
-            //            strTRCOde = rs.Rows[0]["TR_CODE"].ToString();
-            //            strCompCenter = rs.Rows[0]["COMPLAINT_CENTRE"].ToString();
-            //            strCompCenterPhone = rs.Rows[0]["COMPLAINT_CENTRE_PH_NO"].ToString();
-            //            strCircle = rs.Rows[0]["CIRCLE"].ToString();
-            //        }
-            //    }
-            //    else
-            //    {
-            //        //  return ("Unable to findout area right now! Please try again later.");
-
-            //        // Change By Dharm 16-Jul-2014
-
-            //        rs = new DataTable();
-            //        sql = "SELECT distinct DIST, DIST_NAME, PRIMARY_GRID_CODE, PRIMARY_GRID_NAME, GRID_PHONENO, FEEDER_CODE,FEEDER_NAME, AREA_CODE, AREA_NAME, TR_CODE,COMPLAINT_CENTRE, COMPLAINT_CENTRE_PH_NO,COMPLAINT_CENTRE_CODE, CIRCLE  FROM ONM_TRANSFORMER_SETUP_DETAIL WHERE AREA_CODE='" + AreaCode.ToString().Trim() + "'";
-            //        rs = AllSelect.GetShowDetails(sql);
-            //        if (rs.Rows.Count > 0)
-            //        {
-            //            txtCustArea = rs.Rows[0]["AREA_NAME"].ToString();
-            //            txtCustDistrict = rs.Rows[0]["DIST_NAME"].ToString();
-            //            lblAreaCode = rs.Rows[0]["AREA_CODE"].ToString();
-            //            strDIST = rs.Rows[0]["DIST"].ToString();
-            //            strGridCode = rs.Rows[0]["PRIMARY_GRID_CODE"].ToString();
-            //            strGridName = rs.Rows[0]["PRIMARY_GRID_NAME"].ToString();
-            //            strGridPhone = rs.Rows[0]["GRID_PHONENO"].ToString();
-            //            strFeederCode = rs.Rows[0]["FEEDER_CODE"].ToString();
-            //            strFeederName = rs.Rows[0]["FEEDER_NAME"].ToString();
-            //            strTRCOde = rs.Rows[0]["TR_CODE"].ToString();
-            //            strCompCenter = rs.Rows[0]["COMPLAINT_CENTRE"].ToString();
-            //            strCompCenterPhone = rs.Rows[0]["COMPLAINT_CENTRE_PH_NO"].ToString();
-            //            strCircle = rs.Rows[0]["CIRCLE"].ToString();
-            //        }
-
-            //    }
-
-
-            //    DataTable rsTmp = new DataTable();
-            //    rsTmp = AllSelect.GetShowDetails("SELECT trim(SUBSTR(CIRCLE,1,1)||COMPLAINT_CENTRE_CODE|| DIST ||TO_Char(sysdate,'YYMMDD')) as strCompNo,COMPLAINT_CENTRE_CODE FROM ONM_TRANSFORMER_SETUP_DETAIL WHERE AREA_CODE='" + lblAreaCode + "'");
-            //    if (rsTmp.Rows.Count > 0)
-            //    {
-            //        strComplaintNo = rsTmp.Rows[0]["strCompNo"].ToString();
-            //        strCompCenterForSapSerch = rsTmp.Rows[0]["COMPLAINT_CENTRE_CODE"].ToString();
-            //    }
-            //    rsTmp = new DataTable();
-            //    rsTmp = AllSelect.GetShowDetails("select SP_GENERATECOMPLAINTNO('" + lblAreaCode + "') from dual");
-            //    if (rsTmp.Rows.Count > 0)
-            //    {
-            //        strComplaintNo = strComplaintNo.Trim() + rsTmp.Rows[0][0].ToString() + "P";
-            //    }
-            //    lblFCode = lstFaultCatg;
-
-
-            //    string strsSQL = string.Empty;
-            //    strsSQL = "INSERT INTO CC_DVB_COMP(CALL_DATE,KNO,AREA_CODE,AREA,DISTRICT,CALL_CATEG,";
-            //    strsSQL = strsSQL + "NAME,ADD1,ADD2,PHONE,FCODE,REMARKS,COMPNO,CUST_REMARKS,OAP_USER,CUST_STATUS,CUST_TIME_CLEAR,DVB_CLEARED_BY,DVB_STATUS,TIME_TAKEN,XEN_STATUS,PRIORITY,NOOFCOMPLAINTS,CONS_REF,OPERATIONAL_COMP_NO,CM_HOUSE,TYP_FIXTURE, NO_FIXTURE,LAND_MARK,CONSUMER_TYPE,MOB_NO, ENTRY_KNO_ID,REG_MODULE_NAME,REG_AREA, REG_AREA_CODE,SAP_CONTRACT_NO,SINCE_LAST_MINUTES,Addl_Cont_No,SINCE_LAST_DAYS) VALUES";
-            //    strsSQL = strsSQL + "(" + strCallDate + ",'";
-            //    strsSQL = strsSQL + _sCANo + "','" + lblAreaCode + "','" + txtCustArea + "','" + txtCustDistrict + "','" + cboCallCateg + "','";
-            //    strsSQL = strsSQL + txtCustName.Trim() + "','" + txtCustAdd1.Trim() + "','" + txtCustAdd2.Trim() + "','" + txtCustMob + "','";
-            //    strsSQL = strsSQL + lblFCode + "','" + txtCustRemarks + "','" + strComplaintNo + "','" + txtCustRemarks + "','";
-            //    strsSQL = strsSQL + UserName + "','" + strCLEAR_STATUS + "',NULL,'" + txtClearedBy + "',";
-            //    strsSQL = strsSQL + "'" + strCLEAR_STATUS + "'," + lblTimeTaken + ",'N',";
-
-            //    if (cboPriority == "EMERGENCY")
-            //        strsSQL = strsSQL + " 'PCR',";
-            //    else
-            //        strsSQL = strsSQL + "'" + cboPriority.ToUpper() + "',";
-
-            //    strsSQL = strsSQL + " 1,'" + txtConsumerReferenceNo.Trim() + "','" + strComplaintNo.Substring(8, 11) + "','N','" + fixture_typ + "'," + no_fixture + ",'";
-            //    strsSQL = strsSQL + txtlandmark + "','" + StrConsumerType + "','" + txtCustMob.Trim() + "','" + txtCustKNo.Trim() + "','";
-            //    strsSQL = strsSQL + VMODULENAME.Trim() + "','" + txtCustArea.Trim() + "','" + lblAreaCode.Trim() + "','" + txtContractNo.Trim() + "',";
-            //    strsSQL = strsSQL + cboMinutes.Trim() + ",'" + txtAddlNo.Trim() + "'," + cboDays + ")";
-
-
-
-
-            //    string strOFCSQL = string.Empty;
-            //    DataTable _dtFaultid = new DataTable();
-            //    string strFaultID = "";
-            //    _dtFaultid = AllSelect.GetShowDetails("SELECT SP_GenerateFaultId('" + strDIST + "') FROM DUAL ");
-            //    if (_dtFaultid.Rows.Count > 0)
-            //        strFaultID = _dtFaultid.Rows[0][0].ToString();
-
-            //    strOFCSQL = " Insert into ONM_Fault_Collections (KNO,FaultId,Dist,AreaCode,Area,FeederCode,FeederName,GridCode,GridName,";
-            //    strOFCSQL = strOFCSQL + " GridPhone,FaultType,NoOfComplaints,Child,All_Transformer_No,Name,Complaint_Status,";
-            //    strOFCSQL = strOFCSQL + " Complaint_No,InsertedFrom,COMPLAINT_CENTRE,COMPLAINT_CENTRE_PH_NO,Com_Name,Com_Add1,Com_Add2,Com_Phone,Circle,";
-            //    strOFCSQL = strOFCSQL + " CCRemarks,Powercut_Type,PRIORITY,FCODE,TYP_FIXTURE,NO_FIXTURE,ROAD,LAND_MARK,OCCURANCE_DT,CC_REG_BY,CC_REG_IP,CONSUMER_TYPE)";
-            //    strOFCSQL = strOFCSQL + " values";
-            //    strOFCSQL = strOFCSQL + " ('" + _sCANo + "','" + strFaultID + "','" + strDIST + "','" + lblAreaCode + "','" + txtCustArea + "',";
-            //    strOFCSQL = strOFCSQL + "'" + strFeederCode + "','" + strFeederName + "','" + strGridCode + "','" + strGridName + "',";
-            //    strOFCSQL = strOFCSQL + "'" + strGridPhone + "','DT AND BELOW',1,'0','" + strTRCOde + "','ANDRIOD', ";
-            //    strOFCSQL = strOFCSQL + "'P','" + strComplaintNo + "', ";
-            //    strOFCSQL = strOFCSQL + "'CC" + strFaultID + "','" + strCompCenter + "','" + strCompCenterPhone + "','" + txtCustName.Trim() + "', ";
-            //    strOFCSQL = strOFCSQL + "'" + txtCustAdd1.Trim() + "','" + txtCustAdd2.Trim() + "','" + txtCustMob + "','" + strCircle + "', ";
-            //    strOFCSQL = strOFCSQL + "'" + txtCustRemarks.Trim() + "','CC',";
-
-            //    if (cboPriority == "EMERGENCY")
-            //        strOFCSQL = strOFCSQL + " 'PCR',";
-            //    else
-            //        strOFCSQL = strOFCSQL + "'" + cboPriority + "',";
-
-            //    strOFCSQL = strOFCSQL + "'" + lblFCode + "',";
-            //    strOFCSQL = strOFCSQL + "'" + fixture_typ.Trim() + "'," + no_fixture + ",'','" + txtlandmark.Trim() + "'," + strCallDate + ",'" + UserName + "',sys_context('USERENV','IP_ADDRESS'),'" + StrConsumerType + "')";
-
-            //    string strOSFDSQL = string.Empty, strOOMFSQL = string.Empty;
-
-            //    if (cboPriority == "STREET LIGHT")
-            //    {
-            //        strOSFDSQL = " INSERT INTO ONM_SL_FAULT_DETAILS(FAULTID) VALUES ('" + strFaultID + "')";
-            //        // AllInsert.InsertBySQL(strOSFDSQL);
-            //    }
-            //    if (lblFCode == "F025")
-            //    {
-            //        strOOMFSQL = " INSERT INTO ONM_OFC_METER_FAULTS(FAULTID) VALUES ('" + strFaultID + "')";
-            //        //  AllInsert.InsertBySQL(strOOMFSQL); 
-            //    }
-
-            //    string[] _smultipleQuery = new string[] { strsSQL, strOFCSQL, strOSFDSQL, strOOMFSQL };
-            //    if (!AllInsert.InsertByMultipleSQL_ONM(_smultipleQuery))
-            //    {
-            //        return ("Not saved. Please try again.");
-            //    }
-            //    string lblFullComplaintNo = strComplaintNo;
-            //    return strComplaintNo + ":" + strComplaintNo.Substring(8, 11);
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    return "Unable to register right now! Please try again.";
-            //    //MessageBox.show(ex.ToString());
-            //    //Interaction.MsgBox(ex.ToString(), MsgBoxStyle.SystemModal);
-            //}
-
-            //return "Complaint Registration Service is temporarily down.To register complaint, please call customer care.";
-            return "Temporarily not available.Will be back soon";
+                string _sConsumerRefNo = string.Empty;
+                string gAreadiv = string.Empty;
+                string txtEBSEMail = string.Empty;
+                string StrConsumerType = string.Empty;
+                string strDIST = string.Empty;
+                string strGridCode = string.Empty;
+                string strGridName = string.Empty;
+                string strGridPhone = string.Empty;
+                string strFeederCode = string.Empty;
+                string strFeederName = string.Empty;
+                string strTRCOde = string.Empty;
+                string strCompCenter = string.Empty;
+                string strCompCenterPhone = string.Empty;
+                string strCircle = string.Empty;
+                string strCompCenterForSapSerch = string.Empty;
+                string UserName = "ANDRIOD".Trim();
+                string strCLEAR_STATUS = "N";
+                /// string strCompClearDate = "NULL";
+                string VMODULENAME = "ANDRIOD".Trim();
+                return "Temporarily not available.Will be back soon";
+            }
+            else
+            {
+                return ("Unauthorized Access!");
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return ("Unauthorized Access!");
+            throw new Exception("An error occurred", ad);
         }
-
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable DISPLAY_BILL(string strCANumber)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            //DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
-            DataTable dt = new DataTable();
-            DataSet ds = new DataSet();
-            if (strCANumber.Length < 12)
-                strCANumber = strCANumber.PadLeft(12, '0');
-            dt = isu.ZBAPI_DISPLAY_BILL_WEB(strCANumber, "").Tables[0];
-            return dt;
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                //DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();
+
+                DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
+                DataTable dt = new DataTable();
+                DataSet ds = new DataSet();
+                if (strCANumber.Length < 12)
+                    strCANumber = strCANumber.PadLeft(12, '0');
+                dt = isu.ZBAPI_DISPLAY_BILL_WEB(strCANumber, "").Tables[0];
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable BILL_HIST(string strCANumber, string strBillMonth)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            //DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
-            DataTable dt = new DataTable();
-            DataSet ds = new DataSet();
-            if (strCANumber.Length < 12)
-                strCANumber = strCANumber.PadLeft(12, '0');
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                //DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();
 
-            dt = isu.ZBI_WEBBILL_HIST(strCANumber, "").Tables[0];
-            return dt;
+                DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
+                DataTable dt = new DataTable();
+                DataSet ds = new DataSet();
+                if (strCANumber.Length < 12)
+                    strCANumber = strCANumber.PadLeft(12, '0');
+
+                dt = isu.ZBI_WEBBILL_HIST(strCANumber, "").Tables[0];
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable Z_BAPI_IVRS(string strContractAccountNumber)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            //DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
-            DataTable dt = new DataTable();
-            DataSet ds = new DataSet();
-            dt = isu.Z_BAPI_IVRS("000" + strContractAccountNumber).Tables[0];
-            return dt;
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                //DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();
+
+                DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
+                DataTable dt = new DataTable();
+                DataSet ds = new DataSet();
+                dt = isu.Z_BAPI_IVRS("000" + strContractAccountNumber).Tables[0];
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
@@ -2619,47 +2581,65 @@ public class Service : System.Web.Services.WebService
         , string strMeterNumber, string strISUOrder, string strComplaintType
         , string strContractNumber, string strTelephoneNo, string strDescription)//02-02-2015
     {
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            //DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
-            DataSet ds = new DataSet();
-            //if (strCANumber.Length < 12)
-            //    strCANumber = strCANumber.PadLeft(12, '0');
-            ds = isu.ZBAPI_IVR_CREATESO_ISU(strCANumber, strCACrn, strCAKNumber
-        , strMeterNumber, strISUOrder, strComplaintType
-        , strContractNumber, strTelephoneNo, strDescription);
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                //DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();
 
-            return ds;
+                DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
+                DataSet ds = new DataSet();
+                //if (strCANumber.Length < 12)
+                //    strCANumber = strCANumber.PadLeft(12, '0');
+                ds = isu.ZBAPI_IVR_CREATESO_ISU(strCANumber, strCACrn, strCAKNumber
+            , strMeterNumber, strISUOrder, strComplaintType
+            , strContractNumber, strTelephoneNo, strDescription);
+
+                return ds;
+            }
+            else
+                return (InvaildAuthonticationds());
         }
-        else
-            return (InvaildAuthonticationds());
-
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable CA_DISPLAY(string strCANumber, string strSerialNumber, string strConsumerNumber, string strTelephoneNumber, string strKNumber, string strContractNumber)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            //DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
-            DataTable dt = new DataTable();
-            DataSet ds = new DataSet();
-            if (strCANumber.Length < 12 && strCANumber.Length > 0)
-                strCANumber = strCANumber.PadLeft(12, '0');
-            if (strSerialNumber.Length < 18 && strSerialNumber.Length > 0)
-                strSerialNumber = strSerialNumber.PadLeft(18, '0');
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                //DELHIWSTESTD.ISUService isu = new DELHIWSTESTD.ISUService();
 
-            dt = isu.Z_BAPI_CMS_ISU_CA_DISPLAY(strCANumber, strSerialNumber, "", "", "", "").Tables[0];
-            return dt;
+                DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
+                DataTable dt = new DataTable();
+                DataSet ds = new DataSet();
+                if (strCANumber.Length < 12 && strCANumber.Length > 0)
+                    strCANumber = strCANumber.PadLeft(12, '0');
+                if (strSerialNumber.Length < 18 && strSerialNumber.Length > 0)
+                    strSerialNumber = strSerialNumber.PadLeft(18, '0');
+
+                dt = isu.Z_BAPI_CMS_ISU_CA_DISPLAY(strCANumber, strSerialNumber, "", "", "", "").Tables[0];
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
@@ -2672,19 +2652,29 @@ public class Service : System.Web.Services.WebService
         , string strLatitude, string strLongtitude, string strPoleNo
             , string strCustomerIdNo, string strEmpName, string strEmpId)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.Insert_CA_ADDRESS_UPLOAD(strCa_Number, strBp_Name, strHouse_Number,
-                strHouse_Number_Sup, strFloor, strStreet, strStreet2, strStreet3, strStreet4,
-                strCity, strPost_Code, strTelephone_No, strE_Mail, strIMEI, strsign_Img, strIDProof_Img,
-                strLatitude, strLongtitude, strPoleNo, strCustomerIdNo, strEmpName, strEmpId);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.Insert_CA_ADDRESS_UPLOAD(strCa_Number, strBp_Name, strHouse_Number,
+                    strHouse_Number_Sup, strFloor, strStreet, strStreet2, strStreet3, strStreet4,
+                    strCity, strPost_Code, strTelephone_No, strE_Mail, strIMEI, strsign_Img, strIDProof_Img,
+                    strLatitude, strLongtitude, strPoleNo, strCustomerIdNo, strEmpName, strEmpId);
+                return _bReturn;
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -2704,41 +2694,50 @@ public class Service : System.Web.Services.WebService
         , string strC_037, string strC_038, string strC_039, string strC_040, string strC_041, string strC_070
         , string strR_Cdll, string strR_Occ, string strR_Own, string strZ_Appltype)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            try
-            {
-                //DELHIWSTESTD.ISUService isu1 = new DELHIWSTESTD.ISUService();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-                DELHIWSTESTDV2.WebService isu1 = new DELHIWSTESTDV2.WebService();
-                DataTable dt = new DataTable();
-                // DataSet ds = new DataSet();
-                dt = isu1.ZBAPIDOCLIST(strAufnr, strC_001, strC_002
-            , strC_003, strC_004, strC_005, strC_007
-            , strC_008, strC_009, strC_010
-            , strC_011, strC_012, strC_013
-            , strC_014, strC_015, strC_016
-            , strC_017, strC_018, strC_019
-            , strC_020, strC_021, strC_022
-            , strC_023, strC_024, strC_025, strC_026
-            , strC_027, strC_028, strC_029, strC_030
-            , strC_031, strC_032, strC_033, strC_034
-            , strC_035, strC_036, strC_037, strC_038, strC_039, strC_040, strC_041, strC_070
-            , strR_Cdll, strR_Occ, strR_Own, strZ_Appltype).Tables[0];
-                return dt;
-            }
-            catch (Exception ex)
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
             {
-                newClassFile.WriteIntoFile("ZBAPIDOCLIST Error :" + ex.ToString());
-                return null;
+                try
+                {
+                    //DELHIWSTESTD.ISUService isu1 = new DELHIWSTESTD.ISUService();
+
+                    DELHIWSTESTDV2.WebService isu1 = new DELHIWSTESTDV2.WebService();
+                    DataTable dt = new DataTable();
+                    // DataSet ds = new DataSet();
+                    dt = isu1.ZBAPIDOCLIST(strAufnr, strC_001, strC_002
+                , strC_003, strC_004, strC_005, strC_007
+                , strC_008, strC_009, strC_010
+                , strC_011, strC_012, strC_013
+                , strC_014, strC_015, strC_016
+                , strC_017, strC_018, strC_019
+                , strC_020, strC_021, strC_022
+                , strC_023, strC_024, strC_025, strC_026
+                , strC_027, strC_028, strC_029, strC_030
+                , strC_031, strC_032, strC_033, strC_034
+                , strC_035, strC_036, strC_037, strC_038, strC_039, strC_040, strC_041, strC_070
+                , strR_Cdll, strR_Occ, strR_Own, strZ_Appltype).Tables[0];
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    newClassFile.WriteIntoFile("ZBAPIDOCLIST Error :" + ex.ToString());
+                    return null;
+                }
             }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
-
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
@@ -2753,24 +2752,34 @@ public class Service : System.Web.Services.WebService
         string applied_premises, string remarks,
         string strOrderNo, string strsign_Img, string building_img1, string building_img2, string IMEI_NO, string strLatitude, string strLongtitude, string FILE_ATTACHMENT, string SITE_LAYOUT_IMG, string CABLE_TYPE, string LEFT_METER_NO, string RIGHT_METER_NO, string APPLIED_AREA, string BUILDING_AREA, string strPasted)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.Insert_NEW_CONNECTION_SITE_TASKS(Connected_Load, Usage_Category_Of_site,
-             Pole_No_Feeder_Pillar_No, meter_No,
-             Service_Line_Length, Building_Hieght,
-             Wiring_Completed, Lift_Installed,
-             Lift_Certificate_Required, Affidavit_Required,
-             Floor, Tf_Seal_No, metering_position,
-             Initial_Cf_OK, CA_No, Amount,
-             applied_premises, remarks,
-             strOrderNo, strsign_Img, building_img1, building_img2, IMEI_NO, strLatitude, strLongtitude, FILE_ATTACHMENT, SITE_LAYOUT_IMG, CABLE_TYPE, LEFT_METER_NO, RIGHT_METER_NO, APPLIED_AREA, BUILDING_AREA, strPasted);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.Insert_NEW_CONNECTION_SITE_TASKS(Connected_Load, Usage_Category_Of_site,
+                 Pole_No_Feeder_Pillar_No, meter_No,
+                 Service_Line_Length, Building_Hieght,
+                 Wiring_Completed, Lift_Installed,
+                 Lift_Certificate_Required, Affidavit_Required,
+                 Floor, Tf_Seal_No, metering_position,
+                 Initial_Cf_OK, CA_No, Amount,
+                 applied_premises, remarks,
+                 strOrderNo, strsign_Img, building_img1, building_img2, IMEI_NO, strLatitude, strLongtitude, FILE_ATTACHMENT, SITE_LAYOUT_IMG, CABLE_TYPE, LEFT_METER_NO, RIGHT_METER_NO, APPLIED_AREA, BUILDING_AREA, strPasted);
+                return _bReturn;
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
@@ -2792,24 +2801,34 @@ public class Service : System.Web.Services.WebService
                    string NEW_BUILDING, string NORMATIVE_LOAD, string COVERED_AREA,
                    string PLOT_AREA, string Existing_Meter_No, string Encroachment)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.Insert_NEW_CONNECTION_SITE_TASKS2(Connected_Load, Usage_Category_Of_site,
-             Pole_No_Feeder_Pillar_No, meter_No, Service_Line_Length, Building_Hieght, Wiring_Completed,
-             Lift_Installed, Lift_Certificate_Required, Affidavit_Required, Floor, Tf_Seal_No, metering_position,
-             Initial_Cf_OK, CA_No, Amount, applied_premises, remarks, strOrderNo, strsign_Img, building_img1,
-             building_img2, IMEI_NO, strLatitude, strLongtitude, FILE_ATTACHMENT, SITE_LAYOUT_IMG, CABLE_TYPE,
-             LEFT_METER_NO, RIGHT_METER_NO, APPLIED_AREA, BUILDING_AREA, strPasted, NEW_BUILDING, NORMATIVE_LOAD,
-             COVERED_AREA, PLOT_AREA, Existing_Meter_No, Encroachment);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.Insert_NEW_CONNECTION_SITE_TASKS2(Connected_Load, Usage_Category_Of_site,
+                 Pole_No_Feeder_Pillar_No, meter_No, Service_Line_Length, Building_Hieght, Wiring_Completed,
+                 Lift_Installed, Lift_Certificate_Required, Affidavit_Required, Floor, Tf_Seal_No, metering_position,
+                 Initial_Cf_OK, CA_No, Amount, applied_premises, remarks, strOrderNo, strsign_Img, building_img1,
+                 building_img2, IMEI_NO, strLatitude, strLongtitude, FILE_ATTACHMENT, SITE_LAYOUT_IMG, CABLE_TYPE,
+                 LEFT_METER_NO, RIGHT_METER_NO, APPLIED_AREA, BUILDING_AREA, strPasted, NEW_BUILDING, NORMATIVE_LOAD,
+                 COVERED_AREA, PLOT_AREA, Existing_Meter_No, Encroachment);
 
 
-            return _bReturn;
+                return _bReturn;
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -2832,27 +2851,35 @@ public class Service : System.Web.Services.WebService
                string NEW_BUILDING, string NORMATIVE_LOAD, string COVERED_AREA,
                string PLOT_AREA, string Existing_Meter_No, string Encroachment)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            string _bReturn = "";
-            _bReturn = newClassFile.Insert_NEW_CONNECTION_SITE_TASKS2New(Connected_Load, Usage_Category_Of_site,
-             Pole_No_Feeder_Pillar_No, meter_No, Service_Line_Length, Building_Hieght, Wiring_Completed,
-             Lift_Installed, Lift_Certificate_Required, Affidavit_Required, Floor, Tf_Seal_No, metering_position,
-             Initial_Cf_OK, CA_No, Amount, applied_premises, remarks, strOrderNo, strsign_Img, building_img1,
-             building_img2, IMEI_NO, strLatitude, strLongtitude, FILE_ATTACHMENT, SITE_LAYOUT_IMG, CABLE_TYPE,
-             LEFT_METER_NO, RIGHT_METER_NO, APPLIED_AREA, BUILDING_AREA, strPasted, NEW_BUILDING, NORMATIVE_LOAD,
-             COVERED_AREA, PLOT_AREA, Existing_Meter_No, Encroachment);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                string _bReturn = "";
+                _bReturn = newClassFile.Insert_NEW_CONNECTION_SITE_TASKS2New(Connected_Load, Usage_Category_Of_site,
+                 Pole_No_Feeder_Pillar_No, meter_No, Service_Line_Length, Building_Hieght, Wiring_Completed,
+                 Lift_Installed, Lift_Certificate_Required, Affidavit_Required, Floor, Tf_Seal_No, metering_position,
+                 Initial_Cf_OK, CA_No, Amount, applied_premises, remarks, strOrderNo, strsign_Img, building_img1,
+                 building_img2, IMEI_NO, strLatitude, strLongtitude, FILE_ATTACHMENT, SITE_LAYOUT_IMG, CABLE_TYPE,
+                 LEFT_METER_NO, RIGHT_METER_NO, APPLIED_AREA, BUILDING_AREA, strPasted, NEW_BUILDING, NORMATIVE_LOAD,
+                 COVERED_AREA, PLOT_AREA, Existing_Meter_No, Encroachment);
 
 
-            return _bReturn;
+                return _bReturn;
+            }
+            else
+                return ("Not Access");
         }
-        else
-            return ("Not Access");
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
-
-
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
@@ -2874,57 +2901,77 @@ public class Service : System.Web.Services.WebService
                    string PLOT_AREA, string Existing_Meter_No, string Encroachment,
                    string BuildingHeightRemarks, string ELCB)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            if (BuildingHeightRemarks.Length > 245)
-                BuildingHeightRemarks = BuildingHeightRemarks.Substring(0, 244);
+            NewClassFile newClassFile = new NewClassFile();
 
-            _bReturn = newClassFile.Insert_NEW_CONNECTION_SITE_TASKS3(Connected_Load, Usage_Category_Of_site,
-             Pole_No_Feeder_Pillar_No, meter_No, Service_Line_Length, Building_Hieght, Wiring_Completed,
-             Lift_Installed, Lift_Certificate_Required, Affidavit_Required, Floor, Tf_Seal_No, metering_position,
-             Initial_Cf_OK, CA_No, Amount, applied_premises, remarks, strOrderNo, strsign_Img, building_img1,
-             building_img2, IMEI_NO, strLatitude, strLongtitude, FILE_ATTACHMENT, SITE_LAYOUT_IMG, CABLE_TYPE,
-             LEFT_METER_NO, RIGHT_METER_NO, APPLIED_AREA, BUILDING_AREA, strPasted, NEW_BUILDING, NORMATIVE_LOAD,
-             COVERED_AREA, PLOT_AREA, Existing_Meter_No, Encroachment, BuildingHeightRemarks, ELCB);
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+
+                if (BuildingHeightRemarks.Length > 245)
+                    BuildingHeightRemarks = BuildingHeightRemarks.Substring(0, 244);
+
+                _bReturn = newClassFile.Insert_NEW_CONNECTION_SITE_TASKS3(Connected_Load, Usage_Category_Of_site,
+                 Pole_No_Feeder_Pillar_No, meter_No, Service_Line_Length, Building_Hieght, Wiring_Completed,
+                 Lift_Installed, Lift_Certificate_Required, Affidavit_Required, Floor, Tf_Seal_No, metering_position,
+                 Initial_Cf_OK, CA_No, Amount, applied_premises, remarks, strOrderNo, strsign_Img, building_img1,
+                 building_img2, IMEI_NO, strLatitude, strLongtitude, FILE_ATTACHMENT, SITE_LAYOUT_IMG, CABLE_TYPE,
+                 LEFT_METER_NO, RIGHT_METER_NO, APPLIED_AREA, BUILDING_AREA, strPasted, NEW_BUILDING, NORMATIVE_LOAD,
+                 COVERED_AREA, PLOT_AREA, Existing_Meter_No, Encroachment, BuildingHeightRemarks, ELCB);
 
 
-            return _bReturn;
+                return _bReturn;
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public string updatebreakdownreadstatsu(string BD_ID)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            string _sResult = string.Empty;
-            string _sBYPLServices = System.Web.Configuration.WebConfigurationManager.AppSettings["BYPLServicesLive_TestD"].ToString();
-            if (_sBYPLServices == "TEST")
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
             {
-                BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
-                _sResult = BYPLServices.updatebreakdownreadstatsu("@CPbsESyaMUna", BD_ID);
+                string _sResult = string.Empty;
+                string _sBYPLServices = System.Web.Configuration.WebConfigurationManager.AppSettings["BYPLServicesLive_TestD"].ToString();
+                if (_sBYPLServices == "TEST")
+                {
+                    BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
+                    _sResult = BYPLServices.updatebreakdownreadstatsu("@CPbsESyaMUna", BD_ID);
+                }
+                else
+                {
+                    //BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
+                    //_sResult1 = BYPLServices.updatebreakdownreadstatsu(BD_ID);
+
+                    _sResult = "OOPs! service not available";
+                    //BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
+                    //ds = BYPLServices.getbreakdowndetails(IMEINO);
+
+                }
+                return _sResult;
             }
             else
-            {
-                //BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
-                //_sResult1 = BYPLServices.updatebreakdownreadstatsu(BD_ID);
-
-                _sResult = "OOPs! service not available";
-                //BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
-                //ds = BYPLServices.getbreakdowndetails(IMEINO);
-
-            }
-            return _sResult;
+                return ("INVAILD AUTHENTICATION");
         }
-        else
-            return ("INVAILD AUTHENTICATION");
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     //12-02-2015 New
@@ -2932,29 +2979,39 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataSet getbreakdowndetails(string IMEINO)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataSet ds = new DataSet();
-            string _sBYPLServices = System.Web.Configuration.WebConfigurationManager.AppSettings["BYPLServicesLive_TestD"].ToString();
-            if (_sBYPLServices == "TEST")
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
             {
-                BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
-                ds = BYPLServices.getbreakdowndetails("@CPbsESyaMUna", IMEINO);
+                DataSet ds = new DataSet();
+                string _sBYPLServices = System.Web.Configuration.WebConfigurationManager.AppSettings["BYPLServicesLive_TestD"].ToString();
+                if (_sBYPLServices == "TEST")
+                {
+                    BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
+                    ds = BYPLServices.getbreakdowndetails("@CPbsESyaMUna", IMEINO);
+                }
+                else
+                {
+                    BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
+                    ds = BYPLServices.getbreakdowndetails("@CPbsESyaMUna", IMEINO);
+
+                    // ds = NotAvail_ds();
+                    //BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
+                    //ds = BYPLServices.getbreakdowndetails(IMEINO);
+
+                }
+                return ds;
             }
             else
-            {
-                BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
-                ds = BYPLServices.getbreakdowndetails("@CPbsESyaMUna", IMEINO);
-
-                // ds = NotAvail_ds();
-                //BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
-                //ds = BYPLServices.getbreakdowndetails(IMEINO);
-
-            }
-            return ds;
+                return (InvaildAuthonticationds());
         }
-        else
-            return (InvaildAuthonticationds());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -2962,173 +3019,273 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public string getbreakdownstatus(string BD_ID)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            string _sResult = string.Empty;
-            string _sBYPLServices = System.Web.Configuration.WebConfigurationManager.AppSettings["BYPLServicesLive_TestD"].ToString();
-            if (_sBYPLServices == "TEST")
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
             {
-                BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
-                _sResult = BYPLServices.getbreakdownstatus("@CPbsESyaMUna", BD_ID);
+                string _sResult = string.Empty;
+                string _sBYPLServices = System.Web.Configuration.WebConfigurationManager.AppSettings["BYPLServicesLive_TestD"].ToString();
+                if (_sBYPLServices == "TEST")
+                {
+                    BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
+                    _sResult = BYPLServices.getbreakdownstatus("@CPbsESyaMUna", BD_ID);
+                }
+                else
+                {
+                    //BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
+                    //_sResult1 = BYPLServices.updatebreakdownreadstatsu(BD_ID);
+
+                    _sResult = "OOPs! service not available";
+                    //BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
+                    //ds = BYPLServices.getbreakdowndetails(IMEINO);
+
+                }
+                return _sResult;
             }
             else
-            {
-                //BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
-                //_sResult1 = BYPLServices.updatebreakdownreadstatsu(BD_ID);
-
-                _sResult = "OOPs! service not available";
-                //BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
-                //ds = BYPLServices.getbreakdowndetails(IMEINO);
-
-            }
-            return _sResult;
+                return ("INVAILD AUTHENTICATION");
         }
-        else
-            return ("INVAILD AUTHENTICATION");
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public bool SCAN_FOR_AFFIDAVIT(string strOrderNo, string strScan_for_AFFIDAVIT)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.update_NEW_CONNECTION_SITE_TASKS_SCAN_FOR_AFFIDAVIT(strOrderNo, strScan_for_AFFIDAVIT);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.update_NEW_CONNECTION_SITE_TASKS_SCAN_FOR_AFFIDAVIT(strOrderNo, strScan_for_AFFIDAVIT);
+                return _bReturn;
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public bool NEW_CONNECTION_SITE_STATUS(string strOrderNo, string strStatus, string strNewRemarks, string strRescheduledate)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.NEW_CONNECTION_SITE_STATUS(strOrderNo, strStatus, strNewRemarks, strRescheduledate);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.NEW_CONNECTION_SITE_STATUS(strOrderNo, strStatus, strNewRemarks, strRescheduledate);
+                return _bReturn;
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public bool SCAN_FOR_ADDRESS_PROOF(string strOrderNo, string strScan_for_AFFIDAVIT)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.update_NEW_CONNECTION_SITE_TASKS_SCAN_FOR_ADDRESS_PROOF(strOrderNo, strScan_for_AFFIDAVIT);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.update_NEW_CONNECTION_SITE_TASKS_SCAN_FOR_ADDRESS_PROOF(strOrderNo, strScan_for_AFFIDAVIT);
+                return _bReturn;
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public bool SCAN_FOR_ID_PROOF(string strOrderNo, string strScan_for_AFFIDAVIT)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.update_NEW_CONNECTION_SITE_TASKS_SCAN_FOR_ID_PROOF(strOrderNo, strScan_for_AFFIDAVIT);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.update_NEW_CONNECTION_SITE_TASKS_SCAN_FOR_ID_PROOF(strOrderNo, strScan_for_AFFIDAVIT);
+                return _bReturn;
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public bool SCAN_FOR_Ownership(string strOrderNo, string strScan_for_Ownership)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.update_NEW_CONNECTION_SITE_TASKS_SCAN_FOR_Ownership(strOrderNo, strScan_for_Ownership);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.update_NEW_CONNECTION_SITE_TASKS_SCAN_FOR_Ownership(strOrderNo, strScan_for_Ownership);
+                return _bReturn;
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public bool SCAN_FOR_Application(string strOrderNo, string strScan_for_Application)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.update_NEW_CONNECTION_SITE_TASKS_SCAN_FOR_Application(strOrderNo, strScan_for_Application);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.update_NEW_CONNECTION_SITE_TASKS_SCAN_FOR_Application(strOrderNo, strScan_for_Application);
+                return _bReturn;
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public bool SCAN_FOR_OTHER(string strOrderNo, string strScan_for_AFFIDAVIT)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.update_NEW_CONNECTION_SITE_TASKS_SCAN_FOR_OTHER(strOrderNo, strScan_for_AFFIDAVIT);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.update_NEW_CONNECTION_SITE_TASKS_SCAN_FOR_OTHER(strOrderNo, strScan_for_AFFIDAVIT);
+                return _bReturn;
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public bool NEW_CONNECTION_SITE_TASKS1(string strOrderNo, string strCode_Group, string strTask_Code)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.NEW_CONNECTION_SITE_TASKS1(strOrderNo, strCode_Group, strTask_Code);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.NEW_CONNECTION_SITE_TASKS1(strOrderNo, strCode_Group, strTask_Code);
+                return _bReturn;
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public bool NEW_CONNECTION_SITE_SIGN_IMG(string strOrderNo, string strsign_Img, string building_img1, string building_img2)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.Insert_sign_Img(strOrderNo, strsign_Img, building_img1, building_img2);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.Insert_sign_Img(strOrderNo, strsign_Img, building_img1, building_img2);
+                return _bReturn;
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -3136,16 +3293,26 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public bool NEW_CONNECTION_pole_TF_RC_Premises(string strOrderNo, string strPole_Img, string strTF_Img, string strRC_Premises_Img)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.Insert_pole_TF_RC_Premises(strOrderNo, strPole_Img, strTF_Img, strRC_Premises_Img);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.Insert_pole_TF_RC_Premises(strOrderNo, strPole_Img, strTF_Img, strRC_Premises_Img);
+                return _bReturn;
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -3154,93 +3321,121 @@ public class Service : System.Web.Services.WebService
     public bool NEW_CONNECTION_pole_TF_RC_Premises_KCC(string strOrderNo, string strPole_Img, string strTF_Img, string strRC_Premises_Img,
                                                    string strOtherImg2, string strOtherImg3, string strOtherImg4)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.Insert_pole_TF_RC_Premises_KCC(strOrderNo, strPole_Img, strTF_Img, strRC_Premises_Img, strOtherImg2,
-                                                                         strOtherImg3, strOtherImg4);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.Insert_pole_TF_RC_Premises_KCC(strOrderNo, strPole_Img, strTF_Img, strRC_Premises_Img, strOtherImg2,
+                                                                             strOtherImg3, strOtherImg4);
+                return _bReturn;
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable ISUSTD_USER_Old(string strUser_Name, string strPassword)
     {
-
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = NewClassFile.ISUSTD_USER_OLD(strUser_Name, strPassword);
-            dt.TableName = "ISUSTD_USER";
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = NewClassFile.ISUSTD_USER_OLD(strUser_Name, strPassword);
+                dt.TableName = "ISUSTD_USER";
 
 
-            return dt;
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable ISUSTD_USER(string strUser_Name, string strPassword, string strIMEI_No)
     {
-        NewClassFile newClassFile = new NewClassFile();
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Username", typeof(string));
-            dt.Columns.Add("password", typeof(string));
-            dt.Columns.Add("NAME", typeof(string));
-            dt.Columns.Add("EMEI_no", typeof(string));
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            dt = newClassFile.ISUSTD_USER(strUser_Name, strPassword, strIMEI_No);
-            dt.TableName = "ISUSTD_USER";
-            if (dt.Rows.Count == 0)
+            NewClassFile newClassFile = new NewClassFile();
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
             {
-                dt.Rows.Add("Incorrect User or Password", "Incorrect User or Password", "", strIMEI_No);
-                dt.AcceptChanges();
-                return dt;
-            }
-            else if (strUser_Name != "" && strPassword != "" && strIMEI_No != "")
-            {
-                if (strUser_Name != dt.Rows[0]["User_name"].ToString())
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Username", typeof(string));
+                dt.Columns.Add("password", typeof(string));
+                dt.Columns.Add("NAME", typeof(string));
+                dt.Columns.Add("EMEI_no", typeof(string));
+
+                dt = newClassFile.ISUSTD_USER(strUser_Name, strPassword, strIMEI_No);
+                dt.TableName = "ISUSTD_USER";
+                if (dt.Rows.Count == 0)
                 {
-                    dt.Rows.Add("User Name Incorrect!", dt.Rows[0]["password"].ToString(), dt.Rows[0]["NAME"].ToString(), dt.Rows[0]["IMEI_NO"].ToString());
+                    dt.Rows.Add("Incorrect User or Password", "Incorrect User or Password", "", strIMEI_No);
                     dt.AcceptChanges();
+                    return dt;
                 }
-                else if (strPassword != dt.Rows[0]["password"].ToString())
+                else if (strUser_Name != "" && strPassword != "" && strIMEI_No != "")
                 {
-                    dt.Rows.Add(dt.Rows[0]["User_name"].ToString(), "Password Incorrect", dt.Rows[0]["NAME"].ToString(), dt.Rows[0]["IMEI_NO"].ToString());
-                    dt.AcceptChanges();
+                    if (strUser_Name != dt.Rows[0]["User_name"].ToString())
+                    {
+                        dt.Rows.Add("User Name Incorrect!", dt.Rows[0]["password"].ToString(), dt.Rows[0]["NAME"].ToString(), dt.Rows[0]["IMEI_NO"].ToString());
+                        dt.AcceptChanges();
+                    }
+                    else if (strPassword != dt.Rows[0]["password"].ToString())
+                    {
+                        dt.Rows.Add(dt.Rows[0]["User_name"].ToString(), "Password Incorrect", dt.Rows[0]["NAME"].ToString(), dt.Rows[0]["IMEI_NO"].ToString());
+                        dt.AcceptChanges();
+                    }
+                    else if (strIMEI_No != dt.Rows[0]["IMEI_NO"].ToString())
+                    {
+                        dt.Rows.Add(dt.Rows[0]["User_name"].ToString(), dt.Rows[0]["password"].ToString(), dt.Rows[0]["NAME"].ToString(), "IMEI Number Incorrect");
+                        dt.AcceptChanges();
+                    }
+                    else if (strUser_Name == dt.Rows[0]["User_name"].ToString() && strPassword == dt.Rows[0]["password"].ToString() && strIMEI_No == dt.Rows[0]["IMEI_NO"].ToString())
+                    {
+                        dt.Rows.Add(dt.Rows[0]["User_name"].ToString(), dt.Rows[0]["password"].ToString(), dt.Rows[0]["NAME"].ToString(), dt.Rows[0]["IMEI_no"].ToString());
+                        dt.AcceptChanges();
+                    }
                 }
-                else if (strIMEI_No != dt.Rows[0]["IMEI_NO"].ToString())
+                if (dt.Rows.Count > 0)
                 {
-                    dt.Rows.Add(dt.Rows[0]["User_name"].ToString(), dt.Rows[0]["password"].ToString(), dt.Rows[0]["NAME"].ToString(), "IMEI Number Incorrect");
+                    dt.Rows[0].Delete();
                     dt.AcceptChanges();
+                    return dt;
                 }
-                else if (strUser_Name == dt.Rows[0]["User_name"].ToString() && strPassword == dt.Rows[0]["password"].ToString() && strIMEI_No == dt.Rows[0]["IMEI_NO"].ToString())
-                {
-                    dt.Rows.Add(dt.Rows[0]["User_name"].ToString(), dt.Rows[0]["password"].ToString(), dt.Rows[0]["NAME"].ToString(), dt.Rows[0]["IMEI_no"].ToString());
-                    dt.AcceptChanges();
-                }
-            }
-            if (dt.Rows.Count > 0)
-            {
-                dt.Rows[0].Delete();
-                dt.AcceptChanges();
-                return dt;
+                else
+                    return dt;
             }
             else
-                return dt;
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -3261,77 +3456,117 @@ public class Service : System.Web.Services.WebService
         , string strC_036, string strC_037, string strC_038
         , string strC_039, string strC_040, string strC_041, string strC_070, string strsign_Img)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.Insert_DOCLIST(strOrderNo, strC_001, strC_002
-            , strC_003, strC_004, strC_005
-            , strC_006, strC_007, strC_008
-            , strC_009, strC_010, strC_011
-            , strC_012, strC_013, strC_014
-            , strC_015, strC_016, strC_017
-            , strC_018, strC_019, strC_020
-            , strC_021, strC_022, strC_023
-            , strC_024, strC_025, strC_026
-            , strC_027, strC_028, strC_029
-            , strC_030, strC_031, strC_032
-            , strC_033, strC_034, strC_035
-            , strC_036, strC_037, strC_038
-            , strC_039, strC_040, strC_041, strC_070, strsign_Img);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.Insert_DOCLIST(strOrderNo, strC_001, strC_002
+                , strC_003, strC_004, strC_005
+                , strC_006, strC_007, strC_008
+                , strC_009, strC_010, strC_011
+                , strC_012, strC_013, strC_014
+                , strC_015, strC_016, strC_017
+                , strC_018, strC_019, strC_020
+                , strC_021, strC_022, strC_023
+                , strC_024, strC_025, strC_026
+                , strC_027, strC_028, strC_029
+                , strC_030, strC_031, strC_032
+                , strC_033, strC_034, strC_035
+                , strC_036, strC_037, strC_038
+                , strC_039, strC_040, strC_041, strC_070, strsign_Img);
+                return _bReturn;
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public bool DOCLIST_NEW(string strOrderNo, string strDocument_Type)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.Insert_DOCLIST_NEW(strOrderNo, strDocument_Type);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.Insert_DOCLIST_NEW(strOrderNo, strDocument_Type);
+                return _bReturn;
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public bool Insert_DOCLIST_sign(string strOrderNo, string strsign_Img)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.Insert_DOCLIST_sign(strOrderNo, strsign_Img);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.Insert_DOCLIST_sign(strOrderNo, strsign_Img);
+                return _bReturn;
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public bool Insert_CA_building_img(string strCA, string strbuilding_img)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.Insert_CA_building_img(strCA, strbuilding_img);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.Insert_CA_building_img(strCA, strbuilding_img);
+                return _bReturn;
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
@@ -3341,19 +3576,29 @@ public class Service : System.Web.Services.WebService
             string strfathersName, string strloadKW, string strloadKVA, string strappliedAddress, string strcontactNo,
             string strvisitDate, string strtime, string strdocReceived, string strcreation, string strenggName, string strEmail_id)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.Insert_IR_DATA(strOrderNo, strdivision,
-            strbp, strapplicantName, strcategory,
-            strfathersName, strloadKW, strloadKVA, strappliedAddress, strcontactNo,
-            strvisitDate, strtime, strdocReceived, strcreation, strenggName, strEmail_id);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.Insert_IR_DATA(strOrderNo, strdivision,
+                strbp, strapplicantName, strcategory,
+                strfathersName, strloadKW, strloadKVA, strappliedAddress, strcontactNo,
+                strvisitDate, strtime, strdocReceived, strcreation, strenggName, strEmail_id);
+                return _bReturn;
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
@@ -3363,19 +3608,29 @@ public class Service : System.Web.Services.WebService
             string strfathersName, string strloadKW, string strloadKVA, string strappliedAddress, string strcontactNo,
             string strvisitDate, string strtime, string strdocReceived, string strcreation, string strenggName)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.UPDATE_IR_DATA(strOrderNo, strdivision,
-                strbp, strapplicantName, strcategory,
-                strfathersName, strloadKW, strloadKVA, strappliedAddress, strcontactNo,
-                strvisitDate, strtime, strdocReceived, strcreation, strenggName);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.UPDATE_IR_DATA(strOrderNo, strdivision,
+                    strbp, strapplicantName, strcategory,
+                    strfathersName, strloadKW, strloadKVA, strappliedAddress, strcontactNo,
+                    strvisitDate, strtime, strdocReceived, strcreation, strenggName);
+                return _bReturn;
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
@@ -3385,19 +3640,29 @@ public class Service : System.Web.Services.WebService
            string strconsref, string strname, string straddress, string strcheckEnforcement, string strlastPaymentMode,
            string strsequenceNo, string strcheckRelated, string strUserType)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.Insert_CF_DATA(strOrderNo, strnetoutstandingAmt,
-                strbp, strca, strmoveOutDate,
-                strconsref, strname, straddress, strcheckEnforcement, strlastPaymentMode,
-                strsequenceNo, strcheckRelated, strUserType);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.Insert_CF_DATA(strOrderNo, strnetoutstandingAmt,
+                    strbp, strca, strmoveOutDate,
+                    strconsref, strname, straddress, strcheckEnforcement, strlastPaymentMode,
+                    strsequenceNo, strcheckRelated, strUserType);
+                return _bReturn;
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
@@ -3407,19 +3672,29 @@ public class Service : System.Web.Services.WebService
            string strconsref, string strname, string straddress, string strcheckEnforcement, string strlastPaymentMode,
            string strsequenceNo, string strcheckRelated)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.UPDATE_CF_DATA(strOrderNo, strnetoutstandingAmt,
-                strbp, strca, strmoveOutDate,
-                strconsref, strname, straddress, strcheckEnforcement, strlastPaymentMode,
-                strsequenceNo, strcheckRelated);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.UPDATE_CF_DATA(strOrderNo, strnetoutstandingAmt,
+                    strbp, strca, strmoveOutDate,
+                    strconsref, strname, straddress, strcheckEnforcement, strlastPaymentMode,
+                    strsequenceNo, strcheckRelated);
+                return _bReturn;
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -3431,19 +3706,29 @@ public class Service : System.Web.Services.WebService
            string strmeter3, string stradd3, string strmeter4, string stradd4, string strmeter5,
            string stradd5)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.insert_ReCF_DATA(strOrderNo, strmeter1,
-                stradd1, strmeter2, stradd2,
-                strmeter3, stradd3, strmeter4, stradd4, strmeter5,
-                stradd5);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.insert_ReCF_DATA(strOrderNo, strmeter1,
+                    stradd1, strmeter2, stradd2,
+                    strmeter3, stradd3, strmeter4, stradd4, strmeter5,
+                    stradd5);
+                return _bReturn;
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -3453,18 +3738,28 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public String GCMRegistration(string singleParameter)
     {
-        NewClassFile newClassFile = new NewClassFile();
+        try
+        {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-        string strReturn = string.Empty;
-        //if (checkConsumer(MethodBase.GetCurrentMethod().Name))
-        //{
-        //    strReturn = newClassFile.GCMRegistration_ONM(singleParameter);
-        //    return strReturn;
-        //}
-        //else
-        //    return ("INVAILD AUTHENTICATION");
+            NewClassFile newClassFile = new NewClassFile();
 
-        return "1";
+            string strReturn = string.Empty;
+            //if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            //{
+            //    strReturn = newClassFile.GCMRegistration_ONM(singleParameter);
+            //    return strReturn;
+            //}
+            //else
+            //    return ("INVAILD AUTHENTICATION");
+
+            return "1";
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -3472,52 +3767,81 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable GCMUserMsgLog(string singleParameter)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.GCMUserMsgLog_ONM(singleParameter);
-            dt.TableName = "CNS_USERMSG_LOG";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.GCMUserMsgLog_ONM(singleParameter);
+                dt.TableName = "CNS_USERMSG_LOG";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public string GCMUpdateMsgLog(string singleParameter)
     {
-        NewClassFile newClassFile = new NewClassFile();
+        try
+        {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-        string strReturn = string.Empty;
-        //if (checkConsumer(MethodBase.GetCurrentMethod().Name))
-        //{
-        //    strReturn = newClassFile.GCMUpdateMsgLog_ONM(singleParameter);
-        //    return strReturn;
-        //}
-        //else
-        //    return ("INVAILD AUTHENTICATION");
-        return "1";
+            NewClassFile newClassFile = new NewClassFile();
 
+            string strReturn = string.Empty;
+            //if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            //{
+            //    strReturn = newClassFile.GCMUpdateMsgLog_ONM(singleParameter);
+            //    return strReturn;
+            //}
+            //else
+            //    return ("INVAILD AUTHENTICATION");
+            return "1";
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public string GCMCheckRegistrationLog(string singleParameter)
     {
-        NewClassFile newClassFile = new NewClassFile();
+        try
+        {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-        string strReturn = string.Empty;
-        //if (checkConsumer(MethodBase.GetCurrentMethod().Name))
-        //{
-        //  strReturn = newClassFile.GCMCheckRegistrationLog_ONM(singleParameter);
-        //    return strReturn;
-        //}
-        // else
-        // return ("INVAILD AUTHENTICATION");
-        return "1";
+            NewClassFile newClassFile = new NewClassFile();
+
+            string strReturn = string.Empty;
+            //if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            //{
+            //  strReturn = newClassFile.GCMCheckRegistrationLog_ONM(singleParameter);
+            //    return strReturn;
+            //}
+            // else
+            // return ("INVAILD AUTHENTICATION");
+            return "1";
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -3531,56 +3855,76 @@ public class Service : System.Web.Services.WebService
     public DataSet RegisterSmartAppComplaint(string CA, string Phone, string FaultCategory, string SubFaultType
         , string CallerName, string Address, string Email, string Remarks)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataSet ds = new DataSet();
-            string _sBYPLServices = System.Web.Configuration.WebConfigurationManager.AppSettings["BYPLServicesLive_TestD"].ToString();
-            if (_sBYPLServices == "TEST")
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
             {
-                BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
-                ds = BYPLServices.RegisterSmartAppComplaint("@CPbsESyaMUna", CA, Phone, FaultCategory, SubFaultType
-                     , CallerName, Address, Email, Remarks);
+                DataSet ds = new DataSet();
+                string _sBYPLServices = System.Web.Configuration.WebConfigurationManager.AppSettings["BYPLServicesLive_TestD"].ToString();
+                if (_sBYPLServices == "TEST")
+                {
+                    BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
+                    ds = BYPLServices.RegisterSmartAppComplaint("@CPbsESyaMUna", CA, Phone, FaultCategory, SubFaultType
+                         , CallerName, Address, Email, Remarks);
+                }
+                else
+                {
+                    BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
+                    ds = BYPLServices.RegisterSmartAppComplaint("@CPbsESyaMUna", CA, Phone, FaultCategory, SubFaultType
+                         , CallerName, Address, Email, Remarks);
+
+                }
+                return ds;
             }
             else
-            {
-                BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
-                ds = BYPLServices.RegisterSmartAppComplaint("@CPbsESyaMUna", CA, Phone, FaultCategory, SubFaultType
-                     , CallerName, Address, Email, Remarks);
-
-            }
-            return ds;
+                return (InvaildAuthonticationds());
         }
-        else
-            return (InvaildAuthonticationds());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public string updatebreakdown(string BD_ID, int newhour, int newminutes)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            string _sResult = string.Empty;
-            string _sBYPLServices = System.Web.Configuration.WebConfigurationManager.AppSettings["BYPLServicesLive_TestD"].ToString();
-            if (_sBYPLServices == "TEST")
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
             {
-                BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
-                _sResult = BYPLServices.updatebreakdown("@CPbsESyaMUna", BD_ID, newhour, newminutes);
+                string _sResult = string.Empty;
+                string _sBYPLServices = System.Web.Configuration.WebConfigurationManager.AppSettings["BYPLServicesLive_TestD"].ToString();
+                if (_sBYPLServices == "TEST")
+                {
+                    BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
+                    _sResult = BYPLServices.updatebreakdown("@CPbsESyaMUna", BD_ID, newhour, newminutes);
+                }
+                else
+                {
+                    BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
+                    _sResult = BYPLServices.updatebreakdown("@CPbsESyaMUna", BD_ID, newhour, newminutes);
+
+                    // _sResult = "OOPs! service not available";
+                    //BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
+                    //ds = BYPLServices.getbreakdowndetails(IMEINO);
+
+                }
+                return _sResult;
             }
             else
-            {
-                BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
-                _sResult = BYPLServices.updatebreakdown("@CPbsESyaMUna", BD_ID, newhour, newminutes);
-
-                // _sResult = "OOPs! service not available";
-                //BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
-                //ds = BYPLServices.getbreakdowndetails(IMEINO);
-
-            }
-            return _sResult;
+                return ("INVAILD AUTHENTICATION");
         }
-        else
-            return ("INVAILD AUTHENTICATION");
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     //12-02-2015 New
@@ -3588,28 +3932,38 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataSet GetComplaintStatus(string ComplaintNo)
     {
-        DataSet ds = new DataSet();
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            string _sResult = string.Empty;
-            string _sBYPLServices = System.Web.Configuration.WebConfigurationManager.AppSettings["BYPLServicesLive_TestD"].ToString();
-            if (_sBYPLServices == "TEST")
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            DataSet ds = new DataSet();
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
             {
-                BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
-                ds = BYPLServices.GetComplaintStatus("@CPbsESyaMUna", ComplaintNo, "");
+                string _sResult = string.Empty;
+                string _sBYPLServices = System.Web.Configuration.WebConfigurationManager.AppSettings["BYPLServicesLive_TestD"].ToString();
+                if (_sBYPLServices == "TEST")
+                {
+                    BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
+                    ds = BYPLServices.GetComplaintStatus("@CPbsESyaMUna", ComplaintNo, "");
+                }
+                else
+                {
+                    BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
+                    ds = BYPLServices.GetComplaintStatus("@CPbsESyaMUna", ComplaintNo, "");
+
+                    //ds = NotAvail_ds();
+
+                }
+                return ds;
             }
             else
-            {
-                BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
-                ds = BYPLServices.GetComplaintStatus("@CPbsESyaMUna", ComplaintNo, "");
-
-                //ds = NotAvail_ds();
-
-            }
-            return ds;
+                return (InvaildAuthonticationds());
         }
-        else
-            return (InvaildAuthonticationds());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     //12-02-2015 New
@@ -3617,27 +3971,37 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataSet GetComplaintDetailsCA(string CANo)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataSet ds = new DataSet();
-            string _sResult = string.Empty;
-            string _sBYPLServices = System.Web.Configuration.WebConfigurationManager.AppSettings["BYPLServicesLive_TestD"].ToString();
-            if (_sBYPLServices == "TEST")
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
             {
-                BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
-                ds = BYPLServices.GetComplaintDetailsCA("@CPbsESyaMUna", CANo);
+                DataSet ds = new DataSet();
+                string _sResult = string.Empty;
+                string _sBYPLServices = System.Web.Configuration.WebConfigurationManager.AppSettings["BYPLServicesLive_TestD"].ToString();
+                if (_sBYPLServices == "TEST")
+                {
+                    BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
+                    ds = BYPLServices.GetComplaintDetailsCA("@CPbsESyaMUna", CANo);
+                }
+                else
+                {
+                    BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
+                    ds = BYPLServices.GetComplaintDetailsCA("@CPbsESyaMUna", CANo);
+                    // ds = NotAvail_ds();
+
+                }
+                return ds;
             }
             else
-            {
-                BYPLOMSONLINE_Services_TestD.Service1 BYPLServices = new BYPLOMSONLINE_Services_TestD.Service1();
-                ds = BYPLServices.GetComplaintDetailsCA("@CPbsESyaMUna", CANo);
-                // ds = NotAvail_ds();
-
-            }
-            return ds;
+                return (InvaildAuthonticationds());
         }
-        else
-            return (InvaildAuthonticationds());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     #endregion
@@ -3648,17 +4012,27 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable GetValidateUser(string _sUser, string _sPass)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.GetValidateUser(_sUser, _sPass);
-            dt.TableName = "ValidateUser";
-            return (dt);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.GetValidateUser(_sUser, _sPass);
+                dt.TableName = "ValidateUser";
+                return (dt);
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     //18-02-2015 New
@@ -3667,15 +4041,27 @@ public class Service : System.Web.Services.WebService
     public bool NewRegistration_ARD(string strConsRef, string strUserName, string strPass
          , string strEmailId, string strMobileNo, string strPhoneNo, string strContactPerson)
     {
-        AllInsert allInsert = new AllInsert();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            return (allInsert.NewRegistration_ARD(strConsRef, strUserName, strPass
-         , strEmailId, strMobileNo, strPhoneNo, strContactPerson));
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            AllInsert allInsert = new AllInsert();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                return (allInsert.NewRegistration_ARD(strConsRef, strUserName, strPass
+             , strEmailId, strMobileNo, strPhoneNo, strContactPerson));
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
+
+
     }
 
     //18-02-2015 New
@@ -3683,31 +4069,51 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public string GetPasswordSMS(string strConsRef)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            return (newClassFile.GetPasswordSMS(strConsRef));
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                return (newClassFile.GetPasswordSMS(strConsRef));
+            }
+            else
+                return ("Unauthorized Access!");
         }
-        else
-            return ("Unauthorized Access!");
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable EMP_UserDetails(string strEmpNo, string strOtherIfAny)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.empCompanyUserDetails(strEmpNo, strOtherIfAny);
-            dt.TableName = "empCompanyUserDetails";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.empCompanyUserDetails(strEmpNo, strOtherIfAny);
+                dt.TableName = "empCompanyUserDetails";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     #endregion
@@ -3718,17 +4124,27 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable ONM_GetAssignedComplaintsToTeam(string imeiNo) //Added By Ajay
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.onm_GetAssignedComplaintsToTeamDL(imeiNo);
-            dt.TableName = "ONM_GetAssignedComplaintsToTeam";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.onm_GetAssignedComplaintsToTeamDL(imeiNo);
+                dt.TableName = "ONM_GetAssignedComplaintsToTeam";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
@@ -3737,33 +4153,53 @@ public class Service : System.Web.Services.WebService
         string Latitude, string longitude, string remarks, string resolutionStatus, int resolutionTime,
         string Area_Power_Restored, int Restoration_Time)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            return newClassFile.ONM_UpdateComplaintResolutiontimeDL(ComplaintNo, imeiNo, FCode,
-                Latitude, longitude, remarks, resolutionStatus, resolutionTime, Area_Power_Restored,
-                Restoration_Time);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                return newClassFile.ONM_UpdateComplaintResolutiontimeDL(ComplaintNo, imeiNo, FCode,
+                    Latitude, longitude, remarks, resolutionStatus, resolutionTime, Area_Power_Restored,
+                    Restoration_Time);
+            }
+            else
+                return false;
         }
-        else
-            return false;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable ONM_GetComplaintStatus(string CompNo, string IMEINo)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.GetComplaintStatusDL(CompNo, IMEINo);
-            dt.TableName = "ONM_GetComplaintStatus";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.GetComplaintStatusDL(CompNo, IMEINo);
+                dt.TableName = "ONM_GetComplaintStatus";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -3771,28 +4207,38 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public bool CloseComplaintSig(string ComplaintNo, string CA, string FCode, string ClosingRemark, string OtherRemarks, string IMEI, string Latitude, string Longitude, string SignatureData)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool flg = true;
-            DataSet Ds = new DataSet();
-            DataTable dt = new DataTable();
-            string Sql;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            dt = newClassFile.onm_ValidCAnCompNo(ComplaintNo);
-            if (dt.Rows.Count > 0)
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
             {
-                flg = newClassFile.SavingSigntrData(ComplaintNo, CA, FCode, ClosingRemark, OtherRemarks, IMEI, Latitude, Longitude, SignatureData);
+                bool flg = true;
+                DataSet Ds = new DataSet();
+                DataTable dt = new DataTable();
+                string Sql;
+
+                dt = newClassFile.onm_ValidCAnCompNo(ComplaintNo);
+                if (dt.Rows.Count > 0)
+                {
+                    flg = newClassFile.SavingSigntrData(ComplaintNo, CA, FCode, ClosingRemark, OtherRemarks, IMEI, Latitude, Longitude, SignatureData);
+                }
+                else
+                {
+                    flg = false;
+                }
+                return flg;
             }
             else
-            {
-                flg = false;
-            }
-            return flg;
+                return false;
         }
-        else
-            return false;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -3800,60 +4246,90 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public bool UpdateIMEILocation(string IMEINO, string Latitude, string Longitude, string Remarks)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DbFunction objdbfun = new DbFunction();
-            DataTable Result;
-            bool flg;
-            if (String.IsNullOrEmpty(Remarks))
-                Remarks = "";
-            String Query = String.Format(" INSERT INTO OMM_IMEI_TRACKER ( IMEINO, LATITUDE, LONGITUDE, REMARKS) VALUES ( '{0}' , {1} , {2} , '{3}' ) "
-                , IMEINO, Latitude, Longitude, Remarks);
-            try
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
             {
-                if (objdbfun.dmlsinglequery_ONM(Query))
-                    flg = true;
-                else
-                    flg = false;
+                DbFunction objdbfun = new DbFunction();
+                DataTable Result;
+                bool flg;
+                if (String.IsNullOrEmpty(Remarks))
+                    Remarks = "";
+                String Query = String.Format(" INSERT INTO OMM_IMEI_TRACKER ( IMEINO, LATITUDE, LONGITUDE, REMARKS) VALUES ( '{0}' , {1} , {2} , '{3}' ) "
+                    , IMEINO, Latitude, Longitude, Remarks);
+                try
+                {
+                    if (objdbfun.dmlsinglequery_ONM(Query))
+                        flg = true;
+                    else
+                        flg = false;
+                }
+                catch (Exception) { flg = false; }
+                return flg;
             }
-            catch (Exception) { flg = false; }
-            return flg;
+            else
+                return false;
         }
-        else
-            return false;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable ONM_LINEMEN_LOGIN(string strPassword, string strIMEI_No) //Linemen Login Rajveer
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.onmLinemanLoginUser(strPassword, strIMEI_No);
-            dt.TableName = "onmLinemanLoginUser";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.onmLinemanLoginUser(strPassword, strIMEI_No);
+                dt.TableName = "onmLinemanLoginUser";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public bool ONM_LINEMEN_LOGOUT(string strIMEI_No) //Linemen Login Rajveer
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.onmLinemanLogoutUser(strIMEI_No);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.onmLinemanLogoutUser(strIMEI_No);
+                return _bReturn;
+            }
+            else
+                return false;
         }
-        else
-            return false;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -3865,31 +4341,51 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable ONM_COMPLAINT_DETAIL(string strKeyMap, string imeiNo)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.onm_Complaint_Detail(imeiNo);
-            dt.TableName = "onm_complaint_detail";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.onm_Complaint_Detail(imeiNo);
+                dt.TableName = "onm_complaint_detail";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public bool onm_mark_read(string complain_no, string fault_id, string occurance_dt, string imei_no, string lm_read_flag, string lm_latitude, string lm_longitude)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            return newClassFile.oms_mark_read(complain_no, fault_id, occurance_dt, imei_no, lm_read_flag, lm_latitude, lm_longitude);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                return newClassFile.oms_mark_read(complain_no, fault_id, occurance_dt, imei_no, lm_read_flag, lm_latitude, lm_longitude);
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
@@ -3897,112 +4393,180 @@ public class Service : System.Web.Services.WebService
     public bool update_onm_complaint(string complain_no, string faultid, string sbmt_latitude, string sbmt_longtude, string sbmt_remarks,
            string resolve_status, string resolve_time, string area_power_restored, string time_for_restoration, string fcode, string fault)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            return newClassFile.update_onm_complaint(complain_no, faultid, sbmt_latitude, sbmt_longtude, sbmt_remarks,
-                resolve_status, resolve_time, area_power_restored, time_for_restoration, fcode, fault);
-        }
-        else
-            return (false);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                return newClassFile.update_onm_complaint(complain_no, faultid, sbmt_latitude, sbmt_longtude, sbmt_remarks,
+                    resolve_status, resolve_time, area_power_restored, time_for_restoration, fcode, fault);
+            }
+            else
+                return (false);
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public bool ONM_UpdatebreakdowndetailsHour(string BreakDownID, string FaultID, string NewHour, string NewMin) // Vulnerabilities Issue
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            return newClassFile.UpdatebreakdowndetailsHourDL(BreakDownID, FaultID, NewHour, NewMin);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                return newClassFile.UpdatebreakdowndetailsHourDL(BreakDownID, FaultID, NewHour, NewMin);
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable GetbreakdowndetailsIMEI(string imeiNo) // Not Added Due to Frequently Called Method Via Android Background Service
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.GetbreakdowndetailsIMEIDL(imeiNo);
-            dt.TableName = "GetbreakdowndetailsIMEI";
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            return dt;
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.GetbreakdowndetailsIMEIDL(imeiNo);
+                dt.TableName = "GetbreakdowndetailsIMEI";
+
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public bool ONM_updatebreakdownreadstatsu(string BREAK_DOWN_ID, string FAULTID) // Vulnerabilities Issue
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            return newClassFile.updatebreakdownreadstatsuDL(BREAK_DOWN_ID, FAULTID);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                return newClassFile.updatebreakdownreadstatsuDL(BREAK_DOWN_ID, FAULTID);
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable getbreakdownstatusBD(string BREAK_DOWN_ID, string faultID) // Not Added Due to Frequently Called Method Via Android Background Service
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.getbreakdownstatusBDDL(BREAK_DOWN_ID, faultID);
-            dt.TableName = "getbreakdownstatusBD";
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            return dt;
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.getbreakdownstatusBDDL(BREAK_DOWN_ID, faultID);
+                dt.TableName = "getbreakdownstatusBD";
+
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
-
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable ONM_getbreakdownbackfeedlist(string BREAK_DOWN_ID)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.getbreakdownbackfeedlist(BREAK_DOWN_ID);
-            dt.TableName = "getbreakdownbackfeedlist";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.getbreakdownbackfeedlist(BREAK_DOWN_ID);
+                dt.TableName = "getbreakdownbackfeedlist";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public bool ONM_updatebreakdownbackfeed(string BREAK_DOWN_ID, string FAULTID, string restoreddate, string restoredload, string restoresource, string restoretype, string remarks, string selectedsource)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            return newClassFile.updatebreakdownbackfeed(BREAK_DOWN_ID, FAULTID, restoreddate, restoredload, restoresource, restoretype, remarks, selectedsource);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                return newClassFile.updatebreakdownbackfeed(BREAK_DOWN_ID, FAULTID, restoreddate, restoredload, restoresource, restoretype, remarks, selectedsource);
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -4010,14 +4574,24 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public bool ONM_CloseCableDetails(string BREAK_DOWN_ID, string FAULTID, string restoreddate, string restoredload, string restoresource, string restoretype, string remarks, string selectedsource)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            return newClassFile.updatebreakdownbackfeed(BREAK_DOWN_ID, FAULTID, restoreddate, restoredload, restoresource, restoretype, remarks, selectedsource);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                return newClassFile.updatebreakdownbackfeed(BREAK_DOWN_ID, FAULTID, restoreddate, restoredload, restoresource, restoretype, remarks, selectedsource);
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -4030,15 +4604,25 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable ONM_BurnMeterUpdate(string strComp1)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            //dt = NewClassFile.onmDashboardReport(strStartDate, strEndDate, strDivision, strCompType);
-            dt.TableName = "onmDashboardReport";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                //dt = NewClassFile.onmDashboardReport(strStartDate, strEndDate, strDivision, strCompType);
+                dt.TableName = "onmDashboardReport";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     //Meter burn open complaints
@@ -4046,70 +4630,109 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable ONM_Get_Meter_OComp_List(string distName, string complaintCentre, string status, string areaName) // Complaint Meter Open
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.getOpenOnmMeterBurntComplaintlist(distName, complaintCentre, status, areaName);
-            dt.TableName = "getOnmMeterBurntComplaintlist";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.getOpenOnmMeterBurntComplaintlist(distName, complaintCentre, status, areaName);
+                dt.TableName = "getOnmMeterBurntComplaintlist";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable ONM_Get_Meter_CComp_List(string distName, string complaintCentre, string status, string areaName) // Complaint Meter Close
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.getOpenOnmMeterBurntComplaintlist(distName, complaintCentre, status, areaName);
-            dt.TableName = "getOnmMeterBurntComplaintlist";
-            return dt;
-        }
-        else
-            return (InvaildAuthontication());
-    }
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.getOpenOnmMeterBurntComplaintlist(distName, complaintCentre, status, areaName);
+                dt.TableName = "getOnmMeterBurntComplaintlist";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
+    }
 
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable ONM_Dashboard_Report(string strStartDate, string strEndDate, string strDivision, string strCompType)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.onmDashboardReport(strStartDate, strEndDate, strDivision, strCompType);
-            dt.TableName = "onmDashboardReport";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.onmDashboardReport(strStartDate, strEndDate, strDivision, strCompType);
+                dt.TableName = "onmDashboardReport";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable ONM_Dashboard_OnSelect(string strStartDate, string strEndDate, string strDivCode, string strCompType, string strCompSubType)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.onmDashboardOnSelect(strStartDate, strEndDate, strDivCode, strCompType, strCompSubType);  // Updated 07062016
-            dt.TableName = "onmDashboardOnSelect";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.onmDashboardOnSelect(strStartDate, strEndDate, strDivCode, strCompType, strCompSubType);  // Updated 07062016
+                dt.TableName = "onmDashboardOnSelect";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     //23052016 - Rajveer
@@ -4118,50 +4741,80 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable ONM_Dashboard_Report_Old(string strStartDate, string strEndDate, string strDivision) //Not Used
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.onmDashboardReportOld(strStartDate, strEndDate, strDivision);
-            dt.TableName = "onmDashboardReport";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.onmDashboardReportOld(strStartDate, strEndDate, strDivision);
+                dt.TableName = "onmDashboardReport";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable ONM_Dashboard_OnSelect_Old(string strStartDate, string strEndDate, string strDivCode) //Not Used
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.onmDashboardOnSelectOld(strStartDate, strEndDate, strDivCode);
-            dt.TableName = "onmDashboardOnSelect";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.onmDashboardOnSelectOld(strStartDate, strEndDate, strDivCode);
+                dt.TableName = "onmDashboardOnSelect";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public string Test_Application(string strString)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            string dt = string.Empty;
-            dt = newClassFile.onmSelect(strString);
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                string dt = string.Empty;
+                dt = newClassFile.onmSelect(strString);
+                return dt;
+            }
+            else
+                return "Invalid Authontication";
         }
-        else
-            return "Invalid Authontication";
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     //end 23052016
@@ -4171,369 +4824,378 @@ public class Service : System.Web.Services.WebService
     public string ONM_NCC_Registration(string _sCANo, string cboPriority, string lstFaultCatg, string txtCustRemarks,
         string cboMinutes, string cboDays, string AreaCode, string _sMobileNo)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            string chkComplClear = string.Empty;
-            string dtpCompClearDate = string.Empty;
-            string cboFixtue = string.Empty;
-            string txtStreetNo = string.Empty;
-            string txtCustPhone = string.Empty;
-            string txtCustMob = string.Empty;
-            string txtCustKNo = string.Empty;
-            string lblAreaCode = string.Empty;
-            string txtCustArea = string.Empty;
-            string txtCustDistrict = string.Empty;
-            string cboCallCateg = string.Empty;
-            string txtCustName = string.Empty;
-            string txtCustAdd1 = string.Empty;
-            string txtCustAdd2 = string.Empty;
-            string lblFCode = string.Empty;
-            //string txtCustRemarks = string.Empty;
-            string txtClearedBy = string.Empty;
-            string lblTimeTaken = "0";
-            string txtConsumerReferenceNo = string.Empty;
-            string txtlandmark = string.Empty;
-            string txtContractNo = string.Empty;
-            // string cboMinutes = string.Empty;
-            string txtAddlNo = string.Empty;
-            // string cboDays = string.Empty;
-            string optSmsYes = string.Empty;
-            string optSmsNo = string.Empty;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            string _sConsumerRefNo = string.Empty;
-            string gAreadiv = string.Empty;
-            string txtEBSEMail = string.Empty;
-            string StrConsumerType = string.Empty;
-            string strDIST = string.Empty;
-            string strGridCode = string.Empty;
-            string strGridName = string.Empty;
-            string strGridPhone = string.Empty;
-            string strFeederCode = string.Empty;
-            string strFeederName = string.Empty;
-            string strTRCOde = string.Empty;
-            string strCompCenter = string.Empty;
-            string strCompCenterPhone = string.Empty;
-            string strCircle = string.Empty;
-            string strCompCenterForSapSerch = string.Empty;
-            string UserName = "TAB".Trim();
-            string strCLEAR_STATUS = "N";
-            /// string strCompClearDate = "NULL";
-            string VMODULENAME = "TAB".Trim();
-            //  Session["ISONM"] = "ONM";
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                string chkComplClear = string.Empty;
+                string dtpCompClearDate = string.Empty;
+                string cboFixtue = string.Empty;
+                string txtStreetNo = string.Empty;
+                string txtCustPhone = string.Empty;
+                string txtCustMob = string.Empty;
+                string txtCustKNo = string.Empty;
+                string lblAreaCode = string.Empty;
+                string txtCustArea = string.Empty;
+                string txtCustDistrict = string.Empty;
+                string cboCallCateg = string.Empty;
+                string txtCustName = string.Empty;
+                string txtCustAdd1 = string.Empty;
+                string txtCustAdd2 = string.Empty;
+                string lblFCode = string.Empty;
+                //string txtCustRemarks = string.Empty;
+                string txtClearedBy = string.Empty;
+                string lblTimeTaken = "0";
+                string txtConsumerReferenceNo = string.Empty;
+                string txtlandmark = string.Empty;
+                string txtContractNo = string.Empty;
+                // string cboMinutes = string.Empty;
+                string txtAddlNo = string.Empty;
+                // string cboDays = string.Empty;
+                string optSmsYes = string.Empty;
+                string optSmsNo = string.Empty;
 
-            string complaineeMobileNo = _sMobileNo;
+                string _sConsumerRefNo = string.Empty;
+                string gAreadiv = string.Empty;
+                string txtEBSEMail = string.Empty;
+                string StrConsumerType = string.Empty;
+                string strDIST = string.Empty;
+                string strGridCode = string.Empty;
+                string strGridName = string.Empty;
+                string strGridPhone = string.Empty;
+                string strFeederCode = string.Empty;
+                string strFeederName = string.Empty;
+                string strTRCOde = string.Empty;
+                string strCompCenter = string.Empty;
+                string strCompCenterPhone = string.Empty;
+                string strCircle = string.Empty;
+                string strCompCenterForSapSerch = string.Empty;
+                string UserName = "TAB".Trim();
+                string strCLEAR_STATUS = "N";
+                /// string strCompClearDate = "NULL";
+                string VMODULENAME = "TAB".Trim();
+                //  Session["ISONM"] = "ONM";
 
-            //try
-            //{
+                string complaineeMobileNo = _sMobileNo;
 
-            //    DataTable _dtAlreadyReg = new DataTable();
-            //    _dtAlreadyReg = AllSelect.GetShowDetails("SELECT  cc.OPERATIONAL_COMP_NO,cc.kno  FROM ONM_FAULT_COLLECTIONS flt, CC_DVB_COMP cc WHERE flt.COMPLAINT_NO=cc.COMPNO	AND FLT.kno like '%" + _sCANo + "'	AND flt.FAULT_DUR_IN_SEC =-1 ");
-            //    if (_dtAlreadyReg.Rows.Count > 0)
-            //    {
-            //        return ("Your complaint is already registed with complaint No. " + _dtAlreadyReg.Rows[0]["OPERATIONAL_COMP_NO"].ToString());
-            //    }
+                //try
+                //{
 
-            //    DataTable _dtConDetails = new DataTable();
-            //    DataSet _ds = new DataSet();
-            //    _dtConDetails = CA_DISPLAY(_sCANo, "", "", "", "", "");
+                //    DataTable _dtAlreadyReg = new DataTable();
+                //    _dtAlreadyReg = AllSelect.GetShowDetails("SELECT  cc.OPERATIONAL_COMP_NO,cc.kno  FROM ONM_FAULT_COLLECTIONS flt, CC_DVB_COMP cc WHERE flt.COMPLAINT_NO=cc.COMPNO	AND FLT.kno like '%" + _sCANo + "'	AND flt.FAULT_DUR_IN_SEC =-1 ");
+                //    if (_dtAlreadyReg.Rows.Count > 0)
+                //    {
+                //        return ("Your complaint is already registed with complaint No. " + _dtAlreadyReg.Rows[0]["OPERATIONAL_COMP_NO"].ToString());
+                //    }
 
-            //    if (_dtConDetails.Rows.Count > 0)
-            //    {
-            //        txtConsumerReferenceNo = _dtConDetails.Rows[0]["LEGACY_ACCT"].ToString();
-            //        // _sCANo = _dtConDetails.Rows[0]["CA_NUMBER"].ToString();
-            //        txtCustName = _dtConDetails.Rows[0]["BP_NAME"].ToString();
-            //        txtCustAdd1 = _dtConDetails.Rows[0]["HOUSE_NUMBER"].ToString() + " " + _dtConDetails.Rows[0]["STREET2"].ToString();
-            //        txtCustAdd2 = _dtConDetails.Rows[0]["STREET3"].ToString();
+                //    DataTable _dtConDetails = new DataTable();
+                //    DataSet _ds = new DataSet();
+                //    _dtConDetails = CA_DISPLAY(_sCANo, "", "", "", "", "");
 
-
-            //        DataTable _dt = new DataTable();
-            //        if (_dtConDetails.Rows[0]["REG_STR_GROUP"].ToString() != "")
-            //        {
-            //            _dt = AllSelect.GetShowDetails("SELECT DIV_CODE,DIV_NAME FROM DIVISION where upper(SAP_CIRCLE_DIV)='" + _dtConDetails.Rows[0]["REG_STR_GROUP"].ToString() + "'");
-            //            if (_dt.Rows.Count > 0)
-            //            {
-            //                gAreadiv = _dt.Rows[0]["DIV_CODE"].ToString();
-            //                txtCustDistrict = _dt.Rows[0]["DIV_NAME"].ToString();
-            //            }
-            //        }
-            //        if (_dtConDetails.Rows[0]["TELEPHONE_NO"] != null)
-            //        {
-            //            if (_dtConDetails.Rows[0]["TELEPHONE_NO"].ToString().Split(',').Length > 0)
-            //                txtCustPhone = _dtConDetails.Rows[0]["TELEPHONE_NO"].ToString().Split(',')[0].ToString();
-            //            else if (_dtConDetails.Rows[0]["TELEPHONE_NO"].ToString().Split(',').Length <= 0)
-            //            {
-            //                if (_dtConDetails.Rows[0]["TELEPHONE_NO"].ToString().Substring(0, 1) == "9")
-            //                    txtCustMob = "";
-            //                else
-            //                    txtCustMob = _dtConDetails.Rows[0]["TELEPHONE_NO"].ToString();
-            //            }
-            //        }
-            //        else
-            //            txtCustMob = _dtConDetails.Rows[0]["TELEPHONE_NO"].ToString();
+                //    if (_dtConDetails.Rows.Count > 0)
+                //    {
+                //        txtConsumerReferenceNo = _dtConDetails.Rows[0]["LEGACY_ACCT"].ToString();
+                //        // _sCANo = _dtConDetails.Rows[0]["CA_NUMBER"].ToString();
+                //        txtCustName = _dtConDetails.Rows[0]["BP_NAME"].ToString();
+                //        txtCustAdd1 = _dtConDetails.Rows[0]["HOUSE_NUMBER"].ToString() + " " + _dtConDetails.Rows[0]["STREET2"].ToString();
+                //        txtCustAdd2 = _dtConDetails.Rows[0]["STREET3"].ToString();
 
 
-            //        txtEBSEMail = _dtConDetails.Rows[0]["E_MAIL"].ToString(); //strSplit(67)  ''objTable.Cell(1, "E_MAIL")
-            //        txtAddlNo = _dtConDetails.Rows[0]["TEL1_NUMBER"].ToString(); //strSplit(63)   ''objTable.Cell(1, "TEL1_NUMBR")
-            //        txtlandmark = _dtConDetails.Rows[0]["STREET4"].ToString(); //strSplit(27)   ''objTable.Cell(1, "STREET4")
-            //        if (_dtConDetails.Rows[0]["BP_TYPE"].ToString() == "Normal")
-            //            StrConsumerType = "";
-            //        else
-            //            StrConsumerType = "VIP";
-
-            //        if (_dtConDetails.Rows[0]["BP_TYPE"].ToString() == "KCC")
-            //        {
-            //            StrConsumerType = "KCC";
-            //        }
-            //        else
-            //        {
-            //            StrConsumerType = _dtConDetails.Rows[0]["BP_TYPE"].ToString();
-            //        }
-            //        txtCustMob = Convert.ToString(_dtConDetails.Rows[0]["TEL1_NUMBER"]);  //strSplit(63)  ''objTable.Cell(1, "TEL1_NUMBR")
-            //        txtlandmark = Convert.ToString(_dtConDetails.Rows[0]["STREET4"]);// strSplit(27)  ''objTable.Cell(1, "STREET4")
-
-            //    }
-            //    else
-            //    {
-            //        return "Invaild CA No.";
-            //    }
-
-
-            //    //////string CustPhNo = string.Empty, strCompCenterForSapSerch = string.Empty;
-            //    //////DataTable rsForSapSerch = new DataTable();
-            //    //////string strSapSerch = string.Empty, sSMSFlag = string.Empty, sSMSSql = string.Empty, SsortCA = string.Empty;
-            //    ////////DataTable rsForSapSerch = new DataTable();
-            //    //////CustPhNo = "";
-            //    //////strCompCenterForSapSerch = "";
-            //    //////string fixture_typ = string.Empty;
-            //    //////int no_fixture = 0;
-            //    //////string strCallDate = "";
-            //    //////string strCLEAR_STATUS = "";
-            //    //////string strCompClearDate = "", StrConsumerType = "", VMODULENAME = "", strDIST = "", strFeederCode = "", strFeederName = "", strGridCode = "",
-            //    //////    strGridName = "", strGridPhone = "", strTRCOde = "", strCompCenter = "", strCompCenterPhone = "", strCircle = "", UserName="";
+                //        DataTable _dt = new DataTable();
+                //        if (_dtConDetails.Rows[0]["REG_STR_GROUP"].ToString() != "")
+                //        {
+                //            _dt = AllSelect.GetShowDetails("SELECT DIV_CODE,DIV_NAME FROM DIVISION where upper(SAP_CIRCLE_DIV)='" + _dtConDetails.Rows[0]["REG_STR_GROUP"].ToString() + "'");
+                //            if (_dt.Rows.Count > 0)
+                //            {
+                //                gAreadiv = _dt.Rows[0]["DIV_CODE"].ToString();
+                //                txtCustDistrict = _dt.Rows[0]["DIV_NAME"].ToString();
+                //            }
+                //        }
+                //        if (_dtConDetails.Rows[0]["TELEPHONE_NO"] != null)
+                //        {
+                //            if (_dtConDetails.Rows[0]["TELEPHONE_NO"].ToString().Split(',').Length > 0)
+                //                txtCustPhone = _dtConDetails.Rows[0]["TELEPHONE_NO"].ToString().Split(',')[0].ToString();
+                //            else if (_dtConDetails.Rows[0]["TELEPHONE_NO"].ToString().Split(',').Length <= 0)
+                //            {
+                //                if (_dtConDetails.Rows[0]["TELEPHONE_NO"].ToString().Substring(0, 1) == "9")
+                //                    txtCustMob = "";
+                //                else
+                //                    txtCustMob = _dtConDetails.Rows[0]["TELEPHONE_NO"].ToString();
+                //            }
+                //        }
+                //        else
+                //            txtCustMob = _dtConDetails.Rows[0]["TELEPHONE_NO"].ToString();
 
 
-            //    string fixture_typ = string.Empty;
-            //    int no_fixture = 0;
-            //    string strCallDate = DateTime.Now.ToString("dd-MMM-yyyy HH:mm");
-            //    string strOccuranceDate = DateTime.Now.ToString("dd-MMM-yyyy");
-            //    string strOccuranceTime = DateTime.Now.ToString("HH:mm");
-            //    strCallDate = "to_date('" + strCallDate + "','dd-Mon-yyyy hh24:mi')";
-            //    string strComplaintNo = "";
+                //        txtEBSEMail = _dtConDetails.Rows[0]["E_MAIL"].ToString(); //strSplit(67)  ''objTable.Cell(1, "E_MAIL")
+                //        txtAddlNo = _dtConDetails.Rows[0]["TEL1_NUMBER"].ToString(); //strSplit(63)   ''objTable.Cell(1, "TEL1_NUMBR")
+                //        txtlandmark = _dtConDetails.Rows[0]["STREET4"].ToString(); //strSplit(27)   ''objTable.Cell(1, "STREET4")
+                //        if (_dtConDetails.Rows[0]["BP_TYPE"].ToString() == "Normal")
+                //            StrConsumerType = "";
+                //        else
+                //            StrConsumerType = "VIP";
 
-            //    if (cboPriority == "STREET LIGHT")
-            //    {
-            //        fixture_typ = cboFixtue;
-            //        int.TryParse(txtStreetNo, out no_fixture);
-            //    }
-            //    else
-            //    {
-            //        fixture_typ = "";
-            //        no_fixture = 0;
-            //    }
+                //        if (_dtConDetails.Rows[0]["BP_TYPE"].ToString() == "KCC")
+                //        {
+                //            StrConsumerType = "KCC";
+                //        }
+                //        else
+                //        {
+                //            StrConsumerType = _dtConDetails.Rows[0]["BP_TYPE"].ToString();
+                //        }
+                //        txtCustMob = Convert.ToString(_dtConDetails.Rows[0]["TEL1_NUMBER"]);  //strSplit(63)  ''objTable.Cell(1, "TEL1_NUMBR")
+                //        txtlandmark = Convert.ToString(_dtConDetails.Rows[0]["STREET4"]);// strSplit(27)  ''objTable.Cell(1, "STREET4")
 
-            //    string sql = "select Area_code from ONM_CONSUMER_MASTER_INFO where CA_NO like '%" + _sCANo + "'";
-            //    DataTable rs = new DataTable();
-            //    rs = AllSelect.GetShowDetails(sql);
-
-            //    string _sAreaCode = string.Empty; // Modified by Rajveer Due to Delhi Gate Complaint Center Issue Setting Area Code As Null 
-            //    _sAreaCode = ""; // It will throw an error unable to register..so in all cases it will ask for near by complaint centre
-            //    //if (rs.Rows.Count > 0)
-            //    //    _sAreaCode = rs.Rows[0]["Area_code"].ToString();
-            //    //else
-            //    //    _sAreaCode = "";
-
-            //    if (_sAreaCode != "")
-            //    {
-            //        rs = new DataTable();
-            //        sql = "SELECT distinct DIST, DIST_NAME, PRIMARY_GRID_CODE, PRIMARY_GRID_NAME, GRID_PHONENO, FEEDER_CODE,FEEDER_NAME, AREA_CODE, AREA_NAME, TR_CODE,COMPLAINT_CENTRE, COMPLAINT_CENTRE_PH_NO,COMPLAINT_CENTRE_CODE, CIRCLE  FROM ONM_TRANSFORMER_SETUP_DETAIL WHERE AREA_CODE='" + (_sAreaCode) + "'";
-            //        rs = AllSelect.GetShowDetails(sql);
-            //        if (rs.Rows.Count > 0)
-            //        {
-            //            txtCustArea = rs.Rows[0]["AREA_NAME"].ToString();
-            //            txtCustDistrict = rs.Rows[0]["DIST_NAME"].ToString();
-            //            lblAreaCode = rs.Rows[0]["AREA_CODE"].ToString();
-            //            strDIST = rs.Rows[0]["DIST"].ToString();
-            //            strGridCode = rs.Rows[0]["PRIMARY_GRID_CODE"].ToString();
-            //            strGridName = rs.Rows[0]["PRIMARY_GRID_NAME"].ToString();
-            //            strGridPhone = rs.Rows[0]["GRID_PHONENO"].ToString();
-            //            strFeederCode = rs.Rows[0]["FEEDER_CODE"].ToString();
-            //            strFeederName = rs.Rows[0]["FEEDER_NAME"].ToString();
-            //            strTRCOde = rs.Rows[0]["TR_CODE"].ToString();
-            //            strCompCenter = rs.Rows[0]["COMPLAINT_CENTRE"].ToString();
-            //            strCompCenterPhone = rs.Rows[0]["COMPLAINT_CENTRE_PH_NO"].ToString();
-            //            strCircle = rs.Rows[0]["CIRCLE"].ToString();
-            //        }
-            //    }
-            //    else
-            //    {
-            //        //  return ("Unable to findout area right now! Please try again later.");
-
-            //        // Change By Dharm 16-Jul-2014
-
-            //        rs = new DataTable();
-            //        sql = "SELECT distinct DIST, DIST_NAME, PRIMARY_GRID_CODE, PRIMARY_GRID_NAME, GRID_PHONENO, FEEDER_CODE,FEEDER_NAME, AREA_CODE, AREA_NAME, TR_CODE,COMPLAINT_CENTRE, COMPLAINT_CENTRE_PH_NO,COMPLAINT_CENTRE_CODE, CIRCLE  FROM ONM_TRANSFORMER_SETUP_DETAIL WHERE AREA_CODE='" + AreaCode.ToString().Trim() + "'";
-            //        rs = AllSelect.GetShowDetails(sql);
-            //        if (rs.Rows.Count > 0)
-            //        {
-            //            txtCustArea = rs.Rows[0]["AREA_NAME"].ToString();
-            //            txtCustDistrict = rs.Rows[0]["DIST_NAME"].ToString();
-            //            lblAreaCode = rs.Rows[0]["AREA_CODE"].ToString();
-            //            strDIST = rs.Rows[0]["DIST"].ToString();
-            //            strGridCode = rs.Rows[0]["PRIMARY_GRID_CODE"].ToString();
-            //            strGridName = rs.Rows[0]["PRIMARY_GRID_NAME"].ToString();
-            //            strGridPhone = rs.Rows[0]["GRID_PHONENO"].ToString();
-            //            strFeederCode = rs.Rows[0]["FEEDER_CODE"].ToString();
-            //            strFeederName = rs.Rows[0]["FEEDER_NAME"].ToString();
-            //            strTRCOde = rs.Rows[0]["TR_CODE"].ToString();
-            //            strCompCenter = rs.Rows[0]["COMPLAINT_CENTRE"].ToString();
-            //            strCompCenterPhone = rs.Rows[0]["COMPLAINT_CENTRE_PH_NO"].ToString();
-            //            strCircle = rs.Rows[0]["CIRCLE"].ToString();
-            //        }
-
-            //    }
+                //    }
+                //    else
+                //    {
+                //        return "Invaild CA No.";
+                //    }
 
 
-            //    DataTable rsTmp = new DataTable();
-            //    rsTmp = AllSelect.GetShowDetails("SELECT trim(SUBSTR(CIRCLE,1,1)||COMPLAINT_CENTRE_CODE|| DIST ||TO_Char(sysdate,'YYMMDD')) as strCompNo,COMPLAINT_CENTRE_CODE FROM ONM_TRANSFORMER_SETUP_DETAIL WHERE AREA_CODE='" + lblAreaCode + "'");
-            //    if (rsTmp.Rows.Count > 0)
-            //    {
-            //        strComplaintNo = rsTmp.Rows[0]["strCompNo"].ToString();
-            //        strCompCenterForSapSerch = rsTmp.Rows[0]["COMPLAINT_CENTRE_CODE"].ToString();
-            //    }
-            //    rsTmp = new DataTable();
-            //    rsTmp = AllSelect.GetShowDetails("select SP_GENERATECOMPLAINTNO('" + lblAreaCode + "') from dual");
-            //    if (rsTmp.Rows.Count > 0)
-            //    {
-            //        strComplaintNo = strComplaintNo.Trim() + rsTmp.Rows[0][0].ToString() + "P";
-            //    }
-            //    lblFCode = lstFaultCatg;
-
-            //    string strsSQL = string.Empty; // Updated Rajveer 18062016
-            //    strsSQL = "INSERT INTO CC_DVB_COMP(CALL_DATE,KNO,AREA_CODE,AREA,DISTRICT,CALL_CATEG,";
-            //    strsSQL = strsSQL + "NAME,ADD1,ADD2,PHONE,FCODE,REMARKS,COMPNO,CUST_REMARKS,OAP_USER,CUST_STATUS,CUST_TIME_CLEAR,DVB_CLEARED_BY,DVB_STATUS,TIME_TAKEN,XEN_STATUS,PRIORITY,NOOFCOMPLAINTS,CONS_REF,OPERATIONAL_COMP_NO,CM_HOUSE,TYP_FIXTURE, NO_FIXTURE,LAND_MARK,CONSUMER_TYPE,MOB_NO, ENTRY_KNO_ID,REG_MODULE_NAME,REG_AREA, REG_AREA_CODE,SAP_CONTRACT_NO,SINCE_LAST_MINUTES,Addl_Cont_No,SINCE_LAST_DAYS) VALUES";
-            //    strsSQL = strsSQL + "(" + strCallDate + ", ";
-            //    strsSQL = strsSQL + " '" + _sCANo + "','" + lblAreaCode + "','" + txtCustArea + "','" + txtCustDistrict + "','NC', "; // NC  --" + cboCallCateg + "
-            //    strsSQL = strsSQL + " '" + txtCustName.Trim() + "','" + txtCustAdd1.Trim() + "','" + txtCustAdd2.Trim() + "', '" + txtCustMob + "', ";
-            //    strsSQL = strsSQL + " '" + lblFCode + "','" + txtCustRemarks + "','" + strComplaintNo + "','" + txtCustRemarks + "', ";
-            //    strsSQL = strsSQL + " '" + UserName + "','" + strCLEAR_STATUS + "',NULL,'" + txtClearedBy + "',";
-            //    strsSQL = strsSQL + "'" + strCLEAR_STATUS + "'," + lblTimeTaken + ",'N',";
-            //    if (cboPriority == "EMERGENCY")
-
-            //        strsSQL = strsSQL + " 'PCR',";
-            //    else
-            //        strsSQL = strsSQL + "'" + cboPriority.ToUpper() + "',";
-
-            //    strsSQL = strsSQL + " 1,'" + txtConsumerReferenceNo.Trim() + "','" + strComplaintNo.Substring(8, 11) + "','N','" + fixture_typ + "'," + no_fixture + ", ";
-            //    strsSQL = strsSQL + " '" + txtlandmark + "','" + StrConsumerType + "',";
-
-            //    if (complaineeMobileNo != "")  //Rajveer Mobile No. 09042016
-            //    {
-            //        strsSQL = strsSQL + "  '" + complaineeMobileNo.Trim() + "','" + txtCustKNo.Trim() + "', ";
-            //    }
-            //    else
-            //    {
-            //        strsSQL = strsSQL + " '" + txtCustMob.Trim() + "','" + txtCustKNo.Trim() + "', ";
-            //    }
-
-            //    strsSQL = strsSQL + " '" + VMODULENAME.Trim() + "','" + txtCustArea.Trim() + "','" + lblAreaCode.Trim() + "','" + txtContractNo.Trim() + "',";
-            //    strsSQL = strsSQL + " " + cboMinutes.Trim() + ",'" + txtAddlNo.Trim() + "'," + cboDays + ") ";
+                //    //////string CustPhNo = string.Empty, strCompCenterForSapSerch = string.Empty;
+                //    //////DataTable rsForSapSerch = new DataTable();
+                //    //////string strSapSerch = string.Empty, sSMSFlag = string.Empty, sSMSSql = string.Empty, SsortCA = string.Empty;
+                //    ////////DataTable rsForSapSerch = new DataTable();
+                //    //////CustPhNo = "";
+                //    //////strCompCenterForSapSerch = "";
+                //    //////string fixture_typ = string.Empty;
+                //    //////int no_fixture = 0;
+                //    //////string strCallDate = "";
+                //    //////string strCLEAR_STATUS = "";
+                //    //////string strCompClearDate = "", StrConsumerType = "", VMODULENAME = "", strDIST = "", strFeederCode = "", strFeederName = "", strGridCode = "",
+                //    //////    strGridName = "", strGridPhone = "", strTRCOde = "", strCompCenter = "", strCompCenterPhone = "", strCircle = "", UserName="";
 
 
-            //    string strOFCSQL = string.Empty;
-            //    DataTable _dtFaultid = new DataTable();
-            //    string strFaultID = "";
-            //    _dtFaultid = AllSelect.GetShowDetails("SELECT SP_GenerateFaultId('" + strDIST + "') FROM DUAL ");
-            //    if (_dtFaultid.Rows.Count > 0)
-            //        strFaultID = _dtFaultid.Rows[0][0].ToString();
+                //    string fixture_typ = string.Empty;
+                //    int no_fixture = 0;
+                //    string strCallDate = DateTime.Now.ToString("dd-MMM-yyyy HH:mm");
+                //    string strOccuranceDate = DateTime.Now.ToString("dd-MMM-yyyy");
+                //    string strOccuranceTime = DateTime.Now.ToString("HH:mm");
+                //    strCallDate = "to_date('" + strCallDate + "','dd-Mon-yyyy hh24:mi')";
+                //    string strComplaintNo = "";
 
-            //    strOFCSQL = " Insert into ONM_Fault_Collections (KNO,FaultId,Dist,AreaCode,Area,FeederCode,FeederName,GridCode,GridName,";
-            //    strOFCSQL = strOFCSQL + " GridPhone,FaultType,NoOfComplaints,Child,All_Transformer_No,Name,Complaint_Status,";
-            //    strOFCSQL = strOFCSQL + " Complaint_No,InsertedFrom,COMPLAINT_CENTRE,COMPLAINT_CENTRE_PH_NO,Com_Name,Com_Add1,Com_Add2,Com_Phone,Circle,";
-            //    strOFCSQL = strOFCSQL + " CCRemarks,Powercut_Type,PRIORITY,FCODE,TYP_FIXTURE,NO_FIXTURE,ROAD,LAND_MARK,OCCURANCE_DT,CC_REG_BY,CC_REG_IP,CONSUMER_TYPE)";
-            //    strOFCSQL = strOFCSQL + " values";
-            //    strOFCSQL = strOFCSQL + " ('" + _sCANo + "','" + strFaultID + "','" + strDIST + "','" + lblAreaCode + "','" + txtCustArea + "',";
-            //    strOFCSQL = strOFCSQL + "'" + strFeederCode + "','" + strFeederName + "','" + strGridCode + "','" + strGridName + "',";
-            //    strOFCSQL = strOFCSQL + "'" + strGridPhone + "','DT AND BELOW',1,'0','" + strTRCOde + "','TAB', ";
-            //    strOFCSQL = strOFCSQL + "'P','" + strComplaintNo + "', ";
-            //    strOFCSQL = strOFCSQL + "'CC" + strFaultID + "','" + strCompCenter + "','" + strCompCenterPhone + "','" + txtCustName.Trim() + "', ";
-            //    strOFCSQL = strOFCSQL + "'" + txtCustAdd1.Trim() + "','" + txtCustAdd2.Trim() + "','" + txtCustMob + "' ";
+                //    if (cboPriority == "STREET LIGHT")
+                //    {
+                //        fixture_typ = cboFixtue;
+                //        int.TryParse(txtStreetNo, out no_fixture);
+                //    }
+                //    else
+                //    {
+                //        fixture_typ = "";
+                //        no_fixture = 0;
+                //    }
 
-            //    //if(txtCustMob
+                //    string sql = "select Area_code from ONM_CONSUMER_MASTER_INFO where CA_NO like '%" + _sCANo + "'";
+                //    DataTable rs = new DataTable();
+                //    rs = AllSelect.GetShowDetails(sql);
 
-            //    strOFCSQL = strOFCSQL + " ,'" + strCircle + "', '" + txtCustRemarks.Trim() + "','CC',";
+                //    string _sAreaCode = string.Empty; // Modified by Rajveer Due to Delhi Gate Complaint Center Issue Setting Area Code As Null 
+                //    _sAreaCode = ""; // It will throw an error unable to register..so in all cases it will ask for near by complaint centre
+                //    //if (rs.Rows.Count > 0)
+                //    //    _sAreaCode = rs.Rows[0]["Area_code"].ToString();
+                //    //else
+                //    //    _sAreaCode = "";
 
-            //    if (cboPriority == "EMERGENCY")
-            //        strOFCSQL = strOFCSQL + " 'PCR',";
-            //    else
-            //        strOFCSQL = strOFCSQL + "'" + cboPriority + "',";
+                //    if (_sAreaCode != "")
+                //    {
+                //        rs = new DataTable();
+                //        sql = "SELECT distinct DIST, DIST_NAME, PRIMARY_GRID_CODE, PRIMARY_GRID_NAME, GRID_PHONENO, FEEDER_CODE,FEEDER_NAME, AREA_CODE, AREA_NAME, TR_CODE,COMPLAINT_CENTRE, COMPLAINT_CENTRE_PH_NO,COMPLAINT_CENTRE_CODE, CIRCLE  FROM ONM_TRANSFORMER_SETUP_DETAIL WHERE AREA_CODE='" + (_sAreaCode) + "'";
+                //        rs = AllSelect.GetShowDetails(sql);
+                //        if (rs.Rows.Count > 0)
+                //        {
+                //            txtCustArea = rs.Rows[0]["AREA_NAME"].ToString();
+                //            txtCustDistrict = rs.Rows[0]["DIST_NAME"].ToString();
+                //            lblAreaCode = rs.Rows[0]["AREA_CODE"].ToString();
+                //            strDIST = rs.Rows[0]["DIST"].ToString();
+                //            strGridCode = rs.Rows[0]["PRIMARY_GRID_CODE"].ToString();
+                //            strGridName = rs.Rows[0]["PRIMARY_GRID_NAME"].ToString();
+                //            strGridPhone = rs.Rows[0]["GRID_PHONENO"].ToString();
+                //            strFeederCode = rs.Rows[0]["FEEDER_CODE"].ToString();
+                //            strFeederName = rs.Rows[0]["FEEDER_NAME"].ToString();
+                //            strTRCOde = rs.Rows[0]["TR_CODE"].ToString();
+                //            strCompCenter = rs.Rows[0]["COMPLAINT_CENTRE"].ToString();
+                //            strCompCenterPhone = rs.Rows[0]["COMPLAINT_CENTRE_PH_NO"].ToString();
+                //            strCircle = rs.Rows[0]["CIRCLE"].ToString();
+                //        }
+                //    }
+                //    else
+                //    {
+                //        //  return ("Unable to findout area right now! Please try again later.");
 
-            //    strOFCSQL = strOFCSQL + "'" + lblFCode + "',";
-            //    strOFCSQL = strOFCSQL + "'" + fixture_typ.Trim() + "'," + no_fixture + ",'','" + txtlandmark.Trim() + "'," + strCallDate + ",'" + UserName + "',sys_context('USERENV','IP_ADDRESS'),'" + StrConsumerType + "')";
+                //        // Change By Dharm 16-Jul-2014
+
+                //        rs = new DataTable();
+                //        sql = "SELECT distinct DIST, DIST_NAME, PRIMARY_GRID_CODE, PRIMARY_GRID_NAME, GRID_PHONENO, FEEDER_CODE,FEEDER_NAME, AREA_CODE, AREA_NAME, TR_CODE,COMPLAINT_CENTRE, COMPLAINT_CENTRE_PH_NO,COMPLAINT_CENTRE_CODE, CIRCLE  FROM ONM_TRANSFORMER_SETUP_DETAIL WHERE AREA_CODE='" + AreaCode.ToString().Trim() + "'";
+                //        rs = AllSelect.GetShowDetails(sql);
+                //        if (rs.Rows.Count > 0)
+                //        {
+                //            txtCustArea = rs.Rows[0]["AREA_NAME"].ToString();
+                //            txtCustDistrict = rs.Rows[0]["DIST_NAME"].ToString();
+                //            lblAreaCode = rs.Rows[0]["AREA_CODE"].ToString();
+                //            strDIST = rs.Rows[0]["DIST"].ToString();
+                //            strGridCode = rs.Rows[0]["PRIMARY_GRID_CODE"].ToString();
+                //            strGridName = rs.Rows[0]["PRIMARY_GRID_NAME"].ToString();
+                //            strGridPhone = rs.Rows[0]["GRID_PHONENO"].ToString();
+                //            strFeederCode = rs.Rows[0]["FEEDER_CODE"].ToString();
+                //            strFeederName = rs.Rows[0]["FEEDER_NAME"].ToString();
+                //            strTRCOde = rs.Rows[0]["TR_CODE"].ToString();
+                //            strCompCenter = rs.Rows[0]["COMPLAINT_CENTRE"].ToString();
+                //            strCompCenterPhone = rs.Rows[0]["COMPLAINT_CENTRE_PH_NO"].ToString();
+                //            strCircle = rs.Rows[0]["CIRCLE"].ToString();
+                //        }
+
+                //    }
+
+
+                //    DataTable rsTmp = new DataTable();
+                //    rsTmp = AllSelect.GetShowDetails("SELECT trim(SUBSTR(CIRCLE,1,1)||COMPLAINT_CENTRE_CODE|| DIST ||TO_Char(sysdate,'YYMMDD')) as strCompNo,COMPLAINT_CENTRE_CODE FROM ONM_TRANSFORMER_SETUP_DETAIL WHERE AREA_CODE='" + lblAreaCode + "'");
+                //    if (rsTmp.Rows.Count > 0)
+                //    {
+                //        strComplaintNo = rsTmp.Rows[0]["strCompNo"].ToString();
+                //        strCompCenterForSapSerch = rsTmp.Rows[0]["COMPLAINT_CENTRE_CODE"].ToString();
+                //    }
+                //    rsTmp = new DataTable();
+                //    rsTmp = AllSelect.GetShowDetails("select SP_GENERATECOMPLAINTNO('" + lblAreaCode + "') from dual");
+                //    if (rsTmp.Rows.Count > 0)
+                //    {
+                //        strComplaintNo = strComplaintNo.Trim() + rsTmp.Rows[0][0].ToString() + "P";
+                //    }
+                //    lblFCode = lstFaultCatg;
+
+                //    string strsSQL = string.Empty; // Updated Rajveer 18062016
+                //    strsSQL = "INSERT INTO CC_DVB_COMP(CALL_DATE,KNO,AREA_CODE,AREA,DISTRICT,CALL_CATEG,";
+                //    strsSQL = strsSQL + "NAME,ADD1,ADD2,PHONE,FCODE,REMARKS,COMPNO,CUST_REMARKS,OAP_USER,CUST_STATUS,CUST_TIME_CLEAR,DVB_CLEARED_BY,DVB_STATUS,TIME_TAKEN,XEN_STATUS,PRIORITY,NOOFCOMPLAINTS,CONS_REF,OPERATIONAL_COMP_NO,CM_HOUSE,TYP_FIXTURE, NO_FIXTURE,LAND_MARK,CONSUMER_TYPE,MOB_NO, ENTRY_KNO_ID,REG_MODULE_NAME,REG_AREA, REG_AREA_CODE,SAP_CONTRACT_NO,SINCE_LAST_MINUTES,Addl_Cont_No,SINCE_LAST_DAYS) VALUES";
+                //    strsSQL = strsSQL + "(" + strCallDate + ", ";
+                //    strsSQL = strsSQL + " '" + _sCANo + "','" + lblAreaCode + "','" + txtCustArea + "','" + txtCustDistrict + "','NC', "; // NC  --" + cboCallCateg + "
+                //    strsSQL = strsSQL + " '" + txtCustName.Trim() + "','" + txtCustAdd1.Trim() + "','" + txtCustAdd2.Trim() + "', '" + txtCustMob + "', ";
+                //    strsSQL = strsSQL + " '" + lblFCode + "','" + txtCustRemarks + "','" + strComplaintNo + "','" + txtCustRemarks + "', ";
+                //    strsSQL = strsSQL + " '" + UserName + "','" + strCLEAR_STATUS + "',NULL,'" + txtClearedBy + "',";
+                //    strsSQL = strsSQL + "'" + strCLEAR_STATUS + "'," + lblTimeTaken + ",'N',";
+                //    if (cboPriority == "EMERGENCY")
+
+                //        strsSQL = strsSQL + " 'PCR',";
+                //    else
+                //        strsSQL = strsSQL + "'" + cboPriority.ToUpper() + "',";
+
+                //    strsSQL = strsSQL + " 1,'" + txtConsumerReferenceNo.Trim() + "','" + strComplaintNo.Substring(8, 11) + "','N','" + fixture_typ + "'," + no_fixture + ", ";
+                //    strsSQL = strsSQL + " '" + txtlandmark + "','" + StrConsumerType + "',";
+
+                //    if (complaineeMobileNo != "")  //Rajveer Mobile No. 09042016
+                //    {
+                //        strsSQL = strsSQL + "  '" + complaineeMobileNo.Trim() + "','" + txtCustKNo.Trim() + "', ";
+                //    }
+                //    else
+                //    {
+                //        strsSQL = strsSQL + " '" + txtCustMob.Trim() + "','" + txtCustKNo.Trim() + "', ";
+                //    }
+
+                //    strsSQL = strsSQL + " '" + VMODULENAME.Trim() + "','" + txtCustArea.Trim() + "','" + lblAreaCode.Trim() + "','" + txtContractNo.Trim() + "',";
+                //    strsSQL = strsSQL + " " + cboMinutes.Trim() + ",'" + txtAddlNo.Trim() + "'," + cboDays + ") ";
+
+
+                //    string strOFCSQL = string.Empty;
+                //    DataTable _dtFaultid = new DataTable();
+                //    string strFaultID = "";
+                //    _dtFaultid = AllSelect.GetShowDetails("SELECT SP_GenerateFaultId('" + strDIST + "') FROM DUAL ");
+                //    if (_dtFaultid.Rows.Count > 0)
+                //        strFaultID = _dtFaultid.Rows[0][0].ToString();
+
+                //    strOFCSQL = " Insert into ONM_Fault_Collections (KNO,FaultId,Dist,AreaCode,Area,FeederCode,FeederName,GridCode,GridName,";
+                //    strOFCSQL = strOFCSQL + " GridPhone,FaultType,NoOfComplaints,Child,All_Transformer_No,Name,Complaint_Status,";
+                //    strOFCSQL = strOFCSQL + " Complaint_No,InsertedFrom,COMPLAINT_CENTRE,COMPLAINT_CENTRE_PH_NO,Com_Name,Com_Add1,Com_Add2,Com_Phone,Circle,";
+                //    strOFCSQL = strOFCSQL + " CCRemarks,Powercut_Type,PRIORITY,FCODE,TYP_FIXTURE,NO_FIXTURE,ROAD,LAND_MARK,OCCURANCE_DT,CC_REG_BY,CC_REG_IP,CONSUMER_TYPE)";
+                //    strOFCSQL = strOFCSQL + " values";
+                //    strOFCSQL = strOFCSQL + " ('" + _sCANo + "','" + strFaultID + "','" + strDIST + "','" + lblAreaCode + "','" + txtCustArea + "',";
+                //    strOFCSQL = strOFCSQL + "'" + strFeederCode + "','" + strFeederName + "','" + strGridCode + "','" + strGridName + "',";
+                //    strOFCSQL = strOFCSQL + "'" + strGridPhone + "','DT AND BELOW',1,'0','" + strTRCOde + "','TAB', ";
+                //    strOFCSQL = strOFCSQL + "'P','" + strComplaintNo + "', ";
+                //    strOFCSQL = strOFCSQL + "'CC" + strFaultID + "','" + strCompCenter + "','" + strCompCenterPhone + "','" + txtCustName.Trim() + "', ";
+                //    strOFCSQL = strOFCSQL + "'" + txtCustAdd1.Trim() + "','" + txtCustAdd2.Trim() + "','" + txtCustMob + "' ";
+
+                //    //if(txtCustMob
+
+                //    strOFCSQL = strOFCSQL + " ,'" + strCircle + "', '" + txtCustRemarks.Trim() + "','CC',";
+
+                //    if (cboPriority == "EMERGENCY")
+                //        strOFCSQL = strOFCSQL + " 'PCR',";
+                //    else
+                //        strOFCSQL = strOFCSQL + "'" + cboPriority + "',";
+
+                //    strOFCSQL = strOFCSQL + "'" + lblFCode + "',";
+                //    strOFCSQL = strOFCSQL + "'" + fixture_typ.Trim() + "'," + no_fixture + ",'','" + txtlandmark.Trim() + "'," + strCallDate + ",'" + UserName + "',sys_context('USERENV','IP_ADDRESS'),'" + StrConsumerType + "')";
 
 
 
-            //    //sSMSFlag = "";
-            //    //SsortCA = "";
-            //    //sSMSSql = "";
+                //    //sSMSFlag = "";
+                //    //SsortCA = "";
+                //    //sSMSSql = "";
 
-            //    //if (txtCustKNo.Trim() != "")
-            //    //{
-            //    //    if (txtCustKNo.Trim().Length == 9)
-            //    //        SsortCA = txtCustKNo.Trim();
-            //    //    else if (txtCustKNo.Trim().Length == 12 && txtCustKNo.Substring(0, 3) == "000")
-            //    //        SsortCA = txtCustKNo.Trim().Substring(0, 4);
+                //    //if (txtCustKNo.Trim() != "")
+                //    //{
+                //    //    if (txtCustKNo.Trim().Length == 9)
+                //    //        SsortCA = txtCustKNo.Trim();
+                //    //    else if (txtCustKNo.Trim().Length == 12 && txtCustKNo.Substring(0, 3) == "000")
+                //    //        SsortCA = txtCustKNo.Trim().Substring(0, 4);
 
-            //    //    if (SsortCA != "")
-            //    //    {
-            //    //        if (optSmsYes=="Y")
-            //    //            sSMSFlag = "Y";
-            //    //        else if (optSmsNo == "N")
-            //    //            sSMSFlag = "N";
-            //    //        else
-            //    //            sSMSFlag = "";
+                //    //    if (SsortCA != "")
+                //    //    {
+                //    //        if (optSmsYes=="Y")
+                //    //            sSMSFlag = "Y";
+                //    //        else if (optSmsNo == "N")
+                //    //            sSMSFlag = "N";
+                //    //        else
+                //    //            sSMSFlag = "";
 
-            //    //        if (sSMSFlag != "")
-            //    //            sSMSSql = "UPDATE CONSUMER_CA_ADDRESS SET SMS_Alert='" + sSMSFlag + "' where CA_NO='" + SsortCA + "'";
-            //    //        else
-            //    //            sSMSSql = "";
-            //    //    }
-            //    //}
+                //    //        if (sSMSFlag != "")
+                //    //            sSMSSql = "UPDATE CONSUMER_CA_ADDRESS SET SMS_Alert='" + sSMSFlag + "' where CA_NO='" + SsortCA + "'";
+                //    //        else
+                //    //            sSMSSql = "";
+                //    //    }
+                //    //}
 
-            //    string strOSFDSQL = string.Empty, strOOMFSQL = string.Empty;
+                //    string strOSFDSQL = string.Empty, strOOMFSQL = string.Empty;
 
-            //    if (cboPriority == "STREET LIGHT")
-            //    {
-            //        strOSFDSQL = " INSERT INTO ONM_SL_FAULT_DETAILS(FAULTID) VALUES ('" + strFaultID + "')";
-            //        // AllInsert.InsertBySQL(strOSFDSQL);
-            //    }
-            //    if (lblFCode == "F025")
-            //    {
-            //        strOOMFSQL = " INSERT INTO ONM_OFC_METER_FAULTS(FAULTID) VALUES ('" + strFaultID + "')";
-            //        //  AllInsert.InsertBySQL(strOOMFSQL); 
-            //    }
+                //    if (cboPriority == "STREET LIGHT")
+                //    {
+                //        strOSFDSQL = " INSERT INTO ONM_SL_FAULT_DETAILS(FAULTID) VALUES ('" + strFaultID + "')";
+                //        // AllInsert.InsertBySQL(strOSFDSQL);
+                //    }
+                //    if (lblFCode == "F025")
+                //    {
+                //        strOOMFSQL = " INSERT INTO ONM_OFC_METER_FAULTS(FAULTID) VALUES ('" + strFaultID + "')";
+                //        //  AllInsert.InsertBySQL(strOOMFSQL); 
+                //    }
 
-            //    string[] _smultipleQuery = new string[] { strsSQL, strOFCSQL, strOSFDSQL, strOOMFSQL };
-            //    if (!AllInsert.InsertByMultipleSQL_ONM(_smultipleQuery))
-            //    {
-            //        return ("Not saved. Please try again.");
-            //    }
-            //    string lblFullComplaintNo = strComplaintNo;
-            //    return strComplaintNo + ":" + strComplaintNo.Substring(8, 11);
+                //    string[] _smultipleQuery = new string[] { strsSQL, strOFCSQL, strOSFDSQL, strOOMFSQL };
+                //    if (!AllInsert.InsertByMultipleSQL_ONM(_smultipleQuery))
+                //    {
+                //        return ("Not saved. Please try again.");
+                //    }
+                //    string lblFullComplaintNo = strComplaintNo;
+                //    return strComplaintNo + ":" + strComplaintNo.Substring(8, 11);
 
-            //}
-            //catch (Exception ex)
-            //{
-            //    return "Unable to register right now! Please try again.";
-            //    //We have reached sunset of OMS please log into IOMS for complaint registration. For further call to 01139999694 !
-            //    //MessageBox.show(ex.ToString());
-            //    //Interaction.MsgBox(ex.ToString(), MsgBoxStyle.SystemModal);
-            //}
+                //}
+                //catch (Exception ex)
+                //{
+                //    return "Unable to register right now! Please try again.";
+                //    //We have reached sunset of OMS please log into IOMS for complaint registration. For further call to 01139999694 !
+                //    //MessageBox.show(ex.ToString());
+                //    //Interaction.MsgBox(ex.ToString(), MsgBoxStyle.SystemModal);
+                //}
 
-            return "We have reached sunset of OMS please log into IOMS for complaint registration. For further call to 01139999694 !";
+                return "We have reached sunset of OMS please log into IOMS for complaint registration. For further call to 01139999694 !";
+            }
+            else
+                return ("Unauthorized Access!");
         }
-        else
-            return ("Unauthorized Access!");
-
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -4541,18 +5203,28 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable ONM_Area_Code(string _strDiv)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.onm_AreaCode(_strDiv.ToString().Trim().Substring(2, 3));
-            dt.TableName = "Area_Code";
-            return dt;
-        }
-        else
-            return (InvaildAuthontication());
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.onm_AreaCode(_strDiv.ToString().Trim().Substring(2, 3));
+                dt.TableName = "Area_Code";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
+
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -4560,52 +5232,81 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable ONM_LOGIN_USER(string strUser_Name, string strPassword, string strIMEI_No) //Login
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.onmLoginUser(strUser_Name, strPassword, strIMEI_No);
-            dt.TableName = "onmLoginUser";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.onmLoginUser(strUser_Name, strPassword, strIMEI_No);
+                dt.TableName = "onmLoginUser";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable ONM_LINEMEN_USER_LIST(string strDist, string strTOImeiNo) // Linemen Details
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.onmLinemenUserList(strDist, strTOImeiNo);
-            dt.TableName = "onmLinemenUserList";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.onmLinemenUserList(strDist, strTOImeiNo);
+                dt.TableName = "onmLinemenUserList";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable ONM_Get_Complaint_List(string distName, string complaintCentre, string status, string areaName)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.getOnmComplaintlist(distName, complaintCentre, status, areaName);
-            dt.TableName = "getOnmComplaintlist";
-            return dt;
-        }
-        else
-            return (InvaildAuthontication());
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.getOnmComplaintlist(distName, complaintCentre, status, areaName);
+                dt.TableName = "getOnmComplaintlist";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
@@ -4613,68 +5314,108 @@ public class Service : System.Web.Services.WebService
     public bool ONM_Allocate_Complaint(string ccAssignBy, string ccAssignReason,
          string ccCompRegisterNo, string ccInfPerson, string faultId)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.updateOnmAllocateComplaint(ccAssignBy, ccAssignReason, ccCompRegisterNo,
-                 ccInfPerson, faultId);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.updateOnmAllocateComplaint(ccAssignBy, ccAssignReason, ccCompRegisterNo,
+                     ccInfPerson, faultId);
+                return _bReturn;
+            }
+            else
+                return false;
         }
-        else
-            return false;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable BD_Get_Complaint_List(string distName, string areaName)  // Incomplete
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.getBDGetComplaintlist(distName, areaName);
-            dt.TableName = "getBDGetComplaintlist";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.getBDGetComplaintlist(distName, areaName);
+                dt.TableName = "getBDGetComplaintlist";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable ONM_Get_UserDevice_List(string strDistCode, string strDeviceImeinNo)  // Done
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.onmGetUserDeviceList(strDistCode, strDeviceImeinNo);
-            dt.TableName = "onmGetUserDeviceList";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.onmGetUserDeviceList(strDistCode, strDeviceImeinNo);
+                dt.TableName = "onmGetUserDeviceList";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable ONM_Get_Device_Name_List(string strDiviceName, string strDistName, string strTOImeiNo)  // Done  -- Update Here Add strDist string in code also
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.onmGetDeviceNameList(strDiviceName, strDistName, strTOImeiNo);
-            dt.TableName = "onmGetDeviceNameList";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.onmGetDeviceNameList(strDiviceName, strDistName, strTOImeiNo);
+                dt.TableName = "onmGetDeviceNameList";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -4683,16 +5424,26 @@ public class Service : System.Web.Services.WebService
     public bool ONM_Update_UserDevice_List(string userName, string userEmpId, string userStartTime,
         string userEndTime, string userEntryDate, string deviceIMEI, string password)  //Done
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.updateUserDeviceList(userName, userEmpId, userStartTime, userEndTime, userEntryDate, deviceIMEI, password);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.updateUserDeviceList(userName, userEmpId, userStartTime, userEndTime, userEntryDate, deviceIMEI, password);
+                return _bReturn;
+            }
+            else
+                return false;
         }
-        else
-            return false;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     // Street Light
@@ -4701,34 +5452,54 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable Street_Light_AreaList(string anyInput)  // Done
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.onmStreetLightAreaList(anyInput);
-            dt.TableName = "onmStreetLightAreaList";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.onmStreetLightAreaList(anyInput);
+                dt.TableName = "onmStreetLightAreaList";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable Street_Light_AreaList_All(string anyInput)  // Done
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.onmStreetLightAreaListAll();
-            dt.TableName = "onmStreetLightAreaList";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.onmStreetLightAreaListAll();
+                dt.TableName = "onmStreetLightAreaList";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
@@ -4737,35 +5508,55 @@ public class Service : System.Web.Services.WebService
        string since_LastInMin, string since_LastInDays, string cust_Name, string cust_Add1, string cust_Add2, string cust_MbNo,
         string cust_AddlContNo, string cust_Road, string cust_Landmark, string cust_Rmks)  // Done
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            //string _bReturn = string.Empty;
-            //_bReturn = newClassFile.onmInsrtStreetLightComplaint(caNo, area_Code, fault_Code, sarvey_Typ, fixture_Typ, fixture_No, since_LastInMin,
-            //    since_LastInDays, cust_Name, cust_Add1, cust_Add2, cust_MbNo, cust_AddlContNo, cust_Road, cust_Landmark, cust_Rmks);
-            //return _bReturn;
-            return "Temporarily not available.Will be back soon";
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                //string _bReturn = string.Empty;
+                //_bReturn = newClassFile.onmInsrtStreetLightComplaint(caNo, area_Code, fault_Code, sarvey_Typ, fixture_Typ, fixture_No, since_LastInMin,
+                //    since_LastInDays, cust_Name, cust_Add1, cust_Add2, cust_MbNo, cust_AddlContNo, cust_Road, cust_Landmark, cust_Rmks);
+                //return _bReturn;
+                return "Temporarily not available.Will be back soon";
+            }
+            else
+                return "Invalid Authorization";
         }
-        else
-            return "Invalid Authorization";
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable SL_Complaint_List(string distName, string complaintCentre, string status, string areaName) // Complaint List Of SL
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.getSLComplaintlist(distName, complaintCentre, status, areaName);
-            dt.TableName = "getSLComplaintlist";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.getSLComplaintlist(distName, complaintCentre, status, areaName);
+                dt.TableName = "getSLComplaintlist";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
@@ -4773,34 +5564,54 @@ public class Service : System.Web.Services.WebService
     public bool SL_Complaint_Allocation(string acknowledgeBy, string acknowledgeByDesig, string scheduleDt, string areaName,
         string areaCode, string operationalCompNo, string faultId) // Complaint List
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = newClassFile.updateSLAllocateComplaint(acknowledgeBy, acknowledgeByDesig, scheduleDt,
-                 areaName, areaCode, operationalCompNo, faultId);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = newClassFile.updateSLAllocateComplaint(acknowledgeBy, acknowledgeByDesig, scheduleDt,
+                     areaName, areaCode, operationalCompNo, faultId);
+                return _bReturn;
+            }
+            else
+                return false;
         }
-        else
-            return false;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable SL_Vendor_List(string distName, string complaintCentre, string status, string areaName) // Vendor List On Selection
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.getSLVendorlist(distName, complaintCentre, status, areaName);
-            dt.TableName = "getSLComplaintlist";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.getSLVendorlist(distName, complaintCentre, status, areaName);
+                dt.TableName = "getSLComplaintlist";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     public DataTable ONM_BurnMeterInsertSAP(string strComlaintNo, string strSerialNumberIn, string strCANumberIn, string strUserName,
@@ -4894,17 +5705,27 @@ public class Service : System.Web.Services.WebService
        string since_LastInMin, string since_LastInDays, string cust_Name, string cust_Add1, string cust_Add2, string cust_MbNo,
         string cust_AddlContNo, string cust_Road, string cust_Landmark, string cust_Rmks)  // Done
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            string _bReturn = string.Empty;
-            _bReturn = newClassFile.onmInsrtEmergencyComplaint(caNo, area_Code, fault_Code, sarvey_Typ, fixture_Typ, fixture_No, since_LastInMin,
-                since_LastInDays, cust_Name, cust_Add1, cust_Add2, cust_MbNo, cust_AddlContNo, cust_Road, cust_Landmark, cust_Rmks);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                string _bReturn = string.Empty;
+                _bReturn = newClassFile.onmInsrtEmergencyComplaint(caNo, area_Code, fault_Code, sarvey_Typ, fixture_Typ, fixture_No, since_LastInMin,
+                    since_LastInDays, cust_Name, cust_Add1, cust_Add2, cust_MbNo, cust_AddlContNo, cust_Road, cust_Landmark, cust_Rmks);
+                return _bReturn;
+            }
+            else
+                return "Invalid Authorization";
         }
-        else
-            return "Invalid Authorization";
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     #endregion
@@ -4917,57 +5738,87 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataSet IMSGLoginUser(string strUserName, string strPassword, string strGCMId, string strImeiNo, string strAppVersion)
     {
-        DataSet ds = new DataSet("BAPIRESULT");
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.IMsgLoginCredentials(strUserName, strPassword, strGCMId, strImeiNo, strAppVersion);
-            dt.TableName = "iMsgLoginCredentials";
-            ds.Tables.Add(dt);
-            return ds;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            DataSet ds = new DataSet("BAPIRESULT");
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.IMsgLoginCredentials(strUserName, strPassword, strGCMId, strImeiNo, strAppVersion);
+                dt.TableName = "iMsgLoginCredentials";
+                ds.Tables.Add(dt);
+                return ds;
+            }
+            else
+                return (InvaildAuthonticationds());
         }
-        else
-            return (InvaildAuthonticationds());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataSet IMSGCompanyMst(string strEmpRole, string strComp)
     {
-        NewClassFile newClassFile = new NewClassFile();
-        DataSet ds = new DataSet("NewDataSet");
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.iMsgCompanyLoad(strEmpRole, strComp);
-            dt.TableName = "iMsgCompanyLoadMst";
-            ds.Tables.Add(dt);
-            return ds;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+            DataSet ds = new DataSet("NewDataSet");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.iMsgCompanyLoad(strEmpRole, strComp);
+                dt.TableName = "iMsgCompanyLoadMst";
+                ds.Tables.Add(dt);
+                return ds;
+            }
+            else
+                return (InvaildAuthonticationds());
         }
-        else
-            return (InvaildAuthonticationds());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataSet IMSGCompGrpMst(string strCompId, string strEmpRole)
     {
-        NewClassFile newClassFile = new NewClassFile();
-        DataSet ds = new DataSet("DatasetElement");
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.iMsgCompanyGrpLoad(strCompId, strEmpRole);
-            dt.TableName = "iMsgCompanyGrpLoadMst";
-            ds.Tables.Add(dt);
-            return ds;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+            DataSet ds = new DataSet("DatasetElement");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.iMsgCompanyGrpLoad(strCompId, strEmpRole);
+                dt.TableName = "iMsgCompanyGrpLoadMst";
+                ds.Tables.Add(dt);
+                return ds;
+            }
+            else
+                return (InvaildAuthonticationds());
         }
-        else
-            return (InvaildAuthonticationds());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -4975,19 +5826,29 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataSet IMSGCompSubGrpMst(string strCompId, string strEmpRole)
     {
-        NewClassFile newClassFile = new NewClassFile();
-        DataSet ds = new DataSet("DatasetElement");
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.iMsgCompanySubGrpLoad(strCompId, strEmpRole);
-            dt.TableName = "iMsgCompanySbGrpLoadMst";
-            ds.Tables.Add(dt);
-            return ds;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+            DataSet ds = new DataSet("DatasetElement");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.iMsgCompanySubGrpLoad(strCompId, strEmpRole);
+                dt.TableName = "iMsgCompanySbGrpLoadMst";
+                ds.Tables.Add(dt);
+                return ds;
+            }
+            else
+                return (InvaildAuthonticationds());
         }
-        else
-            return (InvaildAuthonticationds());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -4995,74 +5856,113 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataSet IMsgGCMRegistration(string strLoginId, string strGCMID, string strStatus)
     {
-        NewClassFile newClassFile = new NewClassFile();
-        DataSet ds = new DataSet("DatasetElement");
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            //dt = NewClassFile.IMsgLoginCredentials(strLoginId, strGCMID);
-            dt.TableName = "iMsgDeptMst";
-            ds.Tables.Add(dt);
-            return ds;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+            DataSet ds = new DataSet("DatasetElement");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                //dt = NewClassFile.IMsgLoginCredentials(strLoginId, strGCMID);
+                dt.TableName = "iMsgDeptMst";
+                ds.Tables.Add(dt);
+                return ds;
+            }
+            else
+                return (InvaildAuthonticationds());
         }
-        else
-            return (InvaildAuthonticationds());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataSet IMsgGCMRegIds(string strComp, string strCompGrpId, string strSubCompId, string strEmpId)
     {
-        DataSet ds = new DataSet("DatasetElement");
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.IMsgGCMRegIds(strComp, strCompGrpId, strSubCompId, strEmpId);
-            dt.TableName = "iMsgGCMRegIds";
-            ds.Tables.Add(dt);
-            return ds;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            DataSet ds = new DataSet("DatasetElement");
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.IMsgGCMRegIds(strComp, strCompGrpId, strSubCompId, strEmpId);
+                dt.TableName = "iMsgGCMRegIds";
+                ds.Tables.Add(dt);
+                return ds;
+            }
+            else
+                return (InvaildAuthonticationds());
         }
-        else
-            return (InvaildAuthonticationds());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public string IMsgUpdateLog(string strMsgId, string strMsgEmp)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        string strReturn = string.Empty;
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            strReturn = newClassFile.IMsgUpdateLog_IM(strMsgId, strMsgEmp);
-            return strReturn;
-        }
-        else
-            return ("INVAILD AUTHENTICATION");
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
+            NewClassFile newClassFile = new NewClassFile();
+
+            string strReturn = string.Empty;
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                strReturn = newClassFile.IMsgUpdateLog_IM(strMsgId, strMsgEmp);
+                return strReturn;
+            }
+            else
+                return ("INVAILD AUTHENTICATION");
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataSet IMSGMsgSend(string strEmpId, string strDeviceGCMID, string strEmpRole, string strMsgSDt, string strMsgEDt, string strMsgRead)
     {
-        DataSet ds = new DataSet("NEWDATA");
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.IMsgMsgSend(strEmpId, strDeviceGCMID, strEmpRole, strMsgSDt, strMsgEDt, strMsgRead);
-            dt.TableName = "IMSGMsgSendReq";
-            ds.Tables.Add(dt);
-            return ds;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            DataSet ds = new DataSet("NEWDATA");
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.IMsgMsgSend(strEmpId, strDeviceGCMID, strEmpRole, strMsgSDt, strMsgEDt, strMsgRead);
+                dt.TableName = "IMSGMsgSendReq";
+                ds.Tables.Add(dt);
+                return ds;
+            }
+            else
+                return (InvaildAuthonticationds());
         }
-        else
-            return (InvaildAuthonticationds());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
@@ -5070,69 +5970,51 @@ public class Service : System.Web.Services.WebService
     public bool IMSGMsgTextTBSend(string strNotifyId, string strTxtMsg, string strTitle, string strComp, string strCompGrpId, string strSubCompId,
         string strEmpId, string strSenderId, string strMsgStatus, string strOther)
     {
-        bool _bReturn = false;
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            _bReturn = newClassFile.iMSGMSGTBSEND(strNotifyId, strTxtMsg, strTitle, strComp, strCompGrpId, strSubCompId, strEmpId, strSenderId, strMsgStatus, strOther);
-            if (_bReturn)
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            bool _bReturn = false;
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
             {
-                //Send Message Directly
-                DataTable dt = new DataTable();
-                DataTable dt2 = new DataTable();
-
-                string msg, msgTitle, COMPANY, SUBCOMPANY, SUBGRPCOMPANY, EMPID, NOTIFY_ID, GCMID, EMPID_IN, SENDER_ID, smsStatus;
-                string otherEmpId = "";
-
-                dt = newClassFile.GetMsgTBSendOn(true);
-                if (dt.Rows.Count > 0)
+                _bReturn = newClassFile.iMSGMSGTBSEND(strNotifyId, strTxtMsg, strTitle, strComp, strCompGrpId, strSubCompId, strEmpId, strSenderId, strMsgStatus, strOther);
+                if (_bReturn)
                 {
-                    for (int i = 0; i < dt.Rows.Count; i++)
+                    //Send Message Directly
+                    DataTable dt = new DataTable();
+                    DataTable dt2 = new DataTable();
+
+                    string msg, msgTitle, COMPANY, SUBCOMPANY, SUBGRPCOMPANY, EMPID, NOTIFY_ID, GCMID, EMPID_IN, SENDER_ID, smsStatus;
+                    string otherEmpId = "";
+
+                    dt = newClassFile.GetMsgTBSendOn(true);
+                    if (dt.Rows.Count > 0)
                     {
-                        msg = dt.Rows[i]["MSG_DESC"].ToString();
-                        msgTitle = dt.Rows[i]["MSG_TITLE"].ToString();
-                        COMPANY = dt.Rows[i]["COMPANY"].ToString();
-                        SUBCOMPANY = dt.Rows[i]["SUBCOMPANY"].ToString();
-                        SUBGRPCOMPANY = dt.Rows[i]["SUBGRPCOMPANY"].ToString();
-                        EMPID = dt.Rows[i]["EMP_SEND_TO"].ToString();
-                        NOTIFY_ID = dt.Rows[i]["NOTIFY_ID"].ToString();
-
-                        SENDER_ID = dt.Rows[i]["SENDER_ID"].ToString();
-                        otherEmpId = dt.Rows[i]["OTHER"].ToString();
-                        smsStatus = dt.Rows[i]["SMS_STATUS"].ToString();
-
-                        if (smsStatus.ToUpper() == "R")
+                        for (int i = 0; i < dt.Rows.Count; i++)
                         {
-                            dt2 = newClassFile.GetListOfGCMIds(COMPANY, SUBCOMPANY, SUBGRPCOMPANY, EMPID);
-                            for (int j = 0; j < dt2.Rows.Count; j++)
-                            {
-                                GCMID = dt2.Rows[j]["GCM_ID"].ToString();
-                                EMPID_IN = dt2.Rows[j]["LOGIN_ID"].ToString();
+                            msg = dt.Rows[i]["MSG_DESC"].ToString();
+                            msgTitle = dt.Rows[i]["MSG_TITLE"].ToString();
+                            COMPANY = dt.Rows[i]["COMPANY"].ToString();
+                            SUBCOMPANY = dt.Rows[i]["SUBCOMPANY"].ToString();
+                            SUBGRPCOMPANY = dt.Rows[i]["SUBGRPCOMPANY"].ToString();
+                            EMPID = dt.Rows[i]["EMP_SEND_TO"].ToString();
+                            NOTIFY_ID = dt.Rows[i]["NOTIFY_ID"].ToString();
 
-                                if (newClassFile.SendNotificationUsingJSON(GCMID, msg, msgTitle, SENDER_ID, EMPID_IN))
-                                {
-                                    string msgId = newClassFile.InsertUserMsg("", msgTitle, msg, GCMID, EMPID_IN, SENDER_ID, EMPID_IN);
-                                    if (msgId != "")
-                                    {
-                                        if (newClassFile.CheckUserbasedCount(SENDER_ID, EMPID_IN) == false)
-                                        {
-                                            newClassFile.InsertChatList(msgId, "", SENDER_ID, EMPID_IN);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            dt2 = newClassFile.GetListOfGCMIds(COMPANY, SUBCOMPANY, SUBGRPCOMPANY, EMPID);
-                            for (int j = 0; j < dt2.Rows.Count; j++)
-                            {
-                                GCMID = dt2.Rows[j]["GCM_ID"].ToString();
-                                EMPID_IN = dt2.Rows[j]["LOGIN_ID"].ToString();
+                            SENDER_ID = dt.Rows[i]["SENDER_ID"].ToString();
+                            otherEmpId = dt.Rows[i]["OTHER"].ToString();
+                            smsStatus = dt.Rows[i]["SMS_STATUS"].ToString();
 
-                                if (SENDER_ID != EMPID_IN)
+                            if (smsStatus.ToUpper() == "R")
+                            {
+                                dt2 = newClassFile.GetListOfGCMIds(COMPANY, SUBCOMPANY, SUBGRPCOMPANY, EMPID);
+                                for (int j = 0; j < dt2.Rows.Count; j++)
                                 {
+                                    GCMID = dt2.Rows[j]["GCM_ID"].ToString();
+                                    EMPID_IN = dt2.Rows[j]["LOGIN_ID"].ToString();
+
                                     if (newClassFile.SendNotificationUsingJSON(GCMID, msg, msgTitle, SENDER_ID, EMPID_IN))
                                     {
                                         string msgId = newClassFile.InsertUserMsg("", msgTitle, msg, GCMID, EMPID_IN, SENDER_ID, EMPID_IN);
@@ -5142,64 +6024,112 @@ public class Service : System.Web.Services.WebService
                                             {
                                                 newClassFile.InsertChatList(msgId, "", SENDER_ID, EMPID_IN);
                                             }
-                                            if (newClassFile.CheckUserbasedCountBilateral(SENDER_ID, EMPID_IN) == false)
-                                            {
-                                                newClassFile.InsertChatList(msgId, "", EMPID_IN, SENDER_ID);
-                                            }
                                         }
                                     }
                                 }
-
                             }
+                            else
+                            {
+                                dt2 = newClassFile.GetListOfGCMIds(COMPANY, SUBCOMPANY, SUBGRPCOMPANY, EMPID);
+                                for (int j = 0; j < dt2.Rows.Count; j++)
+                                {
+                                    GCMID = dt2.Rows[j]["GCM_ID"].ToString();
+                                    EMPID_IN = dt2.Rows[j]["LOGIN_ID"].ToString();
+
+                                    if (SENDER_ID != EMPID_IN)
+                                    {
+                                        if (newClassFile.SendNotificationUsingJSON(GCMID, msg, msgTitle, SENDER_ID, EMPID_IN))
+                                        {
+                                            string msgId = newClassFile.InsertUserMsg("", msgTitle, msg, GCMID, EMPID_IN, SENDER_ID, EMPID_IN);
+                                            if (msgId != "")
+                                            {
+                                                if (newClassFile.CheckUserbasedCount(SENDER_ID, EMPID_IN) == false)
+                                                {
+                                                    newClassFile.InsertChatList(msgId, "", SENDER_ID, EMPID_IN);
+                                                }
+                                                if (newClassFile.CheckUserbasedCountBilateral(SENDER_ID, EMPID_IN) == false)
+                                                {
+                                                    newClassFile.InsertChatList(msgId, "", EMPID_IN, SENDER_ID);
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                }
+                            }
+
+                            newClassFile.UpdateStatus(dt.Rows[i]["NOTIFY_ID"].ToString());
+
                         }
-
-                        newClassFile.UpdateStatus(dt.Rows[i]["NOTIFY_ID"].ToString());
-
                     }
                 }
+                return _bReturn;
             }
-            return _bReturn;
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataSet IMsgLoadEmployees(string strCompId, string strEmpRole)
     {
-        DataSet ds = new DataSet("DatasetElement");
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.iMsgLoadEmplyees(strCompId, strEmpRole);
-            dt.TableName = "iMsgLoadEmplyeesOutPut";
-            ds.Tables.Add(dt);
-            return ds;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            DataSet ds = new DataSet("DatasetElement");
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.iMsgLoadEmplyees(strCompId, strEmpRole);
+                dt.TableName = "iMsgLoadEmplyeesOutPut";
+                ds.Tables.Add(dt);
+                return ds;
+            }
+            else
+                return (InvaildAuthonticationds());
         }
-        else
-            return (InvaildAuthonticationds());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataSet IMSGMsgChatRoom(string strEmpId, string strOther)
     {
-        DataSet ds = new DataSet("CHATROOM");
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.IMsgMsgChatList(strEmpId);
-            dt.TableName = "IMSGMsgChatRoom";
-            ds.Tables.Add(dt);
-            return ds;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            DataSet ds = new DataSet("CHATROOM");
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.IMsgMsgChatList(strEmpId);
+                dt.TableName = "IMSGMsgChatRoom";
+                ds.Tables.Add(dt);
+                return ds;
+            }
+            else
+                return (InvaildAuthonticationds());
         }
-        else
-            return (InvaildAuthonticationds());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     #endregion
@@ -5211,82 +6141,153 @@ public class Service : System.Web.Services.WebService
     public DataTable TTS_LOGIN_MOBILE(string UserName, string Password)
     {
         AllSelect allSelect = new AllSelect();
+        DataTable dth = new DataTable();
+        DataTable dthf = new DataTable();
+        DataTable dthn = new DataTable();
 
-        string sql = "SELECT L.USER_ID, INITCAP( L.NAME ) as Name, L.PASSWORD, L.PHONE_NUMBER, L.IMEI_NUMBER,L.MODULE_CODE,L.PHONE_NUMBER,L.EMAIL_ID,";
-        sql = sql + " R.ROLE_ID,RM.ROLE_DESC,(CASE WHEN R.ROLE_ID = 'R0013' THEN (SELECT MODULE_CODE FROM ccm.TTS_MODULE_MST MM WHERE MM.MODULE_LEADER = L.USER_ID) ELSE '' END) MODULE_NAME, ";
-        sql = sql + "  (SELECT COMPANY_CODE FROM ccm.TASK_COR_SYS_TYPE WHERE CORETYPE='FUNCTION_MODULE' AND CODE=L.MODULE_CODE)COMP_CODE ";
-        sql = sql + " FROM TTS_LOGIN_MASTER L,TTS_ROLE_RIGHT_MASTER R,TTS_ROLE_MST RM ";
-        sql = sql + " WHERE upper(L.USER_ID)=upper('" + UserName + "') ";
-        sql = sql + " and  PASSWORD=encrypt('" + Password + "') ";
-        sql = sql + " AND L.USER_ID=R.USER_ID ";
-        sql = sql + " AND R.ROLE_ID=RM.ROLE_ID ";
-        return allSelect.TTS_Login(sql);
+        try
+        {
+            string sql = "SELECT L.USER_ID, INITCAP( L.NAME ) as Name, L.PASSWORD, L.PHONE_NUMBER, L.IMEI_NUMBER,L.MODULE_CODE,L.PHONE_NUMBER,L.EMAIL_ID,";
+            sql = sql + " R.ROLE_ID,RM.ROLE_DESC,(CASE WHEN R.ROLE_ID = 'R0013' THEN (SELECT MODULE_CODE FROM ccm.TTS_MODULE_MST MM WHERE MM.MODULE_LEADER = L.USER_ID) ELSE '' END) MODULE_NAME, ";
+            sql = sql + "  (SELECT COMPANY_CODE FROM ccm.TASK_COR_SYS_TYPE WHERE CORETYPE='FUNCTION_MODULE' AND CODE=L.MODULE_CODE)COMP_CODE ";
+            sql = sql + " FROM TTS_LOGIN_MASTER L,TTS_ROLE_RIGHT_MASTER R,TTS_ROLE_MST RM ";
+            sql = sql + " WHERE upper(L.USER_ID)=upper('" + UserName + "') ";
+            sql = sql + " and  PASSWORD=encrypt('" + Password + "') ";
+            sql = sql + " AND L.USER_ID=R.USER_ID ";
+            sql = sql + " AND R.ROLE_ID=RM.ROLE_ID ";
+
+            dth = allSelect.TTS_Login(sql);
+
+            if (dth.Rows.Count > 0)
+            {
+                JwtTokenGenerator jwtTokenGenerator = new JwtTokenGenerator();
+                string jwtToken = string.Empty;
+                if (dth != null && dth.Rows.Count > 0)
+                {
+                    jwtToken = jwtTokenGenerator.GenerateToken(Convert.ToString(dth.Rows[0]["USER_ID"]), Convert.ToString(dth.Rows[0]["ROLE_ID"]));
+                }
+
+                // Step 2: Add Columns
+                dthf.Columns.Add("USER_ID");      // Add an integer column
+                dthf.Columns.Add("Name"); // Add a string column
+                dthf.Columns.Add("PASSWORD");
+                dthf.Columns.Add("PHONE_NUMBER");
+                dthf.Columns.Add("IMEI_NUMBER");
+                dthf.Columns.Add("MODULE_CODE");
+                dthf.Columns.Add("PHONE_NUMBER");
+                dthf.Columns.Add("EMAIL_ID");
+                dthf.Columns.Add("ROLE_ID");
+                dthf.Columns.Add("ROLE_DESC");
+                dthf.Columns.Add("MODULE_NAME");
+                dthf.Columns.Add("COMP_CODE");
+                dthf.Columns.Add("JwtToken");
+
+                DataRow newRow = dthf.NewRow();
+                newRow["ID"] = dth.Rows[0]["ID"].ToString();
+                newRow["Name"] = dth.Rows[0]["Name"].ToString();
+                newRow["PASSWORD"] = dth.Rows[0]["PASSWORD"].ToString();
+                newRow["PHONE_NUMBER"] = dth.Rows[0]["PHONE_NUMBER"].ToString();
+                newRow["IMEI_NUMBER"] = dth.Rows[0]["IMEI_NUMBER"].ToString();
+                newRow["MODULE_CODE"] = dth.Rows[0]["MODULE_CODE"].ToString();
+                newRow["PHONE_NUMBER"] = dth.Rows[0]["PHONE_NUMBER"].ToString();
+                newRow["EMAIL_ID"] = dth.Rows[0]["EMAIL_ID"].ToString();
+                newRow["ROLE_ID"] = dth.Rows[0]["ROLE_ID"].ToString();
+                newRow["ROLE_DESC"] = dth.Rows[0]["ROLE_DESC"].ToString();
+                newRow["MODULE_NAME"] = dth.Rows[0]["MODULE_NAME"].ToString();
+                newRow["COMP_CODE"] = dth.Rows[0]["COMP_CODE"].ToString();
+                newRow["JwtToken"] = jwtToken;
+                dthf.Rows.Add(newRow);
+                return dthf;
+            }
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
+        return dthn = null;
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable TMS_TaskAllocationAction_Data(string ModuleCode, string UserID)
     {
-        AllSelect allSelect = new AllSelect();
+        try
+        {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-        string sql = "select e.MODULE_CODE, e.MODULE_NAME, b.TYP_F_WRK_ID,b.TYP_F_WRK_NAME,a.TASK_DESCRIPTION,a.TASK_PURPOSE_OF_CHANGE,c.PRIORITY_name  ";
-        sql = sql + ",a.TASK_UNIQUE_ID,a.TASK_ASSIGNED_BY ,a.TASK_ASSIGNED_DATE,initcap(d.name) as name  ,to_char(a.ENTRY_DATE,'dd-Mon-yyyy') as NewENTRY_DATE  ";
-        sql = sql + " ,(TO_DATE(SYSDATE,'dd/mm/yyyy') - TO_DATE(a.ENTRY_DATE,'dd/mm/yyyy'))  delay_days from TTS_TASK_ENTRY a, TTS_TYP_F_WRK_MST b,TTS_PRIORITY_MST c,TTS_LOGIN_MASTER d,TTS_MODULE_MST e,ccm.TTS_TASK_ALLOTMENT f  ";
-        sql = sql + " where a.ACTIVE= 'Y' and a.MODULE_ID = e.MODULE_CODE  ";
-        sql = sql + "  and a.TASK_TYPE_OF_WORK = b.TYP_F_WRK_ID  ";
-        sql = sql + "  and a.TASK_PRIORITY_TYPE = c.PRIORITY_ID  ";
-        sql = sql + "  and a.USER_ID=d.USER_ID  AND f.TASK_ID = a.TASK_UNIQUE_ID  AND f.TASK_STATUS<>'S003' ";
+            AllSelect allSelect = new AllSelect();
 
-        if (ModuleCode.Trim() != "")
-            sql = sql + "  and d.MODULE_CODE IN (SELECT DISTINCT FUNC_MODULE FROM  TTS_SAP_TEAM_MEMBERS WHERE TL_ID='" + UserID.Trim().ToUpper() + "')";
-        else
-            sql = sql + "  ";
+            string sql = "select e.MODULE_CODE, e.MODULE_NAME, b.TYP_F_WRK_ID,b.TYP_F_WRK_NAME,a.TASK_DESCRIPTION,a.TASK_PURPOSE_OF_CHANGE,c.PRIORITY_name  ";
+            sql = sql + ",a.TASK_UNIQUE_ID,a.TASK_ASSIGNED_BY ,a.TASK_ASSIGNED_DATE,initcap(d.name) as name  ,to_char(a.ENTRY_DATE,'dd-Mon-yyyy') as NewENTRY_DATE  ";
+            sql = sql + " ,(TO_DATE(SYSDATE,'dd/mm/yyyy') - TO_DATE(a.ENTRY_DATE,'dd/mm/yyyy'))  delay_days from TTS_TASK_ENTRY a, TTS_TYP_F_WRK_MST b,TTS_PRIORITY_MST c,TTS_LOGIN_MASTER d,TTS_MODULE_MST e,ccm.TTS_TASK_ALLOTMENT f  ";
+            sql = sql + " where a.ACTIVE= 'Y' and a.MODULE_ID = e.MODULE_CODE  ";
+            sql = sql + "  and a.TASK_TYPE_OF_WORK = b.TYP_F_WRK_ID  ";
+            sql = sql + "  and a.TASK_PRIORITY_TYPE = c.PRIORITY_ID  ";
+            sql = sql + "  and a.USER_ID=d.USER_ID  AND f.TASK_ID = a.TASK_UNIQUE_ID  AND f.TASK_STATUS<>'S003' ";
+
+            if (ModuleCode.Trim() != "")
+                sql = sql + "  and d.MODULE_CODE IN (SELECT DISTINCT FUNC_MODULE FROM  TTS_SAP_TEAM_MEMBERS WHERE TL_ID='" + UserID.Trim().ToUpper() + "')";
+            else
+                sql = sql + "  ";
 
 
-        if (ModuleCode.Trim() == "01")
-            sql = sql + " AND (E.MODULE_LEADER = 'MS0537' OR E.MODULE_LEADER = '41014958')";
-        else if (ModuleCode.Trim() == "")
-            sql = sql + " ";
-        else
-            sql = sql + " AND ((E.MODULE_LEADER = '" + UserID.Trim().ToUpper() + "') OR (b.TYP_F_WRK_ID='W010' AND e.MODULE_CODE='C30'))";
+            if (ModuleCode.Trim() == "01")
+                sql = sql + " AND (E.MODULE_LEADER = 'MS0537' OR E.MODULE_LEADER = '41014958')";
+            else if (ModuleCode.Trim() == "")
+                sql = sql + " ";
+            else
+                sql = sql + " AND ((E.MODULE_LEADER = '" + UserID.Trim().ToUpper() + "') OR (b.TYP_F_WRK_ID='W010' AND e.MODULE_CODE='C30'))";
 
-        sql = sql + " order by a.entry_date desc  ";
-        return allSelect.TTS_Allotment(sql);
+            sql = sql + " order by a.entry_date desc  ";
+            return allSelect.TTS_Allotment(sql);
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public String TTS_TASK_ACTION(string UPDATED_BY, string TASK_ALLOTED_TO, string TASK_STATUS, string TASK_FINAL_STATUS, string TASK_ID, string TASK_REMARKS)
     {
-        AllSelect allSelect = new AllSelect();
-
-        string strSQL2 = "UPDATE TTS_TASK_ALLOTMENT SET UPDATED_BY='" + UPDATED_BY + "',TASK_ALLOTED_TO='" + TASK_ALLOTED_TO + "',TASK_STATUS='" + TASK_STATUS + "',TASK_FINAL_STATUS='" + TASK_FINAL_STATUS + "'  WHERE TASK_ID='" + TASK_ID + "'";
-
-        string strSQL = "INSERT INTO TTS_REMARKS_DETAILS (TASK_ID, USER_ID, TASK_REMARKS ) VALUES ('" + TASK_ID + "', '" + UPDATED_BY + "',  '" + TASK_REMARKS + "' )";
-
-        string strSQL1 = "UPDATE TTS_TASK_ENTRY SET  ACTIVE  = 'N' WHERE TASK_UNIQUE_ID='" + TASK_ID + "'";
-
         try
         {
-            string[] strSqlList = { strSQL2, strSQL, strSQL1 };
-            bool isTrue = allSelect.InsertByMultipleSQLCCM(strSqlList);
-            if (isTrue)
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            AllSelect allSelect = new AllSelect();
+
+            string strSQL2 = "UPDATE TTS_TASK_ALLOTMENT SET UPDATED_BY='" + UPDATED_BY + "',TASK_ALLOTED_TO='" + TASK_ALLOTED_TO + "',TASK_STATUS='" + TASK_STATUS + "',TASK_FINAL_STATUS='" + TASK_FINAL_STATUS + "'  WHERE TASK_ID='" + TASK_ID + "'";
+
+            string strSQL = "INSERT INTO TTS_REMARKS_DETAILS (TASK_ID, USER_ID, TASK_REMARKS ) VALUES ('" + TASK_ID + "', '" + UPDATED_BY + "',  '" + TASK_REMARKS + "' )";
+
+            string strSQL1 = "UPDATE TTS_TASK_ENTRY SET  ACTIVE  = 'N' WHERE TASK_UNIQUE_ID='" + TASK_ID + "'";
+
+            try
             {
-                return "Task Alloted succesfully.";
+                string[] strSqlList = { strSQL2, strSQL, strSQL1 };
+                bool isTrue = allSelect.InsertByMultipleSQLCCM(strSqlList);
+                if (isTrue)
+                {
+                    return "Task Alloted succesfully.";
+                }
+                else
+                {
+                    return "Error during task Allocation . Please try after some times .";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return "Error during task Allocation . Please try after some times .";
+                return "Error during task Allocation . Please try after some times ." + ex.ToString();
             }
         }
-        catch (Exception ex)
+        catch (Exception ad)
         {
-            return "Error during task Allocation . Please try after some times ." + ex.ToString();
+            throw new Exception("An error occurred", ad);
         }
-
     }
-
-
 
     #endregion
 
@@ -5296,125 +6297,193 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable BDSDTotalCounts(string strStartDate, string strEndDate, string strDivision, string strKeyParam) // Open BD & SD Counts
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (strKeyParam != "b$e$!ntern@a|@pp")
-            return (InvaildAuthontication());
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.getBDSDCountlist(strStartDate, strEndDate, strDivision);
-            dt.TableName = "getBDSDCountlist";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (strKeyParam != "b$e$!ntern@a|@pp")
+                return (InvaildAuthontication());
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.getBDSDCountlist(strStartDate, strEndDate, strDivision);
+                dt.TableName = "getBDSDCountlist";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable BDSDHTLTTotalCounts(string strStartDate, string strEndDate, string strDivision, string strHTLTTyp, string strBDSDTyp) // Open BD HT/LT & SD HT/LT Counts
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.getBDSDHTLTTotalCountlist(strStartDate, strEndDate, strDivision, strHTLTTyp, strBDSDTyp);
-            dt.TableName = "getBDSDHTLTTotalCountlist";
-            //UpdateOutputCallWidFunction(strNewId, strWebId, MethodBase.GetCurrentMethod().Name);
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.getBDSDHTLTTotalCountlist(strStartDate, strEndDate, strDivision, strHTLTTyp, strBDSDTyp);
+                dt.TableName = "getBDSDHTLTTotalCountlist";
+                //UpdateOutputCallWidFunction(strNewId, strWebId, MethodBase.GetCurrentMethod().Name);
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable BDSDHTLTDetailsOnTotal(string strStartDate, string strEndDate, string strDivision, string strHTLTTyp, string strBDSDTyp, string strOpenClose) // Details - BD / SD - Details
     {
-        NewClassFile newClassFile = new NewClassFile();
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.GetBDSDHTLTDetailsOnTotal(strStartDate, strEndDate, strDivision, strHTLTTyp, strBDSDTyp, strOpenClose);
-            dt.TableName = "getBDSDHTLTDetailsOnTotal";
-            //UpdateOutputCallWidFunction(strNewId, strWebId, MethodBase.GetCurrentMethod().Name);
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.GetBDSDHTLTDetailsOnTotal(strStartDate, strEndDate, strDivision, strHTLTTyp, strBDSDTyp, strOpenClose);
+                dt.TableName = "getBDSDHTLTDetailsOnTotal";
+                //UpdateOutputCallWidFunction(strNewId, strWebId, MethodBase.GetCurrentMethod().Name);
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable BDSDHTLTOnSlctAreaList(string strBDSDId, string strFeederCode) // Details - BD / SD - Details - Area List
     {
-        NewClassFile newClassFile = new NewClassFile();
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.GetBDSDHTLTOnSlctAreaList(strBDSDId, strFeederCode);
-            dt.TableName = "getBDSDHTLTOnSlctAreaList";
-            //UpdateOutputCallWidFunction(strNewId, strWebId, MethodBase.GetCurrentMethod().Name);
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.GetBDSDHTLTOnSlctAreaList(strBDSDId, strFeederCode);
+                dt.TableName = "getBDSDHTLTOnSlctAreaList";
+                //UpdateOutputCallWidFunction(strNewId, strWebId, MethodBase.GetCurrentMethod().Name);
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable BDSDHTLTOnAreaListConsCount(string strExternalId, string strDTCode) //strExternalId -- used as bd id - Area List Consumer Count
     {
-
-        NewClassFile newClassFile = new NewClassFile();
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.GetBDSDHTLTOnAreaListConsCount(strExternalId, strDTCode);
-            dt.TableName = "getBDSDHTLTOnAreaListConsCount";
-            //UpdateOutputCallWidFunction(strNewId, strWebId, MethodBase.GetCurrentMethod().Name);
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.GetBDSDHTLTOnAreaListConsCount(strExternalId, strDTCode);
+                dt.TableName = "getBDSDHTLTOnAreaListConsCount";
+                //UpdateOutputCallWidFunction(strNewId, strWebId, MethodBase.GetCurrentMethod().Name);
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable BDSDContactList(string strDivCode) // Division based Admin contacts
     {
-        NewClassFile newClassFile = new NewClassFile();
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.GetBDSDContactList(strDivCode);
-            dt.TableName = "getBDSDContactList";
-            //UpdateOutputCallWidFunction(strNewId, strWebId, MethodBase.GetCurrentMethod().Name);
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.GetBDSDContactList(strDivCode);
+                dt.TableName = "getBDSDContactList";
+                //UpdateOutputCallWidFunction(strNewId, strWebId, MethodBase.GetCurrentMethod().Name);
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable BDSDSMSCountList(string strBDSDId) // Division based Admin contacts
     {
-
-        NewClassFile newClassFile = new NewClassFile();
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.GetBDSDSMSCountList(strBDSDId);
-            dt.TableName = "getBDSDSMSCountList";
-            //UpdateOutputCallWidFunction(strNewId, strWebId, MethodBase.GetCurrentMethod().Name);
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.GetBDSDSMSCountList(strBDSDId);
+                dt.TableName = "getBDSDSMSCountList";
+                //UpdateOutputCallWidFunction(strNewId, strWebId, MethodBase.GetCurrentMethod().Name);
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     //No Current Complaint
@@ -5427,17 +6496,27 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable ONM_getbreakdownbackfeedlist_New(string BREAK_DOWN_ID)
     {
-        NewClassFile newClassFile = new NewClassFile();
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = newClassFile.getbreakdownbackfeedlistNew(BREAK_DOWN_ID);
-            dt.TableName = "getbreakdownbackfeedlist";
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            return dt;
+            NewClassFile newClassFile = new NewClassFile();
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = newClassFile.getbreakdownbackfeedlistNew(BREAK_DOWN_ID);
+                dt.TableName = "getbreakdownbackfeedlist";
+
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     #endregion
@@ -5448,42 +6527,72 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable VSS_GetCompliantCentre_DivisionWise(string strKeyParam, string DisivionName, string DivisionID)
     {
-        AllSelect allSelect = new AllSelect();
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            string sql = "SELECT COMPLAINT_CENTRE,COMPLAINT_ID FROM ASS_DIVISION_LOCATION_DT WHERE UPPER(DIVISION_NAME)='" + DisivionName + "' AND UPPER(SDO_CD)='" + DivisionID + "' ORDER BY COMPLAINT_CENTRE ";
-            return allSelect.VSS_ComplaintCentre(sql);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            AllSelect allSelect = new AllSelect();
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                string sql = "SELECT COMPLAINT_CENTRE,COMPLAINT_ID FROM ASS_DIVISION_LOCATION_DT WHERE UPPER(DIVISION_NAME)='" + DisivionName + "' AND UPPER(SDO_CD)='" + DivisionID + "' ORDER BY COMPLAINT_CENTRE ";
+                return allSelect.VSS_ComplaintCentre(sql);
+            }
+            else
+                return InvaildAuthontication();
         }
-        else
-            return InvaildAuthontication();
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable VSS_GetRequestType_DeptpartmentWise(string strKeyParam, string DeptparmentID)
     {
-        AllSelect allSelect = new AllSelect();
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            string sql = " SELECT SUB_REQ_NAME,SUB_REQ_ID FROM ASS_SUB_REQUEST_TYPE a,ASS_REQUEST_TYPE b WHERE a.req_id=b.req_id and a.Active='Y' and b.Active='Y' and a.DEPT_ID='" + DeptparmentID + "'  order by SUB_REQ_NAME ";
-            return allSelect.VSS_RequestType(sql);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            AllSelect allSelect = new AllSelect();
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                string sql = " SELECT SUB_REQ_NAME,SUB_REQ_ID FROM ASS_SUB_REQUEST_TYPE a,ASS_REQUEST_TYPE b WHERE a.req_id=b.req_id and a.Active='Y' and b.Active='Y' and a.DEPT_ID='" + DeptparmentID + "'  order by SUB_REQ_NAME ";
+                return allSelect.VSS_RequestType(sql);
+            }
+            else
+                return InvaildAuthontication();
         }
-        else
-            return InvaildAuthontication();
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable VSS_GetAssginDetails_CircleDivCompDeptWise(string strKeyParam, string CircleID, string DivID, string CompID, string DeptID)
     {
-        AllSelect allSelect = new AllSelect();
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            string sql = " SELECT PROC_OWNER_ID, PROCESS_OWNER_NAME, PROC_MOBILE_NO FROM ASS_PROCESS_SPOC_ASSIGN  WHERE UPPER(CIRCLE_ID)='" + CircleID + "' AND UPPER(SDO_CD)='" + DivID + "' AND UPPER(COMPLAINT_ID)='" + CompID + "' AND UPPER(REQEST_FOR_ID)='" + DeptID + "' ORDER BY PROCESS_OWNER_NAME  ";
-            return allSelect.VSS_AssignDetails(sql);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            AllSelect allSelect = new AllSelect();
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                string sql = " SELECT PROC_OWNER_ID, PROCESS_OWNER_NAME, PROC_MOBILE_NO FROM ASS_PROCESS_SPOC_ASSIGN  WHERE UPPER(CIRCLE_ID)='" + CircleID + "' AND UPPER(SDO_CD)='" + DivID + "' AND UPPER(COMPLAINT_ID)='" + CompID + "' AND UPPER(REQEST_FOR_ID)='" + DeptID + "' ORDER BY PROCESS_OWNER_NAME  ";
+                return allSelect.VSS_AssignDetails(sql);
+            }
+            else
+                return InvaildAuthontication();
         }
-        else
-            return InvaildAuthontication();
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
@@ -5492,80 +6601,120 @@ public class Service : System.Web.Services.WebService
                                     string strPeriorty, string strRmk, string strFileName, string strDivID, string strCompCentreID, string strCircle,
                                      string strReqType, string strAssignTo, string strDept, string strRequestFor, string strAttachment)
     {
-        string StrCompNo = string.Empty;
-        string StrAssign = string.Empty;
-        bool _bReturn = false;
-
-        AllSelect allSelect = new AllSelect();
-        AllInsert allInsert = new AllInsert();
-
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            StrCompNo = allSelect.compl_No().Rows[0][0].ToString();
-            StrAssign = allSelect.AssignToID(strAssignTo).Rows[0][0].ToString();
+            string StrCompNo = string.Empty;
+            string StrAssign = string.Empty;
+            bool _bReturn = false;
 
-            _bReturn = allInsert.Insert_Attachment(StrCompNo, strAttachment, strFileName);
+            AllSelect allSelect = new AllSelect();
+            AllInsert allInsert = new AllInsert();
 
-            _bReturn = allInsert.InsertComplaintDetails(StrCompNo, strCompName, strEmailID, strMobileNo, strPhoneNo, strPeriorty, strRmk,
-                                                    strFileName, strDivID, strCompCentreID, strCircle, strReqType, StrAssign, strDept, strRequestFor);
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+
+                StrCompNo = allSelect.compl_No().Rows[0][0].ToString();
+                StrAssign = allSelect.AssignToID(strAssignTo).Rows[0][0].ToString();
+
+                _bReturn = allInsert.Insert_Attachment(StrCompNo, strAttachment, strFileName);
+
+                _bReturn = allInsert.InsertComplaintDetails(StrCompNo, strCompName, strEmailID, strMobileNo, strPhoneNo, strPeriorty, strRmk,
+                                                        strFileName, strDivID, strCompCentreID, strCircle, strReqType, StrAssign, strDept, strRequestFor);
+            }
+
+            if (_bReturn == true)
+                return StrCompNo;
+            else
+                return "false";
         }
-
-        if (_bReturn == true)
-            return StrCompNo;
-        else
-            return "false";
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public bool VSS_Update_Complaint_Data(string strKeyParam, string strcompno, string strCompStatusID, string strRemarks, string strUserID, string strUserName)
     {
-        AllInsert allInsert = new AllInsert();
-
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            bool _bReturn = false;
-            _bReturn = allInsert.UpdateComplaintDetails(strcompno, strCompStatusID, strRemarks, strUserID, strUserName);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            AllInsert allInsert = new AllInsert();
+
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                bool _bReturn = false;
+                _bReturn = allInsert.UpdateComplaintDetails(strcompno, strCompStatusID, strRemarks, strUserID, strUserName);
+                return _bReturn;
+            }
+            else
+                return false;
         }
-        else
-            return false;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable VSS_GetComplaintDetails_CompWise(string strKeyParam, string CompID)
     {
-        AllSelect allSelect = new AllSelect();
-
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            string sql = "  SELECT  DISTINCT DEPT,a.COMP_NO,a.REMARKS TM_REMARKS,TO_CHAR(COMP_DATE,'dd/MM/YYYY') COMP_DATE,COMPLAINANT_NAME,COMPLAINANT_EMAIL, ";
-            sql += " COMPLAINANT_MOB,a.REMARKS,PRIORITY_IDX,DECODE(COMP_STATUS,'YL1','FORWORD','C','CLOSE','N','PENDING STATUS',COMP_STATUS) COMP_STATUS , ";
-            sql += " DIVISION_NAME division ,g.PROCESS_OWNER_NAME OWNER_NAME,SUB_REQ_NAME,TO_CHAR(c.WIP_DATE,'dd-mm-yyyy') WIP_DATE,c.REMARKS REMAR FROM ASS_COMP_MST a , ";
-            sql += " ASS_DIVISION_LOCATION_DT b,ASS_PROCESS_SPOC_ASSIGN g,ASS_COMP_CLOSE c, ASS_SUB_REQUEST_TYPE r WHERE a.COMP_NO='" + CompID + "'  ";
-            sql += " AND a.DIVISION=b.SDO_CD AND a.FWD_TO=g.PROC_OWNER_ID AND r.SUB_REQ_ID=REQUEST_SUB_TYPE  AND a.COMP_NO = c.COMP_NO(+) ";
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            return allSelect.VSS_GetComplaintDetails(sql);
+            AllSelect allSelect = new AllSelect();
+
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                string sql = "  SELECT  DISTINCT DEPT,a.COMP_NO,a.REMARKS TM_REMARKS,TO_CHAR(COMP_DATE,'dd/MM/YYYY') COMP_DATE,COMPLAINANT_NAME,COMPLAINANT_EMAIL, ";
+                sql += " COMPLAINANT_MOB,a.REMARKS,PRIORITY_IDX,DECODE(COMP_STATUS,'YL1','FORWORD','C','CLOSE','N','PENDING STATUS',COMP_STATUS) COMP_STATUS , ";
+                sql += " DIVISION_NAME division ,g.PROCESS_OWNER_NAME OWNER_NAME,SUB_REQ_NAME,TO_CHAR(c.WIP_DATE,'dd-mm-yyyy') WIP_DATE,c.REMARKS REMAR FROM ASS_COMP_MST a , ";
+                sql += " ASS_DIVISION_LOCATION_DT b,ASS_PROCESS_SPOC_ASSIGN g,ASS_COMP_CLOSE c, ASS_SUB_REQUEST_TYPE r WHERE a.COMP_NO='" + CompID + "'  ";
+                sql += " AND a.DIVISION=b.SDO_CD AND a.FWD_TO=g.PROC_OWNER_ID AND r.SUB_REQ_ID=REQUEST_SUB_TYPE  AND a.COMP_NO = c.COMP_NO(+) ";
+
+                return allSelect.VSS_GetComplaintDetails(sql);
+            }
+            else
+                return InvaildAuthontication();
         }
-        else
-            return InvaildAuthontication();
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable VSS_GetRemarksDetails_ReqWise(string strKeyParam, string ReqNo)
     {
-        AllSelect allSelect = new AllSelect();
-
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            string sql = " SELECT USER_OWNER_NAME,TO_CHAR(ENTRY_DATE,'dd-mm-yyyy') ENTRY_DATE,TO_CHAR(WIP_DATE,'dd-mm-yyyy') WIP_DATE,REMARKS,STATUS FROM ASS_COMP_CLOSE WHERE COMP_NO='" + ReqNo + "' ORDER BY ENTRY_DATE  ";
-            return allSelect.VSS_RemarkDetails(sql);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            AllSelect allSelect = new AllSelect();
+
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                string sql = " SELECT USER_OWNER_NAME,TO_CHAR(ENTRY_DATE,'dd-mm-yyyy') ENTRY_DATE,TO_CHAR(WIP_DATE,'dd-mm-yyyy') WIP_DATE,REMARKS,STATUS FROM ASS_COMP_CLOSE WHERE COMP_NO='" + ReqNo + "' ORDER BY ENTRY_DATE  ";
+                return allSelect.VSS_RemarkDetails(sql);
+            }
+            else
+                return InvaildAuthontication();
         }
-        else
-            return InvaildAuthontication();
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -5577,74 +6726,123 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public string SK_RegDistMsgTxt(string strKeyParam, string strDist)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            NewClassFile newClassFile = new NewClassFile();
-            return (newClassFile.getSK_RegDistMsgTxt(strDist));
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                NewClassFile newClassFile = new NewClassFile();
+                return (newClassFile.getSK_RegDistMsgTxt(strDist));
+            }
+            else
+                return "Invalid";
         }
-        else
-            return "Invalid";
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable SK_HolidayList(string strKeyParam, string strDist)
     {
-        DataTable dt = new DataTable();
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            dt = newClassFile.getSK_HolidayMst(strDist);
-            dt.TableName = "SK_HolidayList";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            DataTable dt = new DataTable();
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                dt = newClassFile.getSK_HolidayMst(strDist);
+                dt.TableName = "SK_HolidayList";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable SK_TimeSlotList(string strKeyParam, string strDist)
     {
-        DataTable dt = new DataTable();
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            dt = newClassFile.getSK_TimeSlot(strDist);
-            dt.TableName = "SK_TimeSlotList";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            DataTable dt = new DataTable();
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                dt = newClassFile.getSK_TimeSlot(strDist);
+                dt.TableName = "SK_TimeSlotList";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public Boolean SK_RegDistStatus(string strKeyParam, string strDist)
     {
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            return (newClassFile.getSK_RegDistStatus(strDist));
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                return (newClassFile.getSK_RegDistStatus(strDist));
+            }
+            else
+                return false;
         }
-        else
-            return false;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public string SK_RegOrderNoRating(string strKeyParam, string strOrderNo, string strRating)
     {
-        NewClassFile newClassFile = new NewClassFile();
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            return (newClassFile.getSK_RegOrderNoRating(strOrderNo, strRating));
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                return (newClassFile.getSK_RegOrderNoRating(strOrderNo, strRating));
+            }
+            else
+                return "F";
         }
-        else
-            return "F";
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     #endregion
@@ -5655,68 +6853,123 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable LR_Login_Details(string strKeyParam, string UserID, string Password)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        DataTable dth = new DataTable();
+        DataTable dthf = new DataTable();
+        DataTable dthn = new DataTable();
+        try
         {
             NewClassFile newClassFile = new NewClassFile();
-            return newClassFile.MobApp_ValidLogin(UserID, Password);
+            dth = newClassFile.MobApp_ValidLogin(UserID, Password);
+
+            if (dth.Rows.Count > 0)
+            {
+                JwtTokenGenerator jwtTokenGenerator = new JwtTokenGenerator();
+                string jwtToken = string.Empty;
+                if (dth != null && dth.Rows.Count > 0)
+                {
+                    jwtToken = jwtTokenGenerator.GenerateToken(Convert.ToString(dth.Rows[0]["USER_ID"]), Convert.ToString(dth.Rows[0]["ROL_RGT"]));
+                }
+
+                // Step 2: Add Columns
+                dthf.Columns.Add("IMEI_NO");      // Add an integer column
+                dthf.Columns.Add("JwtToken");
+
+                DataRow newRow = dthf.NewRow();
+                newRow["IMEI_NO"] = dth.Rows[0]["IMEI_NO"].ToString();
+                newRow["JwtToken"] = jwtToken;
+                dthf.Rows.Add(newRow);
+                return dthf;
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return InvaildAuthontication();
+            throw new Exception("An error occurred", ad);
         }
+        if (dthf.Rows.Count > 0)
+            return dthf;
+        else
+            return InvaildAuthontication();
     }
+
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable LR_Scheme_DivisionWise(string strKeyParam, string DivisionID)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        DataTable dth = new DataTable();
+        try
         {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
             NewClassFile newClassFile = new NewClassFile();
-            return newClassFile.MobApp_Scheme_DivisionWise(DivisionID);
+            dth = newClassFile.MobApp_Scheme_DivisionWise(DivisionID);
         }
-        else
+        catch (Exception ad)
         {
-            return InvaildAuthontication();
+            throw new Exception("An error occurred", ad);
         }
+        if (dth.Rows.Count > 0)
+            return dth;
+        else
+            return InvaildAuthontication();
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable LR_Scheme_Vendor_User(string strKeyParam, string strImeiNo)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        DataTable dth = new DataTable();
+        try
         {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
             NewClassFile newClassFile = new NewClassFile();
-            return newClassFile.MobApp_Scheme_User(strImeiNo);
+            dth = newClassFile.MobApp_Scheme_User(strImeiNo);
         }
-        else
+        catch (Exception ad)
         {
-            return InvaildAuthontication();
+            throw new Exception("An error occurred", ad);
         }
+        if (dth.Rows.Count > 0)
+            return dth;
+        else
+            return InvaildAuthontication();
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable LR_Scheme_Vendor_UserPassword(string strKeyParam, string strUserName, string Password)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        DataTable dth = new DataTable();
+        try
         {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
             NewClassFile newClassFile = new NewClassFile();
-            return newClassFile.MobApp_Scheme_UserPassword(strUserName, Password);
+            dth = newClassFile.MobApp_Scheme_UserPassword(strUserName, Password);
         }
-        else
+        catch (Exception ad)
         {
-            return InvaildAuthontication();
+            throw new Exception("An error occurred", ad);
         }
+        if (dth.Rows.Count > 0)
+            return dth;
+        else
+            return InvaildAuthontication();
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable LR_Scheme_ChangePassword(string strKeyParam, string strUserName, string OldPassword, string NewPassword, string ConfrimPassword)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
             NewClassFile newClassFile = new NewClassFile();
             DataTable _dt = newClassFile.MobApp_Scheme_GetUserDetails(strUserName);
             if (_dt.Rows.Count > 0)
@@ -5738,12 +6991,12 @@ public class Service : System.Web.Services.WebService
             }
             else
                 return InvaildUserID();
-
         }
-        else
+        catch (Exception ad)
         {
-            return InvaildAuthontication();
+            throw new Exception("An error occurred", ad);
         }
+        return SuccessfullyUserUpdate();
     }
 
     private DataTable SuccessfullyUserUpdate()
@@ -5785,30 +7038,73 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable LR_Scheme_Vendor_Login(string strKeyParam, string strUserId, string strPassword)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        DataTable dth = new DataTable();
+        DataTable dthf = new DataTable();
+        DataTable dthn = new DataTable();
+
+        try
         {
             NewClassFile newClassFile = new NewClassFile();
-            return newClassFile.MobApp_Scheme_Login(strUserId, strPassword);
+            dth = newClassFile.MobApp_Scheme_Login(strUserId, strPassword);
+
+            if (dth.Rows.Count > 0)
+            {
+                JwtTokenGenerator jwtTokenGenerator = new JwtTokenGenerator();
+                string jwtToken = string.Empty;
+                if (dth != null && dth.Rows.Count > 0)
+                {
+                    jwtToken = jwtTokenGenerator.GenerateToken(Convert.ToString(dth.Rows[0]["USER_ID"]), Convert.ToString(dth.Rows[0]["ROL_RGT"]));
+                }
+
+                // Step 2: Add Columns
+                dthf.Columns.Add("NAME");      // Add an integer column
+                dthf.Columns.Add("IMEI_NO");      // Add an integer column
+                dthf.Columns.Add("DIV_CODE");      // Add an integer column
+                dthf.Columns.Add("ROL_RGT");      // Add an integer column
+                dthf.Columns.Add("COMPANY_CODE");      // Add an integer column
+                dthf.Columns.Add("JwtToken");
+
+                DataRow newRow = dthf.NewRow();
+                newRow["NAME"] = dth.Rows[0]["NAME"].ToString();
+                newRow["IMEI_NO"] = dth.Rows[0]["IMEI_NO"].ToString();
+                newRow["DIV_CODE"] = dth.Rows[0]["DIV_CODE"].ToString();
+                newRow["ROL_RGT"] = dth.Rows[0]["ROL_RGT"].ToString();
+                newRow["COMPANY_CODE"] = dth.Rows[0]["COMPANY_CODE"].ToString();
+                newRow["JwtToken"] = jwtToken;
+                dthf.Rows.Add(newRow);
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return InvaildAuthontication();
+            throw new Exception("An error occurred", ad);
         }
+        if (dth.Rows.Count > 0)
+            return dthf;
+        else
+            return InvaildAuthontication();
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable LR_Vendor_DivisionWise(string strKeyParam, string DivisionID)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        DataTable dth = new DataTable();
+        try
         {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
             NewClassFile newClassFile = new NewClassFile();
-            return newClassFile.MobApp_Vendor_DivisionWise(DivisionID);
+            dth = newClassFile.MobApp_Vendor_DivisionWise(DivisionID);
         }
-        else
+        catch (Exception ad)
         {
-            return InvaildAuthontication();
+            throw new Exception("An error occurred", ad);
         }
+        if (dth.Rows.Count > 0)
+            return dth;
+        else
+            return InvaildAuthontication();
     }
 
     [WebMethod(EnableSession = true)]
@@ -5816,15 +7112,18 @@ public class Service : System.Web.Services.WebService
     public Boolean LR_Insert_Scheme_Vendor_MobData(string strKeyParam, string DivId, string Scheme, string Vendor, string TeamCount, string MetRplOnly, string MetRelOnly,
                         string BothActMet, string MetInsQul, string PoleDbRel, string ArmCblRel, string IMEI_No, string Flag_V_S, string SelectDate, string strSubDiv, string strArmCastTp)
     {
-        string _sCircleName = string.Empty;
-        DataTable _dtCircle = new DataTable();
-        NewClassFile newClassFile = new NewClassFile();
-
-        string _sSno = "0";
-
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
+            string _sCircleName = string.Empty;
+            DataTable _dtCircle = new DataTable();
+            NewClassFile newClassFile = new NewClassFile();
+
+            string _sSno = "0";
+
+            DataTable dth = new DataTable();
             _dtCircle = newClassFile.MobApp_Circle_DivisionWise(DivId);
             if (_dtCircle.Rows.Count > 0)
                 _sCircleName = _dtCircle.Rows[0][0].ToString();
@@ -5845,8 +7144,10 @@ public class Service : System.Web.Services.WebService
                                                                     ArmCblRel, IMEI_No, _sCircleName, SelectDate));
             }
         }
-        else
-            return false;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
@@ -5855,14 +7156,17 @@ public class Service : System.Web.Services.WebService
                                                   string BothActMet, string MetInsQul, string PoleDbRel, string ArmCblRel, string IMEI_No, string Flag_V_S, string SelectDate,
                                                    string strSubDiv, string strArmCastTp, string strlatitude, string strlongitude)
     {
-        string _sCircleName = string.Empty;
-        DataTable _dtCircle = new DataTable();
-        NewClassFile newClassFile = new NewClassFile();
-
-        string _sSno = "0";
-
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
+            string _sCircleName = string.Empty;
+            DataTable _dtCircle = new DataTable();
+            NewClassFile newClassFile = new NewClassFile();
+
+            string _sSno = "0";
+
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
             _dtCircle = newClassFile.MobApp_Circle_DivisionWise(DivId);
             if (_dtCircle.Rows.Count > 0)
                 _sCircleName = _dtCircle.Rows[0][0].ToString();
@@ -5883,8 +7187,10 @@ public class Service : System.Web.Services.WebService
                                                                     ArmCblRel, IMEI_No, _sCircleName, SelectDate));
             }
         }
-        else
-            return false;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -5906,14 +7212,19 @@ public class Service : System.Web.Services.WebService
                                                               string seal3, string div_code, string schemeno, string dbobs, string piercing, string frompole,
                                                                string topole, string flagType)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
             NewClassFile newClassFile = new NewClassFile();
             return (newClassFile.Insert_Scheme_ActivityType_MobData(MeterNo, PoleNo, ActivityList1, ActivityList2, IMEI_No, newMeter, meterbox, busbarspin, cableuse,
                                                         seal1, seal2, seal3, div_code, schemeno, dbobs, piercing, frompole, topole, flagType));
         }
-        else
-            return false;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
@@ -5923,14 +7234,19 @@ public class Service : System.Web.Services.WebService
                                                               string seal3, string div_code, string schemeno, string dbobs, string piercing, string frompole,
                                                                string topole, string flagType, string strlatitude, string strlongitude)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
             NewClassFile newClassFile = new NewClassFile();
             return (newClassFile.Insert_Scheme_ActivityType_MobData1(MeterNo, PoleNo, ActivityList1, ActivityList2, IMEI_No, newMeter, meterbox, busbarspin, cableuse,
                                                         seal1, seal2, seal3, div_code, schemeno, dbobs, piercing, frompole, topole, flagType, strlatitude, strlongitude));
         }
-        else
-            return false;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -5938,14 +7254,17 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable LR_Dashboard_DateWise(string strKeyParam, string EntryDate)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
             NewClassFile newClassFile = new NewClassFile();
             return newClassFile.Mobapp_LRDashborad(EntryDate);
         }
-        else
+        catch (Exception ad)
         {
-            return InvaildAuthontication();
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -5954,14 +7273,17 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable LR_Dashboard_DateDivisionWise(string strKeyParam, string EntryDate)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
             NewClassFile newClassFile = new NewClassFile();
             return newClassFile.Mobapp_LRDashboradDivWise(EntryDate);
         }
-        else
+        catch (Exception ad)
         {
-            return InvaildAuthontication();
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -5969,67 +7291,20 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable LR_Dashboard_DateSubDivisionWise(string strKeyParam, string EntryDate)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
             NewClassFile newClassFile = new NewClassFile();
             return newClassFile.Mobapp_LRDashboradSubDivWise(EntryDate);
         }
-        else
+        catch (Exception ad)
         {
-            return InvaildAuthontication();
+            throw new Exception("An error occurred", ad);
         }
+        return InvaildAuthontication();
     }
-
-    //[WebMethod(EnableSession = true)]
-    //[SoapHeader("consumer", Required = true)]
-    //public bool LR_Surv_QC_Insert(string strKeyParam, string VistDate, string Circle, string Division,
-    //                                                string MeterNo, string CANo,
-    //                                               string Remarks, string QCType,
-    //                                               string QCSlctd,
-    //                                                string Other, string activity1, string activity2)
-    //{
-    //    if (strKeyParam == "@$$!ntern@a|@pp")
-    //    {
-    //        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
-    //        {
-    //            string strImeiNo = "";
-    //            string strPoleNo = "";
-    //            if (!string.IsNullOrEmpty(activity2))
-    //            {
-    //                if (activity2.ToString().Contains("|"))
-    //                {
-    //                    string[] _arrnctyp = activity2.Trim().Split('|');
-    //                    strImeiNo = _arrnctyp[0].ToString();
-    //                    if (!string.IsNullOrEmpty(_arrnctyp[1].ToString()))
-    //                    {
-    //                        strPoleNo = _arrnctyp[1].ToString();
-    //                    }                        
-    //                }
-    //                else
-    //                {
-    //                    strImeiNo = activity2.ToString();
-    //                }
-    //            }
-
-    //            //if (strPoleNo == "null")
-    //            //        strPoleNo = null;
-
-    //            bool _bReturn = false;
-    //            NewClassFile newClassFile = new NewClassFile();
-    //            _bReturn = newClassFile.Insert_LR_QCheck(VistDate.ToString(), Circle.ToString(),
-    //                                            Division.ToString(), MeterNo.ToString(), CANo.ToString(),
-    //                                            Remarks.ToString(),
-    //                                            QCType.ToString(), QCSlctd.ToString(), Other.ToString(), activity1, strImeiNo, strPoleNo);
-
-    //            return _bReturn;
-    //        }
-    //        else
-    //            return (false);
-    //    }
-    //    else
-    //        return false;
-    //} //Done
-
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
@@ -6039,219 +7314,92 @@ public class Service : System.Web.Services.WebService
                                                    string QCSlctd,
                                                     string Other, string activity1, string activity2, string strSubDiv)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if ((Circle.ToUpper() != "-SELECT-") && (Division.ToUpper() != "-SELECT-") && (strSubDiv.ToUpper() != "-SELECT-"))
             {
-                if ((Circle.ToUpper() != "-SELECT-") && (Division.ToUpper() != "-SELECT-") && (strSubDiv.ToUpper() != "-SELECT-"))
+                NewClassFile newClassFile = new NewClassFile();
+
+                string _sOutPutData = string.Empty;
+
+                string _sMetreCANO = string.Empty;
+                if (MeterNo.Trim() == "")
                 {
-                    NewClassFile newClassFile = new NewClassFile();
-
-                    string _sOutPutData = string.Empty;
-
-                    string _sMetreCANO = string.Empty;
-                    if (MeterNo.Trim() == "")
+                    if (CANo.Trim() != "")
                     {
-                        if (CANo.Trim() != "")
-                        {
-                            _sMetreCANO = CANo;
-                        }
-                        else
-                        {
-                            if (!string.IsNullOrEmpty(activity2))
-                            {
-                                if (activity2.ToString().Contains("|"))
-                                {
-                                    string[] _arrnctyp = activity2.Trim().Split('|');
-                                    if (!string.IsNullOrEmpty(_arrnctyp[1].ToString()))
-                                    {
-                                        _sMetreCANO = _arrnctyp[1].ToString();
-                                    }
-                                }
-                            }
-                        }
+                        _sMetreCANO = CANo;
                     }
                     else
                     {
-                        _sMetreCANO = MeterNo;
-                    }
-
-                    _sOutPutData = newClassFile.Check_QC_Duplicate(_sMetreCANO.ToString());
-
-                    if (_sOutPutData.ToString().Trim() != "0")
-                    {
-                        return "Record already submitted on Date:- " + _sOutPutData;
-                    }
-                    else
-                    {
-                        string strImeiNo = "";
-                        string strPoleNo = "";
                         if (!string.IsNullOrEmpty(activity2))
                         {
                             if (activity2.ToString().Contains("|"))
                             {
                                 string[] _arrnctyp = activity2.Trim().Split('|');
-                                strImeiNo = _arrnctyp[0].ToString();
                                 if (!string.IsNullOrEmpty(_arrnctyp[1].ToString()))
                                 {
-                                    strPoleNo = _arrnctyp[1].ToString();
+                                    _sMetreCANO = _arrnctyp[1].ToString();
                                 }
                             }
-                            else
-                            {
-                                strImeiNo = activity2.ToString();
-                            }
                         }
-
-                        bool _bReturn = false;
-
-                        _bReturn = newClassFile.Insert_LR_QCheck(VistDate.ToString(), Circle.ToString(),
-                                                        Division.ToString(), MeterNo.ToString(), CANo.ToString(),
-                                                        Remarks.ToString(),
-                                                        QCType.ToString(), QCSlctd.ToString(), Other.ToString(), activity1, strImeiNo, strPoleNo, strSubDiv);
-
-                        return "Successfully Submitted";
-
                     }
                 }
                 else
                 {
-                    return "Not Submit Sucessfully, Please select valid Circle/Division/Subdivision ";
+                    _sMetreCANO = MeterNo;
+                }
+
+                _sOutPutData = newClassFile.Check_QC_Duplicate(_sMetreCANO.ToString());
+
+                if (_sOutPutData.ToString().Trim() != "0")
+                {
+                    return "Record already submitted on Date:- " + _sOutPutData;
+                }
+                else
+                {
+                    string strImeiNo = "";
+                    string strPoleNo = "";
+                    if (!string.IsNullOrEmpty(activity2))
+                    {
+                        if (activity2.ToString().Contains("|"))
+                        {
+                            string[] _arrnctyp = activity2.Trim().Split('|');
+                            strImeiNo = _arrnctyp[0].ToString();
+                            if (!string.IsNullOrEmpty(_arrnctyp[1].ToString()))
+                            {
+                                strPoleNo = _arrnctyp[1].ToString();
+                            }
+                        }
+                        else
+                        {
+                            strImeiNo = activity2.ToString();
+                        }
+                    }
+
+                    bool _bReturn = false;
+
+                    _bReturn = newClassFile.Insert_LR_QCheck(VistDate.ToString(), Circle.ToString(),
+                                                    Division.ToString(), MeterNo.ToString(), CANo.ToString(),
+                                                    Remarks.ToString(),
+                                                    QCType.ToString(), QCSlctd.ToString(), Other.ToString(), activity1, strImeiNo, strPoleNo, strSubDiv);
+
+                    return "Successfully Submitted";
                 }
             }
             else
-                return "Not Submit Sucessfully, Please Try Again";
+            {
+                return "Not Submit Sucessfully, Please select valid Circle/Division/Subdivision ";
+            }
         }
-        else
-            return "Not Submit Sucessfully, Please Try Again";
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
+        return "Not Submit Sucessfully, Please Try Again";
     }
-
-    //[WebMethod(EnableSession = true)]
-    //[SoapHeader("consumer", Required = true)]
-    //public DataTable LR_QC_MIS(string strKeyParam, string strDivName, string strRolRght)
-    //{
-    //    if (strKeyParam == "@$$!ntern@a|@pp")
-    //    {
-    //        NewClassFile newClassFile = new NewClassFile();
-    //        return newClassFile.LR_QC_MIS_List(strDivName, strRolRght);
-    //    }
-    //    else
-    //    {
-    //        return InvaildAuthontication();
-    //    }
-    //} //Modified
-
-    //[WebMethod(EnableSession = true)]
-    //[SoapHeader("consumer", Required = true)]
-    //public DataTable LR_QC_CIRCLE_MIS(string strKeyParam, string strDivName, string strRolRght)
-    //{
-    //    if (strKeyParam == "@$$!ntern@a|@pp")
-    //    {
-    //        NewClassFile newClassFile = new NewClassFile();
-    //        return newClassFile.LR_QC_CIRCLE_MIS_List(strDivName, strRolRght);
-    //    }
-    //    else
-    //    {
-    //        return InvaildAuthontication();
-    //    }
-    //} //Modified
-
-    //[WebMethod(EnableSession = true)]
-    //[SoapHeader("consumer", Required = true)]
-    //public DataTable LR_QC_DIVISION_MIS(string strKeyParam, string strDivName, string strRolRght)
-    //{
-    //    if (strKeyParam == "@$$!ntern@a|@pp")
-    //    {
-    //        NewClassFile newClassFile = new NewClassFile();
-    //        return newClassFile.LR_QC_DIVISION_MIS_List(strDivName, strRolRght);
-    //    }
-    //    else
-    //    {
-    //        return InvaildAuthontication();
-    //    }
-    //} //Modified
-
-
-    //[WebMethod(EnableSession = true)]
-    //[SoapHeader("consumer", Required = true)]
-    //public DataTable LR_ActivityModuleMIS(string strKeyParam, string strDivName, string strRolRght, string strDate)
-    //{
-    //    if (strKeyParam == "@$$!ntern@a|@pp")
-    //    {
-    //        DataTable dt = new DataTable();
-    //        if (strRolRght != "SELECT" && strDivName != "")
-    //        {
-    //            dt = NewClassFile.LR_ActivityModuleMIS_List(strRolRght, strDate);
-    //            return dt;
-    //        }
-
-    //        return NewClassFile.LR_ActivityModuleMIS_List(strDivName, strRolRght, strDate);
-    //    }
-    //    else
-    //    {
-    //        return InvaildAuthontication();
-    //    }
-    //}
-
-    //[WebMethod(EnableSession = true)]
-    //[SoapHeader("consumer", Required = true)]
-    //public DataTable LR_ActivityModuleSchemeMIS(string strKeyParam, string strDivName, string strRolRght, string strDate)
-    //{
-    //    if (strKeyParam == "@$$!ntern@a|@pp")
-    //    {
-    //        return NewClassFile.LR_ActivityModuleSchemeMIS_List(strDivName, strRolRght, strDate);
-    //    }
-    //    else
-    //    {
-    //        return InvaildAuthontication();
-    //    }
-    //}
-
-    //[WebMethod(EnableSession = true)]
-    //[SoapHeader("consumer", Required = true)]
-    //public DataTable LR_SurvellanceDivMIS(string strKeyParam, string strDivName, string strRolRght)
-    //{
-    //    if (strKeyParam == "@$$!ntern@a|@pp")
-    //    {
-    //        NewClassFile newClassFile = new NewClassFile();
-    //        return newClassFile.LR_SurvellanceDivMIS_List(strDivName, strRolRght);
-    //    }
-    //    else
-    //    {
-    //        return InvaildAuthontication();
-    //    }
-    //}
-
-    //[WebMethod(EnableSession = true)]
-    //[SoapHeader("consumer", Required = true)]
-    //public DataTable LR_SurvellanceCircleMIS(string strKeyParam, string strDivName, string strRolRght)
-    //{
-    //    if (strKeyParam == "@$$!ntern@a|@pp")
-    //    {
-    //        NewClassFile newClassFile = new NewClassFile();
-    //        return newClassFile.LR_SurvellanceCircleMIS_List(strDivName, strRolRght);
-    //    }
-    //    else
-    //    {
-    //        return InvaildAuthontication();
-    //    }
-    //}
-
-    //[WebMethod(EnableSession = true)]
-    //[SoapHeader("consumer", Required = true)]
-    //public DataTable LR_SurvellanceCircleDivMIS(string strKeyParam, string strDivName, string strRolRght)
-    //{
-    //    if (strKeyParam == "@$$!ntern@a|@pp")
-    //    {
-    //        NewClassFile newClassFile = new NewClassFile();
-    //        return newClassFile.LR_SurvellanceCircleDivMIS_List(strDivName, strRolRght);
-    //    }
-    //    else
-    //    {
-    //        return InvaildAuthontication();
-    //    }
-    //}
-
 
     #endregion
 
@@ -6261,19 +7409,27 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable GetOutageAlertRPL(string strCANumber) // Details - BD / SD - Details
     {
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            NewClassFile newClassFile = new NewClassFile();
-            dt = newClassFile.GetOutageAlertRPLDetails(strCANumber);
-            dt.TableName = "GetOutageAlertRPL";
-            return dt;
-        }
-        else
-            return (InvaildAuthontication());
-    }
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                NewClassFile newClassFile = new NewClassFile();
+                dt = newClassFile.GetOutageAlertRPLDetails(strCANumber);
+                dt.TableName = "GetOutageAlertRPL";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
+    }
     #endregion
 
     #region Supply code
@@ -6282,17 +7438,27 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public bool SplyCode_DefyLtr(string strKeyParam, string stCheckBoxNo)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            bool _bReturn = false;
-            //_bReturn = AllInsert.UpdateComplaintDetails(stCheckBoxNo, strCompStatusID, strRemarks, strUserID, strUserName);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            //stCheckBoxNo ---- is commma seprated with check selected in android
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                bool _bReturn = false;
+                //_bReturn = AllInsert.UpdateComplaintDetails(stCheckBoxNo, strCompStatusID, strRemarks, strUserID, strUserName);
 
-            return _bReturn;
+                //stCheckBoxNo ---- is commma seprated with check selected in android
+
+                return _bReturn;
+            }
+            else
+                return false;
         }
-        else
-            return false;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
@@ -6301,73 +7467,82 @@ public class Service : System.Web.Services.WebService
                                        string str_007, string str_008, string str_009, string str_010, string str_011, string str_012, string str_013,
                            string str_014, string str_015, string str_016, string str_017, string str_018, string str_019, string str_020, string str_021, string str_022)
     {
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            string strDocStatus = string.Empty;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            //string[] OrderDocList = strOrderNo.Split(',');
-
-            for (int i = 0; i < 22; i++)
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
             {
-                if (i == 0)
-                    strDocStatus = str_001;
-                else if (i == 1)
-                    strDocStatus = str_002;
-                else if (i == 2)
-                    strDocStatus = str_003;
-                else if (i == 3)
-                    strDocStatus = str_004;
-                else if (i == 4)
-                    strDocStatus = str_005;
-                else if (i == 5)
-                    strDocStatus = str_006;
-                else if (i == 6)
-                    strDocStatus = str_007;
-                else if (i == 7)
-                    strDocStatus = str_008;
-                else if (i == 8)
-                    strDocStatus = str_009;
-                else if (i == 9)
-                    strDocStatus = str_010;
-                else if (i == 10)
-                    strDocStatus = str_011;
-                else if (i == 11)
-                    strDocStatus = str_012;
-                else if (i == 12)
-                    strDocStatus = str_013;
-                else if (i == 13)
-                    strDocStatus = str_014;
-                else if (i == 14)
-                    strDocStatus = str_015;
-                else if (i == 15)
-                    strDocStatus = str_016;
-                else if (i == 16)
-                    strDocStatus = str_017;
-                else if (i == 17)
-                    strDocStatus = str_018;
-                else if (i == 18)
-                    strDocStatus = str_019;
-                else if (i == 19)
-                    strDocStatus = str_020;
-                else if (i == 20)
-                    strDocStatus = str_021;
-                else if (i == 21)
-                    strDocStatus = str_022;
+                bool _bReturn = false;
+                string strDocStatus = string.Empty;
 
-                NewClassFile newClassFile = new NewClassFile();
-                _bReturn = newClassFile.Insert_DOCLIST_New_Update(strOrderNo.ToString(), strDocStatus.ToString(), (i + 1).ToString());
-                //_bReturn = NewClassFile.Insert_DOCLIST_New_Update(OrderDocList[0].ToString(), OrderDocList[i + 1].ToString(),(i+1).ToString());
+                //string[] OrderDocList = strOrderNo.Split(',');
+
+                for (int i = 0; i < 22; i++)
+                {
+                    if (i == 0)
+                        strDocStatus = str_001;
+                    else if (i == 1)
+                        strDocStatus = str_002;
+                    else if (i == 2)
+                        strDocStatus = str_003;
+                    else if (i == 3)
+                        strDocStatus = str_004;
+                    else if (i == 4)
+                        strDocStatus = str_005;
+                    else if (i == 5)
+                        strDocStatus = str_006;
+                    else if (i == 6)
+                        strDocStatus = str_007;
+                    else if (i == 7)
+                        strDocStatus = str_008;
+                    else if (i == 8)
+                        strDocStatus = str_009;
+                    else if (i == 9)
+                        strDocStatus = str_010;
+                    else if (i == 10)
+                        strDocStatus = str_011;
+                    else if (i == 11)
+                        strDocStatus = str_012;
+                    else if (i == 12)
+                        strDocStatus = str_013;
+                    else if (i == 13)
+                        strDocStatus = str_014;
+                    else if (i == 14)
+                        strDocStatus = str_015;
+                    else if (i == 15)
+                        strDocStatus = str_016;
+                    else if (i == 16)
+                        strDocStatus = str_017;
+                    else if (i == 17)
+                        strDocStatus = str_018;
+                    else if (i == 18)
+                        strDocStatus = str_019;
+                    else if (i == 19)
+                        strDocStatus = str_020;
+                    else if (i == 20)
+                        strDocStatus = str_021;
+                    else if (i == 21)
+                        strDocStatus = str_022;
+
+                    NewClassFile newClassFile = new NewClassFile();
+                    _bReturn = newClassFile.Insert_DOCLIST_New_Update(strOrderNo.ToString(), strDocStatus.ToString(), (i + 1).ToString());
+                    //_bReturn = NewClassFile.Insert_DOCLIST_New_Update(OrderDocList[0].ToString(), OrderDocList[i + 1].ToString(),(i+1).ToString());
+                }
+
+                //_bReturn = NewClassFile.Insert_DOCLIST_New_Update(strOrderNo, strDocument_Type, strDocStatus);
+
+
+                return _bReturn;
             }
-
-            //_bReturn = NewClassFile.Insert_DOCLIST_New_Update(strOrderNo, strDocument_Type, strDocStatus);
-
-
-            return _bReturn;
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -6377,89 +7552,109 @@ public class Service : System.Web.Services.WebService
                                string D10, string D11, string D12, string D13, string D14, string D15, string D16, string D17, string D18, string D19,
                                string D20, string D21, string D22, string D23, string D24)
     {
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            string strDocID = string.Empty;
-            // string[] OrderDocList = strOrderNo.Split(',');
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            for (int i = 0; i < 24; i++)
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
             {
-                if (i == 0)
-                    strDocID = D1;
-                else if (i == 1)
-                    strDocID = D2;
-                else if (i == 2)
-                    strDocID = D3;
-                else if (i == 3)
-                    strDocID = D4;
-                else if (i == 4)
-                    strDocID = D5;
-                else if (i == 5)
-                    strDocID = D6;
-                else if (i == 6)
-                    strDocID = D7;
-                else if (i == 7)
-                    strDocID = D8;
-                else if (i == 8)
-                    strDocID = D9;
-                else if (i == 9)
-                    strDocID = D10;
-                else if (i == 10)
-                    strDocID = D11;
-                else if (i == 11)
-                    strDocID = D12;
-                else if (i == 12)
-                    strDocID = D13;
-                else if (i == 13)
-                    strDocID = D14;
-                else if (i == 14)
-                    strDocID = D15;
-                else if (i == 15)
-                    strDocID = D16;
-                else if (i == 16)
-                    strDocID = D17;
-                else if (i == 17)
-                    strDocID = D18;
-                else if (i == 18)
-                    strDocID = D19;
-                else if (i == 19)
-                    strDocID = D20;
-                else if (i == 20)
-                    strDocID = D21;
-                else if (i == 21)
-                    strDocID = D22;
-                else if (i == 22)
-                    strDocID = D23;
-                else if (i == 23)
-                    strDocID = D24;
+                bool _bReturn = false;
+                string strDocID = string.Empty;
+                // string[] OrderDocList = strOrderNo.Split(',');
 
-                NewClassFile newClassFile = new NewClassFile();
-                _bReturn = newClassFile.Insert_Deficiency_Update(strOrderNo.ToString(), strDocID.ToString());
-                //_bReturn = NewClassFile.Insert_Deficiency_Update(OrderDocList[0].ToString(), OrderDocList[i+1].ToString());
+                for (int i = 0; i < 24; i++)
+                {
+                    if (i == 0)
+                        strDocID = D1;
+                    else if (i == 1)
+                        strDocID = D2;
+                    else if (i == 2)
+                        strDocID = D3;
+                    else if (i == 3)
+                        strDocID = D4;
+                    else if (i == 4)
+                        strDocID = D5;
+                    else if (i == 5)
+                        strDocID = D6;
+                    else if (i == 6)
+                        strDocID = D7;
+                    else if (i == 7)
+                        strDocID = D8;
+                    else if (i == 8)
+                        strDocID = D9;
+                    else if (i == 9)
+                        strDocID = D10;
+                    else if (i == 10)
+                        strDocID = D11;
+                    else if (i == 11)
+                        strDocID = D12;
+                    else if (i == 12)
+                        strDocID = D13;
+                    else if (i == 13)
+                        strDocID = D14;
+                    else if (i == 14)
+                        strDocID = D15;
+                    else if (i == 15)
+                        strDocID = D16;
+                    else if (i == 16)
+                        strDocID = D17;
+                    else if (i == 17)
+                        strDocID = D18;
+                    else if (i == 18)
+                        strDocID = D19;
+                    else if (i == 19)
+                        strDocID = D20;
+                    else if (i == 20)
+                        strDocID = D21;
+                    else if (i == 21)
+                        strDocID = D22;
+                    else if (i == 22)
+                        strDocID = D23;
+                    else if (i == 23)
+                        strDocID = D24;
+
+                    NewClassFile newClassFile = new NewClassFile();
+                    _bReturn = newClassFile.Insert_Deficiency_Update(strOrderNo.ToString(), strDocID.ToString());
+                    //_bReturn = NewClassFile.Insert_Deficiency_Update(OrderDocList[0].ToString(), OrderDocList[i+1].ToString());
+                }
+
+
+                return _bReturn;
             }
-
-
-            return _bReturn;
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
+
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public bool SUPPLY_CODE_NEW_CONN_IMG(string strOrderNo, string strOtherImg1, string strOtherImg2, string strOtherImg3, string strOtherImg4)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            NewClassFile newClassFile = new NewClassFile();
-            _bReturn = newClassFile.SUPPLY_CODE_NEW_CONN_IMG(strOrderNo, strOtherImg1, strOtherImg2, strOtherImg3, strOtherImg4);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                NewClassFile newClassFile = new NewClassFile();
+                _bReturn = newClassFile.SUPPLY_CODE_NEW_CONN_IMG(strOrderNo, strOtherImg1, strOtherImg2, strOtherImg3, strOtherImg4);
+                return _bReturn;
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
@@ -6467,76 +7662,55 @@ public class Service : System.Web.Services.WebService
     public bool SUPPLY_CODE_NEW_CONN_DATA(string strOrderNo, string strAppliedPortion, string strDwellingUnit, string strResonForNewMtr, string strDPCCClrncRqd,
         string strSStnSpaceAvail, string strTotalLoadPlot, string strTotalNoConn, string strDTMeter, string strDTCode)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            NewClassFile newClassFile = new NewClassFile();
-            _bReturn = newClassFile.SUPPLY_CODE_NEW_CONN_DATA(strOrderNo, strAppliedPortion, strDwellingUnit, strResonForNewMtr, strDPCCClrncRqd,
-        strSStnSpaceAvail, strTotalLoadPlot, strTotalNoConn, strDTMeter, strDTCode);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                NewClassFile newClassFile = new NewClassFile();
+                _bReturn = newClassFile.SUPPLY_CODE_NEW_CONN_DATA(strOrderNo, strAppliedPortion, strDwellingUnit, strResonForNewMtr, strDPCCClrncRqd,
+            strSStnSpaceAvail, strTotalLoadPlot, strTotalNoConn, strDTMeter, strDTCode);
+                return _bReturn;
+            }
+            else
+                return (false);
         }
-        else
-            return (false);
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
+
     }
 
     #endregion
 
     #region "LR_SURVEILLANCE"
 
-    //[WebMethod(EnableSession = true)]
-    //[SoapHeader("consumer", Required = true)]
-    //public DataTable LR_ObservationList(string strKeyParam, string strDivName)
-    //{
-    //    if (strKeyParam == "@$$!ntern@a|@pp")
-    //    {
-    //        NewClassFile newClassFile = new NewClassFile();
-    //        return newClassFile.Mobint_LRObservationList(strDivName);
-    //    }
-    //    else
-    //    {
-    //        return InvaildAuthontication();
-    //    }
-    //}
-
-    //[WebMethod(EnableSession = true)]
-    //[SoapHeader("consumer", Required = true)]
-    //public bool LR_Surveillance_Insert(string strKeyParam, string ObserType, string VistDate, string Circle, string Division, string MeterNo, string CANo,
-    //                                               string PoleNo, string ActionTkFlg, string Remarks, string NCType, string TypeOfAbnormality, string SiteAddress,
-    //                                                string AdjMeterNo1, string AdjMeterNo2, string NearPoleNo, string Other, string activity1, string activity2)
-    //{
-    //    if (strKeyParam == "@$$!ntern@a|@pp")
-    //    {
-    //        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
-    //        {
-    //            bool _bReturn = false;
-
-    //            NewClassFile newClassFile = new NewClassFile();
-    //            _bReturn = newClassFile.Insert_LR_Surveillane(ObserType.ToString(), VistDate.ToString(), Circle.ToString(), Division.ToString(), MeterNo.ToString(), CANo.ToString(),
-    //                                            PoleNo.ToString(), ActionTkFlg.ToString(), Remarks.ToString(), NCType.ToString(), TypeOfAbnormality.ToString(),
-    //                                            SiteAddress.ToString(), AdjMeterNo1.ToString(), AdjMeterNo2.ToString(), NearPoleNo.ToString(), Other.ToString(), activity2.ToString());
-
-    //            return _bReturn;
-    //        }
-    //        else
-    //            return (false);
-    //    }
-    //    else
-    //        return false;
-    //}
-
-
     [WebMethod]
     [SoapHeader("consumer", Required = true)]
     public DataTable LR_Scheme_SubClusterMapping(string strKeyParam, string subdivision)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            NewClassFile newClassFile = new NewClassFile();
-            return newClassFile.MobApp_Cluster_Mapping(subdivision);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                NewClassFile newClassFile = new NewClassFile();
+                return newClassFile.MobApp_Cluster_Mapping(subdivision);
+            }
+            else
+            {
+                return InvaildAuthontication();
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return InvaildAuthontication();
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -6547,60 +7721,70 @@ public class Service : System.Web.Services.WebService
                                                     string AdjMeterNo1, string AdjMeterNo2, string NearPoleNo, string Other, string activity1,
                                             string activity2, string strSubDiv, string strSubCluster)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (strKeyParam == PublicAccessTokenKey)
             {
-                if ((Circle.ToUpper() != "-SELECT-") && (Division.ToUpper() != "-SELECT-") && (strSubDiv.ToUpper() != "-SELECT-"))
+                if (checkConsumer(MethodBase.GetCurrentMethod().Name))
                 {
-                    bool _bReturn = false;
-
-                    NewClassFile newClassFile = new NewClassFile();
-
-                    string _sOutPutData = string.Empty;
-
-                    string _sMetreCANO = string.Empty;
-                    if (MeterNo.Trim() == "")
+                    if ((Circle.ToUpper() != "-SELECT-") && (Division.ToUpper() != "-SELECT-") && (strSubDiv.ToUpper() != "-SELECT-"))
                     {
-                        if (CANo.Trim() != "")
+                        bool _bReturn = false;
+
+                        NewClassFile newClassFile = new NewClassFile();
+
+                        string _sOutPutData = string.Empty;
+
+                        string _sMetreCANO = string.Empty;
+                        if (MeterNo.Trim() == "")
                         {
-                            _sMetreCANO = CANo;
+                            if (CANo.Trim() != "")
+                            {
+                                _sMetreCANO = CANo;
+                            }
+                            else if (PoleNo.Trim() != "")
+                            {
+                                _sMetreCANO = PoleNo;
+                            }
                         }
-                        else if (PoleNo.Trim() != "")
+                        else
                         {
-                            _sMetreCANO = PoleNo;
+                            _sMetreCANO = MeterNo;
+                        }
+
+                        _sOutPutData = newClassFile.Check_Surveillance_Duplicate(_sMetreCANO);
+
+                        if (_sOutPutData.ToString().Trim() != "0")
+                        {
+                            return "Record already submitted on Date:- " + _sOutPutData;
+                        }
+                        else
+                        {
+                            _bReturn = newClassFile.Insert_LR_Surveillane(ObserType.ToString(), VistDate.ToString(), Circle.ToString(), Division.ToString(), MeterNo.ToString(), CANo.ToString(),
+                                                            PoleNo.ToString(), ActionTkFlg.ToString(), Remarks.ToString(), NCType.ToString(), TypeOfAbnormality.ToString(),
+                                                            SiteAddress.ToString(), AdjMeterNo1.ToString(), AdjMeterNo2.ToString(), NearPoleNo.ToString(), Other.ToString(), activity2.ToString(), strSubDiv, strSubCluster);
+
+                            return "Successfully Submitted";
                         }
                     }
                     else
                     {
-                        _sMetreCANO = MeterNo;
-                    }
-
-                    _sOutPutData = newClassFile.Check_Surveillance_Duplicate(_sMetreCANO);
-
-                    if (_sOutPutData.ToString().Trim() != "0")
-                    {
-                        return "Record already submitted on Date:- " + _sOutPutData;
-                    }
-                    else
-                    {
-                        _bReturn = newClassFile.Insert_LR_Surveillane(ObserType.ToString(), VistDate.ToString(), Circle.ToString(), Division.ToString(), MeterNo.ToString(), CANo.ToString(),
-                                                        PoleNo.ToString(), ActionTkFlg.ToString(), Remarks.ToString(), NCType.ToString(), TypeOfAbnormality.ToString(),
-                                                        SiteAddress.ToString(), AdjMeterNo1.ToString(), AdjMeterNo2.ToString(), NearPoleNo.ToString(), Other.ToString(), activity2.ToString(), strSubDiv, strSubCluster);
-
-                        return "Successfully Submitted";
+                        return "Not Submit Sucessfully, Please select valid Circle/Division/Subdivision ";
                     }
                 }
                 else
-                {
-                    return "Not Submit Sucessfully, Please select valid Circle/Division/Subdivision ";
-                }
+                    return "Not Submit Sucessfully, Please Try Again";
             }
             else
                 return "Not Submit Sucessfully, Please Try Again";
         }
-        else
-            return "Not Submit Sucessfully, Please Try Again";
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -6611,149 +7795,107 @@ public class Service : System.Web.Services.WebService
                                                     string AdjMeterNo1, string AdjMeterNo2, string NearPoleNo, string Other, string activity1,
                                             string activity2, string strSubDiv, string strSubCluster, string strlatitude, string strlongitude)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (strKeyParam == PublicAccessTokenKey)
             {
-                if ((Circle.ToUpper() != "-SELECT-") && (Division.ToUpper() != "-SELECT-") && (strSubDiv.ToUpper() != "-SELECT-"))
+                if (checkConsumer(MethodBase.GetCurrentMethod().Name))
                 {
-                    bool _bReturn = false;
-                    NewClassFile newClassFile = new NewClassFile();
-                    string _sOutPutData = string.Empty;
-                    string _sMetreCANO = string.Empty;
-                    if (MeterNo.Trim() == "")
+                    if ((Circle.ToUpper() != "-SELECT-") && (Division.ToUpper() != "-SELECT-") && (strSubDiv.ToUpper() != "-SELECT-"))
                     {
-                        if (CANo.Trim() != "")
+                        bool _bReturn = false;
+                        NewClassFile newClassFile = new NewClassFile();
+                        string _sOutPutData = string.Empty;
+                        string _sMetreCANO = string.Empty;
+                        if (MeterNo.Trim() == "")
                         {
-                            _sMetreCANO = CANo;
+                            if (CANo.Trim() != "")
+                            {
+                                _sMetreCANO = CANo;
+                            }
+                            else if (PoleNo.Trim() != "")
+                            {
+                                _sMetreCANO = PoleNo;
+                            }
                         }
-                        else if (PoleNo.Trim() != "")
+                        else
                         {
-                            _sMetreCANO = PoleNo;
+                            _sMetreCANO = MeterNo;
+                        }
+
+                        _sOutPutData = newClassFile.Check_Surveillance_Duplicate(_sMetreCANO);
+
+                        if (_sOutPutData.ToString().Trim() != "0")
+                        {
+                            return "Record already submitted on Date:- " + _sOutPutData;
+                        }
+                        else
+                        {
+                            _bReturn = newClassFile.Insert_LR_Surveillane1(ObserType.ToString(), VistDate.ToString(), Circle.ToString(), Division.ToString(), MeterNo.ToString(), CANo.ToString(),
+                                                            PoleNo.ToString(), ActionTkFlg.ToString(), Remarks.ToString(), NCType.ToString(), TypeOfAbnormality.ToString(),
+                                                            SiteAddress.ToString(), AdjMeterNo1.ToString(), AdjMeterNo2.ToString(), NearPoleNo.ToString(), Other.ToString(),
+                                                            activity2.ToString(), strSubDiv, strSubCluster, strlatitude, strlongitude);
+
+                            return "Successfully Submitted";
                         }
                     }
                     else
                     {
-                        _sMetreCANO = MeterNo;
-                    }
-
-                    _sOutPutData = newClassFile.Check_Surveillance_Duplicate(_sMetreCANO);
-
-                    if (_sOutPutData.ToString().Trim() != "0")
-                    {
-                        return "Record already submitted on Date:- " + _sOutPutData;
-                    }
-                    else
-                    {
-                        _bReturn = newClassFile.Insert_LR_Surveillane1(ObserType.ToString(), VistDate.ToString(), Circle.ToString(), Division.ToString(), MeterNo.ToString(), CANo.ToString(),
-                                                        PoleNo.ToString(), ActionTkFlg.ToString(), Remarks.ToString(), NCType.ToString(), TypeOfAbnormality.ToString(),
-                                                        SiteAddress.ToString(), AdjMeterNo1.ToString(), AdjMeterNo2.ToString(), NearPoleNo.ToString(), Other.ToString(),
-                                                        activity2.ToString(), strSubDiv, strSubCluster, strlatitude, strlongitude);
-
-                        return "Successfully Submitted";
+                        return "Not Submit Sucessfully, Please select valid Circle/Division/Subdivision ";
                     }
                 }
                 else
-                {
-                    return "Not Submit Sucessfully, Please select valid Circle/Division/Subdivision ";
-                }
+                    return "Not Submit Sucessfully, Please Try Again";
             }
             else
                 return "Not Submit Sucessfully, Please Try Again";
         }
-        else
-            return "Not Submit Sucessfully, Please Try Again";
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
+
     }
-
-    //[WebMethod(EnableSession = true)]
-    //[SoapHeader("consumer", Required = true)]
-    //public string LR_Surveillance_Insert_New(string strKeyParam, string ObserType, string VistDate, string Circle, string Division, string MeterNo, string CANo,
-    //                                               string PoleNo, string ActionTkFlg, string Remarks, string NCType, string TypeOfAbnormality, string SiteAddress,
-    //                                                string AdjMeterNo1, string AdjMeterNo2, string NearPoleNo, string Other, string activity1, string activity2, string strSubDiv)
-    //{
-    //    if (strKeyParam == "@$$!ntern@a|@pp")
-    //    {
-    //        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
-    //        {
-    //            if ((Circle.ToUpper() != "-SELECT-") && (Division.ToUpper() != "-SELECT-") && (strSubDiv.ToUpper() != "-SELECT-"))
-    //            {
-    //                bool _bReturn = false;
-
-    //                NewClassFile newClassFile = new NewClassFile();
-
-    //                string _sOutPutData = string.Empty;
-
-    //                string _sMetreCANO = string.Empty;
-    //                if (MeterNo.Trim() == "")
-    //                {
-    //                    if (CANo.Trim() != "")
-    //                    {
-    //                        _sMetreCANO = CANo;
-    //                    }
-    //                    else if (PoleNo.Trim() != "")
-    //                    {
-    //                        _sMetreCANO = PoleNo;
-    //                    }
-    //                }
-    //                else
-    //                {
-    //                    _sMetreCANO = MeterNo;
-    //                }
-
-    //                _sOutPutData = newClassFile.Check_Surveillance_Duplicate(_sMetreCANO);
-
-    //                if (_sOutPutData.ToString().Trim() != "0")
-    //                {
-    //                    return "Record already submitted on Date:- " + _sOutPutData;
-    //                }
-    //                else
-    //                {
-    //                    _bReturn = newClassFile.Insert_LR_Surveillane(ObserType.ToString(), VistDate.ToString(), Circle.ToString(), Division.ToString(), MeterNo.ToString(), CANo.ToString(),
-    //                                                    PoleNo.ToString(), ActionTkFlg.ToString(), Remarks.ToString(), NCType.ToString(), TypeOfAbnormality.ToString(),
-    //                                                    SiteAddress.ToString(), AdjMeterNo1.ToString(), AdjMeterNo2.ToString(), NearPoleNo.ToString(), Other.ToString(), activity2.ToString(), strSubDiv);
-
-    //                    return "Successfully Submitted";
-    //                }
-    //            }
-    //            else
-    //            {
-    //                return "Not Submit Sucessfully, Please select valid Circle/Division/Subdivision ";
-    //            }
-    //        }
-    //        else
-    //            return "Not Submit Sucessfully, Please Try Again";
-    //    }
-    //    else
-    //        return "Not Submit Sucessfully, Please Try Again";
-    //}
-
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public bool LR_Surv_ATR_Insert(string strKeyParam, string ObserId, string ObserType, string Remarks, string NCTypeResolved, string NCTypeNotResolved, string TypOfAbnormResolv, string TypOfAbnormNtResolv, string activity1, string activity2, string enf_Case_ID)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (strKeyParam == PublicAccessTokenKey)
             {
-                bool _bReturn = false;
-
-                string[] str = activity1.Split(',');
-
-                NewClassFile newClassFile = new NewClassFile();
-
-                for (int i = 0; i < str.Length; i++)
+                if (checkConsumer(MethodBase.GetCurrentMethod().Name))
                 {
-                    _bReturn = newClassFile.Insert_LR_Surv_Atr(ObserId, ObserType.ToString(), Remarks, NCTypeResolved, NCTypeNotResolved, TypOfAbnormResolv, TypOfAbnormNtResolv, str[i], activity2, enf_Case_ID);
-                }
+                    bool _bReturn = false;
 
-                return _bReturn;
+                    string[] str = activity1.Split(',');
+
+                    NewClassFile newClassFile = new NewClassFile();
+
+                    for (int i = 0; i < str.Length; i++)
+                    {
+                        _bReturn = newClassFile.Insert_LR_Surv_Atr(ObserId, ObserType.ToString(), Remarks, NCTypeResolved, NCTypeNotResolved, TypOfAbnormResolv, TypOfAbnormNtResolv, str[i], activity2, enf_Case_ID);
+                    }
+
+                    return _bReturn;
+                }
+                else
+                    return (false);
             }
             else
-                return (false);
+                return false;
         }
-        else
-            return false;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
@@ -6762,29 +7904,39 @@ public class Service : System.Web.Services.WebService
                                     string TypOfAbnormResolv, string TypOfAbnormNtResolv, string activity1, string activity2, string enf_Case_ID,
                                     string strlatitude, string strlongitude, string leadRepeated)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (strKeyParam == PublicAccessTokenKey)
             {
-                bool _bReturn = false;
-
-                string[] str = activity1.Split(',');
-
-                NewClassFile newClassFile = new NewClassFile();
-
-                for (int i = 0; i < str.Length; i++)
+                if (checkConsumer(MethodBase.GetCurrentMethod().Name))
                 {
-                    _bReturn = newClassFile.Insert_LR_Surv_Atr1(ObserId, ObserType.ToString(), Remarks, NCTypeResolved, NCTypeNotResolved, TypOfAbnormResolv,
-                                                            TypOfAbnormNtResolv, str[i], activity2, enf_Case_ID, strlatitude, strlongitude, leadRepeated);
-                }
+                    bool _bReturn = false;
 
-                return _bReturn;
+                    string[] str = activity1.Split(',');
+
+                    NewClassFile newClassFile = new NewClassFile();
+
+                    for (int i = 0; i < str.Length; i++)
+                    {
+                        _bReturn = newClassFile.Insert_LR_Surv_Atr1(ObserId, ObserType.ToString(), Remarks, NCTypeResolved, NCTypeNotResolved, TypOfAbnormResolv,
+                                                                TypOfAbnormNtResolv, str[i], activity2, enf_Case_ID, strlatitude, strlongitude, leadRepeated);
+                    }
+
+                    return _bReturn;
+                }
+                else
+                    return (false);
             }
             else
-                return (false);
+                return false;
         }
-        else
-            return false;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -6792,59 +7944,41 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable LR_ObservationList_New(string strKeyParam, string strDivName, string strRolRght, string strSubDiv, string strSubCluster)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            string[] str = strRolRght.Split(',');
-            DataTable _dtOutput = new DataTable();
-            DataTable _dtFinData = new DataTable();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            NewClassFile newClassFile = new NewClassFile();
-
-            for (int i = 0; i < str.Length; i++)
+            if (strKeyParam == PublicAccessTokenKey)
             {
-                _dtOutput = newClassFile.Mobint_LRObservationList(strSubDiv, strDivName, str[i], strSubCluster);
-                _dtFinData.Merge(_dtOutput);
+                string[] str = strRolRght.Split(',');
+                DataTable _dtOutput = new DataTable();
+                DataTable _dtFinData = new DataTable();
+
+                NewClassFile newClassFile = new NewClassFile();
+
+                for (int i = 0; i < str.Length; i++)
+                {
+                    _dtOutput = newClassFile.Mobint_LRObservationList(strSubDiv, strDivName, str[i], strSubCluster);
+                    _dtFinData.Merge(_dtOutput);
+                }
+
+                _dtFinData.AcceptChanges();
+                _dtFinData.TableName = "LR_OBSERVATION";
+                return _dtFinData;
+
             }
-
-            _dtFinData.AcceptChanges();
-            _dtFinData.TableName = "LR_OBSERVATION";
-            return _dtFinData;
-
+            else
+            {
+                return InvaildAuthontication();
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return InvaildAuthontication();
+            throw new Exception("An error occurred", ad);
         }
     }
 
-    //[WebMethod(EnableSession = true)]
-    //[SoapHeader("consumer", Required = true)]
-    //public DataTable LR_ObservationList_New(string strKeyParam, string strDivName, string strRolRght, string strSubDiv, string strSubCluster)
-    //{
-    //    if (strKeyParam == "@$$!ntern@a|@pp")
-    //    {
-    //        string[] str = strRolRght.Split(',');
-    //        DataTable _dtOutput = new DataTable();
-    //        DataTable _dtFinData = new DataTable();
-
-    //        NewClassFile newClassFile = new NewClassFile();
-
-    //        for (int i = 0; i < str.Length; i++)
-    //        {
-    //            _dtOutput = newClassFile.Mobint_LRObservationList(strSubDiv, strDivName, str[i], strSubCluster);
-    //            _dtFinData.Merge(_dtOutput);
-    //        }
-
-    //        _dtFinData.AcceptChanges();
-    //        _dtFinData.TableName = "LR_OBSERVATION";
-    //        return _dtFinData;
-
-    //    }
-    //    else
-    //    {
-    //        return InvaildAuthontication();
-    //    }
-    //}
     #endregion
 
     #region MCR Punching
@@ -6853,45 +7987,114 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable MCR_GetUserLoginDetails(string strUser, string strPassword)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        DataTable dth = new DataTable();
+        DataTable dthf = new DataTable();
+        DataTable dthn = new DataTable();
+
+        try
         {
-            DataTable dt = new DataTable();
-            dt = NewClassFile.CheckValid_UserID_DTDetails(strUser, strPassword);
-            dt.TableName = "MCR_USER_DETAILS";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                dth = NewClassFile.CheckValid_UserID_DTDetails(strUser, strPassword);
+                dth.TableName = "MCR_USER_DETAILS";
+
+                if (dth.Rows.Count > 0)
+                {
+                    JwtTokenGenerator jwtTokenGenerator = new JwtTokenGenerator();
+                    string jwtToken = string.Empty;
+                    if (dth != null && dth.Rows.Count > 0)
+                    {
+                        jwtToken = jwtTokenGenerator.GenerateToken(Convert.ToString(dth.Rows[0]["EMP_ID"]), Convert.ToString(dth.Rows[0]["ROLE"]));
+                    }
+
+                    // Step 2: Add Columns
+                    dthf.Columns.Add("EMP_NAME");      // Add an integer column
+                    dthf.Columns.Add("EMP_ID");      // Add an integer column
+                    dthf.Columns.Add("IMEI_NO");      // Add an integer column
+                    dthf.Columns.Add("DIVISION");      // Add an integer column
+                    dthf.Columns.Add("LOGIN_DATE");      // Add an integer column
+                    dthf.Columns.Add("ACTIVE_FLAG");
+                    dthf.Columns.Add("LOGIN_TYPE");
+                    dthf.Columns.Add("APP_VERSION_WEB");
+                    dthf.Columns.Add("JwtToken");
+
+                    DataRow newRow = dthf.NewRow();
+                    newRow["EMP_NAME"] = dth.Rows[0]["EMP_NAME"].ToString();
+                    newRow["EMP_ID"] = dth.Rows[0]["EMP_ID"].ToString();
+                    newRow["IMEI_NO"] = dth.Rows[0]["IMEI_NO"].ToString();
+                    newRow["DIVISION"] = dth.Rows[0]["DIVISION"].ToString();
+                    newRow["LOGIN_DATE"] = dth.Rows[0]["LOGIN_DATE"].ToString();
+                    newRow["ACTIVE_FLAG"] = dth.Rows[0]["ACTIVE_FLAG"].ToString();
+                    newRow["LOGIN_TYPE"] = dth.Rows[0]["LOGIN_TYPE"].ToString();
+                    newRow["APP_VERSION_WEB"] = dth.Rows[0]["APP_VERSION_WEB"].ToString();
+                    newRow["JwtToken"] = jwtToken;
+                    dthf.Rows.Add(newRow);
+                }
+            }
+            else
+                return (InvaildAuthontication());
         }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
+        if (dth.Rows.Count > 0)
+            return dthf;
         else
-            return (InvaildAuthontication());
+            return InvaildAuthontication();
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable MCR_GetUserMCR_INPUT_DT(string strUserType, string strUser, string stringLatitude, string stringLongitude)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = NewClassFile.Get_MCR_InputData_Details(strUserType, strUser, stringLatitude, stringLongitude);
-            dt.TableName = "MCR_INPUT_DETAILS";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = NewClassFile.Get_MCR_InputData_Details(strUserType, strUser, stringLatitude, stringLongitude);
+                dt.TableName = "MCR_INPUT_DETAILS";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable MCR_GetUserMCR_INPUT_DTNEW(string strUserType, string strUser, string stringLatitude, string stringLongitude)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = NewClassFile.Get_MCR_InputData_DetailsNew(strUserType, strUser, stringLatitude, stringLongitude);
-            dt.TableName = "MCR_INPUT_DETAILS";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = NewClassFile.Get_MCR_InputData_DetailsNew(strUserType, strUser, stringLatitude, stringLongitude);
+                dt.TableName = "MCR_INPUT_DETAILS";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     private string ReplaceSelect(string _sVal)
@@ -6914,57 +8117,66 @@ public class Service : System.Web.Services.WebService
                     string OUTPUTBUSLENGTH, string OUTPUTCABLELENGTH, string EARTHINGPOLE, string IMAGE4, string PUNCHED,
                     string TAB_ID, string TAB_NAME, string GIS_LAT, string GIS_LONG, string GIS_STATUS, string IMEI_NO)
     {
-
-        Boolean _bSave = false;
-
-        TERMINALSEAL1 = ReplaceSelect(TERMINALSEAL1);
-        TERMINALSEAL2 = ReplaceSelect(TERMINALSEAL2);
-        METERBOXSEAL1 = ReplaceSelect(METERBOXSEAL1);
-        METERBOXSEAL2 = ReplaceSelect(METERBOXSEAL2);
-        BUSBARSEAL1 = ReplaceSelect(BUSBARSEAL1);
-        BUSBARSEAL2 = ReplaceSelect(BUSBARSEAL2);
-
-        if (METERBOXSEAL2.Trim() == BUSBARSEAL1.Trim())
-            BUSBARSEAL1 = "";
-
-        _bSave = NewClassFile.Insert_MCR_InputData(ORDERNO, DEVICENO, OTHERSTICKER, OTHER4, INSTALLEDBUSBAR, BUSBARSIZE, BUSBARNUMBER, DRUMSIZE, OTHER5, CABLESIZE2, CABLEINSTALLTYPE, RUNNINGLENGTHFROM, RUNNINGLENGTHTO,
-                                                CABLELENGTH, TERMINALSEAL1, TERMINALSEAL2, METERBOXSEAL1, METERBOXSEAL2, BUSBARSEAL1, BUSBARSEAL2, INSTALLEDLOCATION, POLENUMBER, OTHER6,
-                                                OTHER7, OTHER8, OTHER9, OTHER10, TAKEPHOTOGRAPH, METERDOWNLOAD, DBLOCKED, EARTHING, HEIGHTOFMETER, ANYJOINTS, OVERHEADCABLE, OVERHEADCABLEPOLE, FLOWMADE,
-                                                ADDITIONALACCESSORIES, OUTPUTBUSLENGTH, OUTPUTCABLELENGTH, EARTHINGPOLE, PUNCHED,
-                                                TAB_ID, TAB_NAME, GIS_LAT, GIS_LONG, GIS_STATUS, IMEI_NO);
-        if (_bSave == true)
-            NewClassFile.Update_MCRSealFlag(TERMINALSEAL1, ORDERNO);
-
-        if (TERMINALSEAL2 != "")
+        try
         {
-            NewClassFile.Update_MCRSealFlag(TERMINALSEAL2, ORDERNO);
-        }
-        if (METERBOXSEAL1 != "")
-        {
-            NewClassFile.Update_MCRSealFlag(METERBOXSEAL1, ORDERNO);
-        }
-        if (METERBOXSEAL2 != "")
-        {
-            NewClassFile.Update_MCRSealFlag(METERBOXSEAL2, ORDERNO);
-        }
-        if (BUSBARSEAL1 != "")
-        {
-            NewClassFile.Update_MCRSealFlag(BUSBARSEAL1, ORDERNO);
-        }
-        if (BUSBARSEAL2 != "")
-        {
-            NewClassFile.Update_MCRSealFlag(BUSBARSEAL2, ORDERNO);
-        }
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-        string strCaNo = NewClassFile.GetCAOnOrderNo(ORDERNO);
+            Boolean _bSave = false;
 
-        NewClassFile.Insert_MCR_IamgeList(ORDERNO, OTHERSTICKER, DEVICENO, IMAGE1, IMAGE2, IMAGE3,
-                                           IMEAGE_MCR, IMAGE_METERTESTREPORT, IMAGE_LABTESTINGREPORT,
-                                           IMAGE_SIGNATURE, IMAGE4, strCaNo);
-        if (_bSave == true)
-            _bSave = NewClassFile.PunchOrder_Installer_InputData(ORDERNO, OTHER11, DEVICENO);
+            TERMINALSEAL1 = ReplaceSelect(TERMINALSEAL1);
+            TERMINALSEAL2 = ReplaceSelect(TERMINALSEAL2);
+            METERBOXSEAL1 = ReplaceSelect(METERBOXSEAL1);
+            METERBOXSEAL2 = ReplaceSelect(METERBOXSEAL2);
+            BUSBARSEAL1 = ReplaceSelect(BUSBARSEAL1);
+            BUSBARSEAL2 = ReplaceSelect(BUSBARSEAL2);
 
-        return _bSave;
+            if (METERBOXSEAL2.Trim() == BUSBARSEAL1.Trim())
+                BUSBARSEAL1 = "";
+
+            _bSave = NewClassFile.Insert_MCR_InputData(ORDERNO, DEVICENO, OTHERSTICKER, OTHER4, INSTALLEDBUSBAR, BUSBARSIZE, BUSBARNUMBER, DRUMSIZE, OTHER5, CABLESIZE2, CABLEINSTALLTYPE, RUNNINGLENGTHFROM, RUNNINGLENGTHTO,
+                                                    CABLELENGTH, TERMINALSEAL1, TERMINALSEAL2, METERBOXSEAL1, METERBOXSEAL2, BUSBARSEAL1, BUSBARSEAL2, INSTALLEDLOCATION, POLENUMBER, OTHER6,
+                                                    OTHER7, OTHER8, OTHER9, OTHER10, TAKEPHOTOGRAPH, METERDOWNLOAD, DBLOCKED, EARTHING, HEIGHTOFMETER, ANYJOINTS, OVERHEADCABLE, OVERHEADCABLEPOLE, FLOWMADE,
+                                                    ADDITIONALACCESSORIES, OUTPUTBUSLENGTH, OUTPUTCABLELENGTH, EARTHINGPOLE, PUNCHED,
+                                                    TAB_ID, TAB_NAME, GIS_LAT, GIS_LONG, GIS_STATUS, IMEI_NO);
+            if (_bSave == true)
+                NewClassFile.Update_MCRSealFlag(TERMINALSEAL1, ORDERNO);
+
+            if (TERMINALSEAL2 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(TERMINALSEAL2, ORDERNO);
+            }
+            if (METERBOXSEAL1 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(METERBOXSEAL1, ORDERNO);
+            }
+            if (METERBOXSEAL2 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(METERBOXSEAL2, ORDERNO);
+            }
+            if (BUSBARSEAL1 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(BUSBARSEAL1, ORDERNO);
+            }
+            if (BUSBARSEAL2 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(BUSBARSEAL2, ORDERNO);
+            }
+
+            string strCaNo = NewClassFile.GetCAOnOrderNo(ORDERNO);
+
+            NewClassFile.Insert_MCR_IamgeList(ORDERNO, OTHERSTICKER, DEVICENO, IMAGE1, IMAGE2, IMAGE3,
+                                               IMEAGE_MCR, IMAGE_METERTESTREPORT, IMAGE_LABTESTINGREPORT,
+                                               IMAGE_SIGNATURE, IMAGE4, strCaNo);
+            if (_bSave == true)
+                _bSave = NewClassFile.PunchOrder_Installer_InputData(ORDERNO, OTHER11, DEVICENO);
+
+            return _bSave;
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -6982,81 +8194,91 @@ public class Service : System.Web.Services.WebService
                     string DRUMNUMBERBB, string VALINSTALLTYPEBB, string RUNNINGLENGTHFROMBB, string RUNNINGLENGTHTOBB, string ELCBSUBMITVAL, string METERSCANNEDVAL, string EXTRA1,
                     string EXTRA2, string EXTRA3, string EXTRA4, string EXTRA5, string EXTRA6, string EXTRA7)
     {
-        Boolean _bSave = false;
-
-        TERMINALSEAL1 = ReplaceSelect(TERMINALSEAL1);
-        TERMINALSEAL2 = ReplaceSelect(TERMINALSEAL2);
-        METERBOXSEAL1 = ReplaceSelect(METERBOXSEAL1);
-        METERBOXSEAL2 = ReplaceSelect(METERBOXSEAL2);
-        BUSBARSEAL1 = ReplaceSelect(BUSBARSEAL1);
-        BUSBARSEAL2 = ReplaceSelect(BUSBARSEAL2);
-
-        DataTable _dtOrderData = new DataTable();
-        _dtOrderData = GetOrdType_PMAct_OrderWise(ORDERNO);
-
-        string _sSAPFLAG = "N";
-        string _sDivision = string.Empty, ORDER_TYPE = string.Empty, PM_ACTIVITY = string.Empty;
-
-        if (_dtOrderData.Rows.Count > 0)
+        try
         {
-            ORDER_TYPE = _dtOrderData.Rows[0]["AUART"].ToString();
-            PM_ACTIVITY = _dtOrderData.Rows[0]["ILART_ACTIVITY_TYPE"].ToString();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            if (_dtOrderData.Rows[0]["SAP_FLAG"] != null)
+            Boolean _bSave = false;
+
+            TERMINALSEAL1 = ReplaceSelect(TERMINALSEAL1);
+            TERMINALSEAL2 = ReplaceSelect(TERMINALSEAL2);
+            METERBOXSEAL1 = ReplaceSelect(METERBOXSEAL1);
+            METERBOXSEAL2 = ReplaceSelect(METERBOXSEAL2);
+            BUSBARSEAL1 = ReplaceSelect(BUSBARSEAL1);
+            BUSBARSEAL2 = ReplaceSelect(BUSBARSEAL2);
+
+            DataTable _dtOrderData = new DataTable();
+            _dtOrderData = GetOrdType_PMAct_OrderWise(ORDERNO);
+
+            string _sSAPFLAG = "N";
+            string _sDivision = string.Empty, ORDER_TYPE = string.Empty, PM_ACTIVITY = string.Empty;
+
+            if (_dtOrderData.Rows.Count > 0)
             {
-                if (_dtOrderData.Rows[0]["SAP_FLAG"].ToString().ToUpper() == "N")
-                    _sSAPFLAG = "Z";
+                ORDER_TYPE = _dtOrderData.Rows[0]["AUART"].ToString();
+                PM_ACTIVITY = _dtOrderData.Rows[0]["ILART_ACTIVITY_TYPE"].ToString();
+
+                if (_dtOrderData.Rows[0]["SAP_FLAG"] != null)
+                {
+                    if (_dtOrderData.Rows[0]["SAP_FLAG"].ToString().ToUpper() == "N")
+                        _sSAPFLAG = "Z";
+                }
+                if (_dtOrderData.Rows[0]["DIVISION"] != null)
+                {
+                    _sDivision = _dtOrderData.Rows[0]["DIVISION"].ToString();
+                }
             }
-            if (_dtOrderData.Rows[0]["DIVISION"] != null)
+
+            if (METERBOXSEAL2.Trim() == BUSBARSEAL1.Trim())
+                BUSBARSEAL1 = "";
+
+            _bSave = NewClassFile.Insert_MCR_InputDataEXTRA7(ORDERNO, DEVICENO, STICKERNO, OTHERSTICKER, OTHER4, INSTALLEDBUSBAR, BUSBARSIZE, BUSBARNUMBER, DRUMSIZE, OTHER5, CABLESIZE2, CABLEINSTALLTYPE, RUNNINGLENGTHFROM, RUNNINGLENGTHTO,
+                                                     CABLELENGTH, TERMINALSEAL1, TERMINALSEAL2, METERBOXSEAL1, METERBOXSEAL2, BUSBARSEAL1, BUSBARSEAL2, INSTALLEDLOCATION, POLENUMBER, OTHER6,
+                                                     OTHER7, OTHER8, OTHER9, OTHER10, TAKEPHOTOGRAPH, METERDOWNLOAD, DBLOCKED, EARTHING, HEIGHTOFMETER, ANYJOINTS, OVERHEADCABLE, OVERHEADCABLEPOLE, FLOWMADE,
+                                                     ADDITIONALACCESSORIES, OUTPUTBUSLENGTH, OUTPUTCABLELENGTH, EARTHINGPOLE, PUNCHED,
+                                                     TAB_ID, TAB_NAME, GIS_LAT, GIS_LONG, GIS_STATUS, IMEI_NO, SUBMIT_DATETIME, DRUMNUMBERBB, VALINSTALLTYPEBB,
+                                                     RUNNINGLENGTHFROMBB, RUNNINGLENGTHTOBB, ELCBSUBMITVAL, METERSCANNEDVAL, EXTRA1, EXTRA2, EXTRA3, EXTRA4,
+                                                     EXTRA5, EXTRA6, EXTRA7, ORDER_TYPE, PM_ACTIVITY, _sDivision);
+            if (_bSave == true)
+                NewClassFile.Update_MCRSealFlag(TERMINALSEAL1, ORDERNO);
+
+            if (TERMINALSEAL2 != "")
             {
-                _sDivision = _dtOrderData.Rows[0]["DIVISION"].ToString();
+                NewClassFile.Update_MCRSealFlag(TERMINALSEAL2, ORDERNO);
             }
+            if (METERBOXSEAL1 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(METERBOXSEAL1, ORDERNO);
+            }
+            if (METERBOXSEAL2 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(METERBOXSEAL2, ORDERNO);
+            }
+            if (BUSBARSEAL1 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(BUSBARSEAL1, ORDERNO);
+            }
+            if (BUSBARSEAL2 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(BUSBARSEAL2, ORDERNO);
+            }
+
+            string strCaNo = NewClassFile.GetCAOnOrderNo(ORDERNO);
+
+            NewClassFile.Insert_MCR_IamgeList(ORDERNO, OTHERSTICKER, DEVICENO, IMAGE1, IMAGE2, IMAGE3,
+                                               IMEAGE_MCR, IMAGE_METERTESTREPORT, IMAGE_LABTESTINGREPORT,
+                                               IMAGE_SIGNATURE, IMAGE4, strCaNo);
+
+            if (_bSave == true)
+                _bSave = NewClassFile.PunchOrder_Installer_InputData(ORDERNO, OTHER11, DEVICENO);
+
+            return _bSave;
         }
-
-        if (METERBOXSEAL2.Trim() == BUSBARSEAL1.Trim())
-            BUSBARSEAL1 = "";
-
-        _bSave = NewClassFile.Insert_MCR_InputDataEXTRA7(ORDERNO, DEVICENO, STICKERNO, OTHERSTICKER, OTHER4, INSTALLEDBUSBAR, BUSBARSIZE, BUSBARNUMBER, DRUMSIZE, OTHER5, CABLESIZE2, CABLEINSTALLTYPE, RUNNINGLENGTHFROM, RUNNINGLENGTHTO,
-                                                 CABLELENGTH, TERMINALSEAL1, TERMINALSEAL2, METERBOXSEAL1, METERBOXSEAL2, BUSBARSEAL1, BUSBARSEAL2, INSTALLEDLOCATION, POLENUMBER, OTHER6,
-                                                 OTHER7, OTHER8, OTHER9, OTHER10, TAKEPHOTOGRAPH, METERDOWNLOAD, DBLOCKED, EARTHING, HEIGHTOFMETER, ANYJOINTS, OVERHEADCABLE, OVERHEADCABLEPOLE, FLOWMADE,
-                                                 ADDITIONALACCESSORIES, OUTPUTBUSLENGTH, OUTPUTCABLELENGTH, EARTHINGPOLE, PUNCHED,
-                                                 TAB_ID, TAB_NAME, GIS_LAT, GIS_LONG, GIS_STATUS, IMEI_NO, SUBMIT_DATETIME, DRUMNUMBERBB, VALINSTALLTYPEBB,
-                                                 RUNNINGLENGTHFROMBB, RUNNINGLENGTHTOBB, ELCBSUBMITVAL, METERSCANNEDVAL, EXTRA1, EXTRA2, EXTRA3, EXTRA4,
-                                                 EXTRA5, EXTRA6, EXTRA7, ORDER_TYPE, PM_ACTIVITY, _sDivision);
-        if (_bSave == true)
-            NewClassFile.Update_MCRSealFlag(TERMINALSEAL1, ORDERNO);
-
-        if (TERMINALSEAL2 != "")
+        catch (Exception ad)
         {
-            NewClassFile.Update_MCRSealFlag(TERMINALSEAL2, ORDERNO);
+            throw new Exception("An error occurred", ad);
         }
-        if (METERBOXSEAL1 != "")
-        {
-            NewClassFile.Update_MCRSealFlag(METERBOXSEAL1, ORDERNO);
-        }
-        if (METERBOXSEAL2 != "")
-        {
-            NewClassFile.Update_MCRSealFlag(METERBOXSEAL2, ORDERNO);
-        }
-        if (BUSBARSEAL1 != "")
-        {
-            NewClassFile.Update_MCRSealFlag(BUSBARSEAL1, ORDERNO);
-        }
-        if (BUSBARSEAL2 != "")
-        {
-            NewClassFile.Update_MCRSealFlag(BUSBARSEAL2, ORDERNO);
-        }
-
-        string strCaNo = NewClassFile.GetCAOnOrderNo(ORDERNO);
-
-        NewClassFile.Insert_MCR_IamgeList(ORDERNO, OTHERSTICKER, DEVICENO, IMAGE1, IMAGE2, IMAGE3,
-                                           IMEAGE_MCR, IMAGE_METERTESTREPORT, IMAGE_LABTESTINGREPORT,
-                                           IMAGE_SIGNATURE, IMAGE4, strCaNo);
-
-        if (_bSave == true)
-            _bSave = NewClassFile.PunchOrder_Installer_InputData(ORDERNO, OTHER11, DEVICENO);
-
-        return _bSave;
     }
 
     [WebMethod(EnableSession = true)]
@@ -7079,100 +8301,116 @@ public class Service : System.Web.Services.WebService
                     string BOX_OLD, string GLANDS_OLD, string TCOVER_OLD, string BRASSSCREW_OLD, string BUSBAR_OLD, string THIMBLE_OLD, string SADDLE_OLD,
                     string GUNNYBAG_OLD, string GUNNYBAGSEAL_OLD, string LABTESTING_DATE_OLD, string METERRELOCATE_OLD)
     {
-        Boolean _bSave = false;
-
-        DataTable _dtOrderData = new DataTable();
-        _dtOrderData = GetOrdType_PMAct_OrderWise(ORDERNO);
-
-        string _sSAPFLAG = "N";
-        string _sDivision = string.Empty;
-
-        if (_dtOrderData.Rows.Count > 0)
+        try
         {
-            ORDER_TYPE = _dtOrderData.Rows[0]["AUART"].ToString();
-            PM_ACTIVITY = _dtOrderData.Rows[0]["ILART_ACTIVITY_TYPE"].ToString();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            if (_dtOrderData.Rows[0]["SAP_FLAG"] != null)
+            Boolean _bSave = false;
+
+            DataTable _dtOrderData = new DataTable();
+            _dtOrderData = GetOrdType_PMAct_OrderWise(ORDERNO);
+
+            string _sSAPFLAG = "N";
+            string _sDivision = string.Empty;
+
+            if (_dtOrderData.Rows.Count > 0)
             {
-                if (_dtOrderData.Rows[0]["SAP_FLAG"].ToString().ToUpper() == "N")
-                    _sSAPFLAG = "Z";
+                ORDER_TYPE = _dtOrderData.Rows[0]["AUART"].ToString();
+                PM_ACTIVITY = _dtOrderData.Rows[0]["ILART_ACTIVITY_TYPE"].ToString();
+
+                if (_dtOrderData.Rows[0]["SAP_FLAG"] != null)
+                {
+                    if (_dtOrderData.Rows[0]["SAP_FLAG"].ToString().ToUpper() == "N")
+                        _sSAPFLAG = "Z";
+                }
+                if (_dtOrderData.Rows[0]["DIVISION"] != null)
+                {
+                    _sDivision = _dtOrderData.Rows[0]["DIVISION"].ToString();
+                }
             }
-            if (_dtOrderData.Rows[0]["DIVISION"] != null)
+
+
+            if (METERBOXSEAL2.Trim() == BUSBARSEAL1.Trim())
+                BUSBARSEAL1 = "";
+
+            _bSave = NewClassFile.Insert_MCR_InputDataNEW(ORDERNO, DEVICENO, OTHERSTICKER, OTHER4, INSTALLEDBUSBAR, BUSBARSIZE, BUSBARNUMBER, DRUMSIZE, OTHER5, CABLESIZE2, CABLEINSTALLTYPE, RUNNINGLENGTHFROM, RUNNINGLENGTHTO,
+                                                     CABLELENGTH, TERMINALSEAL1, TERMINALSEAL2, METERBOXSEAL1, METERBOXSEAL2, BUSBARSEAL1, BUSBARSEAL2, INSTALLEDLOCATION, POLENUMBER, OTHER6,
+                                                     OTHER7, OTHER8, OTHER9, OTHER10, TAKEPHOTOGRAPH, METERDOWNLOAD, DBLOCKED, EARTHING, HEIGHTOFMETER, ANYJOINTS, OVERHEADCABLE, OVERHEADCABLEPOLE, FLOWMADE,
+                                                     ADDITIONALACCESSORIES, OUTPUTBUSLENGTH, OUTPUTCABLELENGTH, EARTHINGPOLE, PUNCHED,
+                                                     TAB_ID, TAB_NAME, GIS_LAT, GIS_LONG, GIS_STATUS, IMEI_NO, SUBMIT_DATETIME, DRUMNUMBERBB, VALINSTALLTYPEBB,
+                                                     RUNNINGLENGTHFROMBB, RUNNINGLENGTHTOBB, ELCBSUBMITVAL, METERSCANNEDVAL, EXTRA1, EXTRA2, EXTRA3, EXTRA4, EXTRA5, EXTRA6, EXTRA7,
+                                                     ORDER_TYPE, PM_ACTIVITY, OLD_M_READING, MRKWH_OLD, MRKW_OLD, MRKVAH_OLD, MRKVA_OLD, INSTALLEDCABLE_OLD, CABLESIZE_OLD,
+                                                     DRUMSIZE_OLD, CABLEINSTALLTYPE_OLD, RUNNINGLENGTHFROM_OLD, RUNNINGLENGTHTO_OLD, CABLELENGTH_OLD, OUTPUTBUSLENGTH_OLD, TERMINALSEAL1_OLD,
+                                                     TERMINALSEAL2_OLD, METERBOXSEAL1_OLD, METERBOXSEAL2_OLD, BUSBARSEAL1_OLD, BUSBARSEAL2_OLD, BOX_OLD, GLANDS_OLD, TCOVER_OLD, BRASSSCREW_OLD,
+                                                     BUSBAR_OLD, THIMBLE_OLD, SADDLE_OLD, GUNNYBAG_OLD, GUNNYBAGSEAL_OLD, LABTESTING_DATE_OLD, METERRELOCATE_OLD, _sSAPFLAG, _sDivision);
+            if (_bSave == true)
+                NewClassFile.Update_MCRSealFlag(TERMINALSEAL1, ORDERNO);
+
+            if (TERMINALSEAL2 != "")
             {
-                _sDivision = _dtOrderData.Rows[0]["DIVISION"].ToString();
+                NewClassFile.Update_MCRSealFlag(TERMINALSEAL2, ORDERNO);
             }
+            if (METERBOXSEAL1 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(METERBOXSEAL1, ORDERNO);
+            }
+            if (METERBOXSEAL2 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(METERBOXSEAL2, ORDERNO);
+            }
+            if (BUSBARSEAL1 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(BUSBARSEAL1, ORDERNO);
+            }
+            if (BUSBARSEAL2 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(BUSBARSEAL2, ORDERNO);
+            }
+
+            string strCaNo = NewClassFile.GetCAOnOrderNo(ORDERNO);
+
+            NewClassFile.Insert_MCR_IamgeListNEW(ORDERNO, OTHERSTICKER, DEVICENO, IMAGE1, IMAGE2, IMAGE3,
+                                               IMEAGE_MCR, IMAGE_METERTESTREPORT, IMAGE_LABTESTINGREPORT,
+                                               IMAGE_SIGNATURE, IMAGE4, IMAGE1_OLD, IMAGE2_OLD, IMAGE_SIGNATURE_OLD, strCaNo);
+
+            if (_bSave == true)
+                _bSave = NewClassFile.PunchOrder_Installer_InputData(ORDERNO, OTHER11, DEVICENO);
+
+            return _bSave;
         }
-
-
-        if (METERBOXSEAL2.Trim() == BUSBARSEAL1.Trim())
-            BUSBARSEAL1 = "";
-
-        _bSave = NewClassFile.Insert_MCR_InputDataNEW(ORDERNO, DEVICENO, OTHERSTICKER, OTHER4, INSTALLEDBUSBAR, BUSBARSIZE, BUSBARNUMBER, DRUMSIZE, OTHER5, CABLESIZE2, CABLEINSTALLTYPE, RUNNINGLENGTHFROM, RUNNINGLENGTHTO,
-                                                 CABLELENGTH, TERMINALSEAL1, TERMINALSEAL2, METERBOXSEAL1, METERBOXSEAL2, BUSBARSEAL1, BUSBARSEAL2, INSTALLEDLOCATION, POLENUMBER, OTHER6,
-                                                 OTHER7, OTHER8, OTHER9, OTHER10, TAKEPHOTOGRAPH, METERDOWNLOAD, DBLOCKED, EARTHING, HEIGHTOFMETER, ANYJOINTS, OVERHEADCABLE, OVERHEADCABLEPOLE, FLOWMADE,
-                                                 ADDITIONALACCESSORIES, OUTPUTBUSLENGTH, OUTPUTCABLELENGTH, EARTHINGPOLE, PUNCHED,
-                                                 TAB_ID, TAB_NAME, GIS_LAT, GIS_LONG, GIS_STATUS, IMEI_NO, SUBMIT_DATETIME, DRUMNUMBERBB, VALINSTALLTYPEBB,
-                                                 RUNNINGLENGTHFROMBB, RUNNINGLENGTHTOBB, ELCBSUBMITVAL, METERSCANNEDVAL, EXTRA1, EXTRA2, EXTRA3, EXTRA4, EXTRA5, EXTRA6, EXTRA7,
-                                                 ORDER_TYPE, PM_ACTIVITY, OLD_M_READING, MRKWH_OLD, MRKW_OLD, MRKVAH_OLD, MRKVA_OLD, INSTALLEDCABLE_OLD, CABLESIZE_OLD,
-                                                 DRUMSIZE_OLD, CABLEINSTALLTYPE_OLD, RUNNINGLENGTHFROM_OLD, RUNNINGLENGTHTO_OLD, CABLELENGTH_OLD, OUTPUTBUSLENGTH_OLD, TERMINALSEAL1_OLD,
-                                                 TERMINALSEAL2_OLD, METERBOXSEAL1_OLD, METERBOXSEAL2_OLD, BUSBARSEAL1_OLD, BUSBARSEAL2_OLD, BOX_OLD, GLANDS_OLD, TCOVER_OLD, BRASSSCREW_OLD,
-                                                 BUSBAR_OLD, THIMBLE_OLD, SADDLE_OLD, GUNNYBAG_OLD, GUNNYBAGSEAL_OLD, LABTESTING_DATE_OLD, METERRELOCATE_OLD, _sSAPFLAG, _sDivision);
-        if (_bSave == true)
-            NewClassFile.Update_MCRSealFlag(TERMINALSEAL1, ORDERNO);
-
-        if (TERMINALSEAL2 != "")
+        catch (Exception ad)
         {
-            NewClassFile.Update_MCRSealFlag(TERMINALSEAL2, ORDERNO);
+            throw new Exception("An error occurred", ad);
         }
-        if (METERBOXSEAL1 != "")
-        {
-            NewClassFile.Update_MCRSealFlag(METERBOXSEAL1, ORDERNO);
-        }
-        if (METERBOXSEAL2 != "")
-        {
-            NewClassFile.Update_MCRSealFlag(METERBOXSEAL2, ORDERNO);
-        }
-        if (BUSBARSEAL1 != "")
-        {
-            NewClassFile.Update_MCRSealFlag(BUSBARSEAL1, ORDERNO);
-        }
-        if (BUSBARSEAL2 != "")
-        {
-            NewClassFile.Update_MCRSealFlag(BUSBARSEAL2, ORDERNO);
-        }
-
-        string strCaNo = NewClassFile.GetCAOnOrderNo(ORDERNO);
-
-        NewClassFile.Insert_MCR_IamgeListNEW(ORDERNO, OTHERSTICKER, DEVICENO, IMAGE1, IMAGE2, IMAGE3,
-                                           IMEAGE_MCR, IMAGE_METERTESTREPORT, IMAGE_LABTESTINGREPORT,
-                                           IMAGE_SIGNATURE, IMAGE4, IMAGE1_OLD, IMAGE2_OLD, IMAGE_SIGNATURE_OLD, strCaNo);
-
-        if (_bSave == true)
-            _bSave = NewClassFile.PunchOrder_Installer_InputData(ORDERNO, OTHER11, DEVICENO);
-
-        return _bSave;
     }
-
-
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public string MCR_ValidateSEAL(string SealNo)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = NewClassFile.CheckValid_SealDeails(SealNo);
-            dt.TableName = "MCR_SEAL_DETAILS";
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            if (dt.Rows.Count > 0)
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
             {
-                if (dt.Rows[0][0] != null)
+                DataTable dt = new DataTable();
+                dt = NewClassFile.CheckValid_SealDeails(SealNo);
+                dt.TableName = "MCR_SEAL_DETAILS";
+
+                if (dt.Rows.Count > 0)
                 {
-                    if (dt.Rows[0][0].ToString() == "Y")
-                        return "T";
+                    if (dt.Rows[0][0] != null)
+                    {
+                        if (dt.Rows[0][0].ToString() == "Y")
+                            return "T";
+                        else
+                            return "C";
+                    }
                     else
-                        return "C";
+                        return "F";
                 }
                 else
                     return "F";
@@ -7180,51 +8418,94 @@ public class Service : System.Web.Services.WebService
             else
                 return "F";
         }
-        else
-            return "F";
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public string MCR_Create_Installer_Data(string INSTALLER_NAME, string INSTALLER_ID, string IMEI, string DIVISION, string VENDOR_ID)
     {
-        NewClassFile.Insert_InstallerData(INSTALLER_NAME, INSTALLER_ID, IMEI, DIVISION, VENDOR_ID);
-        NewClassFile.Insert_InstallerLoginData(INSTALLER_ID);
+        try
+        {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-        return "T";
+            NewClassFile.Insert_InstallerData(INSTALLER_NAME, INSTALLER_ID, IMEI, DIVISION, VENDOR_ID);
+            NewClassFile.Insert_InstallerLoginData(INSTALLER_ID);
+
+            return "T";
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable MCR_GetInstaller_Data(string VENDOR_ID)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = NewClassFile.GetInstaller_DataList_VendorWise(VENDOR_ID);
-            dt.TableName = "MCR_USER_DETAILS";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = NewClassFile.GetInstaller_DataList_VendorWise(VENDOR_ID);
+                dt.TableName = "MCR_USER_DETAILS";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public string MCR_OrderAssign(string ORDERNO, string METERNO, string VENDOR_ID, string INSTALLER_ID)
     {
-        NewClassFile.Assign_OrderInstaller_InputData(ORDERNO, VENDOR_ID);
-        NewClassFile.MapData_OrderInstaller_InputData(ORDERNO, METERNO, VENDOR_ID, INSTALLER_ID);
+        try
+        {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-        return "T";
+            NewClassFile.Assign_OrderInstaller_InputData(ORDERNO, VENDOR_ID);
+            NewClassFile.MapData_OrderInstaller_InputData(ORDERNO, METERNO, VENDOR_ID, INSTALLER_ID);
+
+            return "T";
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
+
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public string MCR_Password_Update(string strEmpId, string strOldPass, string strNewPass)
     {
-        NewClassFile.Update_PasswordData(strEmpId, strOldPass, strNewPass);
-        return "T";
+        try
+        {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile.Update_PasswordData(strEmpId, strOldPass, strNewPass);
+            return "T";
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -7238,30 +8519,51 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable MCR_GetSeal_Details(string Installer_ID)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = NewClassFile.GetSeal_Details_AllotedFrom_Vendor(Installer_ID);
-            dt.TableName = "MCR_SEAL_DETAILS";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = NewClassFile.GetSeal_Details_AllotedFrom_Vendor(Installer_ID);
+                dt.TableName = "MCR_SEAL_DETAILS";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable MCR_GetMeter_Details(string Installer_ID)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = NewClassFile.GetMeter_DT_AllotedFrom_Vnd_LoosMtr(Installer_ID);
-            dt.TableName = "MCR_METER_DETAILS";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = NewClassFile.GetMeter_DT_AllotedFrom_Vnd_LoosMtr(Installer_ID);
+                dt.TableName = "MCR_METER_DETAILS";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
+
     }
 
 
@@ -7270,22 +8572,28 @@ public class Service : System.Web.Services.WebService
     public string MCR_OrderCancel(string Installer_ID, string Order_ID, string Reason, string Image, string Remarks, string strCustName,
                                                                                                             string strCustNo, string strCustDate)
     {
-        Boolean _bSave = false;
-        //_bSave=NewClassFile.insert_OrderCancelDetails(Order_ID, Reason, Installer_ID, Remarks, Image);
-        _bSave = NewClassFile.insert_OrderCancelDetails(Order_ID, Reason, Installer_ID, Remarks, Image, strCustName, strCustNo, strCustDate);
+        try
+        {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-        if (_bSave == true)
-            NewClassFile.Update_OrderStatus(Order_ID, Installer_ID);
+            Boolean _bSave = false;
+            //_bSave=NewClassFile.insert_OrderCancelDetails(Order_ID, Reason, Installer_ID, Remarks, Image);
+            _bSave = NewClassFile.insert_OrderCancelDetails(Order_ID, Reason, Installer_ID, Remarks, Image, strCustName, strCustNo, strCustDate);
 
-        if (_bSave == true)
-            return "T";
-        else
-            return "F";
+            if (_bSave == true)
+                NewClassFile.Update_OrderStatus(Order_ID, Installer_ID);
+
+            if (_bSave == true)
+                return "T";
+            else
+                return "F";
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
-
-
-
-
 
     #endregion
 
@@ -7308,89 +8616,98 @@ public class Service : System.Web.Services.WebService
        string GUNNY_BAG_SEAL_NO, string LAB_TSTNG_DT, string LAB_TSTNG_NTC, string MTR_LOC_RELOCT, string TAB_ID, string TAB_NAME, string GIS_LAT,
        string GIS_LONG, string GIS_STATUS, string IMEI_NO, string SUBMIT_DATETIME, string POLENUMBER, string PUNCH_MODE)
     {
-        NewClassFile.WriteIntoFile_MCR("Start MCR Function MCR_Insert_INPUT_Data_RV for " + ORDER_NO);
-
-        Boolean _bSave = false;
-
-        TERMINALSEAL1 = ReplaceSelect(TERMINALSEAL1);
-        TERMINALSEAL2 = ReplaceSelect(TERMINALSEAL2);
-        METERBOXSEAL1 = ReplaceSelect(METERBOXSEAL1);
-        METERBOXSEAL2 = ReplaceSelect(METERBOXSEAL2);
-        BUSBARSEAL1 = ReplaceSelect(BUSBARSEAL1);
-        BUSBARSEAL2 = ReplaceSelect(BUSBARSEAL2);
-
-        DataTable _dtOrderData = new DataTable();
-        _dtOrderData = GetOrdType_PMAct_OrderWise(ORDER_NO);
-
-        string _sSAPFLAG = "N";
-        string _sDivision = string.Empty;
-
-        if (_dtOrderData.Rows.Count > 0)
+        try
         {
-            if (_dtOrderData.Rows[0]["SAP_FLAG"] != null)
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile.WriteIntoFile_MCR("Start MCR Function MCR_Insert_INPUT_Data_RV for " + ORDER_NO);
+
+            Boolean _bSave = false;
+
+            TERMINALSEAL1 = ReplaceSelect(TERMINALSEAL1);
+            TERMINALSEAL2 = ReplaceSelect(TERMINALSEAL2);
+            METERBOXSEAL1 = ReplaceSelect(METERBOXSEAL1);
+            METERBOXSEAL2 = ReplaceSelect(METERBOXSEAL2);
+            BUSBARSEAL1 = ReplaceSelect(BUSBARSEAL1);
+            BUSBARSEAL2 = ReplaceSelect(BUSBARSEAL2);
+
+            DataTable _dtOrderData = new DataTable();
+            _dtOrderData = GetOrdType_PMAct_OrderWise(ORDER_NO);
+
+            string _sSAPFLAG = "N";
+            string _sDivision = string.Empty;
+
+            if (_dtOrderData.Rows.Count > 0)
             {
-                if (_dtOrderData.Rows[0]["SAP_FLAG"].ToString().ToUpper() == "N")
-                    _sSAPFLAG = "Z";
+                if (_dtOrderData.Rows[0]["SAP_FLAG"] != null)
+                {
+                    if (_dtOrderData.Rows[0]["SAP_FLAG"].ToString().ToUpper() == "N")
+                        _sSAPFLAG = "Z";
+                }
+                if (_dtOrderData.Rows[0]["DIVISION"] != null)
+                {
+                    _sDivision = _dtOrderData.Rows[0]["DIVISION"].ToString();
+                }
             }
-            if (_dtOrderData.Rows[0]["DIVISION"] != null)
+
+            if (METERBOXSEAL2.Trim() == BUSBARSEAL1.Trim())
+                BUSBARSEAL1 = "";
+
+            _bSave = NewClassFile.Insert_MCR_InputDataNEWRV(ORDER_NO, DEVICE_NO, TF_STCKR_NO, ELCB_INSLD_ON_SITE, BUS_BAR_INSTALLD, BUS_BAR_SIZE, BUS_BAR_NO, CBL_DRM_NUMBR, ACTVTY_RSN, CBL_SIZE, CABLEINSTALLTYPE, CBL_RUN_LENTH_FRM, CBL_RUN_LENTH_TO,
+                                                    CABLELENGTH, TERMINALSEAL1, TERMINALSEAL2, METERBOXSEAL1, METERBOXSEAL2, BUSBARSEAL1, BUSBARSEAL2, INSTALLEDLOCATION, POLENUMBER, ACTIVITY_DATE,
+                                                    MTR_MRKWH, MTR_MRKW, MTR_MRKVAH, MTR_MRKVA, QC_PHOTO_TKN, QC_METERDOWNLOAD, QC_DBLOCKED, QC_EARTHING_CONS, QC_HEIGHTOFMETER, QC_ANYJOINTS, QC_FIXTR_INSL_CONS, QC_FIXTR_INSL_POLE, QC_FLOWMADE,
+                                                    QC_ADDNL_ACC_USD, BUS_BR_CBL_LNGTH, OUTPUTCABLELENGTH, QC_EARTHING_POLE, BUS_BAR_CBL_SIZE,
+                                                    TAB_ID, TAB_NAME, GIS_LAT, GIS_LONG, GIS_STATUS, IMEI_NO, SUBMIT_DATETIME, BUS_BAR_DRM_NO, BUS_BAR_CBL_INSTL_TYP,
+                                                    BUS_BR_RUN_LENTH_FRM, BUS_BR_RUN_LENTH_TO, ELCB_INSLD_ON_SITE, METERSCANNEDVAL, QC_RMKS, BUS_BAR_B_OR_C, "", "", "", "", PUNCH_MODE,
+                                                    ORDER_TYPE, PM_ACTIVITY, "OLD_M_READING", OLD_MTR_MRKWH, OLD_MTR_MRKW, OLD_MTR_MRKVAH, OLD_MTR_MRKVA, "INSTALLEDCABLE_OLD", RMVD_CBL_SIZE,
+                                                    "DRUMSIZE_OLD", "CABLEINSTALLTYPE_OLD", RMVD_CBL_RUN_LENTH_FRM, RMVD_CBL_RUN_LENTH_TO, RMVD_CBL_LENTH, "OUTPUTBUSLENGTH_OLD", RMVD_TRMNL_SEAL1,
+                                                    RMVD_TRMNL_SEAL2, RMVD_MTR_BOX_SEAL1, RMVD_MTR_BOX_SEAL2, RMVD_BUS_BAR_SEAL1, RMVD_BUS_BAR_SEAL2, RMVD_MTR_BOX, RMVD_MTR_GLND, RMVD_MTR_T_COVR, RMVD_MTR_BRS_SCRW,
+                                                    RMVD_MTR_BUS_BAR, RMVD_MTR_THMBL_LUG, RMVD_MTR_SADL, GUNNY_BAG_NO, GUNNY_BAG_SEAL_NO, LAB_TSTNG_DT, "METERRELOCATE_OLD", _sSAPFLAG,
+                                                    TF_STCKR_STUS, HV_U_INSTALL_NW_CBL, ORDER_STATUS, MTR_LOC_SHIFT, RMVD_MTR_BASE_PLT, OLD_MTR_STATUS,
+                                                    OLD_MTR_IF_AVBL, OLD_MTR_IF_NOT_AVBL, LAB_TSTNG_NTC, MTR_LOC_RELOCT, _sDivision, "OTHS",
+                                                    "INST_BB_CABLE_OPT", "BB_CABLE_USED", "CABLE_LEN_USED", "OUTPUT_CABLE_LEN_USED", "SIFT_DONE_BY", "CAB_REMOVE_FRM_SITE",
+                                                    "REPLACEMENT_DONE_CABL", "CAB_RMVD_FRM_SITE", "IS_GNY_BAG_PREPD", "GNY_PREPD_NO_RESN", "GNY_PREPD_NO_RESN_RMK", "MTR_READ_AVAIL", "METER_REMOVED_BY", "NOTICE_DATE",
+                                                    "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
+
+
+            NewClassFile.WriteIntoFile_MCR("Insert status for MCR_Insert_INPUT_Data_RV " + _bSave.ToString());
+
+            if (_bSave == true)
+                NewClassFile.Update_MCRSealFlag(TERMINALSEAL1, ORDER_NO);
+
+            if (TERMINALSEAL2 != "")
             {
-                _sDivision = _dtOrderData.Rows[0]["DIVISION"].ToString();
+                NewClassFile.Update_MCRSealFlag(TERMINALSEAL2, ORDER_NO);
             }
+            if (METERBOXSEAL1 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(METERBOXSEAL1, ORDER_NO);
+            }
+            if (METERBOXSEAL2 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(METERBOXSEAL2, ORDER_NO);
+            }
+            if (BUSBARSEAL1 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(BUSBARSEAL1, ORDER_NO);
+            }
+            if (BUSBARSEAL2 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(BUSBARSEAL2, ORDER_NO);
+            }
+
+
+            if (_bSave == true)
+                _bSave = NewClassFile.PunchOrder_Installer_InputData(ORDER_NO, TAB_ID, DEVICE_NO);
+
+            NewClassFile.WriteIntoFile_MCR("PunchOrder_Installer_InputData " + _bSave.ToString());
+            return _bSave;
         }
-
-        if (METERBOXSEAL2.Trim() == BUSBARSEAL1.Trim())
-            BUSBARSEAL1 = "";
-
-        _bSave = NewClassFile.Insert_MCR_InputDataNEWRV(ORDER_NO, DEVICE_NO, TF_STCKR_NO, ELCB_INSLD_ON_SITE, BUS_BAR_INSTALLD, BUS_BAR_SIZE, BUS_BAR_NO, CBL_DRM_NUMBR, ACTVTY_RSN, CBL_SIZE, CABLEINSTALLTYPE, CBL_RUN_LENTH_FRM, CBL_RUN_LENTH_TO,
-                                                CABLELENGTH, TERMINALSEAL1, TERMINALSEAL2, METERBOXSEAL1, METERBOXSEAL2, BUSBARSEAL1, BUSBARSEAL2, INSTALLEDLOCATION, POLENUMBER, ACTIVITY_DATE,
-                                                MTR_MRKWH, MTR_MRKW, MTR_MRKVAH, MTR_MRKVA, QC_PHOTO_TKN, QC_METERDOWNLOAD, QC_DBLOCKED, QC_EARTHING_CONS, QC_HEIGHTOFMETER, QC_ANYJOINTS, QC_FIXTR_INSL_CONS, QC_FIXTR_INSL_POLE, QC_FLOWMADE,
-                                                QC_ADDNL_ACC_USD, BUS_BR_CBL_LNGTH, OUTPUTCABLELENGTH, QC_EARTHING_POLE, BUS_BAR_CBL_SIZE,
-                                                TAB_ID, TAB_NAME, GIS_LAT, GIS_LONG, GIS_STATUS, IMEI_NO, SUBMIT_DATETIME, BUS_BAR_DRM_NO, BUS_BAR_CBL_INSTL_TYP,
-                                                BUS_BR_RUN_LENTH_FRM, BUS_BR_RUN_LENTH_TO, ELCB_INSLD_ON_SITE, METERSCANNEDVAL, QC_RMKS, BUS_BAR_B_OR_C, "", "", "", "", PUNCH_MODE,
-                                                ORDER_TYPE, PM_ACTIVITY, "OLD_M_READING", OLD_MTR_MRKWH, OLD_MTR_MRKW, OLD_MTR_MRKVAH, OLD_MTR_MRKVA, "INSTALLEDCABLE_OLD", RMVD_CBL_SIZE,
-                                                "DRUMSIZE_OLD", "CABLEINSTALLTYPE_OLD", RMVD_CBL_RUN_LENTH_FRM, RMVD_CBL_RUN_LENTH_TO, RMVD_CBL_LENTH, "OUTPUTBUSLENGTH_OLD", RMVD_TRMNL_SEAL1,
-                                                RMVD_TRMNL_SEAL2, RMVD_MTR_BOX_SEAL1, RMVD_MTR_BOX_SEAL2, RMVD_BUS_BAR_SEAL1, RMVD_BUS_BAR_SEAL2, RMVD_MTR_BOX, RMVD_MTR_GLND, RMVD_MTR_T_COVR, RMVD_MTR_BRS_SCRW,
-                                                RMVD_MTR_BUS_BAR, RMVD_MTR_THMBL_LUG, RMVD_MTR_SADL, GUNNY_BAG_NO, GUNNY_BAG_SEAL_NO, LAB_TSTNG_DT, "METERRELOCATE_OLD", _sSAPFLAG,
-                                                TF_STCKR_STUS, HV_U_INSTALL_NW_CBL, ORDER_STATUS, MTR_LOC_SHIFT, RMVD_MTR_BASE_PLT, OLD_MTR_STATUS,
-                                                OLD_MTR_IF_AVBL, OLD_MTR_IF_NOT_AVBL, LAB_TSTNG_NTC, MTR_LOC_RELOCT, _sDivision, "OTHS",
-                                                "INST_BB_CABLE_OPT", "BB_CABLE_USED", "CABLE_LEN_USED", "OUTPUT_CABLE_LEN_USED", "SIFT_DONE_BY", "CAB_REMOVE_FRM_SITE",
-                                                "REPLACEMENT_DONE_CABL", "CAB_RMVD_FRM_SITE", "IS_GNY_BAG_PREPD", "GNY_PREPD_NO_RESN", "GNY_PREPD_NO_RESN_RMK", "MTR_READ_AVAIL", "METER_REMOVED_BY", "NOTICE_DATE",
-                                                "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
-
-
-        NewClassFile.WriteIntoFile_MCR("Insert status for MCR_Insert_INPUT_Data_RV " + _bSave.ToString());
-
-        if (_bSave == true)
-            NewClassFile.Update_MCRSealFlag(TERMINALSEAL1, ORDER_NO);
-
-        if (TERMINALSEAL2 != "")
+        catch (Exception ad)
         {
-            NewClassFile.Update_MCRSealFlag(TERMINALSEAL2, ORDER_NO);
+            throw new Exception("An error occurred", ad);
         }
-        if (METERBOXSEAL1 != "")
-        {
-            NewClassFile.Update_MCRSealFlag(METERBOXSEAL1, ORDER_NO);
-        }
-        if (METERBOXSEAL2 != "")
-        {
-            NewClassFile.Update_MCRSealFlag(METERBOXSEAL2, ORDER_NO);
-        }
-        if (BUSBARSEAL1 != "")
-        {
-            NewClassFile.Update_MCRSealFlag(BUSBARSEAL1, ORDER_NO);
-        }
-        if (BUSBARSEAL2 != "")
-        {
-            NewClassFile.Update_MCRSealFlag(BUSBARSEAL2, ORDER_NO);
-        }
-
-
-        if (_bSave == true)
-            _bSave = NewClassFile.PunchOrder_Installer_InputData(ORDER_NO, TAB_ID, DEVICE_NO);
-
-        NewClassFile.WriteIntoFile_MCR("PunchOrder_Installer_InputData " + _bSave.ToString());
-        return _bSave;
-
     }
 
     [WebMethod(EnableSession = true)]
@@ -7399,31 +8716,41 @@ public class Service : System.Web.Services.WebService
                                                 string MCR_TST_RPT_PHOTO, string MCR_LAB_TST_RPT_PHOTO, string PREMISE_PHOTO, string RMVD_MTR_PHOTO,
                                                 string RMVD_CMPLT_MTR_INTALL_PHOTO)
     {
-        Boolean _bSave = false;
-        string strCaNo = NewClassFile.GetCAOnOrderNo(ORDER_NO);
-
-        DataTable _dtOrderData = new DataTable();
-        _dtOrderData = GetOrdType_PMAct_OrderWise(ORDER_NO);
-
-        string _sSAPFLAG = "N";
-        if (_dtOrderData.Rows.Count > 0)
+        try
         {
-            if (_dtOrderData.Rows[0]["SAP_FLAG"] != null)
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            Boolean _bSave = false;
+            string strCaNo = NewClassFile.GetCAOnOrderNo(ORDER_NO);
+
+            DataTable _dtOrderData = new DataTable();
+            _dtOrderData = GetOrdType_PMAct_OrderWise(ORDER_NO);
+
+            string _sSAPFLAG = "N";
+            if (_dtOrderData.Rows.Count > 0)
             {
-                if (_dtOrderData.Rows[0]["SAP_FLAG"].ToString().ToUpper() == "N")
-                    _sSAPFLAG = "Z";
+                if (_dtOrderData.Rows[0]["SAP_FLAG"] != null)
+                {
+                    if (_dtOrderData.Rows[0]["SAP_FLAG"].ToString().ToUpper() == "N")
+                        _sSAPFLAG = "Z";
+                }
             }
+
+            PREMISE_PHOTO = "";
+
+            _bSave = NewClassFile.Insert_MCR_IamgeListNEW(ORDER_NO, OTHERSTICKER, DEVICE_NO, MTR_PHOTO, CMPLT_MTR_INTALL_PHOTO, MCR_POLE_N_PHOTO,
+                                             MCR_PHOTO, MCR_TST_RPT_PHOTO, MCR_LAB_TST_RPT_PHOTO, MCR_CONS_SIGN_PHOTO, MCR_OTHR_PHOTO,
+                                             RMVD_MTR_PHOTO, RMVD_CMPLT_MTR_INTALL_PHOTO, PREMISE_PHOTO, strCaNo, _sSAPFLAG);
+
+            NewClassFile.WriteIntoFile_MCR("Insert_MCR_IamgeList " + _bSave.ToString());
+
+            return _bSave;
         }
-
-        PREMISE_PHOTO = "";
-
-        _bSave = NewClassFile.Insert_MCR_IamgeListNEW(ORDER_NO, OTHERSTICKER, DEVICE_NO, MTR_PHOTO, CMPLT_MTR_INTALL_PHOTO, MCR_POLE_N_PHOTO,
-                                         MCR_PHOTO, MCR_TST_RPT_PHOTO, MCR_LAB_TST_RPT_PHOTO, MCR_CONS_SIGN_PHOTO, MCR_OTHR_PHOTO,
-                                         RMVD_MTR_PHOTO, RMVD_CMPLT_MTR_INTALL_PHOTO, PREMISE_PHOTO, strCaNo, _sSAPFLAG);
-
-        NewClassFile.WriteIntoFile_MCR("Insert_MCR_IamgeList " + _bSave.ToString());
-
-        return _bSave;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -7453,124 +8780,133 @@ public class Service : System.Web.Services.WebService
         string connCategory, string customerCA, string looseOther1, string looseOther2, string looseFlag,
         string cableNotInstallReason, string noHappyCodeReason, string smartMeterBool, string smartMeterSimNo, string smartMeterSimCode)
     {
-        NewClassFile.WriteIntoFile_MCR("Start MCR Function MCR_Insert_INPUT_Data_RV_NEW for " + ORDER_NO);
-
-        Boolean _bSave = false, _bISave = false;
-
-        TERMINALSEAL1 = ReplaceSelect(TERMINALSEAL1);
-        TERMINALSEAL2 = ReplaceSelect(TERMINALSEAL2);
-        METERBOXSEAL1 = ReplaceSelect(METERBOXSEAL1);
-        METERBOXSEAL2 = ReplaceSelect(METERBOXSEAL2);
-        BUSBARSEAL1 = ReplaceSelect(BUSBARSEAL1);
-        BUSBARSEAL2 = ReplaceSelect(BUSBARSEAL2);
-
-        DataTable _dtOrderData = new DataTable();
-        string _sSAPFLAG = "N";
-        string _sDivision = string.Empty;
-
-        if (looseFlag == "LOOSE")
+        try
         {
-            _sSAPFLAG = "L";
-        }
-        else
-        {
-            _dtOrderData = GetOrdType_PMAct_OrderWise(ORDER_NO);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
+            NewClassFile.WriteIntoFile_MCR("Start MCR Function MCR_Insert_INPUT_Data_RV_NEW for " + ORDER_NO);
 
-            if (_dtOrderData.Rows.Count > 0)
+            Boolean _bSave = false, _bISave = false;
+
+            TERMINALSEAL1 = ReplaceSelect(TERMINALSEAL1);
+            TERMINALSEAL2 = ReplaceSelect(TERMINALSEAL2);
+            METERBOXSEAL1 = ReplaceSelect(METERBOXSEAL1);
+            METERBOXSEAL2 = ReplaceSelect(METERBOXSEAL2);
+            BUSBARSEAL1 = ReplaceSelect(BUSBARSEAL1);
+            BUSBARSEAL2 = ReplaceSelect(BUSBARSEAL2);
+
+            DataTable _dtOrderData = new DataTable();
+            string _sSAPFLAG = "N";
+            string _sDivision = string.Empty;
+
+            if (looseFlag == "LOOSE")
             {
-                if (_dtOrderData.Rows[0]["SAP_FLAG"] != null)
+                _sSAPFLAG = "L";
+            }
+            else
+            {
+                _dtOrderData = GetOrdType_PMAct_OrderWise(ORDER_NO);
+
+
+                if (_dtOrderData.Rows.Count > 0)
                 {
-                    if (_dtOrderData.Rows[0]["SAP_FLAG"].ToString().ToUpper() == "N")
-                        _sSAPFLAG = "Z";
-                }
-                if (_dtOrderData.Rows[0]["DIVISION"] != null)
-                {
-                    _sDivision = _dtOrderData.Rows[0]["DIVISION"].ToString();
+                    if (_dtOrderData.Rows[0]["SAP_FLAG"] != null)
+                    {
+                        if (_dtOrderData.Rows[0]["SAP_FLAG"].ToString().ToUpper() == "N")
+                            _sSAPFLAG = "Z";
+                    }
+                    if (_dtOrderData.Rows[0]["DIVISION"] != null)
+                    {
+                        _sDivision = _dtOrderData.Rows[0]["DIVISION"].ToString();
+                    }
                 }
             }
-        }
 
-        if (METERBOXSEAL2.Trim() == BUSBARSEAL1.Trim())
-            BUSBARSEAL1 = "";
+            if (METERBOXSEAL2.Trim() == BUSBARSEAL1.Trim())
+                BUSBARSEAL1 = "";
 
-        _bSave = NewClassFile.Insert_MCR_InputDataNEWRV(ORDER_NO, DEVICE_NO, TF_STCKR_NO, ELCB_INSLD_ON_SITE, BUS_BAR_INSTALLD, BUS_BAR_SIZE, BUS_BAR_NO, CBL_DRM_NUMBR, ACTVTY_RSN, CBL_SIZE, CABLEINSTALLTYPE, CBL_RUN_LENTH_FRM, CBL_RUN_LENTH_TO,
-                                                CABLELENGTH, TERMINALSEAL1, TERMINALSEAL2, METERBOXSEAL1, METERBOXSEAL2, BUSBARSEAL1, BUSBARSEAL2, INSTALLEDLOCATION, POLENUMBER, ACTIVITY_DATE,
-                                                MTR_MRKWH, MTR_MRKW, MTR_MRKVAH, MTR_MRKVA, QC_PHOTO_TKN, QC_METERDOWNLOAD, QC_DBLOCKED, QC_EARTHING_CONS, QC_HEIGHTOFMETER, QC_ANYJOINTS, QC_FIXTR_INSL_CONS, QC_FIXTR_INSL_POLE, QC_FLOWMADE,
-                                                QC_ADDNL_ACC_USD, BUS_BR_CBL_LNGTH, OUTPUTCABLELENGTH, QC_EARTHING_POLE, BUS_BAR_CBL_SIZE,
-                                                TAB_ID, TAB_NAME, GIS_LAT, GIS_LONG, GIS_STATUS, IMEI_NO, SUBMIT_DATETIME, BUS_BAR_DRM_NO, BUS_BAR_CBL_INSTL_TYP,
-                                                BUS_BR_RUN_LENTH_FRM, BUS_BR_RUN_LENTH_TO, ELCB_INSLD_ON_SITE, METERSCANNEDVAL, QC_RMKS, BUS_BAR_B_OR_C, "", "", "", "", PUNCH_MODE,
-                                                ORDER_TYPE, PM_ACTIVITY, "OLD_M_READING", OLD_MTR_MRKWH, OLD_MTR_MRKW, OLD_MTR_MRKVAH, OLD_MTR_MRKVA, "INSTALLEDCABLE_OLD", RMVD_CBL_SIZE,
-                                                "DRUMSIZE_OLD", "CABLEINSTALLTYPE_OLD", RMVD_CBL_RUN_LENTH_FRM, RMVD_CBL_RUN_LENTH_TO, RMVD_CBL_LENTH, "OUTPUTBUSLENGTH_OLD", RMVD_TRMNL_SEAL1,
-                                                RMVD_TRMNL_SEAL2, RMVD_MTR_BOX_SEAL1, RMVD_MTR_BOX_SEAL2, RMVD_BUS_BAR_SEAL1, RMVD_BUS_BAR_SEAL2, RMVD_MTR_BOX, RMVD_MTR_GLND, RMVD_MTR_T_COVR, RMVD_MTR_BRS_SCRW,
-                                                RMVD_MTR_BUS_BAR, RMVD_MTR_THMBL_LUG, RMVD_MTR_SADL, GUNNY_BAG_NO, GUNNY_BAG_SEAL_NO, LAB_TSTNG_DT, "METERRELOCATE_OLD", _sSAPFLAG,
-                                                TF_STCKR_STUS, HV_U_INSTALL_NW_CBL, ORDER_STATUS, MTR_LOC_SHIFT, RMVD_MTR_BASE_PLT, OLD_MTR_STATUS,
-                                                OLD_MTR_IF_AVBL, OLD_MTR_IF_NOT_AVBL, LAB_TSTNG_NTC, MTR_LOC_RELOCT, _sDivision, HAPPY_CODE,
-                                                INST_BB_CABLE_OPT, BB_CABLE_USED, CABLE_LEN_USED, OUTPUT_CABLE_LEN_USED, SIFT_DONE_BY, CAB_REMOVE_FRM_SITE,
-                                                REPLACEMENT_DONE_CABL, CAB_RMVD_FRM_SITE, IS_GNY_BAG_PREPD, GNY_PREPD_NO_RESN, GNY_PREPD_NO_RESN_RMK,
-                                                MTR_READ_AVAIL, METER_REMOVED_BY, NOTICE_DATE,
-                                                startDate, customerName, customerAddress, customerMobile, customerPole, customerMeter, accountClass,
-                                                connCategory, customerCA, looseOther1, looseOther2, looseFlag, cableNotInstallReason, noHappyCodeReason,
-                                                smartMeterBool, smartMeterSimNo, smartMeterSimCode, "");
-
-
-        NewClassFile.WriteIntoFile_MCR("Insert status for MCR_Insert_INPUT_Data_RV_NEW " + _bSave.ToString());
-
-        if (_bSave == true)
-            NewClassFile.Update_MCRSealFlag(TERMINALSEAL1, ORDER_NO);
-
-        if (TERMINALSEAL2 != "")
-        {
-            NewClassFile.Update_MCRSealFlag(TERMINALSEAL2, ORDER_NO);
-        }
-        if (METERBOXSEAL1 != "")
-        {
-            NewClassFile.Update_MCRSealFlag(METERBOXSEAL1, ORDER_NO);
-        }
-        if (METERBOXSEAL2 != "")
-        {
-            NewClassFile.Update_MCRSealFlag(METERBOXSEAL2, ORDER_NO);
-        }
-        if (BUSBARSEAL1 != "")
-        {
-            NewClassFile.Update_MCRSealFlag(BUSBARSEAL1, ORDER_NO);
-        }
-        if (BUSBARSEAL2 != "")
-        {
-            NewClassFile.Update_MCRSealFlag(BUSBARSEAL2, ORDER_NO);
-        }
+            _bSave = NewClassFile.Insert_MCR_InputDataNEWRV(ORDER_NO, DEVICE_NO, TF_STCKR_NO, ELCB_INSLD_ON_SITE, BUS_BAR_INSTALLD, BUS_BAR_SIZE, BUS_BAR_NO, CBL_DRM_NUMBR, ACTVTY_RSN, CBL_SIZE, CABLEINSTALLTYPE, CBL_RUN_LENTH_FRM, CBL_RUN_LENTH_TO,
+                                                    CABLELENGTH, TERMINALSEAL1, TERMINALSEAL2, METERBOXSEAL1, METERBOXSEAL2, BUSBARSEAL1, BUSBARSEAL2, INSTALLEDLOCATION, POLENUMBER, ACTIVITY_DATE,
+                                                    MTR_MRKWH, MTR_MRKW, MTR_MRKVAH, MTR_MRKVA, QC_PHOTO_TKN, QC_METERDOWNLOAD, QC_DBLOCKED, QC_EARTHING_CONS, QC_HEIGHTOFMETER, QC_ANYJOINTS, QC_FIXTR_INSL_CONS, QC_FIXTR_INSL_POLE, QC_FLOWMADE,
+                                                    QC_ADDNL_ACC_USD, BUS_BR_CBL_LNGTH, OUTPUTCABLELENGTH, QC_EARTHING_POLE, BUS_BAR_CBL_SIZE,
+                                                    TAB_ID, TAB_NAME, GIS_LAT, GIS_LONG, GIS_STATUS, IMEI_NO, SUBMIT_DATETIME, BUS_BAR_DRM_NO, BUS_BAR_CBL_INSTL_TYP,
+                                                    BUS_BR_RUN_LENTH_FRM, BUS_BR_RUN_LENTH_TO, ELCB_INSLD_ON_SITE, METERSCANNEDVAL, QC_RMKS, BUS_BAR_B_OR_C, "", "", "", "", PUNCH_MODE,
+                                                    ORDER_TYPE, PM_ACTIVITY, "OLD_M_READING", OLD_MTR_MRKWH, OLD_MTR_MRKW, OLD_MTR_MRKVAH, OLD_MTR_MRKVA, "INSTALLEDCABLE_OLD", RMVD_CBL_SIZE,
+                                                    "DRUMSIZE_OLD", "CABLEINSTALLTYPE_OLD", RMVD_CBL_RUN_LENTH_FRM, RMVD_CBL_RUN_LENTH_TO, RMVD_CBL_LENTH, "OUTPUTBUSLENGTH_OLD", RMVD_TRMNL_SEAL1,
+                                                    RMVD_TRMNL_SEAL2, RMVD_MTR_BOX_SEAL1, RMVD_MTR_BOX_SEAL2, RMVD_BUS_BAR_SEAL1, RMVD_BUS_BAR_SEAL2, RMVD_MTR_BOX, RMVD_MTR_GLND, RMVD_MTR_T_COVR, RMVD_MTR_BRS_SCRW,
+                                                    RMVD_MTR_BUS_BAR, RMVD_MTR_THMBL_LUG, RMVD_MTR_SADL, GUNNY_BAG_NO, GUNNY_BAG_SEAL_NO, LAB_TSTNG_DT, "METERRELOCATE_OLD", _sSAPFLAG,
+                                                    TF_STCKR_STUS, HV_U_INSTALL_NW_CBL, ORDER_STATUS, MTR_LOC_SHIFT, RMVD_MTR_BASE_PLT, OLD_MTR_STATUS,
+                                                    OLD_MTR_IF_AVBL, OLD_MTR_IF_NOT_AVBL, LAB_TSTNG_NTC, MTR_LOC_RELOCT, _sDivision, HAPPY_CODE,
+                                                    INST_BB_CABLE_OPT, BB_CABLE_USED, CABLE_LEN_USED, OUTPUT_CABLE_LEN_USED, SIFT_DONE_BY, CAB_REMOVE_FRM_SITE,
+                                                    REPLACEMENT_DONE_CABL, CAB_RMVD_FRM_SITE, IS_GNY_BAG_PREPD, GNY_PREPD_NO_RESN, GNY_PREPD_NO_RESN_RMK,
+                                                    MTR_READ_AVAIL, METER_REMOVED_BY, NOTICE_DATE,
+                                                    startDate, customerName, customerAddress, customerMobile, customerPole, customerMeter, accountClass,
+                                                    connCategory, customerCA, looseOther1, looseOther2, looseFlag, cableNotInstallReason, noHappyCodeReason,
+                                                    smartMeterBool, smartMeterSimNo, smartMeterSimCode, "");
 
 
-        if (_bSave == true)
-        {
+            NewClassFile.WriteIntoFile_MCR("Insert status for MCR_Insert_INPUT_Data_RV_NEW " + _bSave.ToString());
+
+            if (_bSave == true)
+                NewClassFile.Update_MCRSealFlag(TERMINALSEAL1, ORDER_NO);
+
+            if (TERMINALSEAL2 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(TERMINALSEAL2, ORDER_NO);
+            }
+            if (METERBOXSEAL1 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(METERBOXSEAL1, ORDER_NO);
+            }
+            if (METERBOXSEAL2 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(METERBOXSEAL2, ORDER_NO);
+            }
+            if (BUSBARSEAL1 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(BUSBARSEAL1, ORDER_NO);
+            }
+            if (BUSBARSEAL2 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(BUSBARSEAL2, ORDER_NO);
+            }
+
+
+            if (_bSave == true)
+            {
+                if (looseFlag == "LOOSE")
+                    _bSave = NewClassFile.PunchLooseOrder_Installer_InputData(TAB_ID, DEVICE_NO);
+                else
+                    _bSave = NewClassFile.PunchOrder_Installer_InputData(ORDER_NO, TAB_ID, DEVICE_NO);
+            }
+
+            NewClassFile.WriteIntoFile_MCR("PunchOrder_Installer_InputData " + _bSave.ToString());
+
+            PREMISE_PHOTO = "";
+            string strCaNo = NewClassFile.GetCAOnOrderNo(ORDER_NO);
+
             if (looseFlag == "LOOSE")
-                _bSave = NewClassFile.PunchLooseOrder_Installer_InputData(TAB_ID, DEVICE_NO);
+            {
+                _bISave = NewClassFile.Insert_MCR_IamgeListNEW("941", TF_STCKR_NO, DEVICE_NO, MTR_PHOTO, CMPLT_MTR_INTALL_PHOTO, MCR_POLE_N_PHOTO,
+                                                 MCR_PHOTO, MCR_TST_RPT_PHOTO, MCR_LAB_TST_RPT_PHOTO, MCR_CONS_SIGN_PHOTO, MCR_OTHR_PHOTO,
+                                                 RMVD_MTR_PHOTO, RMVD_CMPLT_MTR_INTALL_PHOTO, PREMISE_PHOTO, DEVICE_NO, _sSAPFLAG);
+            }
             else
-                _bSave = NewClassFile.PunchOrder_Installer_InputData(ORDER_NO, TAB_ID, DEVICE_NO);
+            {
+                _bISave = NewClassFile.Insert_MCR_IamgeListNEW(ORDER_NO, TF_STCKR_NO, DEVICE_NO, MTR_PHOTO, CMPLT_MTR_INTALL_PHOTO, MCR_POLE_N_PHOTO,
+                                                 MCR_PHOTO, MCR_TST_RPT_PHOTO, MCR_LAB_TST_RPT_PHOTO, MCR_CONS_SIGN_PHOTO, MCR_OTHR_PHOTO,
+                                                 RMVD_MTR_PHOTO, RMVD_CMPLT_MTR_INTALL_PHOTO, PREMISE_PHOTO, strCaNo, _sSAPFLAG);
+            }
+
+            NewClassFile.WriteIntoFile_MCR("Image Log " + _bISave.ToString());
+
+            return _bISave;
         }
-
-        NewClassFile.WriteIntoFile_MCR("PunchOrder_Installer_InputData " + _bSave.ToString());
-
-        PREMISE_PHOTO = "";
-        string strCaNo = NewClassFile.GetCAOnOrderNo(ORDER_NO);
-
-        if (looseFlag == "LOOSE")
+        catch (Exception ad)
         {
-            _bISave = NewClassFile.Insert_MCR_IamgeListNEW("941", TF_STCKR_NO, DEVICE_NO, MTR_PHOTO, CMPLT_MTR_INTALL_PHOTO, MCR_POLE_N_PHOTO,
-                                             MCR_PHOTO, MCR_TST_RPT_PHOTO, MCR_LAB_TST_RPT_PHOTO, MCR_CONS_SIGN_PHOTO, MCR_OTHR_PHOTO,
-                                             RMVD_MTR_PHOTO, RMVD_CMPLT_MTR_INTALL_PHOTO, PREMISE_PHOTO, DEVICE_NO, _sSAPFLAG);
+            throw new Exception("An error occurred", ad);
         }
-        else
-        {
-            _bISave = NewClassFile.Insert_MCR_IamgeListNEW(ORDER_NO, TF_STCKR_NO, DEVICE_NO, MTR_PHOTO, CMPLT_MTR_INTALL_PHOTO, MCR_POLE_N_PHOTO,
-                                             MCR_PHOTO, MCR_TST_RPT_PHOTO, MCR_LAB_TST_RPT_PHOTO, MCR_CONS_SIGN_PHOTO, MCR_OTHR_PHOTO,
-                                             RMVD_MTR_PHOTO, RMVD_CMPLT_MTR_INTALL_PHOTO, PREMISE_PHOTO, strCaNo, _sSAPFLAG);
-        }
-
-        NewClassFile.WriteIntoFile_MCR("Image Log " + _bISave.ToString());
-
-        return _bISave;
-
     }
 
     [WebMethod(EnableSession = true)]
@@ -7600,176 +8936,227 @@ public class Service : System.Web.Services.WebService
         string cableNotInstallReason, string noHappyCodeReason, string smartMeterBool, string smartMeterSimNo, string smartMeterSimCode,
          string SubDivisionCode, string mcrPDF)
     {
-        NewClassFile.WriteIntoFile_MCR("Start MCR Function MCR_Insert_INPUT_Data_RV_NEW for " + ORDER_NO);
-
-        Boolean _bSave = false, _bISave = false;
-
-        TERMINALSEAL1 = ReplaceSelect(TERMINALSEAL1);
-        TERMINALSEAL2 = ReplaceSelect(TERMINALSEAL2);
-        METERBOXSEAL1 = ReplaceSelect(METERBOXSEAL1);
-        METERBOXSEAL2 = ReplaceSelect(METERBOXSEAL2);
-        BUSBARSEAL1 = ReplaceSelect(BUSBARSEAL1);
-        BUSBARSEAL2 = ReplaceSelect(BUSBARSEAL2);
-
-        DataTable _dtOrderData = new DataTable();
-        string _sSAPFLAG = "N";
-        string _sDivision = string.Empty;
-
-        if (looseFlag == "LOOSE")
+        try
         {
-            _sSAPFLAG = "L";
-        }
-        else
-        {
-            _dtOrderData = GetOrdType_PMAct_OrderWise(ORDER_NO);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
+            NewClassFile.WriteIntoFile_MCR("Start MCR Function MCR_Insert_INPUT_Data_RV_NEW for " + ORDER_NO);
 
-            if (_dtOrderData.Rows.Count > 0)
+            Boolean _bSave = false, _bISave = false;
+
+            TERMINALSEAL1 = ReplaceSelect(TERMINALSEAL1);
+            TERMINALSEAL2 = ReplaceSelect(TERMINALSEAL2);
+            METERBOXSEAL1 = ReplaceSelect(METERBOXSEAL1);
+            METERBOXSEAL2 = ReplaceSelect(METERBOXSEAL2);
+            BUSBARSEAL1 = ReplaceSelect(BUSBARSEAL1);
+            BUSBARSEAL2 = ReplaceSelect(BUSBARSEAL2);
+
+            DataTable _dtOrderData = new DataTable();
+            string _sSAPFLAG = "N";
+            string _sDivision = string.Empty;
+
+            if (looseFlag == "LOOSE")
             {
-                if (_dtOrderData.Rows[0]["SAP_FLAG"] != null)
+                _sSAPFLAG = "L";
+            }
+            else
+            {
+                _dtOrderData = GetOrdType_PMAct_OrderWise(ORDER_NO);
+
+
+                if (_dtOrderData.Rows.Count > 0)
                 {
-                    if (_dtOrderData.Rows[0]["SAP_FLAG"].ToString().ToUpper() == "N")
-                        _sSAPFLAG = "Z";
-                }
-                if (_dtOrderData.Rows[0]["DIVISION"] != null)
-                {
-                    _sDivision = _dtOrderData.Rows[0]["DIVISION"].ToString();
+                    if (_dtOrderData.Rows[0]["SAP_FLAG"] != null)
+                    {
+                        if (_dtOrderData.Rows[0]["SAP_FLAG"].ToString().ToUpper() == "N")
+                            _sSAPFLAG = "Z";
+                    }
+                    if (_dtOrderData.Rows[0]["DIVISION"] != null)
+                    {
+                        _sDivision = _dtOrderData.Rows[0]["DIVISION"].ToString();
+                    }
                 }
             }
-        }
 
-        if (METERBOXSEAL2.Trim() == BUSBARSEAL1.Trim())
-            BUSBARSEAL1 = "";
+            if (METERBOXSEAL2.Trim() == BUSBARSEAL1.Trim())
+                BUSBARSEAL1 = "";
 
-        _bSave = NewClassFile.Insert_MCR_InputDataNEWRV(ORDER_NO, DEVICE_NO, TF_STCKR_NO, ELCB_INSLD_ON_SITE, BUS_BAR_INSTALLD, BUS_BAR_SIZE, BUS_BAR_NO, CBL_DRM_NUMBR, ACTVTY_RSN, CBL_SIZE, CABLEINSTALLTYPE, CBL_RUN_LENTH_FRM, CBL_RUN_LENTH_TO,
-                                                CABLELENGTH, TERMINALSEAL1, TERMINALSEAL2, METERBOXSEAL1, METERBOXSEAL2, BUSBARSEAL1, BUSBARSEAL2, INSTALLEDLOCATION, POLENUMBER, ACTIVITY_DATE,
-                                                MTR_MRKWH, MTR_MRKW, MTR_MRKVAH, MTR_MRKVA, QC_PHOTO_TKN, QC_METERDOWNLOAD, QC_DBLOCKED, QC_EARTHING_CONS, QC_HEIGHTOFMETER, QC_ANYJOINTS, QC_FIXTR_INSL_CONS, QC_FIXTR_INSL_POLE, QC_FLOWMADE,
-                                                QC_ADDNL_ACC_USD, BUS_BR_CBL_LNGTH, OUTPUTCABLELENGTH, QC_EARTHING_POLE, BUS_BAR_CBL_SIZE,
-                                                TAB_ID, TAB_NAME, GIS_LAT, GIS_LONG, GIS_STATUS, IMEI_NO, SUBMIT_DATETIME, BUS_BAR_DRM_NO, BUS_BAR_CBL_INSTL_TYP,
-                                                BUS_BR_RUN_LENTH_FRM, BUS_BR_RUN_LENTH_TO, ELCB_INSLD_ON_SITE, METERSCANNEDVAL, QC_RMKS, BUS_BAR_B_OR_C, "", "", "", "", PUNCH_MODE,
-                                                ORDER_TYPE, PM_ACTIVITY, "OLD_M_READING", OLD_MTR_MRKWH, OLD_MTR_MRKW, OLD_MTR_MRKVAH, OLD_MTR_MRKVA, "INSTALLEDCABLE_OLD", RMVD_CBL_SIZE,
-                                                "DRUMSIZE_OLD", "CABLEINSTALLTYPE_OLD", RMVD_CBL_RUN_LENTH_FRM, RMVD_CBL_RUN_LENTH_TO, RMVD_CBL_LENTH, "OUTPUTBUSLENGTH_OLD", RMVD_TRMNL_SEAL1,
-                                                RMVD_TRMNL_SEAL2, RMVD_MTR_BOX_SEAL1, RMVD_MTR_BOX_SEAL2, RMVD_BUS_BAR_SEAL1, RMVD_BUS_BAR_SEAL2, RMVD_MTR_BOX, RMVD_MTR_GLND, RMVD_MTR_T_COVR, RMVD_MTR_BRS_SCRW,
-                                                RMVD_MTR_BUS_BAR, RMVD_MTR_THMBL_LUG, RMVD_MTR_SADL, GUNNY_BAG_NO, GUNNY_BAG_SEAL_NO, LAB_TSTNG_DT, "METERRELOCATE_OLD", _sSAPFLAG,
-                                                TF_STCKR_STUS, HV_U_INSTALL_NW_CBL, ORDER_STATUS, MTR_LOC_SHIFT, RMVD_MTR_BASE_PLT, OLD_MTR_STATUS,
-                                                OLD_MTR_IF_AVBL, OLD_MTR_IF_NOT_AVBL, LAB_TSTNG_NTC, MTR_LOC_RELOCT, _sDivision, HAPPY_CODE,
-                                                INST_BB_CABLE_OPT, BB_CABLE_USED, CABLE_LEN_USED, OUTPUT_CABLE_LEN_USED, SIFT_DONE_BY, CAB_REMOVE_FRM_SITE,
-                                                REPLACEMENT_DONE_CABL, CAB_RMVD_FRM_SITE, IS_GNY_BAG_PREPD, GNY_PREPD_NO_RESN, GNY_PREPD_NO_RESN_RMK,
-                                                MTR_READ_AVAIL, METER_REMOVED_BY, NOTICE_DATE,
-                                                startDate, customerName, customerAddress, customerMobile, customerPole, customerMeter, accountClass,
-                                                connCategory, customerCA, looseOther1, looseOther2, looseFlag, cableNotInstallReason, noHappyCodeReason,
-                                                smartMeterBool, smartMeterSimNo, smartMeterSimCode, SubDivisionCode);
-
-
-        NewClassFile.WriteIntoFile_MCR("Insert status for MCR_Insert_INPUT_Data_RV_NEW " + _bSave.ToString());
-
-        if (_bSave == true)
-            NewClassFile.Update_MCRSealFlag(TERMINALSEAL1, ORDER_NO);
-
-        if (TERMINALSEAL2 != "")
-        {
-            NewClassFile.Update_MCRSealFlag(TERMINALSEAL2, ORDER_NO);
-        }
-        if (METERBOXSEAL1 != "")
-        {
-            NewClassFile.Update_MCRSealFlag(METERBOXSEAL1, ORDER_NO);
-        }
-        if (METERBOXSEAL2 != "")
-        {
-            NewClassFile.Update_MCRSealFlag(METERBOXSEAL2, ORDER_NO);
-        }
-        if (BUSBARSEAL1 != "")
-        {
-            NewClassFile.Update_MCRSealFlag(BUSBARSEAL1, ORDER_NO);
-        }
-        if (BUSBARSEAL2 != "")
-        {
-            NewClassFile.Update_MCRSealFlag(BUSBARSEAL2, ORDER_NO);
-        }
+            _bSave = NewClassFile.Insert_MCR_InputDataNEWRV(ORDER_NO, DEVICE_NO, TF_STCKR_NO, ELCB_INSLD_ON_SITE, BUS_BAR_INSTALLD, BUS_BAR_SIZE, BUS_BAR_NO, CBL_DRM_NUMBR, ACTVTY_RSN, CBL_SIZE, CABLEINSTALLTYPE, CBL_RUN_LENTH_FRM, CBL_RUN_LENTH_TO,
+                                                    CABLELENGTH, TERMINALSEAL1, TERMINALSEAL2, METERBOXSEAL1, METERBOXSEAL2, BUSBARSEAL1, BUSBARSEAL2, INSTALLEDLOCATION, POLENUMBER, ACTIVITY_DATE,
+                                                    MTR_MRKWH, MTR_MRKW, MTR_MRKVAH, MTR_MRKVA, QC_PHOTO_TKN, QC_METERDOWNLOAD, QC_DBLOCKED, QC_EARTHING_CONS, QC_HEIGHTOFMETER, QC_ANYJOINTS, QC_FIXTR_INSL_CONS, QC_FIXTR_INSL_POLE, QC_FLOWMADE,
+                                                    QC_ADDNL_ACC_USD, BUS_BR_CBL_LNGTH, OUTPUTCABLELENGTH, QC_EARTHING_POLE, BUS_BAR_CBL_SIZE,
+                                                    TAB_ID, TAB_NAME, GIS_LAT, GIS_LONG, GIS_STATUS, IMEI_NO, SUBMIT_DATETIME, BUS_BAR_DRM_NO, BUS_BAR_CBL_INSTL_TYP,
+                                                    BUS_BR_RUN_LENTH_FRM, BUS_BR_RUN_LENTH_TO, ELCB_INSLD_ON_SITE, METERSCANNEDVAL, QC_RMKS, BUS_BAR_B_OR_C, "", "", "", "", PUNCH_MODE,
+                                                    ORDER_TYPE, PM_ACTIVITY, "OLD_M_READING", OLD_MTR_MRKWH, OLD_MTR_MRKW, OLD_MTR_MRKVAH, OLD_MTR_MRKVA, "INSTALLEDCABLE_OLD", RMVD_CBL_SIZE,
+                                                    "DRUMSIZE_OLD", "CABLEINSTALLTYPE_OLD", RMVD_CBL_RUN_LENTH_FRM, RMVD_CBL_RUN_LENTH_TO, RMVD_CBL_LENTH, "OUTPUTBUSLENGTH_OLD", RMVD_TRMNL_SEAL1,
+                                                    RMVD_TRMNL_SEAL2, RMVD_MTR_BOX_SEAL1, RMVD_MTR_BOX_SEAL2, RMVD_BUS_BAR_SEAL1, RMVD_BUS_BAR_SEAL2, RMVD_MTR_BOX, RMVD_MTR_GLND, RMVD_MTR_T_COVR, RMVD_MTR_BRS_SCRW,
+                                                    RMVD_MTR_BUS_BAR, RMVD_MTR_THMBL_LUG, RMVD_MTR_SADL, GUNNY_BAG_NO, GUNNY_BAG_SEAL_NO, LAB_TSTNG_DT, "METERRELOCATE_OLD", _sSAPFLAG,
+                                                    TF_STCKR_STUS, HV_U_INSTALL_NW_CBL, ORDER_STATUS, MTR_LOC_SHIFT, RMVD_MTR_BASE_PLT, OLD_MTR_STATUS,
+                                                    OLD_MTR_IF_AVBL, OLD_MTR_IF_NOT_AVBL, LAB_TSTNG_NTC, MTR_LOC_RELOCT, _sDivision, HAPPY_CODE,
+                                                    INST_BB_CABLE_OPT, BB_CABLE_USED, CABLE_LEN_USED, OUTPUT_CABLE_LEN_USED, SIFT_DONE_BY, CAB_REMOVE_FRM_SITE,
+                                                    REPLACEMENT_DONE_CABL, CAB_RMVD_FRM_SITE, IS_GNY_BAG_PREPD, GNY_PREPD_NO_RESN, GNY_PREPD_NO_RESN_RMK,
+                                                    MTR_READ_AVAIL, METER_REMOVED_BY, NOTICE_DATE,
+                                                    startDate, customerName, customerAddress, customerMobile, customerPole, customerMeter, accountClass,
+                                                    connCategory, customerCA, looseOther1, looseOther2, looseFlag, cableNotInstallReason, noHappyCodeReason,
+                                                    smartMeterBool, smartMeterSimNo, smartMeterSimCode, SubDivisionCode);
 
 
-        if (_bSave == true)
-        {
+            NewClassFile.WriteIntoFile_MCR("Insert status for MCR_Insert_INPUT_Data_RV_NEW " + _bSave.ToString());
+
+            if (_bSave == true)
+                NewClassFile.Update_MCRSealFlag(TERMINALSEAL1, ORDER_NO);
+
+            if (TERMINALSEAL2 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(TERMINALSEAL2, ORDER_NO);
+            }
+            if (METERBOXSEAL1 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(METERBOXSEAL1, ORDER_NO);
+            }
+            if (METERBOXSEAL2 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(METERBOXSEAL2, ORDER_NO);
+            }
+            if (BUSBARSEAL1 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(BUSBARSEAL1, ORDER_NO);
+            }
+            if (BUSBARSEAL2 != "")
+            {
+                NewClassFile.Update_MCRSealFlag(BUSBARSEAL2, ORDER_NO);
+            }
+
+
+            if (_bSave == true)
+            {
+                if (looseFlag == "LOOSE")
+                    _bSave = NewClassFile.PunchLooseOrder_Installer_InputData(TAB_ID, DEVICE_NO);
+                else
+                    _bSave = NewClassFile.PunchOrder_Installer_InputData(ORDER_NO, TAB_ID, DEVICE_NO);
+            }
+
+            NewClassFile.WriteIntoFile_MCR("PunchOrder_Installer_InputData " + _bSave.ToString());
+
+            PREMISE_PHOTO = "";
+            string strCaNo = NewClassFile.GetCAOnOrderNo(ORDER_NO);
+
             if (looseFlag == "LOOSE")
-                _bSave = NewClassFile.PunchLooseOrder_Installer_InputData(TAB_ID, DEVICE_NO);
+            {
+                _bISave = NewClassFile.Insert_MCR_IamgeListNEW("941", TF_STCKR_NO, DEVICE_NO, MTR_PHOTO, CMPLT_MTR_INTALL_PHOTO, MCR_POLE_N_PHOTO,
+                                                 MCR_PHOTO, MCR_TST_RPT_PHOTO, MCR_LAB_TST_RPT_PHOTO, MCR_CONS_SIGN_PHOTO, MCR_OTHR_PHOTO,
+                                                 RMVD_MTR_PHOTO, RMVD_CMPLT_MTR_INTALL_PHOTO, PREMISE_PHOTO, DEVICE_NO, _sSAPFLAG);
+            }
             else
-                _bSave = NewClassFile.PunchOrder_Installer_InputData(ORDER_NO, TAB_ID, DEVICE_NO);
+            {
+                _bISave = NewClassFile.Insert_MCR_IamgeListNEW(ORDER_NO, TF_STCKR_NO, DEVICE_NO, MTR_PHOTO, CMPLT_MTR_INTALL_PHOTO, MCR_POLE_N_PHOTO,
+                                                 MCR_PHOTO, MCR_TST_RPT_PHOTO, MCR_LAB_TST_RPT_PHOTO, MCR_CONS_SIGN_PHOTO, MCR_OTHR_PHOTO,
+                                                 RMVD_MTR_PHOTO, RMVD_CMPLT_MTR_INTALL_PHOTO, PREMISE_PHOTO, strCaNo, _sSAPFLAG);
+            }
+
+            NewClassFile.WriteIntoFile_MCR("Image Log " + _bISave.ToString());
+
+            return _bISave;
         }
-
-        NewClassFile.WriteIntoFile_MCR("PunchOrder_Installer_InputData " + _bSave.ToString());
-
-        PREMISE_PHOTO = "";
-        string strCaNo = NewClassFile.GetCAOnOrderNo(ORDER_NO);
-
-        if (looseFlag == "LOOSE")
+        catch (Exception ad)
         {
-            _bISave = NewClassFile.Insert_MCR_IamgeListNEW("941", TF_STCKR_NO, DEVICE_NO, MTR_PHOTO, CMPLT_MTR_INTALL_PHOTO, MCR_POLE_N_PHOTO,
-                                             MCR_PHOTO, MCR_TST_RPT_PHOTO, MCR_LAB_TST_RPT_PHOTO, MCR_CONS_SIGN_PHOTO, MCR_OTHR_PHOTO,
-                                             RMVD_MTR_PHOTO, RMVD_CMPLT_MTR_INTALL_PHOTO, PREMISE_PHOTO, DEVICE_NO, _sSAPFLAG);
+            throw new Exception("An error occurred", ad);
         }
-        else
-        {
-            _bISave = NewClassFile.Insert_MCR_IamgeListNEW(ORDER_NO, TF_STCKR_NO, DEVICE_NO, MTR_PHOTO, CMPLT_MTR_INTALL_PHOTO, MCR_POLE_N_PHOTO,
-                                             MCR_PHOTO, MCR_TST_RPT_PHOTO, MCR_LAB_TST_RPT_PHOTO, MCR_CONS_SIGN_PHOTO, MCR_OTHR_PHOTO,
-                                             RMVD_MTR_PHOTO, RMVD_CMPLT_MTR_INTALL_PHOTO, PREMISE_PHOTO, strCaNo, _sSAPFLAG);
-        }
-
-        NewClassFile.WriteIntoFile_MCR("Image Log " + _bISave.ToString());
-
-        return _bISave;
 
     }
 
 
     private DataTable GetOrdType_PMAct_OrderWise(string strOrderID)
     {
-        DataTable _dtOrd = new DataTable();
-        _dtOrd = NewClassFile.GetOrderTypeData_OrdIDWise(strOrderID);
-        return _dtOrd;
+        try
+        {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            DataTable _dtOrd = new DataTable();
+            _dtOrd = NewClassFile.GetOrderTypeData_OrdIDWise(strOrderID);
+            return _dtOrd;
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
+
     }
 
     [WebMethod(EnableSession = true)]
     public DataTable MCR_GetCancelRmkDetails(string _sOrderType)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = NewClassFile.GetCancel_RemarksData(_sOrderType);
-            dt.TableName = "MCR_COR_SYS_MST";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = NewClassFile.GetCancel_RemarksData(_sOrderType);
+                dt.TableName = "MCR_COR_SYS_MST";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable MCR_GetSubDiv_Division(string _sDivision)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = NewClassFile.GetSubDivision_DivWise(_sDivision);
-            dt.TableName = "MCR_COR_SYS_MST";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = NewClassFile.GetSubDivision_DivWise(_sDivision);
+                dt.TableName = "MCR_COR_SYS_MST";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable MCR_GetUserMCR_INPUT_COMP_DT(string strUser)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable dt = new DataTable();
-            dt = NewClassFile.Get_MCR_Complete_InputData(strUser);
-            dt.TableName = "MCR_INPUT_DETAILS";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable dt = new DataTable();
+                dt = NewClassFile.Get_MCR_Complete_InputData(strUser);
+                dt.TableName = "MCR_INPUT_DETAILS";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     #endregion
@@ -7779,222 +9166,303 @@ public class Service : System.Web.Services.WebService
     [WebMethod(EnableSession = true)]
     public DataSet RecServices_Category(string strKeyParam)
     {
-        DataSet ds = new DataSet("Recovery_Results");
-
-        if (strKeyParam == "@$$!ntern@a|@ppRec")
+        try
         {
-            try
-            {
-                DataTable dtCategory = new DataTable();
-                dtCategory = NewClassFile.bindCategory();
-                dtCategory.TableName = "Category";
-                ds.Tables.Add(dtCategory);
-            }
-            catch (Exception ex)
-            {
-                NewClassFile newClassFile = new NewClassFile();
-                newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in RecServices_Category Method : " + ex.ToString());
-            }
-        }
-        else
-        {
-            DataTable dterror = InvaildAuthontication();
-            ds.Tables.Add(dterror);
-        }
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-        return ds;
+            DataSet ds = new DataSet("Recovery_Results");
+
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                try
+                {
+                    DataTable dtCategory = new DataTable();
+                    dtCategory = NewClassFile.bindCategory();
+                    dtCategory.TableName = "Category";
+                    ds.Tables.Add(dtCategory);
+                }
+                catch (Exception ex)
+                {
+                    NewClassFile newClassFile = new NewClassFile();
+                    newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in RecServices_Category Method : " + ex.ToString());
+                }
+            }
+            else
+            {
+                DataTable dterror = InvaildAuthontication();
+                ds.Tables.Add(dterror);
+            }
+
+            return ds;
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     public DataSet RecServices_Amount_Bucket(string strKeyParam)
     {
-        DataSet ds = new DataSet("Recovery_Results");
-
-        if (strKeyParam == "@$$!ntern@a|@ppRec")
+        try
         {
-            try
-            {
-                DataTable dtAmtBkt = new DataTable();
-                dtAmtBkt = NewClassFile.bindAmountBucket();
-                dtAmtBkt.TableName = "Amount_Bucket";
-                ds.Tables.Add(dtAmtBkt);
-            }
-            catch (Exception ex)
-            {
-                NewClassFile newClassFile = new NewClassFile();
-                newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in RecServices_AmtBkt Method : " + ex.ToString());
-            }
-        }
-        else
-        {
-            DataTable dterror = InvaildAuthontication();
-            ds.Tables.Add(dterror);
-        }
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-        return ds;
+            DataSet ds = new DataSet("Recovery_Results");
+
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                try
+                {
+                    DataTable dtAmtBkt = new DataTable();
+                    dtAmtBkt = NewClassFile.bindAmountBucket();
+                    dtAmtBkt.TableName = "Amount_Bucket";
+                    ds.Tables.Add(dtAmtBkt);
+                }
+                catch (Exception ex)
+                {
+                    NewClassFile newClassFile = new NewClassFile();
+                    newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in RecServices_AmtBkt Method : " + ex.ToString());
+                }
+            }
+            else
+            {
+                DataTable dterror = InvaildAuthontication();
+                ds.Tables.Add(dterror);
+            }
+
+            return ds;
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     public DataSet RecServices_Aging_Bucket(string strKeyParam)
     {
-        DataSet ds = new DataSet("Recovery_Results");
-
-        if (strKeyParam == "@$$!ntern@a|@ppRec")
+        try
         {
-            try
-            {
-                DataTable dtAgiBkt = new DataTable();
-                dtAgiBkt = NewClassFile.bindAgingBucket();
-                dtAgiBkt.TableName = "Aging_Bucket";
-                ds.Tables.Add(dtAgiBkt);
-            }
-            catch (Exception ex)
-            {
-                NewClassFile newClassFile = new NewClassFile();
-                newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in RecServices_AgiBkt Method : " + ex.ToString());
-            }
-        }
-        else
-        {
-            DataTable dterror = InvaildAuthontication();
-            ds.Tables.Add(dterror);
-        }
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-        return ds;
+            DataSet ds = new DataSet("Recovery_Results");
+
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                try
+                {
+                    DataTable dtAgiBkt = new DataTable();
+                    dtAgiBkt = NewClassFile.bindAgingBucket();
+                    dtAgiBkt.TableName = "Aging_Bucket";
+                    ds.Tables.Add(dtAgiBkt);
+                }
+                catch (Exception ex)
+                {
+                    NewClassFile newClassFile = new NewClassFile();
+                    newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in RecServices_AgiBkt Method : " + ex.ToString());
+                }
+            }
+            else
+            {
+                DataTable dterror = InvaildAuthontication();
+                ds.Tables.Add(dterror);
+            }
+
+            return ds;
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     public DataSet RecServices_Account_Class(string strKeyParam)
     {
-        DataSet ds = new DataSet("Recovery_Results");
-
-        if (strKeyParam == "@$$!ntern@a|@ppRec")
+        try
         {
-            try
-            {
-                DataTable dtAccountClass = new DataTable();
-                dtAccountClass = NewClassFile.bindAccountClass();
-                dtAccountClass.TableName = "Account_Class";
-                ds.Tables.Add(dtAccountClass);
-            }
-            catch (Exception ex)
-            {
-                NewClassFile newClassFile = new NewClassFile();
-                newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in RecServices_AClass Method : " + ex.ToString());
-            }
-        }
-        else
-        {
-            DataTable dterror = InvaildAuthontication();
-            ds.Tables.Add(dterror);
-        }
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-        return ds;
+            DataSet ds = new DataSet("Recovery_Results");
+
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                try
+                {
+                    DataTable dtAccountClass = new DataTable();
+                    dtAccountClass = NewClassFile.bindAccountClass();
+                    dtAccountClass.TableName = "Account_Class";
+                    ds.Tables.Add(dtAccountClass);
+                }
+                catch (Exception ex)
+                {
+                    NewClassFile newClassFile = new NewClassFile();
+                    newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in RecServices_AClass Method : " + ex.ToString());
+                }
+            }
+            else
+            {
+                DataTable dterror = InvaildAuthontication();
+                ds.Tables.Add(dterror);
+            }
+
+            return ds;
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     public DataSet RecServices_ATR_Status(string strKeyParam)
     {
-        DataSet ds = new DataSet("Recovery_Results");
-
-        if (strKeyParam == "@$$!ntern@a|@ppRec")
+        try
         {
-            try
-            {
-                DataTable dtATRStatus = new DataTable();
-                dtATRStatus = NewClassFile.bindATRStatus();
-                dtATRStatus.TableName = "ATR_Status";
-                ds.Tables.Add(dtATRStatus);
-            }
-            catch (Exception ex)
-            {
-                NewClassFile newClassFile = new NewClassFile();
-                newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in RecServices_ATRStatus : " + ex.ToString());
-            }
-        }
-        else
-        {
-            DataTable dterror = InvaildAuthontication();
-            ds.Tables.Add(dterror);
-        }
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-        return ds;
+            DataSet ds = new DataSet("Recovery_Results");
+
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                try
+                {
+                    DataTable dtATRStatus = new DataTable();
+                    dtATRStatus = NewClassFile.bindATRStatus();
+                    dtATRStatus.TableName = "ATR_Status";
+                    ds.Tables.Add(dtATRStatus);
+                }
+                catch (Exception ex)
+                {
+                    NewClassFile newClassFile = new NewClassFile();
+                    newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in RecServices_ATRStatus : " + ex.ToString());
+                }
+            }
+            else
+            {
+                DataTable dterror = InvaildAuthontication();
+                ds.Tables.Add(dterror);
+            }
+
+            return ds;
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     public DataTable RecAllocDefltrs(string strKeyParam, string _sCategory, string _sAmtBktID, string _sAgeBktID, string _sAccountClass, string _sDishonorFlag, string _sFEID)
     {
-        if (strKeyParam == "@$$!ntern@a|@ppRec")
+        try
         {
-            DataTable dtAllocDefltr = new DataTable();
-            try
-            {
-                dtAllocDefltr = NewClassFile.bindAllocDefltr(_sCategory, _sAmtBktID, _sAgeBktID, _sAccountClass, _sDishonorFlag, _sFEID);
-                dtAllocDefltr.TableName = "Allocated_Defaulters";
-            }
-            catch (Exception ex)
-            {
-                NewClassFile newClassFile = new NewClassFile();
-                newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in RecAllocDefltrs Method : " + ex.ToString());
-            }
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            return dtAllocDefltr;
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                DataTable dtAllocDefltr = new DataTable();
+                try
+                {
+                    dtAllocDefltr = NewClassFile.bindAllocDefltr(_sCategory, _sAmtBktID, _sAgeBktID, _sAccountClass, _sDishonorFlag, _sFEID);
+                    dtAllocDefltr.TableName = "Allocated_Defaulters";
+                }
+                catch (Exception ex)
+                {
+                    NewClassFile newClassFile = new NewClassFile();
+                    newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in RecAllocDefltrs Method : " + ex.ToString());
+                }
+
+                return dtAllocDefltr;
+            }
+            else
+            {
+                return InvaildAuthontication();
+
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return InvaildAuthontication();
-
+            throw new Exception("An error occurred", ad);
         }
     }
 
     [WebMethod(EnableSession = true)]
     public DataTable searchDefltrs(string strKeyParam, string _sCANumber, string _sMeterNumber, string _sFEID)
     {
-        if (strKeyParam == "@$$!ntern@a|@ppRec")
+        try
         {
-            DataTable dtSearchDefltr = new DataTable();
-            try
-            {
-                dtSearchDefltr = NewClassFile.searchDefltrs(_sCANumber, _sMeterNumber, _sFEID);
-                dtSearchDefltr.TableName = "Searched_Defaulter";
-            }
-            catch (Exception ex)
-            {
-                NewClassFile newClassFile = new NewClassFile();
-                newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in searchDefltrs Method : " + ex.ToString());
-            }
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            return dtSearchDefltr;
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                DataTable dtSearchDefltr = new DataTable();
+                try
+                {
+                    dtSearchDefltr = NewClassFile.searchDefltrs(_sCANumber, _sMeterNumber, _sFEID);
+                    dtSearchDefltr.TableName = "Searched_Defaulter";
+                }
+                catch (Exception ex)
+                {
+                    NewClassFile newClassFile = new NewClassFile();
+                    newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in searchDefltrs Method : " + ex.ToString());
+                }
+
+                return dtSearchDefltr;
+            }
+            else
+            {
+                return InvaildAuthontication();
+
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return InvaildAuthontication();
-
+            throw new Exception("An error occurred", ad);
         }
+
     }
 
     [WebMethod(EnableSession = true)]   //28022018
     public DataTable getPayment(string strKeyParam, string _sCANumber, string _sMeterNumber)
     {
-        if (strKeyParam == "@$$!ntern@a|@ppRec")
+        try
         {
-            DataTable dtPayment = new DataTable();
-            try
-            {
-                dtPayment = NewClassFile.getPayment(_sCANumber, _sMeterNumber);
-                dtPayment.TableName = "Payment";
-            }
-            catch (Exception ex)
-            {
-                NewClassFile newClassFile = new NewClassFile();
-                newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in getPayment Method : " + ex.ToString());
-            }
-            return dtPayment;
-        }
-        else
-        {
-            return InvaildAuthontication();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                DataTable dtPayment = new DataTable();
+                try
+                {
+                    dtPayment = NewClassFile.getPayment(_sCANumber, _sMeterNumber);
+                    dtPayment.TableName = "Payment";
+                }
+                catch (Exception ex)
+                {
+                    NewClassFile newClassFile = new NewClassFile();
+                    newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in getPayment Method : " + ex.ToString());
+                }
+                return dtPayment;
+            }
+            else
+            {
+                return InvaildAuthontication();
+
+            }
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -8002,195 +9470,287 @@ public class Service : System.Web.Services.WebService
     [WebMethod(EnableSession = true)]   //28022018
     public bool insertATR(string strKeyParam, string _sCANumber, string _sStatus, string _sFEID, string _sTabUpdStatus, string _sRemarks, string _sImgFlg, string _sImgPath, string _sFollowDate, string _sAltContNo, string _sAltEmailID, string _sMobileNo, string _sMessage, string _sUpdationID)
     {
-        if (strKeyParam == "@$$!ntern@a|@ppRec")
+        try
         {
-            try
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (strKeyParam == PublicAccessTokenKey)
             {
-                bool res = false;
-                string ipAddress = HttpContext.Current.Request.UserHostAddress;
-                //string strNewId = HttpContext.Current.Session.SessionID;                
-
-                DataTable dtCheckATR = NewClassFile.chkRecordExist(_sCANumber, _sFEID, "DEFLTR_ATR");
-                if (dtCheckATR.Rows.Count > 0)  // Update
-                    res = NewClassFile.updateTable(_sCANumber, _sStatus, _sFEID, ipAddress, "DEFLTR_ATR", "", "", "", "", "", "", "");
-                else    // Insert
-                    res = NewClassFile.insertTable(_sCANumber, _sStatus, _sFEID, ipAddress, "DEFLTR_ATR");
-
-                if (res)
+                try
                 {
-                    if (_sStatus == "05")   //PPL Case
-                        NewClassFile.insertSMS(_sMobileNo, _sMessage, _sCANumber, _sUpdationID, ipAddress);
+                    bool res = false;
+                    string ipAddress = HttpContext.Current.Request.UserHostAddress;
+                    //string strNewId = HttpContext.Current.Session.SessionID;                
 
-                    return NewClassFile.updateTable(_sCANumber, _sStatus, _sFEID, ipAddress, "DEFLTR_CA_ASSIGN_LINK_DTLS", _sTabUpdStatus, _sRemarks, _sImgFlg, _sImgPath, _sFollowDate, _sAltContNo, _sAltEmailID);
+                    DataTable dtCheckATR = NewClassFile.chkRecordExist(_sCANumber, _sFEID, "DEFLTR_ATR");
+                    if (dtCheckATR.Rows.Count > 0)  // Update
+                        res = NewClassFile.updateTable(_sCANumber, _sStatus, _sFEID, ipAddress, "DEFLTR_ATR", "", "", "", "", "", "", "");
+                    else    // Insert
+                        res = NewClassFile.insertTable(_sCANumber, _sStatus, _sFEID, ipAddress, "DEFLTR_ATR");
+
+                    if (res)
+                    {
+                        if (_sStatus == "05")   //PPL Case
+                            NewClassFile.insertSMS(_sMobileNo, _sMessage, _sCANumber, _sUpdationID, ipAddress);
+
+                        return NewClassFile.updateTable(_sCANumber, _sStatus, _sFEID, ipAddress, "DEFLTR_CA_ASSIGN_LINK_DTLS", _sTabUpdStatus, _sRemarks, _sImgFlg, _sImgPath, _sFollowDate, _sAltContNo, _sAltEmailID);
+                    }
+                    else
+                        return false;
                 }
-                else
+                catch (Exception ex)
+                {
+                    NewClassFile newClassFile = new NewClassFile();
+                    newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in insertATR Method : " + ex.ToString());
                     return false;
+                }
             }
-            catch (Exception ex)
-            {
-                NewClassFile newClassFile = new NewClassFile();
-                newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in insertATR Method : " + ex.ToString());
+            else
                 return false;
-            }
         }
-        else
-            return false;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     public DataSet DetailofMIS(string strKeyParam, string _sFEID)
     {
-        DataSet ds = new DataSet("Recovery_MISResults");
-
-        if (strKeyParam == "@$$!ntern@a|@ppRec")
+        try
         {
-            try
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            DataSet ds = new DataSet("Recovery_MISResults");
+
+            if (strKeyParam == PublicAccessTokenKey)
             {
-                DataTable dtAllocDefltrs = new DataTable();
-                dtAllocDefltrs = NewClassFile.getSummaryData(_sFEID, "Allocated_Defaulters");
-                dtAllocDefltrs.TableName = "Allocated_Defaulters";
-                ds.Tables.Add(dtAllocDefltrs);
+                try
+                {
+                    DataTable dtAllocDefltrs = new DataTable();
+                    dtAllocDefltrs = NewClassFile.getSummaryData(_sFEID, "Allocated_Defaulters");
+                    dtAllocDefltrs.TableName = "Allocated_Defaulters";
+                    ds.Tables.Add(dtAllocDefltrs);
 
-                DataTable dtPaymentReceived = new DataTable();
-                dtPaymentReceived = NewClassFile.getSummaryData(_sFEID, "Payment_Received");
-                dtPaymentReceived.TableName = "Payment_Received";
-                ds.Tables.Add(dtPaymentReceived);
+                    DataTable dtPaymentReceived = new DataTable();
+                    dtPaymentReceived = NewClassFile.getSummaryData(_sFEID, "Payment_Received");
+                    dtPaymentReceived.TableName = "Payment_Received";
+                    ds.Tables.Add(dtPaymentReceived);
 
-                DataTable dtMeterRemoved = new DataTable();
-                dtMeterRemoved = NewClassFile.getSummaryData(_sFEID, "Meter_Removed");
-                dtMeterRemoved.TableName = "Meter_Removed";
-                ds.Tables.Add(dtMeterRemoved);
+                    DataTable dtMeterRemoved = new DataTable();
+                    dtMeterRemoved = NewClassFile.getSummaryData(_sFEID, "Meter_Removed");
+                    dtMeterRemoved.TableName = "Meter_Removed";
+                    ds.Tables.Add(dtMeterRemoved);
 
-                DataTable dtDisconnection = new DataTable();
-                dtDisconnection = NewClassFile.getSummaryData(_sFEID, "Disconnection");
-                dtDisconnection.TableName = "Disconnection";
-                ds.Tables.Add(dtDisconnection);
+                    DataTable dtDisconnection = new DataTable();
+                    dtDisconnection = NewClassFile.getSummaryData(_sFEID, "Disconnection");
+                    dtDisconnection.TableName = "Disconnection";
+                    ds.Tables.Add(dtDisconnection);
 
-                DataTable dtOtherATR = new DataTable();
-                dtOtherATR = NewClassFile.getSummaryData(_sFEID, "Other_ATR");
-                dtOtherATR.TableName = "Other_ATR";
-                ds.Tables.Add(dtOtherATR);
+                    DataTable dtOtherATR = new DataTable();
+                    dtOtherATR = NewClassFile.getSummaryData(_sFEID, "Other_ATR");
+                    dtOtherATR.TableName = "Other_ATR";
+                    ds.Tables.Add(dtOtherATR);
 
-                DataTable dtPendingCases = new DataTable();
-                dtPendingCases = NewClassFile.getSummaryData(_sFEID, "Pending_Cases");
-                dtPendingCases.TableName = "Pending_Cases";
-                ds.Tables.Add(dtPendingCases);
+                    DataTable dtPendingCases = new DataTable();
+                    dtPendingCases = NewClassFile.getSummaryData(_sFEID, "Pending_Cases");
+                    dtPendingCases.TableName = "Pending_Cases";
+                    ds.Tables.Add(dtPendingCases);
+                }
+                catch (Exception ex)
+                {
+                    NewClassFile newClassFile = new NewClassFile();
+                    newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in DetailofMIS Method : " + ex.ToString());
+                }
             }
-            catch (Exception ex)
+            else
             {
-                NewClassFile newClassFile = new NewClassFile();
-                newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in DetailofMIS Method : " + ex.ToString());
+                DataTable dterror = InvaildAuthontication();
+                ds.Tables.Add(dterror);
             }
+
+            return ds;
         }
-        else
+        catch (Exception ad)
         {
-            DataTable dterror = InvaildAuthontication();
-            ds.Tables.Add(dterror);
+            throw new Exception("An error occurred", ad);
         }
-
-        return ds;
     }
 
     [WebMethod(EnableSession = true)]   //21022018
     public DataTable loginFE(string strKeyParam, string _sLogin, string _sPassword, string _sIMEINo)
     {
-        if (strKeyParam == "@$$!ntern@a|@ppRec")
-        {
-            DataTable dtLogin = new DataTable();
-            try
-            {
-                dtLogin = NewClassFile.clsLogin(_sLogin, _sPassword, _sIMEINo);
-                dtLogin.TableName = "Login";
-            }
-            catch (Exception ex)
-            {
-                NewClassFile newClassFile = new NewClassFile();
-                newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in loginFE Method : " + ex.ToString());
-            }
+        DataTable dth = new DataTable();
+        DataTable dthf = new DataTable();
+        DataTable dthn = new DataTable();
 
-            return dtLogin;
+        try
+        {
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                DataTable dtLogin = new DataTable();
+                try
+                {
+                    dth = NewClassFile.clsLogin(_sLogin, _sPassword, _sIMEINo);
+                    dth.TableName = "Login";
+
+                    if (dth.Rows.Count > 0)
+                    {
+                        JwtTokenGenerator jwtTokenGenerator = new JwtTokenGenerator();
+                        string jwtToken = string.Empty;
+                        if (dth != null && dth.Rows.Count > 0)
+                        {
+                            jwtToken = jwtTokenGenerator.GenerateToken(Convert.ToString(dth.Rows[0]["LOGIN_ID"]), Convert.ToString(dth.Rows[0]["DIVCODE"]));
+                        }
+
+                        // Step 2: Add Columns
+                        dthf.Columns.Add("LOGIN_ID");      // Add an integer column
+                        dthf.Columns.Add("PASSWRD");      // Add an integer column
+                        dthf.Columns.Add("NAME");      // Add an integer column
+                        dthf.Columns.Add("DIVCODE");      // Add an integer column
+                        dthf.Columns.Add("DIV_RIGHTS");      // Add an integer column
+                        dthf.Columns.Add("MOB_NO");      // Add an integer column
+                        dthf.Columns.Add("FE_ADDRESS");      // Add an integer column
+                        dthf.Columns.Add("PASSWRD");      // Add an integer column
+                        dthf.Columns.Add("JwtToken");
+
+                        DataRow newRow = dthf.NewRow();
+                        newRow["LOGIN_ID"] = dth.Rows[0]["LOGIN_ID"].ToString();
+                        newRow["PASSWRD"] = dth.Rows[0]["PASSWRD"].ToString();
+                        newRow["NAME"] = dth.Rows[0]["NAME"].ToString();
+                        newRow["DIVCODE"] = dth.Rows[0]["DIVCODE"].ToString();
+                        newRow["DIV_RIGHTS"] = dth.Rows[0]["DIV_RIGHTS"].ToString();
+                        newRow["MOB_NO"] = dth.Rows[0]["MOB_NO"].ToString();
+                        newRow["FE_ADDRESS"] = dth.Rows[0]["FE_ADDRESS"].ToString();
+                        newRow["PASSWRD"] = dth.Rows[0]["PASSWRD"].ToString();
+                        newRow["JwtToken"] = jwtToken;
+                        dthf.Rows.Add(newRow);
+                        return dthf;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    NewClassFile newClassFile = new NewClassFile();
+                    newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in loginFE Method : " + ex.ToString());
+                }
+            }
+            else
+                return InvaildAuthontication();
         }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
+        if (dth.Rows.Count > 0)
+            return dthf;
         else
-        {
             return InvaildAuthontication();
-
-        }
     }
 
     [WebMethod(EnableSession = true)]   //15022018
     public bool changePassword(string strKeyParam, string _sLogin, string _sOldPassword, string _sNewPassword)
     {
-        if (strKeyParam == "@$$!ntern@a|@ppRec")
+        try
         {
-            try
-            {
-                bool res = NewClassFile.changePassword(_sLogin, _sOldPassword, _sNewPassword);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-                if (res)
-                    return true;
-                else
-                    return false;
-            }
-            catch (Exception ex)
+            if (strKeyParam == PublicAccessTokenKey)
             {
-                NewClassFile newClassFile = new NewClassFile();
-                newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in changePassword Method : " + ex.ToString());
-                return false;
+                try
+                {
+                    bool res = NewClassFile.changePassword(_sLogin, _sOldPassword, _sNewPassword);
+
+                    if (res)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    NewClassFile newClassFile = new NewClassFile();
+                    newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in changePassword Method : " + ex.ToString());
+                    return false;
+                }
             }
+            else
+                return false;
         }
-        else
-            return false;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]   //15022018
     public bool insertLog(string strKeyParam, string _sFEID, string _sCANO, string _sMeterNo, string _sInTime, string _sOutTime, string _sNetStatus, string _sLatitude, string _sLongitude, string _sInsDate, string strOne, string strTwo, string strThree, string strFour)
     {
-        if (strKeyParam == "@$$!ntern@a|@ppRec")
+        try
         {
-            try
-            {
-                bool res = NewClassFile.insertLog(_sFEID, _sCANO, _sMeterNo, _sInTime, _sOutTime, _sNetStatus, _sLatitude, _sLongitude, _sInsDate);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-                if (res)
-                    return true;
-                else
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                try
+                {
+                    bool res = NewClassFile.insertLog(_sFEID, _sCANO, _sMeterNo, _sInTime, _sOutTime, _sNetStatus, _sLatitude, _sLongitude, _sInsDate);
+
+                    if (res)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    NewClassFile newClassFile = new NewClassFile();
+                    newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in insertLog Method : " + ex.ToString());
                     return false;
+                }
             }
-            catch (Exception ex)
-            {
-                NewClassFile newClassFile = new NewClassFile();
-                newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in insertLog Method : " + ex.ToString());
+            else
                 return false;
-            }
         }
-        else
-            return false;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
-
-
 
     [WebMethod(EnableSession = true)]
     public string RecServices_New(string strKeyParam)
     {
-        string str = "";
-        if (strKeyParam == "@$$!ntern@a|@ppRec")
+        try
         {
-            DataTable dtCategory = new DataTable();
-            try
-            {
-                dtCategory = NewClassFile.bindAmountBucket();
-                dtCategory.TableName = "Category";
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-                str = DataTableToJsonWithStringBuilder(dtCategory);
-            }
-            catch (Exception ex)
+            string str = "";
+            if (strKeyParam == PublicAccessTokenKey)
             {
-                NewClassFile newClassFile = new NewClassFile();
-                newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in RecServices_New Method : " + ex.ToString());
-                str = "";
+                DataTable dtCategory = new DataTable();
+                try
+                {
+                    dtCategory = NewClassFile.bindAmountBucket();
+                    dtCategory.TableName = "Category";
+
+                    str = DataTableToJsonWithStringBuilder(dtCategory);
+                }
+                catch (Exception ex)
+                {
+                    NewClassFile newClassFile = new NewClassFile();
+                    newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in RecServices_New Method : " + ex.ToString());
+                    str = "";
+                }
             }
+            return str;
         }
-        return str;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     #endregion
@@ -8231,292 +9791,10 @@ public class Service : System.Web.Services.WebService
             }
             jsonString.Append("]");
         }
-
         return jsonString.ToString();
-
     }
 
 
-
-    #region GIS BYPL
-
-    //[WebMethod(EnableSession = true)]
-    //[SoapHeader("consumer", Required = true)]
-    //public DataSet Z_BAPI_DSS_ISU_CA_DISPLAY_GIS(string strCANumber) //Added Field POLE_NO
-    //{
-    //    if (checkConsumer(MethodBase.GetCurrentMethod().Name))
-    //    {
-    //        DataSet ds = new DataSet();
-
-    //        DataTable dtOutputStatus = new DataTable();
-    //        dtOutputStatus.TableName = "OutputStatusTable";
-    //        dtOutputStatus.Columns.Add("Status");
-    //        string strOutputStatus = "";
-
-    //        try
-    //        {
-
-
-    //            DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
-    //            DataTable dt = new DataTable();
-    //            if (strCANumber.Length < 12 && strCANumber.Length > 0)
-    //                strCANumber = strCANumber.PadLeft(12, '0');
-    //            dt = isu.Z_BAPI_CMS_ISU_CA_DISPLAY(strCANumber, "","","","","").Tables[0];
-
-    //            if (dt.Rows.Count > 0)
-    //            {
-    //                strOutputStatus = "CA Number : " + strCANumber + " details fetch from ISU Service.";
-    //                dtOutputStatus.Rows.Add(strOutputStatus);
-    //                ds.Tables.Add(dt.Copy());
-    //                ds.Tables.Add(dtOutputStatus);
-    //                return ds;
-    //            }
-    //            else
-    //            {
-
-    //                NewClassFile newClassFile = new NewClassFile();
-    //                ds = new DataSet("BAPI_RESULT");
-
-    //                if (strCANumber.Length == 11)
-    //                {
-    //                    strCANumber = strCANumber.Substring(1, 10);
-    //                }
-    //                if (strCANumber.Length == 12)
-    //                {
-    //                    strCANumber = strCANumber.Substring(2, 10);
-    //                }
-    //                if (strCANumber.Length == 9)
-    //                {
-    //                    strCANumber = strCANumber.PadLeft(10, '0');
-    //                }
-
-    //                DataTable _dtSap = new DataTable("SAPDATA_ErrorDataTable");
-    //                DataColumn dcol;
-
-    //                dcol = new DataColumn();
-    //                dcol.DataType = System.Type.GetType("System.String");
-    //                dcol.ColumnName = "Message";
-    //                _dtSap.Columns.Add(dcol);
-
-    //                dcol = new DataColumn();
-    //                dcol.DataType = System.Type.GetType("System.String");
-    //                dcol.ColumnName = "Type";
-    //                _dtSap.Columns.Add(dcol);
-
-    //                DataRow row = _dtSap.NewRow();
-    //                row["Message"] = "CA Number not found";
-    //                row["Type"] = string.Empty;
-
-
-    //                DataTable dtISUSTDTable = new DataTable("ISUSTDTable");
-    //                dtISUSTDTable = newClassFile.GetRCMSAP_DataCAWise(strCANumber);
-
-    //                if (dtISUSTDTable.Rows.Count > 0)
-    //                {
-    //                    ds.Merge(dtISUSTDTable.Copy());
-    //                    strOutputStatus = "CA Number : " + strCANumber + " details fetch from RCM Service.";
-    //                    dtOutputStatus.Rows.Add(strOutputStatus);
-    //                    ds.Tables.Add(dtOutputStatus);
-    //                    return ds;
-    //                }
-    //                else
-    //                {
-    //                    ds.Merge(_dtSap.Copy());
-    //                    strOutputStatus = "CA Number : " + strCANumber + " details unable to fetch from ISU & RCM Service.";
-    //                    dtOutputStatus.Rows.Add(strOutputStatus);
-    //                    ds.Tables.Add(dtOutputStatus);
-    //                    return ds;
-    //                }
-    //            }
-    //        }
-    //        catch (Exception ex)
-    //        {
-
-    //            NewClassFile newClassFile = new NewClassFile();
-    //            ds = new DataSet("BAPI_RESULT");
-
-    //            if (strCANumber.Length == 11)
-    //            {
-    //                strCANumber = strCANumber.Substring(1, 10);
-    //            }
-    //            if (strCANumber.Length == 12)
-    //            {
-    //                strCANumber = strCANumber.Substring(2, 10);
-    //            }
-    //            if (strCANumber.Length == 9)
-    //            {
-    //                strCANumber = strCANumber.PadLeft(10, '0');
-    //            }
-
-    //            DataTable _dtSap = new DataTable("SAPDATA_ErrorDataTable");
-    //            DataColumn dcol;
-
-    //            dcol = new DataColumn();
-    //            dcol.DataType = System.Type.GetType("System.String");
-    //            dcol.ColumnName = "Message";
-    //            _dtSap.Columns.Add(dcol);
-
-    //            dcol = new DataColumn();
-    //            dcol.DataType = System.Type.GetType("System.String");
-    //            dcol.ColumnName = "Type";
-    //            _dtSap.Columns.Add(dcol);
-
-    //            DataRow row = _dtSap.NewRow();
-    //            row["Message"] = "CA Number not found";
-    //            row["Type"] = string.Empty;
-
-
-    //            DataTable dtISUSTDTable = new DataTable("ISUSTDTable");
-    //            dtISUSTDTable = newClassFile.GetRCMSAP_DataCAWise(strCANumber);
-
-    //            if (dtISUSTDTable.Rows.Count > 0)
-    //            {
-    //                ds.Merge(dtISUSTDTable.Copy());
-    //                strOutputStatus = "CA Number : " + strCANumber + " details fetch from RCM Service.";
-    //                dtOutputStatus.Rows.Add(strOutputStatus);
-    //                ds.Tables.Add(dtOutputStatus);
-    //                return ds;
-    //            }
-    //            else
-    //            {
-    //                ds.Merge(_dtSap.Copy());
-    //                strOutputStatus = "CA Number : " + strCANumber + " details unable to fetch from ISU & RCM Service.";
-    //                dtOutputStatus.Rows.Add(strOutputStatus);
-    //                ds.Tables.Add(dtOutputStatus);
-    //                return ds;
-    //            }
-    //        }
-
-    //        //return ds;
-    //    }
-    //    else
-    //    {
-    //        return (InvaildAuthonticationds());
-    //    }
-    //}
-
-    //[WebMethod(EnableSession = true)]
-    //[SoapHeader("consumer", Required = true)]
-    //public DataSet Z_BAPI_DSS_ISU_CA_DISPLAY_GIS(string strCANumber) 
-    //{
-    //    if (checkConsumer(MethodBase.GetCurrentMethod().Name))
-    //    {
-    //        DataSet ds = new DataSet();
-
-    //        DataTable dtOutputStatus = new DataTable();
-    //        dtOutputStatus.TableName = "OutputStatusTable";
-    //        dtOutputStatus.Columns.Add("Status");
-    //        string strOutputStatus = "";
-
-    //        try
-    //        {
-
-    //            NewClassFile newClassFile = new NewClassFile();
-    //            ds = new DataSet("BAPI_RESULT");
-
-    //            if (strCANumber.Length == 11)
-    //            {
-    //                strCANumber = strCANumber.Substring(1, 10);
-    //            }
-    //            if (strCANumber.Length == 12)
-    //            {
-    //                strCANumber = strCANumber.Substring(2, 10);
-    //            }
-    //            if (strCANumber.Length == 9)
-    //            {
-    //                strCANumber = strCANumber.PadLeft(10, '0');
-    //            }
-
-    //            DataTable _dtSap = new DataTable("SAPDATA_ErrorDataTable");
-    //            DataColumn dcol;
-
-    //            dcol = new DataColumn();
-    //            dcol.DataType = System.Type.GetType("System.String");
-    //            dcol.ColumnName = "Message";
-    //            _dtSap.Columns.Add(dcol);
-
-    //            dcol = new DataColumn();
-    //            dcol.DataType = System.Type.GetType("System.String");
-    //            dcol.ColumnName = "Type";
-    //            _dtSap.Columns.Add(dcol);
-
-    //            DataRow row = _dtSap.NewRow();
-    //            row["Message"] = "CA Number not found";
-    //            row["Type"] = string.Empty;
-
-
-    //            DataTable dtISUSTDTable = new DataTable("ISUSTDTable");
-    //            dtISUSTDTable = newClassFile.GetRCMSAP_DataCAWise(strCANumber);
-
-    //            if (dtISUSTDTable.Rows.Count > 0)
-    //            {
-    //                ds.Merge(dtISUSTDTable.Copy());
-    //                strOutputStatus = "CA Number : " + strCANumber + " details fetch from RCM Service.";
-    //                dtOutputStatus.Rows.Add(strOutputStatus);
-    //                ds.Tables.Add(dtOutputStatus);
-    //                return ds;
-    //            }
-    //            else
-    //            {
-    //                ds.Merge(_dtSap.Copy());
-    //                strOutputStatus = "CA Number : " + strCANumber + " details unable to fetch from RCM Service.";
-    //                dtOutputStatus.Rows.Add(strOutputStatus);
-    //                ds.Tables.Add(dtOutputStatus);
-    //                return ds;
-    //            }
-
-    //        }
-    //        catch (Exception ex)
-    //        {
-
-    //            NewClassFile newClassFile = new NewClassFile();
-    //            ds = new DataSet("BAPI_RESULT");
-
-    //            if (strCANumber.Length == 11)
-    //            {
-    //                strCANumber = strCANumber.Substring(1, 10);
-    //            }
-    //            if (strCANumber.Length == 12)
-    //            {
-    //                strCANumber = strCANumber.Substring(2, 10);
-    //            }
-    //            if (strCANumber.Length == 9)
-    //            {
-    //                strCANumber = strCANumber.PadLeft(10, '0');
-    //            }
-
-    //            DataTable _dtSap = new DataTable("SAPDATA_ErrorDataTable");
-    //            DataColumn dcol;
-
-    //            dcol = new DataColumn();
-    //            dcol.DataType = System.Type.GetType("System.String");
-    //            dcol.ColumnName = "Message";
-    //            _dtSap.Columns.Add(dcol);
-
-    //            dcol = new DataColumn();
-    //            dcol.DataType = System.Type.GetType("System.String");
-    //            dcol.ColumnName = "Type";
-    //            _dtSap.Columns.Add(dcol);
-
-    //            DataRow row = _dtSap.NewRow();
-    //            row["Message"] = "CA Number not found";
-    //            row["Type"] = string.Empty;
-
-    //            ds.Merge(_dtSap.Copy());
-    //            strOutputStatus = "CA Number : " + strCANumber + " details unable to fetch from RCM Service. (" + ex.ToString() +")";
-    //            dtOutputStatus.Rows.Add(strOutputStatus);
-    //            ds.Tables.Add(dtOutputStatus);
-    //            return ds;
-    //        }            
-    //    }
-    //    else
-    //    {
-    //        return (InvaildAuthonticationds());
-    //    }
-    //}
-
-
-    #endregion
 
     #region DERC Email A/D By Rajveer
 
@@ -8524,25 +9802,33 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable ZBAPI_UPDATE_TNO(string strCA_no, string strTelephone, string strMobile, string strEmail, string strLandmark, string strDISPATCH_CTRL)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            //DELHIWSTESTD.WebService isu = new DELHIWSTESTD.WebService();
-            DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
-            DataTable dt = new DataTable();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            if (strCA_no.Length < 12 && strCA_no.Length > 0)
-                strCA_no = strCA_no.PadLeft(12, '0');
-            dt = isu.ZBAPI_UPDATE_TNO(strCA_no, strTelephone, strMobile, strEmail, strLandmark, strDISPATCH_CTRL).Tables[0];
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                //DELHIWSTESTD.WebService isu = new DELHIWSTESTD.WebService();
+                DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
+                DataTable dt = new DataTable();
 
-            return dt;
+                if (strCA_no.Length < 12 && strCA_no.Length > 0)
+                    strCA_no = strCA_no.PadLeft(12, '0');
+                dt = isu.ZBAPI_UPDATE_TNO(strCA_no, strTelephone, strMobile, strEmail, strLandmark, strDISPATCH_CTRL).Tables[0];
+
+                return dt;
+            }
+            else
+            {
+                return (InvaildAuthontication());
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return (InvaildAuthontication());
+            throw new Exception("An error occurred", ad);
         }
     }
-
-
     #endregion
 
 
@@ -8552,42 +9838,53 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable ZBAPI_UPDATE_TNO_New(string strCA_no, string strTelephone, string strMobile, string strEmail, string strLandmark, string strDISPATCH_CTRL)
     {
-        string strDISPATCH_CTRL_New = string.Empty;
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            if (strDISPATCH_CTRL == "A" || strDISPATCH_CTRL == "Z021")
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            string strDISPATCH_CTRL_New = string.Empty;
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
             {
-                strDISPATCH_CTRL_New = "A";
+                if (strDISPATCH_CTRL == "A" || strDISPATCH_CTRL == "Z021")
+                {
+                    strDISPATCH_CTRL_New = "A";
+                }
+                if (strDISPATCH_CTRL == "D" || strDISPATCH_CTRL == "Z013")
+                {
+                    strDISPATCH_CTRL_New = "D";
+                }
+
+                if (strDISPATCH_CTRL == "C" || strDISPATCH_CTRL == "Z017")
+                {
+                    strDISPATCH_CTRL_New = "C";
+                }
+                // Not required already decoded in delhi v2
+
+
+
+                //  DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
+                DelhiV2.WebService isu = new DelhiV2.WebService();//Added by prasoon dated 15122023 due to dispatch control not updated
+                DataTable dt = new DataTable();
+
+                if (strCA_no.Length < 12 && strCA_no.Length > 0)
+                    strCA_no = strCA_no.PadLeft(12, '0');
+
+
+                dt = isu.ZBAPI_UPDATE_TNO(strCA_no, strTelephone, strMobile, strEmail, strLandmark, strDISPATCH_CTRL_New).Tables[0];
+
+                return dt;
             }
-            if (strDISPATCH_CTRL == "D" || strDISPATCH_CTRL == "Z013")
+            else
             {
-                strDISPATCH_CTRL_New = "D";
+                return (InvaildAuthontication());
             }
-
-            if (strDISPATCH_CTRL == "C" || strDISPATCH_CTRL == "Z017")
-            {
-                strDISPATCH_CTRL_New = "C";
-            }
-            // Not required already decoded in delhi v2
-
-
-
-            //  DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
-            DelhiV2.WebService isu = new DelhiV2.WebService();//Added by prasoon dated 15122023 due to dispatch control not updated
-            DataTable dt = new DataTable();
-
-            if (strCA_no.Length < 12 && strCA_no.Length > 0)
-                strCA_no = strCA_no.PadLeft(12, '0');
-
-
-            dt = isu.ZBAPI_UPDATE_TNO(strCA_no, strTelephone, strMobile, strEmail, strLandmark, strDISPATCH_CTRL_New).Tables[0];
-
-            return dt;
         }
-        else
+        catch (Exception ad)
         {
-            return (InvaildAuthontication());
+            throw new Exception("An error occurred", ad);
         }
+
     }
 
 
@@ -8599,136 +9896,145 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable ZBAPI_CNTAPP_DETAILMOB(string strOrderType, string strDiv, string strApp_DT, string strAPPTM, string strCount)
     {
-        // strAPPTM = Flag
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            //if (strDiv == "W1PJB" || strDiv == "W1MDK" || strDiv == "W1NGL")
-            //{
-
-            DataTable _dtSlot = new DataTable();
-            string _sTimeSlot = string.Empty;
-
-            if (strAPPTM.Trim() == "Y")
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
             {
-                _dtSlot = NewClassFile.GetTimeSlot(strAPPTM);
 
-                for (int i = 0; i < _dtSlot.Rows.Count; i++)
+                //if (strDiv == "W1PJB" || strDiv == "W1MDK" || strDiv == "W1NGL")
+                //{
+
+                DataTable _dtSlot = new DataTable();
+                string _sTimeSlot = string.Empty;
+
+                if (strAPPTM.Trim() == "Y")
                 {
-                    _sTimeSlot += _dtSlot.Rows[i][0].ToString();
-                    _sTimeSlot += ",";
-                }
+                    _dtSlot = NewClassFile.GetTimeSlot(strAPPTM);
 
-                if (_sTimeSlot.Length > 1)
-                    _sTimeSlot = _sTimeSlot.Substring(0, _sTimeSlot.Length - 1);
-
-                DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
-                DataSet ds = new DataSet();
-
-                ds = isu.ZBAPI_CNT_APP_DETAIL_MOB(strOrderType, strDiv, strApp_DT, _sTimeSlot, strCount);
-
-                DataTable _dtMaxSlot = new DataTable();
-                string _sSlotMaxCnt = "0";
-                _dtMaxSlot = NewClassFile.GetMaxCnt_TimeSlot(strDiv);
-                if (_dtMaxSlot.Rows.Count > 0)
-                {
-                    if (_dtMaxSlot.Rows[0][0] != null)
-                        _sSlotMaxCnt = _dtMaxSlot.Rows[0][0].ToString();
-                }
-
-                DataTable dtOutPut = new DataTable();
-                dtOutPut.TableName = "OutPutTable";
-                dtOutPut.Columns.Add("Slot");
-
-                for (int t = 0; t < ds.Tables[0].Rows.Count; t++)
-                {
-                    if (Convert.ToInt16(ds.Tables[0].Rows[t]["REC_COUNT"].ToString()) < Convert.ToInt16(_sSlotMaxCnt))
+                    for (int i = 0; i < _dtSlot.Rows.Count; i++)
                     {
-                        DataRow dr = dtOutPut.NewRow();
-                        for (int m = 0; m < _dtSlot.Rows.Count; m++)
+                        _sTimeSlot += _dtSlot.Rows[i][0].ToString();
+                        _sTimeSlot += ",";
+                    }
+
+                    if (_sTimeSlot.Length > 1)
+                        _sTimeSlot = _sTimeSlot.Substring(0, _sTimeSlot.Length - 1);
+
+                    DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
+                    DataSet ds = new DataSet();
+
+                    ds = isu.ZBAPI_CNT_APP_DETAIL_MOB(strOrderType, strDiv, strApp_DT, _sTimeSlot, strCount);
+
+                    DataTable _dtMaxSlot = new DataTable();
+                    string _sSlotMaxCnt = "0";
+                    _dtMaxSlot = NewClassFile.GetMaxCnt_TimeSlot(strDiv);
+                    if (_dtMaxSlot.Rows.Count > 0)
+                    {
+                        if (_dtMaxSlot.Rows[0][0] != null)
+                            _sSlotMaxCnt = _dtMaxSlot.Rows[0][0].ToString();
+                    }
+
+                    DataTable dtOutPut = new DataTable();
+                    dtOutPut.TableName = "OutPutTable";
+                    dtOutPut.Columns.Add("Slot");
+
+                    for (int t = 0; t < ds.Tables[0].Rows.Count; t++)
+                    {
+                        if (Convert.ToInt16(ds.Tables[0].Rows[t]["REC_COUNT"].ToString()) < Convert.ToInt16(_sSlotMaxCnt))
                         {
-                            if (ds.Tables[0].Rows[t]["APPOINTMENT_TIME"].ToString() == _dtSlot.Rows[m][0].ToString())
-                                dtOutPut.Rows.Add(_dtSlot.Rows[m][1].ToString());
+                            DataRow dr = dtOutPut.NewRow();
+                            for (int m = 0; m < _dtSlot.Rows.Count; m++)
+                            {
+                                if (ds.Tables[0].Rows[t]["APPOINTMENT_TIME"].ToString() == _dtSlot.Rows[m][0].ToString())
+                                    dtOutPut.Rows.Add(_dtSlot.Rows[m][1].ToString());
+                            }
                         }
                     }
+
+                    dtOutPut.AcceptChanges();
+                    return dtOutPut;
                 }
-
-                dtOutPut.AcceptChanges();
-                return dtOutPut;
-            }
-            else if (strAPPTM.Trim() == "S")
-            {
-                _dtSlot = NewClassFile.GetTimeSlot(strAPPTM);
-
-                for (int i = 0; i < _dtSlot.Rows.Count; i++)
+                else if (strAPPTM.Trim() == "S")
                 {
-                    _sTimeSlot += _dtSlot.Rows[i][0].ToString();
-                    _sTimeSlot += ",";
-                }
+                    _dtSlot = NewClassFile.GetTimeSlot(strAPPTM);
 
-                if (_sTimeSlot.Length > 1)
-                    _sTimeSlot = _sTimeSlot.Substring(0, _sTimeSlot.Length - 1);
-
-                DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
-                DataSet ds = new DataSet();
-
-                ds = isu.ZBAPI_CNT_APP_DETAIL_MOB(strOrderType, strDiv, strApp_DT, _sTimeSlot, strCount);
-
-                DataTable _dtMaxSlot = new DataTable();
-                string _sSlotMaxCnt = "0";
-                _dtMaxSlot = NewClassFile.GetMaxCnt_TimeSlot(strDiv);
-                if (_dtMaxSlot.Rows.Count > 0)
-                {
-                    if (_dtMaxSlot.Rows[0][0] != null)
-                        _sSlotMaxCnt = _dtMaxSlot.Rows[0][0].ToString();
-                }
-
-                DataTable dtOutPut = new DataTable();
-                dtOutPut.TableName = "OutPutTable";
-                dtOutPut.Columns.Add("Slot");
-
-                for (int t = 0; t < ds.Tables[0].Rows.Count; t++)
-                {
-                    if (Convert.ToInt16(ds.Tables[0].Rows[t]["REC_COUNT"].ToString()) < Convert.ToInt16(_sSlotMaxCnt))
+                    for (int i = 0; i < _dtSlot.Rows.Count; i++)
                     {
-                        DataRow dr = dtOutPut.NewRow();
-                        for (int m = 0; m < _dtSlot.Rows.Count; m++)
+                        _sTimeSlot += _dtSlot.Rows[i][0].ToString();
+                        _sTimeSlot += ",";
+                    }
+
+                    if (_sTimeSlot.Length > 1)
+                        _sTimeSlot = _sTimeSlot.Substring(0, _sTimeSlot.Length - 1);
+
+                    DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
+                    DataSet ds = new DataSet();
+
+                    ds = isu.ZBAPI_CNT_APP_DETAIL_MOB(strOrderType, strDiv, strApp_DT, _sTimeSlot, strCount);
+
+                    DataTable _dtMaxSlot = new DataTable();
+                    string _sSlotMaxCnt = "0";
+                    _dtMaxSlot = NewClassFile.GetMaxCnt_TimeSlot(strDiv);
+                    if (_dtMaxSlot.Rows.Count > 0)
+                    {
+                        if (_dtMaxSlot.Rows[0][0] != null)
+                            _sSlotMaxCnt = _dtMaxSlot.Rows[0][0].ToString();
+                    }
+
+                    DataTable dtOutPut = new DataTable();
+                    dtOutPut.TableName = "OutPutTable";
+                    dtOutPut.Columns.Add("Slot");
+
+                    for (int t = 0; t < ds.Tables[0].Rows.Count; t++)
+                    {
+                        if (Convert.ToInt16(ds.Tables[0].Rows[t]["REC_COUNT"].ToString()) < Convert.ToInt16(_sSlotMaxCnt))
                         {
-                            if (ds.Tables[0].Rows[t]["APPOINTMENT_TIME"].ToString() == _dtSlot.Rows[m][0].ToString())
-                                dtOutPut.Rows.Add(_dtSlot.Rows[m][1].ToString());
+                            DataRow dr = dtOutPut.NewRow();
+                            for (int m = 0; m < _dtSlot.Rows.Count; m++)
+                            {
+                                if (ds.Tables[0].Rows[t]["APPOINTMENT_TIME"].ToString() == _dtSlot.Rows[m][0].ToString())
+                                    dtOutPut.Rows.Add(_dtSlot.Rows[m][1].ToString());
+                            }
                         }
                     }
-                }
 
-                dtOutPut.AcceptChanges();
-                return dtOutPut;
+                    dtOutPut.AcceptChanges();
+                    return dtOutPut;
+                }
+                else
+                {
+                    DataTable _dtTimeSlot = NewClassFile.GetTimeSlot(strAPPTM);
+
+                    DataTable dtOutPut = new DataTable();
+                    dtOutPut.TableName = "OutPutTable";
+                    dtOutPut.Columns.Add("Slot");
+
+                    for (int m = 0; m < _dtTimeSlot.Rows.Count; m++)
+                    {
+                        DataRow dr = dtOutPut.NewRow();
+                        dtOutPut.Rows.Add(_dtTimeSlot.Rows[m][1].ToString());
+                    }
+
+                    dtOutPut.AcceptChanges();
+                    return dtOutPut;
+                }
+                //}
+                //else
+                //{
+                //    return (InvaildAuthontication());
+                //}
             }
             else
             {
-                DataTable _dtTimeSlot = NewClassFile.GetTimeSlot(strAPPTM);
-
-                DataTable dtOutPut = new DataTable();
-                dtOutPut.TableName = "OutPutTable";
-                dtOutPut.Columns.Add("Slot");
-
-                for (int m = 0; m < _dtTimeSlot.Rows.Count; m++)
-                {
-                    DataRow dr = dtOutPut.NewRow();
-                    dtOutPut.Rows.Add(_dtTimeSlot.Rows[m][1].ToString());
-                }
-
-                dtOutPut.AcceptChanges();
-                return dtOutPut;
+                return (InvaildAuthontication());
             }
-            //}
-            //else
-            //{
-            //    return (InvaildAuthontication());
-            //}
         }
-        else
+        catch (Exception ad)
         {
-            return (InvaildAuthontication());
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -8743,43 +10049,53 @@ public class Service : System.Web.Services.WebService
                                    string strUserFieldCH20, string StrControkey, string strSerialNumber, string strComplaintGroup, string strCANumber,
                                    string strContract, string strMFText1)
     {
-        if (strKeyParam == "@$$!ntern@a|@ppMobi")
+        try
         {
-            DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
-            DataSet ds_PostData = new DataSet();
-            DataTable dt = new DataTable();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            if (strCANumber.Length < 12 && strCANumber.Length > 0)
-                strCANumber = strCANumber.PadLeft(12, '0');
-
-            dt = isu.Z_BAPI_DSS_ISU_CA_DISPLAY(strCANumber, "").Tables[0];
-
-            if (dt.Rows.Count > 0)
+            if (strKeyParam == "@$$!ntern@a|@ppMobi")
             {
-                if (dt.Rows[0]["Reg_Str_Group"] != null)
-                    strRegioGroup = dt.Rows[0]["Reg_Str_Group"].ToString();
+                DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
+                DataSet ds_PostData = new DataSet();
+                DataTable dt = new DataTable();
 
-                if (dt.Rows[0]["Device_Sr_Number"] != null)
-                    strSerialNumber = dt.Rows[0]["Device_Sr_Number"].ToString();
+                if (strCANumber.Length < 12 && strCANumber.Length > 0)
+                    strCANumber = strCANumber.PadLeft(12, '0');
 
-                // strSerialNumber = strSerialNumber.Replace("0", "");
-                strPlanPlant = GetPlanPlat(strRegioGroup);
+                dt = isu.Z_BAPI_DSS_ISU_CA_DISPLAY(strCANumber, "").Tables[0];
 
-                if (strPlanPlant == "D021")
-                    StrControkey = "ZWM1";
+                if (dt.Rows.Count > 0)
+                {
+                    if (dt.Rows[0]["Reg_Str_Group"] != null)
+                        strRegioGroup = dt.Rows[0]["Reg_Str_Group"].ToString();
+
+                    if (dt.Rows[0]["Device_Sr_Number"] != null)
+                        strSerialNumber = dt.Rows[0]["Device_Sr_Number"].ToString();
+
+                    // strSerialNumber = strSerialNumber.Replace("0", "");
+                    strPlanPlant = GetPlanPlat(strRegioGroup);
+
+                    if (strPlanPlant == "D021")
+                        StrControkey = "ZWM1";
+                    else
+                        StrControkey = "ZWM2";
+
+                    ds_PostData = isu.ZBAPI_CREATESO_POST(strPMAufart, strPlanPlant, strRegioGroup, strShortText, strILA, strMFText, strUserFieldCH20, StrControkey,
+                                                            strSerialNumber, strComplaintGroup, strCANumber, strContract, strMFText1);
+                    return ds_PostData;
+                }
                 else
-                    StrControkey = "ZWM2";
-
-                ds_PostData = isu.ZBAPI_CREATESO_POST(strPMAufart, strPlanPlant, strRegioGroup, strShortText, strILA, strMFText, strUserFieldCH20, StrControkey,
-                                                        strSerialNumber, strComplaintGroup, strCANumber, strContract, strMFText1);
-                return ds_PostData;
+                    return InvaildAuthonticationds();
             }
             else
+            {
                 return InvaildAuthonticationds();
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return InvaildAuthonticationds();
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -8808,14 +10124,24 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable LR_Scheme_DivSchmMapping(string strKeyParam, string circle, string division, string subdivision, string scheme)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            NewClassFile newClassFile = new NewClassFile();
-            return newClassFile.MobApp_Scheme_Select(circle, division, subdivision, scheme);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                NewClassFile newClassFile = new NewClassFile();
+                return newClassFile.MobApp_Scheme_Select(circle, division, subdivision, scheme);
+            }
+            else
+            {
+                return InvaildAuthontication();
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return InvaildAuthontication();
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -8823,14 +10149,24 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable LR_Scheme_DivSchmMapping_110524(string strKeyParam, string circle, string division, string subdivision, string scheme)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            NewClassFile newClassFile = new NewClassFile();
-            return newClassFile.MobApp_Scheme_Select_110524(circle, division, subdivision, scheme);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                NewClassFile newClassFile = new NewClassFile();
+                return newClassFile.MobApp_Scheme_Select_110524(circle, division, subdivision, scheme);
+            }
+            else
+            {
+                return InvaildAuthontication();
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return InvaildAuthontication();
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -8841,166 +10177,145 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable LR_Scheme_AllDivSchmMapping(string strKeyParam, string circle, string division, string subdivision, string scheme)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            NewClassFile newClassFile = new NewClassFile();
-            return newClassFile.MobApp_Scheme_ALL(circle, division, subdivision, scheme);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                NewClassFile newClassFile = new NewClassFile();
+                return newClassFile.MobApp_Scheme_ALL(circle, division, subdivision, scheme);
+            }
+            else
+            {
+                return InvaildAuthontication();
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return InvaildAuthontication();
+            throw new Exception("An error occurred", ad);
         }
+
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable LR_NewActivityModuleSchemeMIS(string strKeyParam, string strDivName, string strRolRght, string strDate, string strToDate, string strSubDiv)
     {
-        DataTable dt = new DataTable();
-
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            //For Division
-            if (strRolRght == "ALLD")
-            {
-                dt = NewClassFile.LR_ActivityModuleSchemeMIS_DIV(strDivName, strRolRght, strDate, strToDate);
-                return dt;
-            }
-            if (strRolRght == "SLCD")
-            {
-                dt = NewClassFile.LR_ActivityModuleSchemeMIS_SDIV(strDivName, strRolRght, strDate, strToDate);
-                return dt;
-            }
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            //Sub Division
-            if (strRolRght == "ALLSD")
-            {
-                dt = NewClassFile.LR_ActivityModuleSchemeMIS_SUBDIV(strDivName, strRolRght, strDate, strToDate);
-                return dt;
-            }
-            if (strRolRght == "SLCSD")
-            {
-                dt = NewClassFile.LR_ActivityModuleSchemeMIS_SSUBDIV(strDivName, strRolRght, strDate, strToDate);
-                return dt;
-            }
+            DataTable dt = new DataTable();
 
-            //Scheme
-            if (strRolRght == "ALLSCHM")
+            if (strKeyParam == PublicAccessTokenKey)
             {
-                dt = NewClassFile.LR_ActivityModuleSchemeMIS_SCHM(strDivName, strRolRght, strDate, strToDate);
-                return dt;
-            }
-            if (strRolRght == "SLCSCHM")
-            {
-                dt = NewClassFile.LR_ActivityModuleSchemeMIS_SLCDSCHM(strDivName, strRolRght, strDate, strToDate);
-                return dt;
-            }
+                //For Division
+                if (strRolRght == "ALLD")
+                {
+                    dt = NewClassFile.LR_ActivityModuleSchemeMIS_DIV(strDivName, strRolRght, strDate, strToDate);
+                    return dt;
+                }
+                if (strRolRght == "SLCD")
+                {
+                    dt = NewClassFile.LR_ActivityModuleSchemeMIS_SDIV(strDivName, strRolRght, strDate, strToDate);
+                    return dt;
+                }
 
-            return NewClassFile.LR_ActivityModuleSchemeMIS_List(strDivName, strRolRght, strDate, strToDate);
+                //Sub Division
+                if (strRolRght == "ALLSD")
+                {
+                    dt = NewClassFile.LR_ActivityModuleSchemeMIS_SUBDIV(strDivName, strRolRght, strDate, strToDate);
+                    return dt;
+                }
+                if (strRolRght == "SLCSD")
+                {
+                    dt = NewClassFile.LR_ActivityModuleSchemeMIS_SSUBDIV(strDivName, strRolRght, strDate, strToDate);
+                    return dt;
+                }
+
+                //Scheme
+                if (strRolRght == "ALLSCHM")
+                {
+                    dt = NewClassFile.LR_ActivityModuleSchemeMIS_SCHM(strDivName, strRolRght, strDate, strToDate);
+                    return dt;
+                }
+                if (strRolRght == "SLCSCHM")
+                {
+                    dt = NewClassFile.LR_ActivityModuleSchemeMIS_SLCDSCHM(strDivName, strRolRght, strDate, strToDate);
+                    return dt;
+                }
+
+                return NewClassFile.LR_ActivityModuleSchemeMIS_List(strDivName, strRolRght, strDate, strToDate);
+            }
+            else
+            {
+                return InvaildAuthontication();
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return InvaildAuthontication();
+            throw new Exception("An error occurred", ad);
         }
     }
-
-
-
-    //[WebMethod(EnableSession = true)]
-    //[SoapHeader("consumer", Required = true)]
-    //public DataTable LR_NewSurvellanceCircleDivMIS(string strKeyParam, string strDivName, string strRolRght, string frmDate, string toDate, string strSubDiv)
-    //{
-    //    if (strKeyParam == "@$$!ntern@a|@pp")
-    //    {
-    //        DataTable dt = new DataTable();
-    //        //strDivName , strSubDiv , strRolRght
-    //        //Circle
-    //        if (strDivName == "ALLC")
-    //        {
-    //            dt = NewClassFile.LR_ActivityModuleSchemeMIS_ALLC(strDivName, strRolRght, frmDate, toDate, strSubDiv);
-    //            return dt;
-    //        }
-    //        if (strDivName == "SLCC")
-    //        {
-    //            dt = NewClassFile.LR_ActivityModuleSchemeMIS_SLCDC(strDivName, strRolRght, frmDate, toDate, strSubDiv);
-    //            return dt;
-    //        }
-
-    //        //For Division
-    //        if (strDivName == "ALLD")
-    //        {
-    //            dt = NewClassFile.LR_ActivityModuleSchemeMIS_ALLD(strDivName, strRolRght, frmDate, toDate, strSubDiv);
-    //            return dt;
-    //        }
-    //        if (strDivName == "SLCD")
-    //        {
-    //            dt = NewClassFile.LR_ActivityModuleSchemeMIS_SLCD(strDivName, strRolRght, frmDate, toDate, strSubDiv);
-    //            return dt;
-    //        }
-
-    //        //Sub Division
-    //        if (strDivName == "SLCSD")
-    //        {
-    //            dt = NewClassFile.LR_ActivityModuleSchemeMIS_SLCSD(strDivName, strRolRght, frmDate, toDate, strSubDiv);
-    //            return dt;
-    //        }
-
-    //        NewClassFile newClassFile = new NewClassFile();
-    //        return newClassFile.LR_SurvellanceCircleDivMIS_List(strDivName, strRolRght);
-    //    }
-    //    else
-    //    {
-    //        return InvaildAuthontication();
-    //    }
-    //}
-
-
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable LR_NewSurvellanceCircleDivMIS(string strKeyParam, string strDivName, string strRolRght, string frmDate, string toDate, string strSubDiv)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            DataTable dt = new DataTable();
-            //strDivName , strSubDiv , strRolRght
-            //Circle
-            if (strDivName == "ALLC")
-            {
-                dt = NewClassFile.LR_ActivityModuleSchemeMIS_ALLC(strDivName, strRolRght, frmDate, toDate, strSubDiv);
-                return dt;
-            }
-            if (strDivName == "SLCC")
-            {
-                dt = NewClassFile.LR_ActivityModuleSchemeMIS_SLCDC(strDivName, strRolRght, frmDate, toDate, strSubDiv);
-                return dt;
-            }
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            //For Division
-            if (strDivName == "ALLD")
+            if (strKeyParam == PublicAccessTokenKey)
             {
-                dt = NewClassFile.LR_ActivityModuleSchemeMIS_ALLD(strDivName, strRolRght, frmDate, toDate, strSubDiv);
-                return dt;
-            }
-            if (strDivName == "SLCD")
-            {
-                dt = NewClassFile.LR_ActivityModuleSchemeMIS_SLCD(strDivName, strRolRght, frmDate, toDate, strSubDiv);
-                return dt;
-            }
+                DataTable dt = new DataTable();
+                //strDivName , strSubDiv , strRolRght
+                //Circle
+                if (strDivName == "ALLC")
+                {
+                    dt = NewClassFile.LR_ActivityModuleSchemeMIS_ALLC(strDivName, strRolRght, frmDate, toDate, strSubDiv);
+                    return dt;
+                }
+                if (strDivName == "SLCC")
+                {
+                    dt = NewClassFile.LR_ActivityModuleSchemeMIS_SLCDC(strDivName, strRolRght, frmDate, toDate, strSubDiv);
+                    return dt;
+                }
 
-            //Sub Division
-            if (strDivName == "SLCSD")
-            {
-                dt = NewClassFile.LR_ActivityModuleSchemeMIS_SLCSD(strDivName, strRolRght, frmDate, toDate, strSubDiv);
-                return dt;
-            }
+                //For Division
+                if (strDivName == "ALLD")
+                {
+                    dt = NewClassFile.LR_ActivityModuleSchemeMIS_ALLD(strDivName, strRolRght, frmDate, toDate, strSubDiv);
+                    return dt;
+                }
+                if (strDivName == "SLCD")
+                {
+                    dt = NewClassFile.LR_ActivityModuleSchemeMIS_SLCD(strDivName, strRolRght, frmDate, toDate, strSubDiv);
+                    return dt;
+                }
 
-            NewClassFile newClassFile = new NewClassFile();
-            return newClassFile.LR_SurvellanceCircleDivMIS_List(strDivName, strRolRght);
+                //Sub Division
+                if (strDivName == "SLCSD")
+                {
+                    dt = NewClassFile.LR_ActivityModuleSchemeMIS_SLCSD(strDivName, strRolRght, frmDate, toDate, strSubDiv);
+                    return dt;
+                }
+
+                NewClassFile newClassFile = new NewClassFile();
+                return newClassFile.LR_SurvellanceCircleDivMIS_List(strDivName, strRolRght);
+            }
+            else
+            {
+                return InvaildAuthontication();
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return InvaildAuthontication();
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -9009,55 +10324,65 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable LR_NEW_QC_MIS(string strKeyParam, string strDivName, string strRolRght, string frmDate, string toDate, string strSubDiv)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            DataTable dt = new DataTable();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                DataTable dt = new DataTable();
 
-            //Circle
-            if (strDivName == "ALLC")
-            {
-                dt = NewClassFile.LR_QC_MIS_List_ALLC(strDivName, strRolRght, frmDate, toDate, strSubDiv);
-                return dt;
-            }
-            if (strDivName == "SLCC")
-            {
-                dt = NewClassFile.LR_QC_MIS_List_SLCCC(strDivName, strRolRght, frmDate, toDate, strSubDiv);
-                return dt;
-            }
+                //Circle
+                if (strDivName == "ALLC")
+                {
+                    dt = NewClassFile.LR_QC_MIS_List_ALLC(strDivName, strRolRght, frmDate, toDate, strSubDiv);
+                    return dt;
+                }
+                if (strDivName == "SLCC")
+                {
+                    dt = NewClassFile.LR_QC_MIS_List_SLCCC(strDivName, strRolRght, frmDate, toDate, strSubDiv);
+                    return dt;
+                }
 
-            //For Division
-            if (strDivName == "ALLD")
-            {
-                dt = NewClassFile.LR_QC_MIS_List_ALLD(strDivName, strRolRght, frmDate, toDate, strSubDiv);
-                return dt;
-            }
-            if (strDivName == "SLCD")
-            {
-                dt = NewClassFile.LR_QC_MIS_List_SLCD(strDivName, strRolRght, frmDate, toDate, strSubDiv);
-                return dt;
-            }
+                //For Division
+                if (strDivName == "ALLD")
+                {
+                    dt = NewClassFile.LR_QC_MIS_List_ALLD(strDivName, strRolRght, frmDate, toDate, strSubDiv);
+                    return dt;
+                }
+                if (strDivName == "SLCD")
+                {
+                    dt = NewClassFile.LR_QC_MIS_List_SLCD(strDivName, strRolRght, frmDate, toDate, strSubDiv);
+                    return dt;
+                }
 
-            //Sub Division
-            if (strDivName == "SLCSD")
-            {
-                dt = NewClassFile.LR_QC_MIS_List_SLCSD(strDivName, strRolRght, frmDate, toDate, strSubDiv);
-                return dt;
-            }
+                //Sub Division
+                if (strDivName == "SLCSD")
+                {
+                    dt = NewClassFile.LR_QC_MIS_List_SLCSD(strDivName, strRolRght, frmDate, toDate, strSubDiv);
+                    return dt;
+                }
 
-            //Scheme
-            if (strDivName == "SLCSCHM")
-            {
-                dt = NewClassFile.LR_QC_MIS_List_SLCSCHM(strDivName, strRolRght, frmDate, toDate, strSubDiv);
-                return dt;
-            }
+                //Scheme
+                if (strDivName == "SLCSCHM")
+                {
+                    dt = NewClassFile.LR_QC_MIS_List_SLCSCHM(strDivName, strRolRght, frmDate, toDate, strSubDiv);
+                    return dt;
+                }
 
-            NewClassFile newClassFile = new NewClassFile();
-            return newClassFile.LR_QC_MIS_List(strDivName, strRolRght);
+                NewClassFile newClassFile = new NewClassFile();
+                return newClassFile.LR_QC_MIS_List(strDivName, strRolRght);
+            }
+            else
+            {
+                return InvaildAuthontication();
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return InvaildAuthontication();
+            throw new Exception("An error occurred", ad);
         }
+
     }
 
 
@@ -9068,70 +10393,111 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataSet Seva_get_Login_Details(string strUser_id, string strPassword, string strIMEI, string strLongitude, string strLatitude)
     {
-        DataSet ds = new DataSet();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable _dsTable = NewClassFile.get_Seva_Kendra_Login(strUser_id, strPassword, strIMEI, strLongitude, strLatitude);
-            ds.Tables.Add(_dsTable);
-            return ds;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            DataSet ds = new DataSet();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable _dsTable = NewClassFile.get_Seva_Kendra_Login(strUser_id, strPassword, strIMEI, strLongitude, strLatitude);
+                ds.Tables.Add(_dsTable);
+                return ds;
+            }
+            else
+                return (InvaildAuthonticationds());
         }
-        else
-            return (InvaildAuthonticationds());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod]
     public string Seva_change_Password(string strUser_id, string strCurrent_Password, string strNew_Password)
     {
-        string result = "false";
         try
         {
-            DataTable _dtDetails = NewClassFile.get_SevaKendra_Login_Details(strUser_id.Trim(), strCurrent_Password.Trim());
-            if (_dtDetails.Rows.Count > 0)
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            string result = "false";
+            try
             {
-                result = (NewClassFile.update_Seva_User_Password(strUser_id, strCurrent_Password, strNew_Password)).ToString();
+                DataTable _dtDetails = NewClassFile.get_SevaKendra_Login_Details(strUser_id.Trim(), strCurrent_Password.Trim());
+                if (_dtDetails.Rows.Count > 0)
+                {
+                    result = (NewClassFile.update_Seva_User_Password(strUser_id, strCurrent_Password, strNew_Password)).ToString();
+                }
             }
+            catch (Exception ex)
+            {
+                NewClassFile newClassFile = new NewClassFile();
+                newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in Update Password Method : " + ex.ToString());
+                result = "false";
+            }
+
+            return result;
         }
-        catch (Exception ex)
+        catch (Exception ad)
         {
-            NewClassFile newClassFile = new NewClassFile();
-            newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in Update Password Method : " + ex.ToString());
-            result = "false";
+            throw new Exception("An error occurred", ad);
         }
 
-        return result;
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataSet Seva_get_Order_Details(string strUser_id, string strDivision)
     {
-        DataSet ds = new DataSet();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            string _gDivision = strDivision.Replace(",", "','");
-            DataTable _dsTable = NewClassFile.get_SevaKendra_Order_Details(strUser_id, _gDivision);
-            ds.Tables.Add(_dsTable);
-            return ds;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            DataSet ds = new DataSet();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                string _gDivision = strDivision.Replace(",", "','");
+                DataTable _dsTable = NewClassFile.get_SevaKendra_Order_Details(strUser_id, _gDivision);
+                ds.Tables.Add(_dsTable);
+                return ds;
+            }
+            else
+                return (InvaildAuthonticationds());
         }
-        else
-            return (InvaildAuthonticationds());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataSet Seva_get_Order_Wise_Complete_Details(string strOrder_no)
     {
-        DataSet ds = new DataSet();
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataTable _dsTable = NewClassFile.get_SevaKendra_Order_Wise_Complete_Details(strOrder_no);
-            ds.Tables.Add(_dsTable);
-            return ds;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            DataSet ds = new DataSet();
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DataTable _dsTable = NewClassFile.get_SevaKendra_Order_Wise_Complete_Details(strOrder_no);
+                ds.Tables.Add(_dsTable);
+                return ds;
+            }
+            else
+                return (InvaildAuthonticationds());
         }
-        else
-            return (InvaildAuthonticationds());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -9148,42 +10514,50 @@ public class Service : System.Web.Services.WebService
                                             string strSIG_NAME, string strCOMPANY, string strLOAD_TYPE, string strAADHAR_NO, string strFN_AS, string strMN_AS,
                                             string strLN_AS, string strFINGER_NAME, string strDOA, string strCF_REMARK, string strZZ_CONNTYPE, string strUser_id)
     {
-        string result = "false";
-        string _PicName = string.Empty, _SIG_NAME = string.Empty;
         try
         {
-
-            if (strKYC == "1")
-                Seva_Update_KYC(strORDER_NO, strUser_id, strMOBILE_NO, strEMAIL);
-            if (strProfile == "1")
-                Seva_Update_Prsnal_Information(strORDER_NO, strUser_id, strLAST_NAME, strFIRST_NAME, strFATHER_NAME, strMIDDLE_NAME, strMOBILE_NO, strEMAIL, strBUILDING_NAME, strHOUSE_NO, strSTREET, strAREA, strLANDMARK);
-
-            if (strPIC_NAME != "")
-                _PicName = byteArrayToImage_SevaKendra(strPIC_NAME, strCOMPANY, strORDER_NO, "1");
-            if (strSIG_NAME != "")
-                _SIG_NAME = byteArrayToImage_SevaKendra(strSIG_NAME, strCOMPANY, strORDER_NO, "2");
-
-            if (NewClassFile.Seva_kendra_insertRequest(strORDER_NO, strREGTYPE, strFIRST_NAME, strMIDDLE_NAME, strLAST_NAME, strTITLE, strGENDER, strDOB, strFATHER_NAME, strMOTHER_NAME, strFN_AS, strMN_AS, strLN_AS, strDESIGNATION_AS, strREGTYPE, strDOI,
-              strHOUSE_NO, strBUILDING_NAME, strSTREET, strAREA, strPIN, strLANDMARK, strMOBILE_NO, strLANDMARK, strEMAIL, strHOUSE_NO_PA, strBUILDING_NAME_PA, strSTREET_PA, strAREA_PA, strPIN_PA, strLANDMARK_PA, strMOBILE_NO_PA, strLANDMARK_PA,
-              strEMAIL_PA, strAPPLIED_CATEGORY, strNEWOREXISTING, strSERVICE_REQ, strBILLING_TYPE, strAREA_TYPE, strPREMISES_TYPE, strPURPOSE, strMETER_CHOICE, strLOAD_TYPE, strAPPLIED_LOAD, strAPPLIED_VOLTAGE_LVL, strAPPLIED_PHASE, strPAN_NO, strAADHAR_NO, strID_NO,
-             _PicName, _SIG_NAME, strFINGER_NAME, strCOMPANY, strDOA, "", strZZ_CONNTYPE) == "true")
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+            string result = "false";
+            string _PicName = string.Empty, _SIG_NAME = string.Empty;
+            try
             {
-                // NewClassFile.Seva_Kendra_cancelOrderNO(strORDER_NO, strUser_id, "X", "OK", strUser_id);
 
-                if (strCOMPANY == "BYPL")
+                if (strKYC == "1")
+                    Seva_Update_KYC(strORDER_NO, strUser_id, strMOBILE_NO, strEMAIL);
+                if (strProfile == "1")
+                    Seva_Update_Prsnal_Information(strORDER_NO, strUser_id, strLAST_NAME, strFIRST_NAME, strFATHER_NAME, strMIDDLE_NAME, strMOBILE_NO, strEMAIL, strBUILDING_NAME, strHOUSE_NO, strSTREET, strAREA, strLANDMARK);
+
+                if (strPIC_NAME != "")
+                    _PicName = byteArrayToImage_SevaKendra(strPIC_NAME, strCOMPANY, strORDER_NO, "1");
+                if (strSIG_NAME != "")
+                    _SIG_NAME = byteArrayToImage_SevaKendra(strSIG_NAME, strCOMPANY, strORDER_NO, "2");
+
+                if (NewClassFile.Seva_kendra_insertRequest(strORDER_NO, strREGTYPE, strFIRST_NAME, strMIDDLE_NAME, strLAST_NAME, strTITLE, strGENDER, strDOB, strFATHER_NAME, strMOTHER_NAME, strFN_AS, strMN_AS, strLN_AS, strDESIGNATION_AS, strREGTYPE, strDOI,
+                  strHOUSE_NO, strBUILDING_NAME, strSTREET, strAREA, strPIN, strLANDMARK, strMOBILE_NO, strLANDMARK, strEMAIL, strHOUSE_NO_PA, strBUILDING_NAME_PA, strSTREET_PA, strAREA_PA, strPIN_PA, strLANDMARK_PA, strMOBILE_NO_PA, strLANDMARK_PA,
+                  strEMAIL_PA, strAPPLIED_CATEGORY, strNEWOREXISTING, strSERVICE_REQ, strBILLING_TYPE, strAREA_TYPE, strPREMISES_TYPE, strPURPOSE, strMETER_CHOICE, strLOAD_TYPE, strAPPLIED_LOAD, strAPPLIED_VOLTAGE_LVL, strAPPLIED_PHASE, strPAN_NO, strAADHAR_NO, strID_NO,
+                 _PicName, _SIG_NAME, strFINGER_NAME, strCOMPANY, strDOA, "", strZZ_CONNTYPE) == "true")
                 {
-                    result = (NewClassFile.Seva_UpdateSapService(strORDER_NO, "ICFP", "ICFP at the time of New Connection for BYPL", strUser_id)).ToString();
+                    // NewClassFile.Seva_Kendra_cancelOrderNO(strORDER_NO, strUser_id, "X", "OK", strUser_id);
+
+                    if (strCOMPANY == "BYPL")
+                    {
+                        result = (NewClassFile.Seva_UpdateSapService(strORDER_NO, "ICFP", "ICFP at the time of New Connection for BYPL", strUser_id)).ToString();
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                NewClassFile newClassFile = new NewClassFile();
+                newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in Save Data New Connection Method : " + ex.ToString());
+                result = "false";
+            }
+            return result;
         }
-        catch (Exception ex)
+        catch (Exception ad)
         {
-            NewClassFile newClassFile = new NewClassFile();
-            newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in Save Data New Connection Method : " + ex.ToString());
-            result = "false";
+            throw new Exception("An error occurred", ad);
         }
-
-        return result;
     }
 
 
@@ -9251,8 +10625,9 @@ public class Service : System.Web.Services.WebService
 
             return Pic_Path;
         }
-        catch (Exception ex)
+        catch (Exception ad)
         {
+            throw new Exception("An error occurred", ad);
             return "";
         }
         finally
@@ -9267,41 +10642,50 @@ public class Service : System.Web.Services.WebService
                                          string strNAME_S3, string strGENDER_S3, string strDOB_S3, string strFATHEERNAME_S3, string strELOAD_S4, string strRLOAD_S4, string strMETERCHOICE_S4, string strVLEVEL_S4, string strPHASE_S4, string strPURPOSE_S5, string strDESC_S5, string strREASON_S6, string strHOUSENO_S6, string strBNAME_S6, string strSTREET_S6, string strAREA_S6, string strPIN_S6, string strLANDMARK_S6, string strLBP_S7, string strREASON_S8, string strDOV_S8, string strMODE_S8, string strREASON_S9, string strUPTODATE_S9,
                                          string strAUTO_DEBIT_S10, string strImgName, string strSignName, string strCompany, string strDOA, string strRemark, string strUser_ID, string strIDName)
     {
-        string result = "false";
-        string _PicName = string.Empty, _SIG_NAME = string.Empty, _ID_Name = string.Empty;
         try
         {
-            if (strKYC == "1")
-                Seva_Update_KYC(strORDER_NO, strUser_ID, strMOBILE_NO, strEMAIL);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            if (strImgName != "")
-                _PicName = byteArrayToImage_SevaKendra(strImgName, strCompany, strORDER_NO, "1");
-            if (strSignName != "")
-                _SIG_NAME = byteArrayToImage_SevaKendra(strSignName, strCompany, strORDER_NO, "2");
-            if (strIDName != "")
-                _ID_Name = byteArrayToImage_SevaKendra(strIDName, strCompany, strORDER_NO, "3");
-
-            if (NewClassFile.Seva_Kendra_InsertConnctChange(strORDER_NO, strCA_NUMBER, strReqType, strReqType, strFIRST_NAME, strMIDDLE_NAME, strLAST_NAME, strTITLE, strGENDER, strDOB, strFATHER_NAME, strsMOTHER_NAME, strFN_AS, strMN_AS, strLN_AS, strDESIGNATION_AS, strTYPE_ORG, strDOI, strHOUSE_NO, strBUILDING_NAME, strSTREET, strAREA, strPIN, strLANDMARK, strMOBILE_NO, strPHONE_NO, strEMAIL, strPAN_NO, strID_NO, strREASON_S3, strNAME_S3, strGENDER_S3, strDOB_S3, strFATHEERNAME_S3, strELOAD_S4, strRLOAD_S4, strMETERCHOICE_S4, strVLEVEL_S4, strPHASE_S4
-                 , strPURPOSE_S5, strDESC_S5, strREASON_S6, strHOUSENO_S6, strBNAME_S6, strSTREET_S6, strAREA_S6, strPIN_S6, strLANDMARK_S6, strLBP_S7, strREASON_S8, strDOV_S8, strMODE_S8, strREASON_S9, strUPTODATE_S9, strAUTO_DEBIT_S10,
-                                         _PicName, "Mobile", "", _SIG_NAME, "", "", strCompany, strDOA, strRemark, _ID_Name, "", "") == "true")
+            string result = "false";
+            string _PicName = string.Empty, _SIG_NAME = string.Empty, _ID_Name = string.Empty;
+            try
             {
-                // NewClassFile.Seva_Kendra_cancelOrderNO(strORDER_NO, strUser_ID, "X", "OK", strUser_ID);
+                if (strKYC == "1")
+                    Seva_Update_KYC(strORDER_NO, strUser_ID, strMOBILE_NO, strEMAIL);
 
-                if (strCompany == "BYPL")
+                if (strImgName != "")
+                    _PicName = byteArrayToImage_SevaKendra(strImgName, strCompany, strORDER_NO, "1");
+                if (strSignName != "")
+                    _SIG_NAME = byteArrayToImage_SevaKendra(strSignName, strCompany, strORDER_NO, "2");
+                if (strIDName != "")
+                    _ID_Name = byteArrayToImage_SevaKendra(strIDName, strCompany, strORDER_NO, "3");
+
+                if (NewClassFile.Seva_Kendra_InsertConnctChange(strORDER_NO, strCA_NUMBER, strReqType, strReqType, strFIRST_NAME, strMIDDLE_NAME, strLAST_NAME, strTITLE, strGENDER, strDOB, strFATHER_NAME, strsMOTHER_NAME, strFN_AS, strMN_AS, strLN_AS, strDESIGNATION_AS, strTYPE_ORG, strDOI, strHOUSE_NO, strBUILDING_NAME, strSTREET, strAREA, strPIN, strLANDMARK, strMOBILE_NO, strPHONE_NO, strEMAIL, strPAN_NO, strID_NO, strREASON_S3, strNAME_S3, strGENDER_S3, strDOB_S3, strFATHEERNAME_S3, strELOAD_S4, strRLOAD_S4, strMETERCHOICE_S4, strVLEVEL_S4, strPHASE_S4
+                     , strPURPOSE_S5, strDESC_S5, strREASON_S6, strHOUSENO_S6, strBNAME_S6, strSTREET_S6, strAREA_S6, strPIN_S6, strLANDMARK_S6, strLBP_S7, strREASON_S8, strDOV_S8, strMODE_S8, strREASON_S9, strUPTODATE_S9, strAUTO_DEBIT_S10,
+                                             _PicName, "Mobile", "", _SIG_NAME, "", "", strCompany, strDOA, strRemark, _ID_Name, "", "") == "true")
                 {
-                    result = (NewClassFile.Seva_UpdateSapService(strORDER_NO, "TALR", "TALR at the time of Change Connection for BYPL", strUser_ID)).ToString();
+                    // NewClassFile.Seva_Kendra_cancelOrderNO(strORDER_NO, strUser_ID, "X", "OK", strUser_ID);
+
+                    if (strCompany == "BYPL")
+                    {
+                        result = (NewClassFile.Seva_UpdateSapService(strORDER_NO, "TALR", "TALR at the time of Change Connection for BYPL", strUser_ID)).ToString();
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                NewClassFile newClassFile = new NewClassFile();
+                newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in Save Data New Connection Method : " + ex.ToString());
+                result = "false";
+            }
+
+            return result;
         }
-        catch (Exception ex)
+        catch (Exception ad)
         {
-            NewClassFile newClassFile = new NewClassFile();
-            newClassFile.WriteIntoFile(DateTime.Now.ToString() + "Error in Save Data New Connection Method : " + ex.ToString());
-            result = "false";
+            throw new Exception("An error occurred", ad);
         }
-
-        return result;
-
     }
     #endregion
 
@@ -9311,124 +10695,135 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataSet Z_BAPI_DSS_ISU_CA_DISPLAY_GIS(string strCANumber, string strMetrNo)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DataSet ds = new DataSet();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            DataTable dtOutputStatus = new DataTable();
-            dtOutputStatus.TableName = "OutputStatusTable";
-            dtOutputStatus.Columns.Add("Status");
-            string strOutputStatus = "";
-
-            try
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
             {
+                DataSet ds = new DataSet();
 
-                NewClassFile newClassFile = new NewClassFile();
-                ds = new DataSet("BAPI_RESULT");
+                DataTable dtOutputStatus = new DataTable();
+                dtOutputStatus.TableName = "OutputStatusTable";
+                dtOutputStatus.Columns.Add("Status");
+                string strOutputStatus = "";
 
-                if (strCANumber.Length == 11)
+                try
                 {
-                    strCANumber = strCANumber.Substring(1, 10);
+
+                    NewClassFile newClassFile = new NewClassFile();
+                    ds = new DataSet("BAPI_RESULT");
+
+                    if (strCANumber.Length == 11)
+                    {
+                        strCANumber = strCANumber.Substring(1, 10);
+                    }
+                    if (strCANumber.Length == 12)
+                    {
+                        strCANumber = strCANumber.Substring(2, 10);
+                    }
+                    if (strCANumber.Length == 9)
+                    {
+                        strCANumber = strCANumber.PadLeft(10, '0');
+                    }
+
+                    //if (strMetrNo.ToString() != "") {
+
+                    //}
+
+                    DataTable _dtSap = new DataTable("SAPDATA_ErrorDataTable");
+                    DataColumn dcol;
+
+                    dcol = new DataColumn();
+                    dcol.DataType = System.Type.GetType("System.String");
+                    dcol.ColumnName = "Message";
+                    _dtSap.Columns.Add(dcol);
+
+                    dcol = new DataColumn();
+                    dcol.DataType = System.Type.GetType("System.String");
+                    dcol.ColumnName = "Type";
+                    _dtSap.Columns.Add(dcol);
+
+                    DataRow row = _dtSap.NewRow();
+                    row["Message"] = "CA Number not found";
+                    row["Type"] = string.Empty;
+
+
+                    DataTable dtISUSTDTable = new DataTable("ISUSTDTable");
+                    dtISUSTDTable = newClassFile.GetRCMSAP_DataCAWise(strCANumber, strMetrNo);
+
+                    if (dtISUSTDTable.Rows.Count > 0)
+                    {
+                        ds.Merge(dtISUSTDTable.Copy());
+                        strOutputStatus = "CA Number : " + strCANumber + "Meter Number : " + strMetrNo + " details fetch from RCM Service.";
+                        dtOutputStatus.Rows.Add(strOutputStatus);
+                        ds.Tables.Add(dtOutputStatus);
+                        return ds;
+                    }
+                    else
+                    {
+                        ds.Merge(_dtSap.Copy());
+                        strOutputStatus = "CA Number : " + strCANumber + "Meter Number : " + strMetrNo + " details unable to fetch from RCM Service.";
+                        dtOutputStatus.Rows.Add(strOutputStatus);
+                        ds.Tables.Add(dtOutputStatus);
+                        return ds;
+                    }
+
                 }
-                if (strCANumber.Length == 12)
+                catch (Exception ex)
                 {
-                    strCANumber = strCANumber.Substring(2, 10);
-                }
-                if (strCANumber.Length == 9)
-                {
-                    strCANumber = strCANumber.PadLeft(10, '0');
-                }
 
-                //if (strMetrNo.ToString() != "") {
+                    NewClassFile newClassFile = new NewClassFile();
+                    ds = new DataSet("BAPI_RESULT");
 
-                //}
+                    if (strCANumber.Length == 11)
+                    {
+                        strCANumber = strCANumber.Substring(1, 10);
+                    }
+                    if (strCANumber.Length == 12)
+                    {
+                        strCANumber = strCANumber.Substring(2, 10);
+                    }
+                    if (strCANumber.Length == 9)
+                    {
+                        strCANumber = strCANumber.PadLeft(10, '0');
+                    }
 
-                DataTable _dtSap = new DataTable("SAPDATA_ErrorDataTable");
-                DataColumn dcol;
+                    DataTable _dtSap = new DataTable("SAPDATA_ErrorDataTable");
+                    DataColumn dcol;
 
-                dcol = new DataColumn();
-                dcol.DataType = System.Type.GetType("System.String");
-                dcol.ColumnName = "Message";
-                _dtSap.Columns.Add(dcol);
+                    dcol = new DataColumn();
+                    dcol.DataType = System.Type.GetType("System.String");
+                    dcol.ColumnName = "Message";
+                    _dtSap.Columns.Add(dcol);
 
-                dcol = new DataColumn();
-                dcol.DataType = System.Type.GetType("System.String");
-                dcol.ColumnName = "Type";
-                _dtSap.Columns.Add(dcol);
+                    dcol = new DataColumn();
+                    dcol.DataType = System.Type.GetType("System.String");
+                    dcol.ColumnName = "Type";
+                    _dtSap.Columns.Add(dcol);
 
-                DataRow row = _dtSap.NewRow();
-                row["Message"] = "CA Number not found";
-                row["Type"] = string.Empty;
+                    DataRow row = _dtSap.NewRow();
+                    row["Message"] = "CA Number not found";
+                    row["Type"] = string.Empty;
 
-
-                DataTable dtISUSTDTable = new DataTable("ISUSTDTable");
-                dtISUSTDTable = newClassFile.GetRCMSAP_DataCAWise(strCANumber, strMetrNo);
-
-                if (dtISUSTDTable.Rows.Count > 0)
-                {
-                    ds.Merge(dtISUSTDTable.Copy());
-                    strOutputStatus = "CA Number : " + strCANumber + "Meter Number : " + strMetrNo + " details fetch from RCM Service.";
-                    dtOutputStatus.Rows.Add(strOutputStatus);
-                    ds.Tables.Add(dtOutputStatus);
-                    return ds;
-                }
-                else
-                {
                     ds.Merge(_dtSap.Copy());
-                    strOutputStatus = "CA Number : " + strCANumber + "Meter Number : " + strMetrNo + " details unable to fetch from RCM Service.";
+                    strOutputStatus = "CA Number : " + strCANumber + " details unable to fetch from RCM Service. (" + ex.ToString() + ")";
                     dtOutputStatus.Rows.Add(strOutputStatus);
                     ds.Tables.Add(dtOutputStatus);
                     return ds;
                 }
-
             }
-            catch (Exception ex)
+            else
             {
-
-                NewClassFile newClassFile = new NewClassFile();
-                ds = new DataSet("BAPI_RESULT");
-
-                if (strCANumber.Length == 11)
-                {
-                    strCANumber = strCANumber.Substring(1, 10);
-                }
-                if (strCANumber.Length == 12)
-                {
-                    strCANumber = strCANumber.Substring(2, 10);
-                }
-                if (strCANumber.Length == 9)
-                {
-                    strCANumber = strCANumber.PadLeft(10, '0');
-                }
-
-                DataTable _dtSap = new DataTable("SAPDATA_ErrorDataTable");
-                DataColumn dcol;
-
-                dcol = new DataColumn();
-                dcol.DataType = System.Type.GetType("System.String");
-                dcol.ColumnName = "Message";
-                _dtSap.Columns.Add(dcol);
-
-                dcol = new DataColumn();
-                dcol.DataType = System.Type.GetType("System.String");
-                dcol.ColumnName = "Type";
-                _dtSap.Columns.Add(dcol);
-
-                DataRow row = _dtSap.NewRow();
-                row["Message"] = "CA Number not found";
-                row["Type"] = string.Empty;
-
-                ds.Merge(_dtSap.Copy());
-                strOutputStatus = "CA Number : " + strCANumber + " details unable to fetch from RCM Service. (" + ex.ToString() + ")";
-                dtOutputStatus.Rows.Add(strOutputStatus);
-                ds.Tables.Add(dtOutputStatus);
-                return ds;
+                return (InvaildAuthonticationds());
             }
         }
-        else
+        catch (Exception ad)
         {
-            return (InvaildAuthonticationds());
+            throw new Exception("An error occurred", ad);
         }
+
     }
 
     #endregion
@@ -9439,30 +10834,40 @@ public class Service : System.Web.Services.WebService
 
     public DataTable GET_METERDETAILS(string METERNO)
     {
-        string CONS_REF = string.Empty;
-        DataSet ds = new DataSet();
-        DataTable dt = new DataTable("TEST");
-        DataRow row = dt.NewRow();
-        dt.Columns.Add("CONS_REF", typeof(string));
-        dt.Rows.Add(row);
-        DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
-
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            ds = isu.Z_BAPI_CMS_ISU_CA_DISPLAY("", "0000000000" + METERNO, "", "", "", "");
-            if (ds.Tables[0].Rows.Count > 0)
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            string CONS_REF = string.Empty;
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable("TEST");
+            DataRow row = dt.NewRow();
+            dt.Columns.Add("CONS_REF", typeof(string));
+            dt.Rows.Add(row);
+            DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
             {
-                dt.Rows[0]["CONS_REF"] = ds.Tables[0].Rows[0]["Ca_Number"].ToString().Substring(2, 10);
+                ds = isu.Z_BAPI_CMS_ISU_CA_DISPLAY("", "0000000000" + METERNO, "", "", "", "");
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    dt.Rows[0]["CONS_REF"] = ds.Tables[0].Rows[0]["Ca_Number"].ToString().Substring(2, 10);
+                }
+                else
+                {
+                    dt.Rows.Add("Record Not Available");
+                    dt.Rows.RemoveAt(0);
+                    dt.AcceptChanges();
+                    return dt;
+                }
             }
-            else
-            {
-                dt.Rows.Add("Record Not Available");
-                dt.Rows.RemoveAt(0);
-                dt.AcceptChanges();
-                return dt;
-            }
+            return dt;
         }
-        return dt;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
     #endregion
 
@@ -9472,14 +10877,24 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable GetMeterCA_Details(string strKeyParam, string strMeterNo, string strCANo)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            NewClassFile newClassFile = new NewClassFile();
-            return newClassFile.GetMeterCA_Data(strMeterNo, strCANo);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                NewClassFile newClassFile = new NewClassFile();
+                return newClassFile.GetMeterCA_Data(strMeterNo, strCANo);
+            }
+            else
+            {
+                return InvaildAuthontication();
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return InvaildAuthontication();
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -9488,148 +10903,168 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable PowerThef_DivMaster(string strKeyParam, string strCircle)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            NewClassFile newClassFile = new NewClassFile();
-            return newClassFile.GetPT_Division_Master(strCircle);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                NewClassFile newClassFile = new NewClassFile();
+                return newClassFile.GetPT_Division_Master(strCircle);
+            }
+            else
+            {
+                return InvaildAuthontication();
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return InvaildAuthontication();
+            throw new Exception("An error occurred", ad);
         }
     }
 
     [WebMethod]
     public DataTable GET_METER_CA_DETAILS(string METERNO, string CA_Number)
     {
-        string CONS_REF = string.Empty;
-        DataSet ds = new DataSet();
-        DataTable dt = new DataTable("METER_DATA");
-        DataRow row = dt.NewRow();
-        string NAME = ""; string Mobile_Number = "";
-        string Email = ""; string Address = "";
-        string Poleno = ""; string division = "";
-        string div_code = ""; string subdivision = "";
-        string dtcode = ""; string meter = ""; string Seq_no = "";
+        try
+        {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-        dt.Columns.Add("COMPANY");
-        dt.Columns.Add("NAME");
-        dt.Columns.Add("Mobile_Number");
-        dt.Columns.Add("Email");
-        dt.Columns.Add("Address");
-        dt.Columns.Add("PoleNo");
-        dt.Columns.Add("Division");
-        dt.Columns.Add("Subdivision");
-        dt.Columns.Add("CA_NO");
-        dt.Columns.Add("Meter_No");
-        dt.Columns.Add("Sequence_No");
+            string CONS_REF = string.Empty;
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable("METER_DATA");
+            DataRow row = dt.NewRow();
+            string NAME = ""; string Mobile_Number = "";
+            string Email = ""; string Address = "";
+            string Poleno = ""; string division = "";
+            string div_code = ""; string subdivision = "";
+            string dtcode = ""; string meter = ""; string Seq_no = "";
 
-        DataTable _dtMeter_CA = new DataTable();
-        NewClassFile newClassFile = new NewClassFile();
-        string _sMeterCA_Flag = "N";
-        if (METERNO != "")
-        {
-            _dtMeter_CA = newClassFile.GetMeter_CANo_Duplicate(METERNO.Trim(), "");
-            if (_dtMeter_CA.Rows.Count > 0)
-                _sMeterCA_Flag = "ME";
-        }
-        else
-        {
-            _dtMeter_CA = newClassFile.GetMeter_CANo_Duplicate("", CA_Number.Trim());
-            if (_dtMeter_CA.Rows.Count > 0)
-                _sMeterCA_Flag = "CE";
-        }
+            dt.Columns.Add("COMPANY");
+            dt.Columns.Add("NAME");
+            dt.Columns.Add("Mobile_Number");
+            dt.Columns.Add("Email");
+            dt.Columns.Add("Address");
+            dt.Columns.Add("PoleNo");
+            dt.Columns.Add("Division");
+            dt.Columns.Add("Subdivision");
+            dt.Columns.Add("CA_NO");
+            dt.Columns.Add("Meter_No");
+            dt.Columns.Add("Sequence_No");
 
-        if (_sMeterCA_Flag == "ME")
-        {
-            dt.Rows.Add("Observation ID already exist !!");
-            dt.AcceptChanges();
-            return dt;
-        }
-        else if (_sMeterCA_Flag == "CE")
-        {
-            dt.Rows.Add("Observation ID already exist !!");
-            dt.AcceptChanges();
-            return dt;
-        }
-        else
-        {
-            if (CA_Number.Length == 11)
-                CA_Number = "0" + CA_Number;
-            else if (CA_Number.Length == 10)
-                CA_Number = "00" + CA_Number;
-            else if (CA_Number.Length == 9)
-                CA_Number = "000" + CA_Number;
-
-            DELHIWSTESTDV2.WebService objbapi = new DELHIWSTESTDV2.WebService();
-            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            DataTable _dtMeter_CA = new DataTable();
+            NewClassFile newClassFile = new NewClassFile();
+            string _sMeterCA_Flag = "N";
+            if (METERNO != "")
             {
-                if (METERNO != "")
-                    ds = objbapi.Z_BAPI_CMS_ISU_CA_DISPLAY("", "0000000000" + METERNO, "", "", "", "");
-                else
-                    ds = objbapi.Z_BAPI_CMS_ISU_CA_DISPLAY(CA_Number, "", "", "", "", "");
+                _dtMeter_CA = newClassFile.GetMeter_CANo_Duplicate(METERNO.Trim(), "");
+                if (_dtMeter_CA.Rows.Count > 0)
+                    _sMeterCA_Flag = "ME";
+            }
+            else
+            {
+                _dtMeter_CA = newClassFile.GetMeter_CANo_Duplicate("", CA_Number.Trim());
+                if (_dtMeter_CA.Rows.Count > 0)
+                    _sMeterCA_Flag = "CE";
+            }
 
+            if (_sMeterCA_Flag == "ME")
+            {
+                dt.Rows.Add("Observation ID already exist !!");
+                dt.AcceptChanges();
+                return dt;
+            }
+            else if (_sMeterCA_Flag == "CE")
+            {
+                dt.Rows.Add("Observation ID already exist !!");
+                dt.AcceptChanges();
+                return dt;
+            }
+            else
+            {
+                if (CA_Number.Length == 11)
+                    CA_Number = "0" + CA_Number;
+                else if (CA_Number.Length == 10)
+                    CA_Number = "00" + CA_Number;
+                else if (CA_Number.Length == 9)
+                    CA_Number = "000" + CA_Number;
 
-                if (ds.Tables[0].Rows.Count > 0)
+                DELHIWSTESTDV2.WebService objbapi = new DELHIWSTESTDV2.WebService();
+                if (checkConsumer(MethodBase.GetCurrentMethod().Name))
                 {
-                    if (ds.Tables[0].Rows[0]["Bp_Name"].ToString() == "")
-                    {
-                        NAME = "";
-                    }
+                    if (METERNO != "")
+                        ds = objbapi.Z_BAPI_CMS_ISU_CA_DISPLAY("", "0000000000" + METERNO, "", "", "", "");
                     else
-                    {
-                        NAME = ds.Tables[0].Rows[0]["Bp_Name"].ToString();
-                    }
-                    if (ds.Tables[0].Rows[0]["Tel1_Number"].ToString() == "")
-                    {
-                        Mobile_Number = "";
-                    }
-                    else
-                    {
-                        Mobile_Number = ds.Tables[0].Rows[0]["Tel1_Number"].ToString();
-                    }
-                    if (ds.Tables[0].Rows[0]["E_Mail"].ToString() == "")
-                    {
-                        Email = "";
-                    }
-                    else
-                    {
-                        Email = ds.Tables[0].Rows[0]["E_Mail"].ToString();
-                    }
-                    Address = ds.Tables[0].Rows[0]["Street"].ToString() + " , " + ds.Tables[0].Rows[0]["Street2"].ToString() + " , " + ds.Tables[0].Rows[0]["Street3"].ToString();
-                    Poleno = ds.Tables[0].Rows[0]["POLE_NO"].ToString();
-                    string Seq_no_ = ds.Tables[0].Rows[0]["Mru"].ToString();
-                    if (Seq_no_ == null || Seq_no_ == "")
-                    {
-                        Seq_no = "";
-                    }
-                    else
-                    {
-                        Seq_no = Seq_no_.Substring(0, 5);
-                    }
-                    string CANO = ds.Tables[0].Rows[0]["Ca_Number"].ToString();
-                    string subCA = CANO.Substring(3);
-                    division = ds.Tables[0].Rows[0]["Reg_Str_Group"].ToString();
-                    meter = ds.Tables[0].Rows[0]["Device_Sr_Number"].ToString();
+                        ds = objbapi.Z_BAPI_CMS_ISU_CA_DISPLAY(CA_Number, "", "", "", "", "");
 
-                    CANO = CANO.TrimStart('0');
-                    meter = meter.TrimStart('0');
 
-                    dt.Rows.Add("BRPL", NAME, Mobile_Number, Email, Address, Poleno, division, subdivision,
-                                                CANO, meter, Seq_no);
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows[0]["Bp_Name"].ToString() == "")
+                        {
+                            NAME = "";
+                        }
+                        else
+                        {
+                            NAME = ds.Tables[0].Rows[0]["Bp_Name"].ToString();
+                        }
+                        if (ds.Tables[0].Rows[0]["Tel1_Number"].ToString() == "")
+                        {
+                            Mobile_Number = "";
+                        }
+                        else
+                        {
+                            Mobile_Number = ds.Tables[0].Rows[0]["Tel1_Number"].ToString();
+                        }
+                        if (ds.Tables[0].Rows[0]["E_Mail"].ToString() == "")
+                        {
+                            Email = "";
+                        }
+                        else
+                        {
+                            Email = ds.Tables[0].Rows[0]["E_Mail"].ToString();
+                        }
+                        Address = ds.Tables[0].Rows[0]["Street"].ToString() + " , " + ds.Tables[0].Rows[0]["Street2"].ToString() + " , " + ds.Tables[0].Rows[0]["Street3"].ToString();
+                        Poleno = ds.Tables[0].Rows[0]["POLE_NO"].ToString();
+                        string Seq_no_ = ds.Tables[0].Rows[0]["Mru"].ToString();
+                        if (Seq_no_ == null || Seq_no_ == "")
+                        {
+                            Seq_no = "";
+                        }
+                        else
+                        {
+                            Seq_no = Seq_no_.Substring(0, 5);
+                        }
+                        string CANO = ds.Tables[0].Rows[0]["Ca_Number"].ToString();
+                        string subCA = CANO.Substring(3);
+                        division = ds.Tables[0].Rows[0]["Reg_Str_Group"].ToString();
+                        meter = ds.Tables[0].Rows[0]["Device_Sr_Number"].ToString();
 
-                    return dt;
-                }
-                else
-                {
-                    dt.Rows.Add("Enter valid CA or Meter Number.");
-                    dt.AcceptChanges();
-                    return dt;
+                        CANO = CANO.TrimStart('0');
+                        meter = meter.TrimStart('0');
+
+                        dt.Rows.Add("BRPL", NAME, Mobile_Number, Email, Address, Poleno, division, subdivision,
+                                                    CANO, meter, Seq_no);
+
+                        return dt;
+                    }
+                    else
+                    {
+                        dt.Rows.Add("Enter valid CA or Meter Number.");
+                        dt.AcceptChanges();
+                        return dt;
+                    }
                 }
             }
-        }
 
-        return dt;
+            return dt;
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -9639,62 +11074,78 @@ public class Service : System.Web.Services.WebService
                   string _sNAME, string _sADDRESS, string _sSITE_ADDRESS, string _sLANDMARK, string _sLOAD_RANGE, string _sREMARKS, string _sOTHER_RKS,
                   string _sIMEI_NO, string _sUserID, string _sDOC_ATTACHED, string _sLATITUDE, string _sLONGITUDE)
     {
-        string _sInsertFlag = "0";
-        Boolean _bSave = false;
+        try
+        {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-        DataTable _dtCircleData = new DataTable();
-        NewClassFile newClassFile = new NewClassFile();
-        _dtCircleData = newClassFile.GetPT_Circle_DivWise(_sDIV_CODE);
+            string _sInsertFlag = "0";
+            Boolean _bSave = false;
 
-        string _sCircle = string.Empty;
+            DataTable _dtCircleData = new DataTable();
+            NewClassFile newClassFile = new NewClassFile();
+            _dtCircleData = newClassFile.GetPT_Circle_DivWise(_sDIV_CODE);
 
-        if (_dtCircleData.Rows.Count > 0)
-            _sCircle = _dtCircleData.Rows[0][0].ToString();
+            string _sCircle = string.Empty;
 
-        _sInsertFlag = NewClassFile.Insert_PTheft_Details(_sOBSERVATION_TYPE, _sCircle, _sDIVISION, _sDIV_CODE, _sMETER_NO, _sCA_NUMBER, _sNAME, _sSITE_ADDRESS,
-                                                      _sLANDMARK, _sADDRESS, _sLOAD_RANGE, _sREMARKS, _sLATITUDE, _sLONGITUDE, _sUserID, _sIMEI_NO);
+            if (_dtCircleData.Rows.Count > 0)
+                _sCircle = _dtCircleData.Rows[0][0].ToString();
 
-        if ((_sInsertFlag != "0") && (_sDOC_ATTACHED != ""))
-            _bSave = NewClassFile.Insert_PTheft_Image(_sInsertFlag, _sDOC_ATTACHED);
-        else if ((_sInsertFlag != "0") && (_sDOC_ATTACHED.ToString() == ""))
-            _bSave = true;
+            _sInsertFlag = NewClassFile.Insert_PTheft_Details(_sOBSERVATION_TYPE, _sCircle, _sDIVISION, _sDIV_CODE, _sMETER_NO, _sCA_NUMBER, _sNAME, _sSITE_ADDRESS,
+                                                          _sLANDMARK, _sADDRESS, _sLOAD_RANGE, _sREMARKS, _sLATITUDE, _sLONGITUDE, _sUserID, _sIMEI_NO);
 
-        return _sInsertFlag;
+            if ((_sInsertFlag != "0") && (_sDOC_ATTACHED != ""))
+                _bSave = NewClassFile.Insert_PTheft_Image(_sInsertFlag, _sDOC_ATTACHED);
+            else if ((_sInsertFlag != "0") && (_sDOC_ATTACHED.ToString() == ""))
+                _bSave = true;
+
+            return _sInsertFlag;
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
+
     }
-
-
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable LeadStatus_PowerTheftMIS(string strFrom, string strTodate, string strUserID)
     {
-        DataTable dt = new DataTable();
         try
         {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            DataTable dt = new DataTable();
             NewClassFile newClassFile = new NewClassFile();
             dt = newClassFile.MIS_REPORT(strFrom, strTodate, strUserID);
             return dt;
         }
-        catch (Exception ex)
+        catch (Exception ad)
         {
-            throw ex;
+            throw new Exception("An error occurred", ad);
         }
+
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public DataTable Mobile_PowerTheftMIS(string Fromdate, string Todate, string Division, string Circle)
     {
-        DataTable dt = new DataTable();
         try
         {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            DataTable dt = new DataTable();
             NewClassFile newClassFile = new NewClassFile();
             dt = newClassFile.THEFT_MISREPORT(Fromdate, Todate, Division, Circle);
             return dt;
         }
-        catch (Exception ex)
+        catch (Exception ad)
         {
-            throw ex;
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -9702,60 +11153,82 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable Mobile_PowerTheftMIS_Summary(string Fromdate, string Todate, string Division, string Circle)
     {
-        DataTable dt = new DataTable();
         try
         {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
             NewClassFile newClassFile = new NewClassFile();
-            dt = newClassFile.THEFT_MISREPORT_Summary_Data(Fromdate, Todate, Division, Circle);
+            DataTable dt = newClassFile.THEFT_MISREPORT_Summary_Data(Fromdate, Todate, Division, Circle);
             return dt;
         }
-        catch (Exception ex)
+        catch (Exception ad)
         {
-            throw ex;
+            throw new Exception("An error occurred", ad);
         }
     }
 
     [WebMethod]
     public DataTable ENF_Redem_Reward(string Userid, string RedemType)
     {
-        DataTable dt = new DataTable();
-        dt.Columns.Add("LEAD_ID");
-        dt.Columns.Add("OBSERVATION_ID");
-        dt.Columns.Add("LEAD_DATE");
-        dt.Columns.Add("OBSERVATION_TYPE");
-        dt.Columns.Add("REWARD_POINTS_EARNED");
         try
         {
-            NewClassFile objnewfile = new NewClassFile();
-            dt = objnewfile.Redempoint(Userid, RedemType);
-            // if (dt.Rows.Count > 0)            
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            //else
-            //{
-            //    dt.Rows.Add("Record not found", "Record not found", "Record not found", "Record not found", "Record not found");
-            //    dt.AcceptChanges();
-            //    return dt;
-            //}
+            DataTable dt = new DataTable();
+            dt.Columns.Add("LEAD_ID");
+            dt.Columns.Add("OBSERVATION_ID");
+            dt.Columns.Add("LEAD_DATE");
+            dt.Columns.Add("OBSERVATION_TYPE");
+            dt.Columns.Add("REWARD_POINTS_EARNED");
+            try
+            {
+                NewClassFile objnewfile = new NewClassFile();
+                dt = objnewfile.Redempoint(Userid, RedemType);
+                // if (dt.Rows.Count > 0)            
+                return dt;
+
+                //else
+                //{
+                //    dt.Rows.Add("Record not found", "Record not found", "Record not found", "Record not found", "Record not found");
+                //    dt.AcceptChanges();
+                //    return dt;
+                //}
+            }
+            catch (Exception ad)
+            {
+                throw new Exception("An error occurred", ad);
+            }
         }
-        catch (Exception ex)
+        catch (Exception ad)
         {
-            throw ex;
+            throw new Exception("An error occurred", ad);
         }
     }
 
     [WebMethod]
     public Boolean ENF_Reward_Earned(string LEADID, string OBSID)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            bool _bReturn = false;
-            _bReturn = NewClassFile.Earnedreward(LEADID, OBSID);
-            return _bReturn;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                bool _bReturn = false;
+                _bReturn = NewClassFile.Earnedreward(LEADID, OBSID);
+                return _bReturn;
+            }
+            else
+            {
+                return (false);
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return (false);
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -9763,13 +11236,23 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public string PowerTheft_RegisterUser(string strIMEI, string strMobileNo, string strName, string strDOB, string strDepartment, string strOtherDepart)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            return (NewClassFile.InsertUpdate_PTheft_User(strIMEI, strMobileNo, strName, strDOB, strDepartment, strOtherDepart));
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                return (NewClassFile.InsertUpdate_PTheft_User(strIMEI, strMobileNo, strName, strDOB, strDepartment, strOtherDepart));
+            }
+            else
+            {
+                return "0";
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return "0";
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -9777,25 +11260,81 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable PowerTheft_LoginFE(string _sLogin, string _sPassword, string _sIMEINo)
     {
-        DataTable dtLogin = new DataTable();
-        dtLogin = NewClassFile.Login_PowerTheft(_sLogin, _sPassword, _sIMEINo);
-        dtLogin.TableName = "Login";
-        return dtLogin;
-    }
+        DataTable dth = new DataTable();
+        DataTable dthf = new DataTable();
+        DataTable dthn = new DataTable();
 
+        try
+        {
+            DataTable dtLogin = new DataTable();
+            dth = NewClassFile.Login_PowerTheft(_sLogin, _sPassword, _sIMEINo);
+            dth.TableName = "Login";
+
+            if (dth.Rows.Count > 0)
+            {
+                JwtTokenGenerator jwtTokenGenerator = new JwtTokenGenerator();
+                string jwtToken = string.Empty;
+                if (dth != null && dth.Rows.Count > 0)
+                {
+                    jwtToken = jwtTokenGenerator.GenerateToken(Convert.ToString(dth.Rows[0]["USER_ID"]), Convert.ToString(dth.Rows[0]["ROL_RGT"]));
+                }
+
+                // Step 2: Add Columns
+                dthf.Columns.Add("USER_ID");      // Add an integer column
+                dthf.Columns.Add("NAME");      // Add an integer column
+                dthf.Columns.Add("IMEI");      // Add an integer column
+                dthf.Columns.Add("MOBILE_NO");      // Add an integer column
+                dthf.Columns.Add("ROLE_ID");      // Add an integer column
+                dthf.Columns.Add("PASSWORD");      // Add an integer column
+                dthf.Columns.Add("DEPARTMENT");      // Add an integer column
+                dthf.Columns.Add("OTH_DEPT");      // Add an integer column
+                dthf.Columns.Add("JwtToken");
+
+                DataRow newRow = dthf.NewRow();
+                newRow["USER_ID"] = dth.Rows[0]["USER_ID"].ToString();
+                newRow["NAME"] = dth.Rows[0]["NAME"].ToString();
+                newRow["IMEI"] = dth.Rows[0]["IMEI"].ToString();
+                newRow["MOBILE_NO"] = dth.Rows[0]["MOBILE_NO"].ToString();
+                newRow["ROLE_ID"] = dth.Rows[0]["ROLE_ID"].ToString();
+                newRow["PASSWORD"] = dth.Rows[0]["PASSWORD"].ToString();
+                newRow["DEPARTMENT"] = dth.Rows[0]["DEPARTMENT"].ToString();
+                newRow["OTH_DEPT"] = dth.Rows[0]["OTH_DEPT"].ToString();
+                newRow["JwtToken"] = jwtToken;
+                dthf.Rows.Add(newRow);
+            }
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
+        if (dth.Rows.Count > 0)
+            return dthf;
+        else
+            return InvaildAuthontication();
+    }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public string NewConnOTPRqstFrm_theft(string strIMEI, string strMobileNo)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            //UpdateOutputCallWidFunction(strNewId, strWebId, MethodBase.GetCurrentMethod().Name);
-            return (NewClassFile.newConnOTPRqstFrmInsert_theft(strMobileNo, strIMEI));
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                //UpdateOutputCallWidFunction(strNewId, strWebId, MethodBase.GetCurrentMethod().Name);
+                return (NewClassFile.newConnOTPRqstFrmInsert_theft(strMobileNo, strIMEI));
+            }
+            else
+            {
+                return ("Unauthorized Access!");
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return ("Unauthorized Access!");
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -9803,23 +11342,33 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public string PowerTheft_GetPassword(string strMobileNo)
     {
-        string _sPasswordOTP = string.Empty;
-        string _sMessage = string.Empty;
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            _sPasswordOTP = NewClassFile.PowerTheft_GetPassword_Data(strMobileNo);
-            if (_sPasswordOTP != "N")
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            string _sPasswordOTP = string.Empty;
+            string _sMessage = string.Empty;
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
             {
-                _sMessage = "Your password to access Power Theft Mobile Application is " + _sPasswordOTP;
-                NewClassFile.SendSMS_PWTFT_HelpDesk(strMobileNo, _sMessage);
-                return "Y";
+                _sPasswordOTP = NewClassFile.PowerTheft_GetPassword_Data(strMobileNo);
+                if (_sPasswordOTP != "N")
+                {
+                    _sMessage = "Your password to access Power Theft Mobile Application is " + _sPasswordOTP;
+                    NewClassFile.SendSMS_PWTFT_HelpDesk(strMobileNo, _sMessage);
+                    return "Y";
+                }
+                else
+                    return "N";
             }
             else
-                return "N";
+            {
+                return ("Unauthorized Access!");
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return ("Unauthorized Access!");
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -9828,14 +11377,24 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public bool NewConnResendOTPVerifyFrm_theft(string strLblId)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            //UpdateOutputCallWidFunction(strNewId, strWebId, MethodBase.GetCurrentMethod().Name);
-            return (NewClassFile.newConnResendOTPVerifyFrmRqst_theft(strLblId));
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                //UpdateOutputCallWidFunction(strNewId, strWebId, MethodBase.GetCurrentMethod().Name);
+                return (NewClassFile.newConnResendOTPVerifyFrmRqst_theft(strLblId));
+            }
+            else
+            {
+                return (false);
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return (false);
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -9843,53 +11402,116 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public string NewConnOTPVerifyFrm_theft(string strOTP, string strLblId)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            //UpdateOutputCallWidFunction(strNewId, strWebId, MethodBase.GetCurrentMethod().Name);
-            return (NewClassFile.newConnOTPVerifyFrmRqst_theft(strOTP, strLblId));
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                //UpdateOutputCallWidFunction(strNewId, strWebId, MethodBase.GetCurrentMethod().Name);
+                return (NewClassFile.newConnOTPVerifyFrmRqst_theft(strOTP, strLblId));
+            }
+            else
+            {
+                return "false";
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return "false";
+            throw new Exception("An error occurred", ad);
         }
     }
 
     [WebMethod(EnableSession = true)]
     public DataTable loginFE_theft(string _sLogin, string _sPassword, string _sIMEINo)
     {
-        //if (strKeyParam == "@$$!ntern@a|@ppRec")
-        //{
-        DataTable dtLogin = new DataTable();
-        dtLogin = NewClassFile.clsLogin_theft(_sLogin, _sPassword, _sIMEINo);
-        dtLogin.TableName = "Login";
-        return dtLogin;
-        //}
-        //else
-        //{
-        //    return InvaildAuthontication();
+        DataTable dth = new DataTable();
+        DataTable dthf = new DataTable();
+        DataTable dthn = new DataTable();
 
-        //}
+        try
+        {
+            DataTable dtLogin = new DataTable();
+            dth = NewClassFile.clsLogin_theft(_sLogin, _sPassword, _sIMEINo);
+            dth.TableName = "Login";
+
+            if (dth.Rows.Count > 0)
+            {
+                JwtTokenGenerator jwtTokenGenerator = new JwtTokenGenerator();
+                string jwtToken = string.Empty;
+                if (dth != null && dth.Rows.Count > 0)
+                {
+                    jwtToken = jwtTokenGenerator.GenerateToken(Convert.ToString(dth.Rows[0]["USER_ID"]), Convert.ToString(dth.Rows[0]["ROL_RGT"]));
+                }
+
+                // Step 2: Add Columns
+                dthf.Columns.Add("USER_ID");      // Add an integer column
+                dthf.Columns.Add("NAME");      // Add an integer column
+                dthf.Columns.Add("IMEI");      // Add an integer column
+                dthf.Columns.Add("MOBILE_NO");      // Add an integer column
+                dthf.Columns.Add("ROLE_ID");      // Add an integer column
+                dthf.Columns.Add("PASSWORD");      // Add an integer column
+                dthf.Columns.Add("OTH_DEPT");      // Add an integer column
+                dthf.Columns.Add("LOGIN_TYPE");      // Add an integer column
+                dthf.Columns.Add("ROLE_ID");      // Add an integer column
+                dthf.Columns.Add("JwtToken");
+
+                DataRow newRow = dthf.NewRow();
+                newRow["USER_ID"] = dth.Rows[0]["USER_ID"].ToString();
+                newRow["NAME"] = dth.Rows[0]["NAME"].ToString();
+                newRow["IMEI"] = dth.Rows[0]["IMEI"].ToString();
+                newRow["MOBILE_NO"] = dth.Rows[0]["MOBILE_NO"].ToString();
+                newRow["ROLE_ID"] = dth.Rows[0]["ROLE_ID"].ToString();
+                newRow["PASSWORD"] = dth.Rows[0]["PASSWORD"].ToString();
+                newRow["OTH_DEPT"] = dth.Rows[0]["OTH_DEPT"].ToString();
+                newRow["LOGIN_TYPE"] = dth.Rows[0]["LOGIN_TYPE"].ToString();
+                newRow["ROLE_ID"] = dth.Rows[0]["ROLE_ID"].ToString();
+                newRow["JwtToken"] = jwtToken;
+                dthf.Rows.Add(newRow);
+            }
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
+        if (dth.Rows.Count > 0)
+            return dthf;
+        else
+            return InvaildAuthontication();
     }
 
     [WebMethod(EnableSession = true)]
     public string complaintSubmit_theft(string _sDivision, string _sMeter_No, string _sAddress, string _sLandmark, string _sLoad_Range, string _sRemarks, string _sLatitude, string _sLongitude, string _sUser_ID)
     {
-        //if (strKeyParam == "@$$!ntern@a|@ppRec")
-        //{
-        return NewClassFile.insert_theft_details(_sDivision, _sMeter_No, _sAddress, _sLandmark, _sLoad_Range, _sRemarks, _sLatitude, _sLongitude, _sUser_ID);
-        //}
-        //else
-        //{
-        //    return InvaildAuthontication();
+        try
+        {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-        //}
+            return NewClassFile.insert_theft_details(_sDivision, _sMeter_No, _sAddress, _sLandmark, _sLoad_Range, _sRemarks, _sLatitude, _sLongitude, _sUser_ID);
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public bool PowerThef_ResetPassword(string _sPassword, string _sMobileNo, string _strOldPws)
     {
-        return NewClassFile.ResetPassword_PTheft(_sMobileNo, _sPassword, _strOldPws);
+        try
+        {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            return NewClassFile.ResetPassword_PTheft(_sMobileNo, _sPassword, _strOldPws);
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     #endregion
@@ -9900,17 +11522,27 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable SK_HolidayList_NEW(string strKeyParam, string strDist)
     {
-        DataTable dt = new DataTable();
-        NewClassFile newClassFile = new NewClassFile();
-
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            dt = newClassFile.getSK_HolidayMstNew(strDist);
-            dt.TableName = "SK_HolidayList";
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            DataTable dt = new DataTable();
+            NewClassFile newClassFile = new NewClassFile();
+
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                dt = newClassFile.getSK_HolidayMstNew(strDist);
+                dt.TableName = "SK_HolidayList";
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     #endregion
@@ -9922,63 +11554,67 @@ public class Service : System.Web.Services.WebService
                                          string MTR_RD_IMG_KVAH, string MTR_LAT, string MTR_LONG, string CONSUMER_CAT,
                                          string PUNCH_BY, string MTR_RD_IMG, string CA_DIVISION)
     {
-        string Result = string.Empty;
-        string Image1 = string.Empty;
-        string Image2 = string.Empty;
-
-        DataTable dt = new DataTable();
         try
         {
-            //dt = NewClassFile.PhotoMeter(CA_NUMBER);
-            //if (dt.Rows.Count <= 0)
-            //{
-            if (!String.IsNullOrEmpty(MTR_RD_IMG_KWH))
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            string Result = string.Empty;
+            string Image1 = string.Empty;
+            string Image2 = string.Empty;
+
+            DataTable dt = new DataTable();
+            try
             {
-                byte[] _byImage = Convert.FromBase64String(MTR_RD_IMG_KWH);
-                Image1 = byteArrayToImage(_byImage, CA_NUMBER + ".jpg");
+                //dt = NewClassFile.PhotoMeter(CA_NUMBER);
+                //if (dt.Rows.Count <= 0)
+                //{
+                if (!String.IsNullOrEmpty(MTR_RD_IMG_KWH))
+                {
+                    byte[] _byImage = Convert.FromBase64String(MTR_RD_IMG_KWH);
+                    Image1 = byteArrayToImage(_byImage, CA_NUMBER + ".jpg");
+                }
+                else
+                {
+                    Result = "Your KWH meter reading photo not found, Please capture and try again.";
+                    return Result;
+                }
+
+                if (!String.IsNullOrEmpty(MTR_RD_IMG_KVAH))
+                {
+                    byte[] _byImage1 = Convert.FromBase64String(MTR_RD_IMG_KVAH);
+                    Image2 = byteArrayToImage(_byImage1, CA_NUMBER + ".jpg");
+                }
+
+                bool result = NewClassFile.Insert_Photo_Meter(MTR_RD_ID, CA_NUMBER, CONSUMER_NAME, CONSUMER_ADD, KWH, KW, KVAH, KVA, Image1, MTR_NUMBER,
+                                          Image2, MTR_LAT, MTR_LONG, CONSUMER_CAT, PUNCH_BY, MTR_RD_IMG, CA_DIVISION);
+                if (result == true)
+                {
+                    //Result = "Your meter reading saved successfully. Thankyou for your support -Team BSES";
+
+                    Result = "Your meter reading submitted successfully. Thank you. \nPlease Note : The downloaded  Meter Reading by a BSES meter reader will be considered as the final meter reading for the concerned bill month. Team BRPL.";
+
+                    return Result;
+                }
+                else
+                {
+                    Result = "Fail to submit your meter reading details, Please try again!";
+                    return Result;
+                }
             }
-            else
+            catch
             {
-                Result = "Your KWH meter reading photo not found, Please capture and try again.";
+                Result = "Not able to insert data please check and try again.";
                 return Result;
             }
-
-            if (!String.IsNullOrEmpty(MTR_RD_IMG_KVAH))
+            finally
             {
-                byte[] _byImage1 = Convert.FromBase64String(MTR_RD_IMG_KVAH);
-                Image2 = byteArrayToImage(_byImage1, CA_NUMBER + ".jpg");
-            }
 
-            bool result = NewClassFile.Insert_Photo_Meter(MTR_RD_ID, CA_NUMBER, CONSUMER_NAME, CONSUMER_ADD, KWH, KW, KVAH, KVA, Image1, MTR_NUMBER,
-                                      Image2, MTR_LAT, MTR_LONG, CONSUMER_CAT, PUNCH_BY, MTR_RD_IMG, CA_DIVISION);
-            if (result == true)
-            {
-                //Result = "Your meter reading saved successfully. Thankyou for your support -Team BSES";
-
-                Result = "Your meter reading submitted successfully. Thank you. \nPlease Note : The downloaded  Meter Reading by a BSES meter reader will be considered as the final meter reading for the concerned bill month. Team BRPL.";
-
-                return Result;
             }
-            else
-            {
-                Result = "Fail to submit your meter reading details, Please try again!";
-                return Result;
-            }
-            //}
-            //else
-            //{
-            //    Result = "Your meter reading was already submitted for a month.";
-            //    return Result;
-            //}
         }
-        catch
+        catch (Exception ad)
         {
-            Result = "Not able to insert data please check and try again.";
-            return Result;
-        }
-        finally
-        {
-
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -10009,8 +11645,9 @@ public class Service : System.Web.Services.WebService
                 File.WriteAllBytes(_sPath, byteArrayIn);
             return _sPath;
         }
-        catch (Exception ex)
+        catch (Exception ad)
         {
+            throw new Exception("An error occurred", ad);
             return "";
         }
     }
@@ -10021,18 +11658,28 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable Z_ZBAPI_FETCH_ENFCA(string strBPNumber)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
-            DataTable dt = new DataTable();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            dt = isu.ZBAPI_FETCH_ENFCA(strBPNumber).Tables[0];
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
+                DataTable dt = new DataTable();
 
-            return dt;
+                dt = isu.ZBAPI_FETCH_ENFCA(strBPNumber).Tables[0];
+
+                return dt;
+            }
+            else
+            {
+                return (InvaildAuthontication());
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return (InvaildAuthontication());
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -10040,16 +11687,26 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable BAPI_MTRREADDOC_GETLIST(string METERNO)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
-            DataTable dt = new DataTable();
-            dt = isu.BAPI_MTRREADDOC_GETLIST(METERNO).Tables[0];
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
+                DataTable dt = new DataTable();
+                dt = isu.BAPI_MTRREADDOC_GETLIST(METERNO).Tables[0];
+                return dt;
+            }
+            else
+            {
+                return (InvaildAuthontication());
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return (InvaildAuthontication());
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -10057,16 +11714,26 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable ZBAPI_CS_FETCH_LOAD(string strINORDERNO, string strINBUSINESSPART, string strINCONTRACTACCNT, string strINMETERNUM)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
-            DataTable dt = new DataTable();
-            dt = isu.ZBAPI_CS_FETCH_LOAD(strINORDERNO, strINBUSINESSPART, strINCONTRACTACCNT, strINMETERNUM).Tables[0];
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
+                DataTable dt = new DataTable();
+                dt = isu.ZBAPI_CS_FETCH_LOAD(strINORDERNO, strINBUSINESSPART, strINCONTRACTACCNT, strINMETERNUM).Tables[0];
+                return dt;
+            }
+            else
+            {
+                return (InvaildAuthontication());
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return (InvaildAuthontication());
+            throw new Exception("An error occurred", ad);
         }
     }
     //Commented dated 31032023
@@ -10074,38 +11741,48 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable ZBAPI_DISPLAY_BILL_WEB_OPOWER_NEW(string strCANumber, string strBillMonth)
     {
-        string CA = string.Empty;
-        CA = strCANumber;
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
-            DataColumn newcolumn = new DataColumn("OPOWER", typeof(System.String));
-            DataTable dt = new DataTable();
-            DataSet ds = new DataSet();
-            if (strCANumber.Length < 12 && strCANumber.Length > 0)
-                strCANumber = strCANumber.PadLeft(12, '0');
-            //dt = isu.Z_BAPI_DSS_ISU_CA_DISPLAY(strCANumber, "").Tables[0];
-            dt = isu.ZBAPI_DISPLAY_BILL_WEB(strCANumber, strBillMonth).Tables[0];
-            if (dt.Rows.Count > 0)
+            string CA = string.Empty;
+            CA = strCANumber;
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
             {
-                DataTable dtLogin = new DataTable();
-                dtLogin = NewClassFile.Get_CA_Details(CA);
-                if (dtLogin.Rows.Count > 0)
+
+                DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
+                DataColumn newcolumn = new DataColumn("OPOWER", typeof(System.String));
+                DataTable dt = new DataTable();
+                DataSet ds = new DataSet();
+                if (strCANumber.Length < 12 && strCANumber.Length > 0)
+                    strCANumber = strCANumber.PadLeft(12, '0');
+                //dt = isu.Z_BAPI_DSS_ISU_CA_DISPLAY(strCANumber, "").Tables[0];
+                dt = isu.ZBAPI_DISPLAY_BILL_WEB(strCANumber, strBillMonth).Tables[0];
+                if (dt.Rows.Count > 0)
                 {
-                    newcolumn.DefaultValue = "Yes";
+                    DataTable dtLogin = new DataTable();
+                    dtLogin = NewClassFile.Get_CA_Details(CA);
+                    if (dtLogin.Rows.Count > 0)
+                    {
+                        newcolumn.DefaultValue = "Yes";
+                    }
+                    else
+                    {
+                        newcolumn.DefaultValue = "No";
+                    }
+                    dt.Columns.Add(newcolumn);
                 }
-                else
-                {
-                    newcolumn.DefaultValue = "No";
-                }
-                dt.Columns.Add(newcolumn);
+                return dt;
             }
-            return dt;
+            else
+            {
+                return (InvaildAuthontication());
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return (InvaildAuthontication());
+            throw new Exception("An error occurred", ad);
         }
     }
     // Commented dated 31032023
@@ -10113,18 +11790,28 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable ZBAPI_FICA_DEMAND_NOTE(string OrderNo)
     {
-        if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+        try
         {
-            DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
-            DataTable dt = new DataTable();
-            DataSet ds = new DataSet();
-            if (OrderNo.Length < 12)
-                OrderNo = OrderNo.PadLeft(12, '0');
-            dt = isu.ZBAPI_FICA_DEMAND_NOTE(OrderNo).Tables[0];
-            return dt;
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            {
+                DELHIWSTESTDV2.WebService isu = new DELHIWSTESTDV2.WebService();
+                DataTable dt = new DataTable();
+                DataSet ds = new DataSet();
+                if (OrderNo.Length < 12)
+                    OrderNo = OrderNo.PadLeft(12, '0');
+                dt = isu.ZBAPI_FICA_DEMAND_NOTE(OrderNo).Tables[0];
+                return dt;
+            }
+            else
+                return (InvaildAuthontication());
+
         }
-        else
-            return (InvaildAuthontication());
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -10134,74 +11821,94 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public string LR_Validate_User_TOOTP(string strKeyParam, string mobileNumber, string EMP_ID)
     {
-        string otp = "";
-        string Message = string.Empty;
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            DataTable dtmobile = new DataTable();
-            DbFunction objdbfun = new DbFunction();
-            NewClassFile newClassFile = new NewClassFile();
-            dtmobile = newClassFile.OTP_GENERATE(EMP_ID, mobileNumber);
-            if (dtmobile.Rows.Count > 0)
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            string otp = "";
+            string Message = string.Empty;
+            if (strKeyParam == PublicAccessTokenKey)
             {
-                string Mnumber = Convert.ToString(dtmobile.Rows[0]["MOBILENUMBER"]);
-                if (Mnumber.Trim() != mobileNumber.Trim())
-                    return "NOTMATCHED";
+                DataTable dtmobile = new DataTable();
+                DbFunction objdbfun = new DbFunction();
+                NewClassFile newClassFile = new NewClassFile();
+                dtmobile = newClassFile.OTP_GENERATE(EMP_ID, mobileNumber);
+                if (dtmobile.Rows.Count > 0)
+                {
+                    string Mnumber = Convert.ToString(dtmobile.Rows[0]["MOBILENUMBER"]);
+                    if (Mnumber.Trim() != mobileNumber.Trim())
+                        return "NOTMATCHED";
+                    else
+                        return "SUCCESS";
+                }
                 else
-                    return "SUCCESS";
+                    return "FAILED";
             }
             else
-                return "FAILED";
+                return "INVAILD";
         }
-        else
-            return "INVAILD";
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
     [SoapHeader("consumer", Required = true)]
     public string LR_Forgot_Password(string strKeyParam, string EMP_ID, string mobileNumber, string NewPassword, string ConfirmPassword)
     {
-        var rowsAffected = 0;
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            DataTable dtmobile = new DataTable();
-            DbFunction objdbfun = new DbFunction();
-            NewClassFile newClassFile = new NewClassFile();
-            dtmobile = newClassFile.OTP_GENERATE(EMP_ID, mobileNumber);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            if (dtmobile.Rows.Count > 0)
+            var rowsAffected = 0;
+            if (strKeyParam == PublicAccessTokenKey)
             {
-                string Mnumber = Convert.ToString(dtmobile.Rows[0]["MOBILENUMBER"]);
-                if (Mnumber.Trim() != mobileNumber.Trim())
-                    return "NOTMATCHED";
-                else
+                DataTable dtmobile = new DataTable();
+                DbFunction objdbfun = new DbFunction();
+                NewClassFile newClassFile = new NewClassFile();
+                dtmobile = newClassFile.OTP_GENERATE(EMP_ID, mobileNumber);
+
+                if (dtmobile.Rows.Count > 0)
                 {
-                    if (NewPassword == ConfirmPassword)
+                    string Mnumber = Convert.ToString(dtmobile.Rows[0]["MOBILENUMBER"]);
+                    if (Mnumber.Trim() != mobileNumber.Trim())
+                        return "NOTMATCHED";
+                    else
                     {
-                        NDS ndsMobinternal = new NDS();
-                        using (var connection = new OleDbConnection(ndsMobinternal.con_mobinternal_new()))
+                        if (NewPassword == ConfirmPassword)
                         {
-                            connection.Open();
-                            var query = "update MOBINT.DIV_SCHEME_VENDOR_USER_121223 set PASSWORD = :PASSWORD where EMP_ID= :EMP_ID ";
-                            using (var command = new OleDbCommand(query, connection))
+                            NDS ndsMobinternal = new NDS();
+                            using (var connection = new OleDbConnection(ndsMobinternal.con_mobinternal_new()))
                             {
-                                command.Parameters.AddWithValue(":PASSWORD", OracleDbType.Varchar2).Value = NewPassword;
-                                command.Parameters.AddWithValue(":EMP_ID", OracleDbType.Varchar2).Value = EMP_ID;
-                                rowsAffected = command.ExecuteNonQuery();
+                                connection.Open();
+                                var query = "update MOBINT.DIV_SCHEME_VENDOR_USER_121223 set PASSWORD = :PASSWORD where EMP_ID= :EMP_ID ";
+                                using (var command = new OleDbCommand(query, connection))
+                                {
+                                    command.Parameters.AddWithValue(":PASSWORD", OracleDbType.Varchar2).Value = NewPassword;
+                                    command.Parameters.AddWithValue(":EMP_ID", OracleDbType.Varchar2).Value = EMP_ID;
+                                    rowsAffected = command.ExecuteNonQuery();
+                                }
                             }
                         }
+                        else
+                            return "PASSWORD AND CONFIRM-PASSWORD NOT MATCHED";
                     }
-                    else
-                        return "PASSWORD AND CONFIRM-PASSWORD NOT MATCHED";
                 }
             }
+            else
+                return "INVALID";
+            if (rowsAffected > 0)
+                return "PASSWORD UPDATED SUCCESSFULLY";
+            else
+                return "PASSWORD UPDATION FAILED";
         }
-        else
-            return "INVALID";
-        if (rowsAffected > 0)
-            return "PASSWORD UPDATED SUCCESSFULLY";
-        else
-            return "PASSWORD UPDATION FAILED";
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -10211,46 +11918,66 @@ public class Service : System.Web.Services.WebService
                                               string BothActMet, string MetInsQul, string PoleDbRel, string ArmCblRel, string IMEI_No, string Flag_V_S, string SelectDate,
                                                string strSubDiv, string strArmCastTp, string strlatitude, string strlongitude, string empId)
     {
-        string _sCircleName = string.Empty;
-        DataTable _dtCircle = new DataTable();
-        NewClassFile newClassFile = new NewClassFile();
-
-        string _sSno = "0";
-
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            _dtCircle = newClassFile.MobApp_Circle_DivisionWise(DivId);
-            if (_dtCircle.Rows.Count > 0)
-                _sCircleName = _dtCircle.Rows[0][0].ToString();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            if (CheckedDuplicateData_10052024(Flag_V_S, IMEI_No, Scheme, SelectDate) == "0")
+            string _sCircleName = string.Empty;
+            DataTable _dtCircle = new DataTable();
+            NewClassFile newClassFile = new NewClassFile();
+
+            string _sSno = "0";
+
+            if (strKeyParam == PublicAccessTokenKey)
             {
-                return (newClassFile.Insert_Scheme_Vendor_MobData1_10052024(DivId, Scheme, Vendor, TeamCount, MetRplOnly, MetRelOnly, BothActMet, MetInsQul, PoleDbRel,
-                                                                    ArmCblRel, Flag_V_S, IMEI_No, _sCircleName, SelectDate, strSubDiv, strlatitude, strlongitude, empId));
+                _dtCircle = newClassFile.MobApp_Circle_DivisionWise(DivId);
+                if (_dtCircle.Rows.Count > 0)
+                    _sCircleName = _dtCircle.Rows[0][0].ToString();
+
+                if (CheckedDuplicateData_10052024(Flag_V_S, IMEI_No, Scheme, SelectDate) == "0")
+                {
+                    return (newClassFile.Insert_Scheme_Vendor_MobData1_10052024(DivId, Scheme, Vendor, TeamCount, MetRplOnly, MetRelOnly, BothActMet, MetInsQul, PoleDbRel,
+                                                                        ArmCblRel, Flag_V_S, IMEI_No, _sCircleName, SelectDate, strSubDiv, strlatitude, strlongitude, empId));
+                }
+                else
+                {
+                    if (Flag_V_S == "V")
+                        _sSno = CheckedDuplicateData_10052024(Flag_V_S, IMEI_No, Vendor, SelectDate);
+                    else
+                        _sSno = CheckedDuplicateData_10052024(Flag_V_S, IMEI_No, Scheme, SelectDate);
+
+                    return (newClassFile.Update_Scheme_Vendor_MobData_10052024(_sSno, DivId, TeamCount, MetRplOnly, MetRelOnly, BothActMet, MetInsQul, PoleDbRel,
+                                                                        ArmCblRel, IMEI_No, _sCircleName, SelectDate, empId));
+                }
             }
             else
-            {
-                if (Flag_V_S == "V")
-                    _sSno = CheckedDuplicateData_10052024(Flag_V_S, IMEI_No, Vendor, SelectDate);
-                else
-                    _sSno = CheckedDuplicateData_10052024(Flag_V_S, IMEI_No, Scheme, SelectDate);
-
-                return (newClassFile.Update_Scheme_Vendor_MobData_10052024(_sSno, DivId, TeamCount, MetRplOnly, MetRelOnly, BothActMet, MetInsQul, PoleDbRel,
-                                                                    ArmCblRel, IMEI_No, _sCircleName, SelectDate, empId));
-            }
+                return false;
         }
-        else
-            return false;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     private string CheckedDuplicateData_10052024(string _sFlag, string empId, string _sData, string _sDate)
     {
-        NewClassFile newClassFile = new NewClassFile();
-        DataTable _dtDup = newClassFile.MobApp_Check_SchemeVendor_DuplicatteData(_sFlag, empId, _sData, _sDate);
-        if (_dtDup.Rows.Count > 0)
-            return _dtDup.Rows[0][0].ToString();
-        else
-            return "0";
+        try
+        {
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            NewClassFile newClassFile = new NewClassFile();
+            DataTable _dtDup = newClassFile.MobApp_Check_SchemeVendor_DuplicatteData(_sFlag, empId, _sData, _sDate);
+            if (_dtDup.Rows.Count > 0)
+                return _dtDup.Rows[0][0].ToString();
+            else
+                return "0";
+        }
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
     [WebMethod(EnableSession = true)]
@@ -10260,14 +11987,24 @@ public class Service : System.Web.Services.WebService
                                                               string seal3, string div_code, string schemeno, string dbobs, string piercing, string frompole,
                                                                string topole, string flagType, string strlatitude, string strlongitude, string strBeforePhoto, string strAfterPhoto, string empId)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            NewClassFile newClassFile = new NewClassFile();
-            return (newClassFile.Insert_Scheme_ActivityType_MobData1_10052024(MeterNo, PoleNo, ActivityList1, ActivityList2, IMEI_No, newMeter, meterbox, busbarspin, cableuse,
-                                                        seal1, seal2, seal3, div_code, schemeno, dbobs, piercing, frompole, topole, flagType, strlatitude, strlongitude, strBeforePhoto, strAfterPhoto, empId));
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                NewClassFile newClassFile = new NewClassFile();
+                return (newClassFile.Insert_Scheme_ActivityType_MobData1_10052024(MeterNo, PoleNo, ActivityList1, ActivityList2, IMEI_No, newMeter, meterbox, busbarspin, cableuse,
+                                                            seal1, seal2, seal3, div_code, schemeno, dbobs, piercing, frompole, topole, flagType, strlatitude, strlongitude, strBeforePhoto, strAfterPhoto, empId));
+            }
+            else
+                return false;
         }
-        else
-            return false;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -10278,58 +12015,68 @@ public class Service : System.Web.Services.WebService
                                                     string AdjMeterNo1, string AdjMeterNo2, string NearPoleNo, string Other, string activity1,
                                             string activity2, string strSubDiv, string strSubCluster, string strlatitude, string strlongitude, string empId)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (strKeyParam == PublicAccessTokenKey)
             {
-                if ((Circle.ToUpper() != "-SELECT-") && (Division.ToUpper() != "-SELECT-") && (strSubDiv.ToUpper() != "-SELECT-"))
+                if (checkConsumer(MethodBase.GetCurrentMethod().Name))
                 {
-                    bool _bReturn = false;
-                    NewClassFile newClassFile = new NewClassFile();
-                    string _sOutPutData = string.Empty;
-                    string _sMetreCANO = string.Empty;
-                    if (MeterNo.Trim() == "")
+                    if ((Circle.ToUpper() != "-SELECT-") && (Division.ToUpper() != "-SELECT-") && (strSubDiv.ToUpper() != "-SELECT-"))
                     {
-                        if (CANo.Trim() != "")
+                        bool _bReturn = false;
+                        NewClassFile newClassFile = new NewClassFile();
+                        string _sOutPutData = string.Empty;
+                        string _sMetreCANO = string.Empty;
+                        if (MeterNo.Trim() == "")
                         {
-                            _sMetreCANO = CANo;
+                            if (CANo.Trim() != "")
+                            {
+                                _sMetreCANO = CANo;
+                            }
+                            else if (PoleNo.Trim() != "")
+                            {
+                                _sMetreCANO = PoleNo;
+                            }
                         }
-                        else if (PoleNo.Trim() != "")
+                        else
                         {
-                            _sMetreCANO = PoleNo;
+                            _sMetreCANO = MeterNo;
+                        }
+
+                        _sOutPutData = newClassFile.Check_Surveillance_Duplicate(_sMetreCANO);
+
+                        if (_sOutPutData.ToString().Trim() != "0")
+                        {
+                            return "Record already submitted on Date:- " + _sOutPutData;
+                        }
+                        else
+                        {
+                            _bReturn = newClassFile.Insert_LR_Surveillane1_09052024(ObserType.ToString(), VistDate.ToString(), Circle.ToString(), Division.ToString(), MeterNo.ToString(), CANo.ToString(),
+                                                            PoleNo.ToString(), ActionTkFlg.ToString(), Remarks.ToString(), NCType.ToString(), TypeOfAbnormality.ToString(),
+                                                            SiteAddress.ToString(), AdjMeterNo1.ToString(), AdjMeterNo2.ToString(), NearPoleNo.ToString(), Other.ToString(),
+                                                            activity2.ToString(), strSubDiv, strSubCluster, strlatitude, strlongitude, empId);
+
+                            return "Successfully Submitted";
                         }
                     }
                     else
                     {
-                        _sMetreCANO = MeterNo;
-                    }
-
-                    _sOutPutData = newClassFile.Check_Surveillance_Duplicate(_sMetreCANO);
-
-                    if (_sOutPutData.ToString().Trim() != "0")
-                    {
-                        return "Record already submitted on Date:- " + _sOutPutData;
-                    }
-                    else
-                    {
-                        _bReturn = newClassFile.Insert_LR_Surveillane1_09052024(ObserType.ToString(), VistDate.ToString(), Circle.ToString(), Division.ToString(), MeterNo.ToString(), CANo.ToString(),
-                                                        PoleNo.ToString(), ActionTkFlg.ToString(), Remarks.ToString(), NCType.ToString(), TypeOfAbnormality.ToString(),
-                                                        SiteAddress.ToString(), AdjMeterNo1.ToString(), AdjMeterNo2.ToString(), NearPoleNo.ToString(), Other.ToString(),
-                                                        activity2.ToString(), strSubDiv, strSubCluster, strlatitude, strlongitude, empId);
-
-                        return "Successfully Submitted";
+                        return "Not Submit Sucessfully, Please select valid Circle/Division/Subdivision ";
                     }
                 }
                 else
-                {
-                    return "Not Submit Sucessfully, Please select valid Circle/Division/Subdivision ";
-                }
+                    return "Not Submit Sucessfully, Please Try Again";
             }
             else
                 return "Not Submit Sucessfully, Please Try Again";
         }
-        else
-            return "Not Submit Sucessfully, Please Try Again";
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -10340,29 +12087,39 @@ public class Service : System.Web.Services.WebService
                                     string TypOfAbnormResolv, string TypOfAbnormNtResolv, string activity1, string activity2, string enf_Case_ID,
                                     string strlatitude, string strlongitude, string leadRepeated, string empId)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (strKeyParam == PublicAccessTokenKey)
             {
-                bool _bReturn = false;
-
-                string[] str = activity1.Split(',');
-
-                NewClassFile newClassFile = new NewClassFile();
-
-                for (int i = 0; i < str.Length; i++)
+                if (checkConsumer(MethodBase.GetCurrentMethod().Name))
                 {
-                    _bReturn = newClassFile.Insert_LR_Surv_Atr1_09052024(ObserId, ObserType.ToString(), Remarks, NCTypeResolved, NCTypeNotResolved, TypOfAbnormResolv,
-                                                            TypOfAbnormNtResolv, str[i], activity2, enf_Case_ID, strlatitude, strlongitude, leadRepeated, empId);
-                }
+                    bool _bReturn = false;
 
-                return _bReturn;
+                    string[] str = activity1.Split(',');
+
+                    NewClassFile newClassFile = new NewClassFile();
+
+                    for (int i = 0; i < str.Length; i++)
+                    {
+                        _bReturn = newClassFile.Insert_LR_Surv_Atr1_09052024(ObserId, ObserType.ToString(), Remarks, NCTypeResolved, NCTypeNotResolved, TypOfAbnormResolv,
+                                                                TypOfAbnormNtResolv, str[i], activity2, enf_Case_ID, strlatitude, strlongitude, leadRepeated, empId);
+                    }
+
+                    return _bReturn;
+                }
+                else
+                    return (false);
             }
             else
-                return (false);
+                return false;
         }
-        else
-            return false;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -10382,14 +12139,24 @@ public class Service : System.Web.Services.WebService
                                                               string seal3, string div_code, string schemeno, string dbobs, string piercing, string frompole,
                                                                string topole, string flagType, string strlatitude, string strlongitude, string strBeforePhoto, string strAfterPhoto, string empId, string busbarseal1, string busbarseal2, string strMcrPhoto)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            NewClassFile newClassFile = new NewClassFile();
-            return (newClassFile.Insert_Scheme_ActivityType_MobData1_20052024(MeterNo, PoleNo, ActivityList1, ActivityList2, IMEI_No, newMeter, meterbox, busbarspin, cableuse, seal1, seal2,
-                                                              seal3, div_code, schemeno, dbobs, piercing, frompole, topole, flagType, strlatitude, strlongitude, strBeforePhoto, strAfterPhoto, empId, busbarseal1, busbarseal2, strMcrPhoto));
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                NewClassFile newClassFile = new NewClassFile();
+                return (newClassFile.Insert_Scheme_ActivityType_MobData1_20052024(MeterNo, PoleNo, ActivityList1, ActivityList2, IMEI_No, newMeter, meterbox, busbarspin, cableuse, seal1, seal2,
+                                                                  seal3, div_code, schemeno, dbobs, piercing, frompole, topole, flagType, strlatitude, strlongitude, strBeforePhoto, strAfterPhoto, empId, busbarseal1, busbarseal2, strMcrPhoto));
+            }
+            else
+                return false;
         }
-        else
-            return false;
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
 
 
@@ -10397,28 +12164,38 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable LR_ObservationList_New_27052024(string strKeyParam, string strDivName, string strRolRght, string strSubDiv, string strSubCluster)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            string[] str = strRolRght.Split(',');
-            DataTable _dtOutput = new DataTable();
-            DataTable _dtFinData = new DataTable();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            NewClassFile newClassFile = new NewClassFile();
-
-            for (int i = 0; i < str.Length; i++)
+            if (strKeyParam == PublicAccessTokenKey)
             {
-                _dtOutput = newClassFile.Mobint_LRObservationList_27052024(strSubDiv, strDivName, str[i], strSubCluster);
-                _dtFinData.Merge(_dtOutput);
+                string[] str = strRolRght.Split(',');
+                DataTable _dtOutput = new DataTable();
+                DataTable _dtFinData = new DataTable();
+
+                NewClassFile newClassFile = new NewClassFile();
+
+                for (int i = 0; i < str.Length; i++)
+                {
+                    _dtOutput = newClassFile.Mobint_LRObservationList_27052024(strSubDiv, strDivName, str[i], strSubCluster);
+                    _dtFinData.Merge(_dtOutput);
+                }
+
+                _dtFinData.AcceptChanges();
+                _dtFinData.TableName = "LR_OBSERVATION";
+                return _dtFinData;
+
             }
-
-            _dtFinData.AcceptChanges();
-            _dtFinData.TableName = "LR_OBSERVATION";
-            return _dtFinData;
-
+            else
+            {
+                return InvaildAuthontication();
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return InvaildAuthontication();
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -10427,33 +12204,40 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable LR_ObservationList_New_29082024(string strKeyParam, string strDivName, string strRolRght, string strSubDiv, string strSubCluster, string frmDate, string toDate)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            string[] str = strRolRght.Split(',');
-            DataTable _dtOutput = new DataTable();
-            DataTable _dtFinData = new DataTable();
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
 
-            NewClassFile newClassFile = new NewClassFile();
-
-            for (int i = 0; i < str.Length; i++)
+            if (strKeyParam == PublicAccessTokenKey)
             {
-                _dtOutput = newClassFile.Mobint_LRObservationList_29082024(strSubDiv, strDivName, str[i], strSubCluster, frmDate, toDate);
-                _dtFinData.Merge(_dtOutput);
+                string[] str = strRolRght.Split(',');
+                DataTable _dtOutput = new DataTable();
+                DataTable _dtFinData = new DataTable();
+
+                NewClassFile newClassFile = new NewClassFile();
+
+                for (int i = 0; i < str.Length; i++)
+                {
+                    _dtOutput = newClassFile.Mobint_LRObservationList_29082024(strSubDiv, strDivName, str[i], strSubCluster, frmDate, toDate);
+                    _dtFinData.Merge(_dtOutput);
+                }
+
+                _dtFinData.AcceptChanges();
+                _dtFinData.TableName = "LR_OBSERVATION";
+                return _dtFinData;
+
             }
-
-            _dtFinData.AcceptChanges();
-            _dtFinData.TableName = "LR_OBSERVATION";
-            return _dtFinData;
-
+            else
+            {
+                return InvaildAuthontication();
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return InvaildAuthontication();
+            throw new Exception("An error occurred", ad);
         }
     }
-
-
-
 
     #region New_Function_Replica_05062024
 
@@ -10461,14 +12245,24 @@ public class Service : System.Web.Services.WebService
     [SoapHeader("consumer", Required = true)]
     public DataTable LR_Scheme_AllDivSchmMapping_05062024(string strKeyParam, string circle, string division, string subdivision, string scheme)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            NewClassFile newClassFile = new NewClassFile();
-            return newClassFile.MobApp_Scheme_ALL_05062024(circle, division, subdivision, scheme);
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (strKeyParam == PublicAccessTokenKey)
+            {
+                NewClassFile newClassFile = new NewClassFile();
+                return newClassFile.MobApp_Scheme_ALL_05062024(circle, division, subdivision, scheme);
+            }
+            else
+            {
+                return InvaildAuthontication();
+            }
         }
-        else
+        catch (Exception ad)
         {
-            return InvaildAuthontication();
+            throw new Exception("An error occurred", ad);
         }
     }
 
@@ -10480,100 +12274,104 @@ public class Service : System.Web.Services.WebService
                                                    string QCSlctd,
                                                     string Other, string activity1, string activity2, string strSubDiv, string empId)
     {
-        if (strKeyParam == "@$$!ntern@a|@pp")
+        try
         {
-            if (checkConsumer(MethodBase.GetCurrentMethod().Name))
+            var authentication = new Authentication();
+            if (!authentication.Validate()) throw new UnauthorizedAccessException("");
+
+            if (strKeyParam == PublicAccessTokenKey)
             {
-                if ((Circle.ToUpper() != "-SELECT-") && (Division.ToUpper() != "-SELECT-") && (strSubDiv.ToUpper() != "-SELECT-"))
+                if (checkConsumer(MethodBase.GetCurrentMethod().Name))
                 {
-                    NewClassFile newClassFile = new NewClassFile();
-
-                    string _sOutPutData = string.Empty;
-
-                    string _sMetreCANO = string.Empty;
-                    if (MeterNo.Trim() == "")
+                    if ((Circle.ToUpper() != "-SELECT-") && (Division.ToUpper() != "-SELECT-") && (strSubDiv.ToUpper() != "-SELECT-"))
                     {
-                        if (CANo.Trim() != "")
+                        NewClassFile newClassFile = new NewClassFile();
+
+                        string _sOutPutData = string.Empty;
+
+                        string _sMetreCANO = string.Empty;
+                        if (MeterNo.Trim() == "")
                         {
-                            _sMetreCANO = CANo;
+                            if (CANo.Trim() != "")
+                            {
+                                _sMetreCANO = CANo;
+                            }
+                            else
+                            {
+                                if (!string.IsNullOrEmpty(activity2))
+                                {
+                                    if (activity2.ToString().Contains("|"))
+                                    {
+                                        string[] _arrnctyp = activity2.Trim().Split('|');
+                                        if (!string.IsNullOrEmpty(_arrnctyp[1].ToString()))
+                                        {
+                                            _sMetreCANO = _arrnctyp[1].ToString();
+                                        }
+                                    }
+                                }
+                            }
                         }
                         else
                         {
+                            _sMetreCANO = MeterNo;
+                        }
+
+                        _sOutPutData = newClassFile.Check_QC_Duplicate(_sMetreCANO.ToString());
+
+                        if (_sOutPutData.ToString().Trim() != "0")
+                        {
+                            return "Record already submitted on Date:- " + _sOutPutData;
+                        }
+                        else
+                        {
+                            string strImeiNo = "";
+                            string strPoleNo = "";
                             if (!string.IsNullOrEmpty(activity2))
                             {
                                 if (activity2.ToString().Contains("|"))
                                 {
                                     string[] _arrnctyp = activity2.Trim().Split('|');
+                                    strImeiNo = _arrnctyp[0].ToString();
                                     if (!string.IsNullOrEmpty(_arrnctyp[1].ToString()))
                                     {
-                                        _sMetreCANO = _arrnctyp[1].ToString();
+                                        strPoleNo = _arrnctyp[1].ToString();
                                     }
                                 }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        _sMetreCANO = MeterNo;
-                    }
-
-                    _sOutPutData = newClassFile.Check_QC_Duplicate(_sMetreCANO.ToString());
-
-                    if (_sOutPutData.ToString().Trim() != "0")
-                    {
-                        return "Record already submitted on Date:- " + _sOutPutData;
-                    }
-                    else
-                    {
-                        string strImeiNo = "";
-                        string strPoleNo = "";
-                        if (!string.IsNullOrEmpty(activity2))
-                        {
-                            if (activity2.ToString().Contains("|"))
-                            {
-                                string[] _arrnctyp = activity2.Trim().Split('|');
-                                strImeiNo = _arrnctyp[0].ToString();
-                                if (!string.IsNullOrEmpty(_arrnctyp[1].ToString()))
+                                else
                                 {
-                                    strPoleNo = _arrnctyp[1].ToString();
+                                    strImeiNo = activity2.ToString();
                                 }
                             }
-                            else
-                            {
-                                strImeiNo = activity2.ToString();
-                            }
+
+                            bool _bReturn = false;
+
+                            _bReturn = newClassFile.Insert_LR_QCheck_08082024(VistDate.ToString(), Circle.ToString(),
+                                                            Division.ToString(), MeterNo.ToString(), CANo.ToString(),
+                                                            Remarks.ToString(),
+                                                            QCType.ToString(), QCSlctd.ToString(), Other.ToString(), activity1, strImeiNo, strPoleNo, strSubDiv, empId);
+
+                            return "Successfully Submitted";
+
                         }
-
-                        bool _bReturn = false;
-
-                        _bReturn = newClassFile.Insert_LR_QCheck_08082024(VistDate.ToString(), Circle.ToString(),
-                                                        Division.ToString(), MeterNo.ToString(), CANo.ToString(),
-                                                        Remarks.ToString(),
-                                                        QCType.ToString(), QCSlctd.ToString(), Other.ToString(), activity1, strImeiNo, strPoleNo, strSubDiv, empId);
-
-                        return "Successfully Submitted";
-
+                    }
+                    else
+                    {
+                        return "Not Submit Sucessfully, Please select valid Circle/Division/Subdivision ";
                     }
                 }
                 else
-                {
-                    return "Not Submit Sucessfully, Please select valid Circle/Division/Subdivision ";
-                }
+                    return "Not Submit Sucessfully, Please Try Again";
             }
             else
                 return "Not Submit Sucessfully, Please Try Again";
         }
-        else
-            return "Not Submit Sucessfully, Please Try Again";
+        catch (Exception ad)
+        {
+            throw new Exception("An error occurred", ad);
+        }
     }
-
-
-
     #endregion
-
-
     #endregion
-
 }
 
 [Serializable]

@@ -6126,7 +6126,7 @@ namespace USEPMS
 
         public DataTable MobApp_ValidLogin(string UserID, string Password)
         {
-            string sql = " select IMEI_NO from DIV_SCHEME_VENDOR_USER where EMP_ID='" + UserID + "' and PASSWORD='" + Password + "'";
+            string sql = " select IMEI_NO, ROL_RGT, EMP_ID AS UserID from DIV_SCHEME_VENDOR_USER where EMP_ID='" + UserID + "' and PASSWORD='" + Password + "'";
 
             DataTable dt = new DataTable();
             DbFunction objdbfun = new DbFunction();
